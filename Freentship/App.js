@@ -1,5 +1,6 @@
 import { StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native'
 import { HomeScreen } from './src/screens/HomeScreen'
+import { Colors, Spacing } from './src/styles'
 
 export default function App() {
   return (
@@ -12,7 +13,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    backgroundColor: Colors.backgroundColor,
+    paddingTop:
+      Platform.OS === 'android' ? StatusBar.currentHeight + Spacing['1'] : 0
   }
 })

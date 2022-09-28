@@ -1,1 +1,0 @@
-export { AdIcon } from './AdIcon'
