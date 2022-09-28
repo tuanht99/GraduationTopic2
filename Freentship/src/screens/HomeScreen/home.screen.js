@@ -1,14 +1,12 @@
 import react from 'react'
-import { View, Text, ImageBackground } from 'react-native'
+import { View } from 'react-native'
 import styles from './home.style'
+import { TopBanner } from '../../components/Organisms/TopBanner'
 
 export const HomeScreen = () => {
-  const uriImg = 'https://loship.vn/dist/images/home-banner-18062021.jpg'
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.imageContainer} source={{ uri: uriImg }}>
-        <Text>Home Screen!</Text>
-      </ImageBackground>
+      <TopBanner />
     </View>
   )
 }
