@@ -14,24 +14,38 @@ import { MapScreen } from './src/screens/MapScreen'
 import { MapScreenTest } from './src/screens/__test__/map'
 import { WriteDataFood_StoresByCategory } from './src/services'
 
+// import LoginNavigator from './navigators/LoginNavigator';
+// import InforSettingView from './views/InforSettingView';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+import DetailsScreenView from './src/screens/DetailsScreenView'
+import CartView from './src/screens/CartView'
+import DetailOrderView from './src/screens/DetailOrderView'
+import OrderCanceledView from './src/screens/OrderCanceledView'
+import OrderDeliveredView from './src/screens/OrderDeliveredView'
+import OrderView from './src/screens/OrderView'
+import YourOrderView from './src/screens/YourOrderView'
+const Stack = createNativeStackNavigator();
+
 export default function App() {
   const [data, setData] = React.useState(null)
 
   return (
-    <SafeAreaView style={styles.container}>
-      <HomeScreen />
-      {/*<SearchScreen />*/}
-      {/*<Location1 />*/}
-      {/*<MapScreenTest />*/}
-    </SafeAreaView>
-  )
-}
+    
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+        <Stack.Screen name="CartView" component={CartView} />
+        <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
+        <Stack.Screen name="OrderCanceledView" component={OrderCanceledView} />
+        <Stack.Screen name="OrderDeliveredView" component={OrderDeliveredView} />
+        <Stack.Screen name="OrderView" component={OrderView} />
+        <Stack.Screen name="YourOrderView" component={YourOrderView} />
+      </Stack.Navigator>
+    </NavigationContainer>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop:
-      Platform.OS === 'android' ? StatusBar.currentHeight + Spacing['1'] : 0
-  }
-})
+  );
+}
