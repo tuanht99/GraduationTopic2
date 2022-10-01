@@ -33,6 +33,7 @@ export const HomeScreen = () => {
       >
         <TopBanner />
         <SearchHome style={styles.searchHome} />
+        <View style={{ height: 1000, backgroundColor: 'red' }} />
       </ScrollView>
     </>
   )
