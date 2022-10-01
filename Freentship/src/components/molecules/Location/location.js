@@ -2,9 +2,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { AdIcon } from '../../atoms/AdIcon'
 import { IconText } from '../IconText'
-import styles from './icon-text-icon.style'
+import styles from './location.style'
 
-export const IconTextIcon = ({
+export const Location = ({
   name1,
   name2,
   size1,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconTextIcon } from '../../molecules/IconTextIcon'
+import { Location } from '../../molecules/Location'
 import styles from './top-banner.style'
 import { View, ImageBackground, Text } from 'react-native'
 import { Colors, FontSize } from '../../../styles'
@@ -13,7 +13,7 @@ export const TopBanner = () => {
   return (
     <View style={styles.container}>
       <ImageBackground source={{ uri: uriImg }}>
-        <IconTextIcon
+        <Location
           name1={nameIcons[0]}
           name2={nameIcons[1]}
           color1={colorIcon}
@@ -25,7 +25,7 @@ export const TopBanner = () => {
         >
           53 Đ. Võ Văn Ngân, Linh Chiểu, Thành Phố Thủ Đức, Thành phố Hồ Chí
           Minh
-        </IconTextIcon>
+        </Location>
       </ImageBackground>
     </View>
   )
