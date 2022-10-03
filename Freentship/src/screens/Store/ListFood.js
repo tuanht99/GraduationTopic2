@@ -1,17 +1,18 @@
 
 import React from 'react'
-import { View, Text, Image, SafeAreaView, ImageBackground, TouchableOpacity, FlatList, ScrollView } from 'react-native';
-import {DATA,DATAFOOD} from '../Store/DataAo'
+import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+import {DATAFOOD} from '../Store/DataAo'
 import Styles from './StoreStyle';
-const ListOrderHistory = () => {
+
+const ListFood = ({navigation}) => {
   return (
     <FlatList
             data={DATAFOOD[0].products} keyExtractor={item => item.id}
             renderItem={({ item }) => {
                 return (
                     <View >
-                        {/*onPress={() => navigation.navigate('Store')} */}
-                        <TouchableOpacity style={Styles.htrOrder}>
+                        
+                        <TouchableOpacity style={Styles.htrOrder} onPress={() => navigation.navigate("DetailsScreenView")}>
                             <View style={{
                                 flex: 2, justifyContent: "center",
                                 alignItems: "center",
@@ -44,4 +45,4 @@ const ListOrderHistory = () => {
         </FlatList>
   )
 }
-export default ListOrderHistory
+export default ListFood

@@ -6,9 +6,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
-import { DATA, DATAFOOD } from '../Store/DataAo'
-import ListOrderHistory from './ListFood';
-export default function Store({ navigation }) {
+import { DATA, DATAFOOD } from './DataAo'
+import ListFood from './ListFood';
+
+
+function StoreScreen({ navigation }) {
 
     const [foodId, setFootId] = useState(1)
     console.log(foodId);
@@ -110,7 +112,7 @@ export default function Store({ navigation }) {
                     <HeaderComponent />
                     <CategoriesBar />
                     <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 20, marginRight: 20, marginTop: 10 }}>Bánh ướt ram giò</Text>
-                    <ListOrderHistory />
+                    <ListFood navigation={navigation} />
                 </View>
             )}>
 
@@ -125,3 +127,5 @@ export default function Store({ navigation }) {
         </SafeAreaView>
     );
 }
+
+export default StoreScreen
