@@ -10,7 +10,7 @@ import { DATA, DATAFOOD } from './DataAo'
 import ListFood from './ListFood';
 
 
-function StoreScreen({ navigation }) {
+function StoreScreen({ navigation}) {
 
     const [foodId, setFootId] = useState(1)
     console.log(foodId);

@@ -29,8 +29,15 @@ const DATA = {
   txtDis: "Thông tin sản phẩm",
 };
 
+
+
 // Navigation
-export default function DetailsScreenView({ navigation}) {
+export default function DetailsScreenView({route , navigation}) {
+
+  const {title,discription} = route.params;
+  const titleParams = JSON.stringify(title)
+  const discriptionParams = JSON.stringify(discription)
+  console.log(title,discription);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -39,7 +46,7 @@ export default function DetailsScreenView({ navigation}) {
         </TouchableOpacity>
       ),
 
-      title: DATA.name,
+      title: titleParams,
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
@@ -123,7 +130,7 @@ export default function DetailsScreenView({ navigation}) {
           >
             {DATA.txtDis}
           </Text>
-          <Text style={{ paddingBottom: 20 }}>{DATA.discription}</Text>
+          <Text style={{ paddingBottom: 20 }}>{discriptionParams}</Text>
         </View>
       </View>
 
@@ -172,6 +179,7 @@ export default function DetailsScreenView({ navigation}) {
             {/* // */}
             <View style={{ marginRight: 10 }}>
               <TouchableOpacity
+              onPress={() => navigation.navigate("Store")}
                 style={{
                   backgroundColor: "#fff",
                   borderRadius: 15,
@@ -190,73 +198,7 @@ export default function DetailsScreenView({ navigation}) {
           {/* mon lien quan */}
           <ScrollView style={{ paddingBottom: 10 }} horizontal={true}>
             <View
-              style={{ justifyContent: "flex-start", flexDirection: "row" }}
-            >
-              <View style={{ paddingRight: 5, flex: 1 }}>
-                <Image
-                  source={DATA.monAn1}
-                  style={{ width: 70, height: 70, borderRadius: 5 }}
-                />
-                <Text numberOfLines={2} style={{ fontSize: 12, width: 70 }}>
-                  {DATA.name}
-                </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-                  {DATA.price}
-                </Text>
-              </View>
-
-              <View style={{ paddingRight: 5, flex: 1 }}>
-                <Image
-                  source={DATA.monAn1}
-                  style={{ width: 70, height: 70, borderRadius: 5 }}
-                />
-                <Text numberOfLines={2} style={{ fontSize: 12, width: 70 }}>
-                  {DATA.name}
-                </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-                  {DATA.price}
-                </Text>
-              </View>
-
-              <View style={{ paddingRight: 5, flex: 1 }}>
-                <Image
-                  source={DATA.monAn1}
-                  style={{ width: 70, height: 70, borderRadius: 5 }}
-                />
-                <Text numberOfLines={2} style={{ fontSize: 12, width: 70 }}>
-                  {DATA.name}
-                </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-                  {DATA.price}
-                </Text>
-              </View>
-
-              <View style={{ paddingRight: 5, flex: 1 }}>
-                <Image
-                  source={DATA.monAn1}
-                  style={{ width: 70, height: 70, borderRadius: 5 }}
-                />
-                <Text numberOfLines={2} style={{ fontSize: 12, width: 70 }}>
-                  {DATA.name}
-                </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-                  {DATA.price}
-                </Text>
-              </View>
-
-              <View style={{ paddingRight: 5, flex: 1 }}>
-                <Image
-                  source={DATA.monAn1}
-                  style={{ width: 70, height: 70, borderRadius: 5 }}
-                />
-                <Text numberOfLines={2} style={{ fontSize: 12, width: 70 }}>
-                  {DATA.name}
-                </Text>
-                <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-                  {DATA.price}
-                </Text>
-              </View>
-
+              style={{ justifyContent: "flex-start", flexDirection: "row" }}>
               <View style={{ paddingRight: 5, flex: 1 }}>
                 <Image
                   source={DATA.monAn1}

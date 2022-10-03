@@ -12,7 +12,10 @@ const ListFood = ({navigation}) => {
                 return (
                     <View >
                         
-                        <TouchableOpacity style={Styles.htrOrder} onPress={() => navigation.navigate("DetailsScreenView")}>
+                        <TouchableOpacity style={Styles.htrOrder} onPress={() => navigation.navigate("DetailsScreenView" , {
+                            title: item.name,
+                            discription: item.discription,
+                        })}>
                             <View style={{
                                 flex: 2, justifyContent: "center",
                                 alignItems: "center",
