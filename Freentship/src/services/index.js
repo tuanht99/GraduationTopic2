@@ -1,1 +1,1 @@
-export { db } from './firebase'
+export { db, storage } from './firebase'
