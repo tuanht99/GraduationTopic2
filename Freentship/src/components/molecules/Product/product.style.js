@@ -12,10 +12,9 @@ export default StyleSheet.create({
     borderRadius: 10
   },
   text: {
+    flex: 1,
     fontSize: FontSize.xl,
     fontWeight: 'bold',
-    color: Colors.black,
-    marginTop: Spacing['1'],
-    textAlign: 'center'
+    color: Colors.black
   }
 })

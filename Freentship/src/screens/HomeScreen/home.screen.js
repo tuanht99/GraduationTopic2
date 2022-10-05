@@ -3,7 +3,8 @@ import { ScrollView, View } from 'react-native'
 import styles from './home.style'
 import { TopBanner } from '../../components/Organisms/TopBanner'
 import { SearchHome } from '../../components/Organisms/SearchHome/search-home'
-import { CategoriesFood } from '../../components/Organisms/CategoriesFood/'
+import { ChooseCategoriesFood } from '../../components/Organisms/ChooseCategoriesFood/'
+import { CategoryFood } from '../../components/Organisms/CategoryFood'
 
 export const HomeScreen = () => {
   const [isScrolling, setIsScrolling] = react.useState(false)
@@ -34,7 +35,8 @@ export const HomeScreen = () => {
       >
         <TopBanner />
         <SearchHome style={styles.searchHome} />
-        <CategoriesFood />
+        <ChooseCategoriesFood />
+        <CategoryFood />
       </ScrollView>
     </>
   )
