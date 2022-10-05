@@ -8,5 +8,11 @@ export default StyleSheet.create({
   item: {
     width: 133,
     marginLeft: Spacing['4']
+  },
+  alignItemCenter: {
+    alignItems: 'center'
+  },
+  alignItemStart: {
+    alignItems: 'flex-start'
   }
 })
