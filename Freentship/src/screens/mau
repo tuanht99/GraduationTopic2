@@ -1,12 +1,17 @@
-import React from "react";
+import React,{Component} from "react";
 import {
   View,
   SafeAreaView,
   Image,
   Text,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 
+import Products from "../Components/Products"
+
+import { FoodsOder } from '../redux/Data'
+import { connect } from 'react-redux'
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -29,41 +34,36 @@ const DATA = {
   txtDis: "Thông tin sản phẩm",
 };
 
-// Navigation
-export default function DetailsScreenView({ navigation }) {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={navigation.goBack}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
-      ),
-
-      title: DATA.name,
-      headerTitleAlign: "center",
-      headerTitleStyle: {
-        fontSize: 15,
-      },
-    });
-  }, [navigation]);
-
-  function Switch () {
-    navigation.goBack('CartView');
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addItemToCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: product })
   }
-  return (
-    <ScrollView style={{ flex: 1 }}>
-      {/* Image */}
-      <View>
-        <Image
-          source={DATA.shopimage}
-          style={{
-            width: "100%",
-            height: 360,
-            marginTop: 10,
-            marginBottom: 10,
-          }}
-        />
-      </View>
+}
+
+// Navigation
+
+// Navigation
+class CartView extends Component {
+  
+  render() {
+      return (
+          <View style={styles.container}>
+              <Products products={FoodsOder} onPress={this.props.addItemToCart} />
+          </View>
+      );
+  }
+}
+export default connect(null, mapDispatchToProps)(CartView);
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+     
+  }
+});
+
+
+// detam
 
       {/* thong tin mon */}
       <View
@@ -273,6 +273,69 @@ export default function DetailsScreenView({ navigation }) {
           </ScrollView>
         </View>
       </View>
-    </ScrollView>
-  );
-}
+
+
+// 
+  {/* cho chen */}
+  <View
+  style={{
+      flex: 1,
+      backgroundColor: "#fff",
+      paddingTop: 10,
+      paddingBottom: 10,
+  }}
+>
+  <View style={{ marginLeft: 10 }}>
+      <Text
+          numberOfLines={2}
+          style={{ fontWeight: "bold", paddingBottom: 10 }}
+      >
+          {DATA.name}
+      </Text>
+      <Text style={{ fontWeight: "bold", paddingBottom: 10 }}>
+          {DATA.price}
+      </Text>
+      <Text numberOfLines={2} style={{ paddingBottom: 20 }}>
+          {DATA.shopaddress}
+      </Text>
+  </View>
+
+  <View style={{ marginLeft: 10 }}>
+      <TouchableOpacity onPress={() => navigation.navigate("CartView")}
+          style={{
+              backgroundColor: "#E94730",
+              borderRadius: 15,
+              width: "97%",
+              height: 40,
+              alignItems: "center",
+              justifyContent: "center",
+          }}
+      >
+          <Text style={{ color: "#fff" }}>{DATA.txtChonMua}</Text>
+      </TouchableOpacity>
+  </View>
+</View>
+
+<View style={{ paddingBottom: 10 }}></View>
+
+{/* dis */}
+<View
+  style={{
+      flex: 1,
+      backgroundColor: "#fff",
+      paddingTop: 10,
+      paddingBottom: 10,
+  }}
+>
+  <View style={{ marginLeft: 10 }}>
+      <Text
+          numberOfLines={5}
+          style={{ fontWeight: "bold", paddingTop: 10, paddingBottom: 20 }}
+      >
+          {DATA.txtDis}
+      </Text>
+      <Text style={{ paddingBottom: 20 }}>{DATA.discription}</Text>
+  </View>
+</View>
+
+<View style={{ paddingBottom: 10 }}></View>

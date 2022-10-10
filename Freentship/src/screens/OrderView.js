@@ -4,7 +4,7 @@ import {
   SafeAreaView,
   Image,
   Text,
-  
+
   TouchableOpacity,
 } from "react-native";
 
@@ -60,7 +60,7 @@ export default function OrderView({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 0.8 }}>
-        <View style={{paddingBottom: 10}}></View>
+        <View style={{ paddingBottom: 10 }}></View>
 
         {/* giao toi dia chi */}
         <View
@@ -71,7 +71,7 @@ export default function OrderView({ navigation }) {
             paddingBottom: 10,
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -119,7 +119,7 @@ export default function OrderView({ navigation }) {
           </View>
         </View>
 
-        <View style={{paddingBottom: 10}}></View>
+        <View style={{ paddingBottom: 10 }}></View>
 
         {/*chi tiết đơn hàng in4 name */}
         <View
@@ -132,7 +132,7 @@ export default function OrderView({ navigation }) {
             borderBottomColor: "#808080",
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -174,9 +174,11 @@ export default function OrderView({ navigation }) {
                 alignItems: "center",
               }}
             >
-              <Image source={DATA.avt} style={{width: 40,
-    height: 40,
-    borderRadius: 25,}} />
+              <Image source={DATA.avt} style={{
+                width: 40,
+                height: 40,
+                borderRadius: 25,
+              }} />
 
               <View style={{ paddingLeft: 10 }}>
                 <Text numberOfLines={1} style={{ fontWeight: "bold" }}>
@@ -206,7 +208,7 @@ export default function OrderView({ navigation }) {
               paddingBottom: 20,
             }}
           >
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -232,16 +234,20 @@ export default function OrderView({ navigation }) {
                 }}
               >
                 <View>
-                  <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 10,
-    width: 80,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                    <Text style={{color: "#000",
-    fontWeight: 'bold',}}>
+                  <TouchableOpacity style={{
+                    backgroundColor: "#fff",
+                    borderRadius: 10,
+                    width: 80,
+                    height: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 0.3,
+                    borderColor: "#808080",
+                  }}>
+                    <Text style={{
+                      color: "#000",
+                      fontWeight: 'bold',
+                    }}>
                       {DATA.txtThayDoi}
                     </Text>
                   </TouchableOpacity>
@@ -256,14 +262,16 @@ export default function OrderView({ navigation }) {
                   }}
                 >
                   <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
+                    <TouchableOpacity style={{
+                      backgroundColor: "#fff",
+                      borderRadius: 5,
+                      width: 20,
+                      height: 20,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderWidth: 0.3,
+                      borderColor: "#808080",
+                    }}>
                       <Text style={{ fontWeight: "bold" }}>-</Text>
                     </TouchableOpacity>
                   </View>
@@ -271,14 +279,16 @@ export default function OrderView({ navigation }) {
                     <Text style={{ fontWeight: "bold" }}>01</Text>
                   </View>
                   <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
+                    <TouchableOpacity style={{
+                      backgroundColor: "#fff",
+                      borderRadius: 5,
+                      width: 20,
+                      height: 20,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderWidth: 0.3,
+                      borderColor: "#808080",
+                    }}>
                       <Text style={{ fontWeight: "bold" }}>+</Text>
                     </TouchableOpacity>
                   </View>
@@ -295,7 +305,7 @@ export default function OrderView({ navigation }) {
               paddingBottom: 20,
             }}
           >
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -321,16 +331,20 @@ export default function OrderView({ navigation }) {
                 }}
               >
                 <View>
-                  <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 10,
-    width: 80,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                    <Text style={{color: "#000",
-    fontWeight: 'bold',}}>
+                  <TouchableOpacity style={{
+                    backgroundColor: "#fff",
+                    borderRadius: 10,
+                    width: 80,
+                    height: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 0.3,
+                    borderColor: "#808080",
+                  }}>
+                    <Text style={{
+                      color: "#000",
+                      fontWeight: 'bold',
+                    }}>
                       {DATA.txtThayDoi}
                     </Text>
                   </TouchableOpacity>
@@ -345,14 +359,16 @@ export default function OrderView({ navigation }) {
                   }}
                 >
                   <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
+                    <TouchableOpacity style={{
+                      backgroundColor: "#fff",
+                      borderRadius: 5,
+                      width: 20,
+                      height: 20,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderWidth: 0.3,
+                      borderColor: "#808080",
+                    }}>
                       <Text style={{ fontWeight: "bold" }}>-</Text>
                     </TouchableOpacity>
                   </View>
@@ -360,14 +376,16 @@ export default function OrderView({ navigation }) {
                     <Text style={{ fontWeight: "bold" }}>01</Text>
                   </View>
                   <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
+                    <TouchableOpacity style={{
+                      backgroundColor: "#fff",
+                      borderRadius: 5,
+                      width: 20,
+                      height: 20,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderWidth: 0.3,
+                      borderColor: "#808080",
+                    }}>
                       <Text style={{ fontWeight: "bold" }}>+</Text>
                     </TouchableOpacity>
                   </View>
@@ -388,7 +406,7 @@ export default function OrderView({ navigation }) {
             borderTopColor: "#808080",
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -412,7 +430,7 @@ export default function OrderView({ navigation }) {
           </View>
         </View>
 
-        <View style={{paddingBottom: 10}}></View>
+        <View style={{ paddingBottom: 10 }}></View>
 
         {/* phương thức thanh toán */}
         <View
@@ -423,7 +441,7 @@ export default function OrderView({ navigation }) {
             paddingBottom: 10,
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -486,8 +504,8 @@ export default function OrderView({ navigation }) {
             // position: "absolute",
             bottom: 0,
           }}
-          >
-          <View style={{marginLeft: 10}}>
+        >
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -508,14 +526,16 @@ export default function OrderView({ navigation }) {
             </View>
 
             <TouchableOpacity
-            onPress={() => navigation.navigate("YourOrderView")}
-            style={{backgroundColor: "#E94730",
-              borderRadius: 15,
-              width: "97%",
-              height: 40,
-              alignItems: "center",
-              justifyContent: "center",}}>
-              <Text style={{color: "#fff",}}>{DATA.txtDatDon}</Text>
+              onPress={() => navigation.navigate("YourOrderView")}
+              style={{
+                backgroundColor: "#E94730",
+                borderRadius: 15,
+                width: "97%",
+                height: 40,
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+              <Text style={{ color: "#fff", }}>{DATA.txtDatDon}</Text>
             </TouchableOpacity>
           </View>
         </View>
