@@ -176,22 +176,7 @@ export default function CartView({ navigation }) {
                 }}
               >
                 <View>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      width: 80,
-                      height: 30,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 0.3,
-                      borderColor: "#808080",
-                    }}
-                  >
-                    <Text style={{ color: "#000", fontWeight: "bold" }}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
+                
                 </View>
                 {/* Tang Giam  */}
                 <Quantity setData={setData} ></Quantity>
