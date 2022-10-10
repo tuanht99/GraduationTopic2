@@ -1,16 +1,23 @@
-import React from "react";
+import React,{Component}from "react";
 import {
+  StyleSheet,
   View,
   SafeAreaView,
   Image,
   Text,
   TouchableOpacity,
 } from "react-native";
-import Quantity from "./Quantity";
+import Quantity from "../screens/Quantity";
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+
+import Products from "../Components/Products"
+
+import { FoodsOder } from '../redux/Data'
+import { connect } from 'react-redux'
 import { useState } from "react";
-const DATA = { 
+
+const DATA = {
   id: 1,
   name: "Nước ngọt c2",
   namesp: "Gì cũng đc, miễn là cùng cửa hàng",
@@ -36,42 +43,21 @@ const DATA = {
   txtTong: "60.000",
 };
 
-
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addItemToCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: product })
+  }
+}
 
 // Navigation
-export default function CartView({ navigation }) {
-  const [Total, setTotal] = useState(0);
-
-
-  const initialVar = 1;
-  const [Qty, setQty] = useState(initialVar)
-
-  React.useEffect(() => {
-    setTotal(Qty * DATA.price);
-  },[Qty])
-
-  const setData = (data) => {
-    setQty(data);
-  }
- 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={navigation.goBack}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
-      ),
-
-      title: "Giỏ hàng của bạn",
-      headerTitleAlign: "center",
-      headerTitleStyle: {
-        fontSize: 15,
-      },
-    });
-  }, [navigation]);
-  return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 0.8 }}>
+class CartView extends Component {
+  
+  render() {
+    
+      return (
+        
+          <View style={styles.container}>
+    <ScrollView style={{ flex: 0.8 }}>
         <View style={{ paddingBottom: 10 }}></View>
 
         {/* in4 shop */}
@@ -176,33 +162,17 @@ export default function CartView({ navigation }) {
                 }}
               >
                 <View>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      width: 80,
-                      height: 30,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 0.3,
-                      borderColor: "#808080",
-                    }}
-                  >
-                    <Text style={{ color: "#000", fontWeight: "bold" }}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
+                 
                 </View>
                 {/* Tang Giam  */}
-                <Quantity setData={setData} ></Quantity>
+                {/* <Quantity setData={setData} ></Quantity> */}
               </View>
             </View>
           </View>
+          <Products products={FoodsOder} onPress={this.props.addItemToCart} />
 
         </View>
       </ScrollView>
-
-      {/* đặt đơn */}
       <View style={{ flex: 0.2 }}>
         <View
           style={{
@@ -232,7 +202,7 @@ export default function CartView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {Total}
+                  {/* {Total} */}
                 </Text>
               </View>
             </View>
@@ -253,6 +223,17 @@ export default function CartView({ navigation }) {
           </View>
         </View>
       </View>
-    </View>
-  );
+          </View>
+      );
+  }
 }
+export default connect(null, mapDispatchToProps)(CartView);
+
+const styles = StyleSheet.create({
+  container: {
+     flex:1,
+     
+  }
+});
+
+// mẫu hoàn thành cart thiếu cái quantity
