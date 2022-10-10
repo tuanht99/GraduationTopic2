@@ -6,18 +6,12 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
-import { DATA, DATAFOOD } from './DataAo'
-import ListFood from './ListFood';
+import { DATA, } from './DataAo'
+import CategoriesBar from '../../components/CategoriesBar';
+import ListFood from '../../components/ListFood';
 
 
 function StoreScreen({ navigation}) {
-
-    const [foodId, setFootId] = useState(1)
-    console.log(foodId);
-    const headleChangeColor = (value) => (
-        setFootId(value)
-    )
-
 
     const HeaderComponent = () => (
         <View>
@@ -45,6 +39,7 @@ function StoreScreen({ navigation}) {
                     <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 20, marginRight: 20, marginTop: 10 }}>
                         {data.name}
                     </Text>
+
 
                     <View style={Styles.btnCategory}>
                         <TouchableOpacity style={Styles.category} >
@@ -85,25 +80,6 @@ function StoreScreen({ navigation}) {
         </View>
     )
 
-    const CategoriesBar = () => (
-        <ScrollView
-            horizontal>
-            {DATAFOOD[0].categories.map((item) => (
-                <TouchableOpacity
-                    onPress={() => {
-                        setFootId(item.id)
-                    }} >
-                    <Text style={{
-                        fontSize: 20, marginLeft: 20, textDecoration: 'underline',
-                        color: foodId === item.id ? 'red' : 'black'
-                    }}>
-                        {item.name}
-                    </Text>
-                </TouchableOpacity>
-            ))}
-        </ScrollView>
-
-    )
     const Store = () => (
         <FlatList
             data={DATA}

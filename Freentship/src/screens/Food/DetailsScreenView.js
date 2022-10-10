@@ -34,10 +34,13 @@ const DATA = {
 // Navigation
 export default function DetailsScreenView({route , navigation}) {
 
-  const {title,discription} = route.params;
+  const {title,description,image,price} = route.params;
   const titleParams = JSON.stringify(title)
-  const discriptionParams = JSON.stringify(discription)
-  console.log(title,discription);
+  const descriptionParams = JSON.stringify(description)
+  const imageParams = image ;
+  console.log('images', imageParams)
+  const priceParams = JSON.stringify(price)
+  console.log(title,description);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -54,23 +57,21 @@ export default function DetailsScreenView({route , navigation}) {
     });
   }, [navigation]);
 
-  function Switch () {
-    navigation.goBack('CartView');
-  }
   return (
     <ScrollView style={{ flex: 1 }}>
       {/* Image */}
-      <View>
+      
         <Image
-          source={DATA.shopimage}
+          source={{uri : imageParams}}
           style={{
             width: "100%",
+            resizeMode: 'contain' ,
             height: 360,
             marginTop: 10,
             marginBottom: 10,
           }}
         />
-      </View>
+  
 
       {/* thong tin mon */}
       <View
@@ -86,10 +87,10 @@ export default function DetailsScreenView({route , navigation}) {
             numberOfLines={2}
             style={{ fontWeight: "bold", paddingBottom: 10 }}
           >
-            {DATA.name}
+            {titleParams}
           </Text>
           <Text style={{ fontWeight: "bold", paddingBottom: 10 }}>
-            {DATA.price}
+            {priceParams}
           </Text>
           <Text numberOfLines={2} style={{ paddingBottom: 20 }}>
             {DATA.shopaddress}
@@ -130,7 +131,7 @@ export default function DetailsScreenView({route , navigation}) {
           >
             {DATA.txtDis}
           </Text>
-          <Text style={{ paddingBottom: 20 }}>{discriptionParams}</Text>
+          <Text style={{ paddingBottom: 20 }}>{descriptionParams}</Text>
         </View>
       </View>
 
