@@ -1,57 +1,4 @@
-import React from "react";
-import {
-  View,
-  SafeAreaView,
-  Image,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-
-import { AntDesign } from "@expo/vector-icons";
-import { ScrollView } from "react-native-gesture-handler";
-
-const DATA = {
-  id: 1,
-  name: "Nước ngọt c2",
-  discription: "Thơm ngon mời bạn ăn nha, getgo, getgo,...",
-  location: "",
-  relationship: "Đối tác lo ship",
-  price: "20.000",
-  status: "",
-  shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
-  shopSl: "14 sản phẩm",
-  shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  txtChonMua: "CHỌN MUA",
-  txtsplq: "Sản phẩm cùng cửa hàng",
-  txtXemCuaHang: "Xem cửa hàng",
-  txtDis: "Thông tin sản phẩm",
-};
-
-// Navigation
-export default function DetailsScreenView({ navigation }) {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={navigation.goBack}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
-      ),
-
-      title: DATA.name,
-      headerTitleAlign: "center",
-      headerTitleStyle: {
-        fontSize: 15,
-      },
-    });
-  }, [navigation]);
-
-  function Switch () {
-    navigation.goBack('CartView');
-  }
-  return (
-    <ScrollView style={{ flex: 1 }}>
+<ScrollView style={{ flex: 1 }}>
       {/* Image */}
       <View>
         <Image
@@ -274,5 +221,3 @@ export default function DetailsScreenView({ navigation }) {
         </View>
       </View>
     </ScrollView>
-  );
-}
