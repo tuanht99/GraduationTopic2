@@ -20,7 +20,8 @@ import { food } from '../../screens/Store/FoodFirebase'
 
 export default function CategoriesBar({ categoriesData }) {
   const [foodId, setFootId] = useState('')
-  
+  const idCateAll = ''
+  categoriesData(foodId)
   const [categories, setCategory] = useState([])
 
   useEffect(() => {
@@ -36,35 +37,31 @@ export default function CategoriesBar({ categoriesData }) {
     getCategory()
   }, [])
 
-  const [scrollToIndex, setScrollToIndex] = useState(0)
-  const [ref, setRef] = useState(null)
-
-  const scrollHandler = () => {
-    scrollTo({
-      x: 200,
-      y: 1000,
-      animated: true
-    })
-  }
-
-
-  console.log('food' , foodId)
-
- 
   // useEffect(() => {
   //   categoriesData(foodId)
   // }, [foodId])
-  // categoriesData(foodId)
+
+  // console.log('food', foodId)
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <TouchableOpacity
+        onPress={() => {
+       setFootId(idCateAll)
+        }}
+      >
+        {foodId === idCateAll ? (
+          <Text style={styles.textT}>Tất cả</Text>
+        ) : (
+          <Text style={styles.textF}>Tất cả</Text>
+        )}
+      </TouchableOpacity>
+
       {categories.map(item => (
         <TouchableOpacity
           onPress={() => {
-            setFootId(item.id) 
-            // categoriesData(foodId)
+            setFootId(item.id)
           }}
-         
         >
           {foodId === item.id ? (
             <Text style={styles.textT}>{item.category_Name}</Text>
