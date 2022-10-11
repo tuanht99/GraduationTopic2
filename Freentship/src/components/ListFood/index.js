@@ -17,32 +17,41 @@ import {
   collectionGroup
 } from 'firebase/firestore'
 
-const ListFood = ({ navigation, categoriesData }) => {
-  
- console.log('aaaaaaaaaa',categoriesData)
-
+const ListFood = ({ navigation, categoriesData , storeName, storeAddress , storeImage }) => {
+  // console.log('aaaaaaaaaa', categoriesData) 
   const [food, setFood] = useState([])
-
-
+  // console.log('list food',food)
   useEffect(() => {
+    
+   
     const getFood = async () => {
+      
       const food = []
       const foodRef = collection(db, 'foods')
-    //  const q = query(foodRef, where("category_Id", "array-contains", `${categoriesData}`));
-      const querySnapshot = await getDocs(foodRef)
+      let q 
+      // if (categoriesData == '') {
+        q = foodRef
+      // } else {
+      //   q = query(
+      //     foodRef,
+      //     where('category_Id', 'array-contains', `${categoriesData}`)
+      //   )
+      // }
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach(doc => {
         food.push({ ...doc.data(), id: doc.id })
       })
       setFood(food)
     }
     getFood()
-    
-  }, [])
+
+  
+  }, [categoriesData])
 
   return (
     <FlatList
       data={food}
-      keyExtractor ={item => item.id}
+      keyExtractor={item => item.id}
       renderItem={({ item }) => {
         return (
           <TouchableOpacity
@@ -51,8 +60,12 @@ const ListFood = ({ navigation, categoriesData }) => {
               navigation.navigate('DetailsScreenView', {
                 title: item.name,
                 image: item.image,
-                description: item.discription,
-                price: item.price
+                description: item.description,
+                price: item.price,
+                storeName : storeName,
+                storeAddress : storeAddress,
+                storeImage : storeImage,
+                food : food
               })
             }
           >
