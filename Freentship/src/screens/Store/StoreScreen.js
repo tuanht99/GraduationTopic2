@@ -12,7 +12,8 @@ import ListFood from '../../components/ListFood';
 
 
 function StoreScreen({ navigation}) {
-
+    const [count, setCount] = useState(null)
+    console.log('hjhj',count);
     const HeaderComponent = () => (
         <View>
             {DATA.map(data => (
@@ -86,9 +87,9 @@ function StoreScreen({ navigation}) {
             renderItem={() => (
                 <View>
                     <HeaderComponent />
-                    <CategoriesBar />
+                    <CategoriesBar categoriesData = {setCount} />
                     <Text style={{ fontWeight: 'bold', fontSize: 20, marginLeft: 20, marginRight: 20, marginTop: 10 }}>Bánh ướt ram giò</Text>
-                    <ListFood navigation={navigation} />
+                    <ListFood navigation={navigation} categoriesData={count} />
                 </View>
             )}>
 

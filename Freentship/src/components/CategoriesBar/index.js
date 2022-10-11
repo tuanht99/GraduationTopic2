@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity,ScrollView} from 'react-native'
+import { Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { db } from '../../services/firebase'
 import {
@@ -14,19 +14,14 @@ import {
   query,
   collectionGroup
 } from 'firebase/firestore'
+import { DATAFOOD } from '../../screens/Store/DataAo'
+import { async } from '@firebase/util'
+import { food } from '../../screens/Store/FoodFirebase'
 
-export default function CategoriesBar() {
-
-  const [foodId, setFootId] = useState(1)
-  console.log(foodId);
-  const headleChangeColor = (value) => (
-      setFootId(value)
-  )
-
+export default function CategoriesBar({ categoriesData }) {
+  const [foodId, setFootId] = useState('')
   
   const [categories, setCategory] = useState([])
-
-  console.log(categories)
 
   useEffect(() => {
     const getCategory = async () => {
@@ -41,26 +36,90 @@ export default function CategoriesBar() {
     getCategory()
   }, [])
 
+  const [scrollToIndex, setScrollToIndex] = useState(0)
+  const [ref, setRef] = useState(null)
+
+  const scrollHandler = () => {
+    scrollTo({
+      x: 200,
+      y: 1000,
+      animated: true
+    })
+  }
+
+
+  console.log('food' , foodId)
+
+ 
+  // useEffect(() => {
+  //   categoriesData(foodId)
+  // }, [foodId])
+  // categoriesData(foodId)
+
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {categories.map(item => (
         <TouchableOpacity
           onPress={() => {
-            setFootId(item.id)
+            setFootId(item.id) 
+            // categoriesData(foodId)
           }}
+         
         >
-          <Text
-            style={{
-              fontSize: 20,
-              marginLeft: 20,
-              textDecoration: 'underline',
-              color: foodId === item.id ? 'red' : 'black'
-            }}
-          >
-            {item.category_Name}
-          </Text>
+          {foodId === item.id ? (
+            <Text style={styles.textT}>{item.category_Name}</Text>
+          ) : (
+            <Text style={styles.textF}>{item.category_Name}</Text>
+          )}
         </TouchableOpacity>
       ))}
+
+      {/* {DATAFOOD[0].categories.map(item => {
+        
+        return (
+          <TouchableOpacity
+          setFootId = {item.id}
+          
+          onPress={() => {
+            setFootId(item.id)
+            scrollHandler
+          }}
+        >
+          {foodId === item.id ? <Text
+          
+            style={
+              styles.textT
+            }
+          >
+            {item.name}
+          </Text> : <Text
+            style={
+              styles.textF
+            }
+          >
+            {item.name}
+          </Text>}
+          
+        </TouchableOpacity>
+        )
+       
+      })} */}
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  textT: {
+    fontSize: 20,
+    marginLeft: 20,
+    textDecoration: 'underline',
+    color: 'red',
+    borderBottomColor: 'red',
+    borderBottomWidth: 1
+  },
+  textF: {
+    fontSize: 20,
+    marginLeft: 20,
+    textDecoration: 'underline'
+  }
+})
