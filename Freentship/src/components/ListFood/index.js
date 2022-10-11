@@ -17,27 +17,25 @@ import {
   collectionGroup
 } from 'firebase/firestore'
 
-const ListFood = ({ navigation }) => {
-
-  const a =  [{id : 'uHBXNbOrJgocBGCTAaA2'} , {id : 'dkFxBrCSOSoqFwoX1lKr'}]
+const ListFood = ({ navigation, categoriesData }) => {
+  
+ console.log('aaaaaaaaaa',categoriesData)
 
   const [food, setFood] = useState([])
-  console.log(food)
+
 
   useEffect(() => {
-    const getFood = async (e) => {
+    const getFood = async () => {
       const food = []
       const foodRef = collection(db, 'foods')
-     const q = query(foodRef, where("category_Id", "array-contains", `${e}`));
-      const querySnapshot = await getDocs(q)
+    //  const q = query(foodRef, where("category_Id", "array-contains", `${categoriesData}`));
+      const querySnapshot = await getDocs(foodRef)
       querySnapshot.forEach(doc => {
-        food.push({ ...doc.data(), id: doc.id})
+        food.push({ ...doc.data(), id: doc.id })
       })
       setFood(food)
     }
-    a.map(food => {
-      getFood(food.id)
-    })
+    getFood()
     
   }, [])
 

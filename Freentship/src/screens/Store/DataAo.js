@@ -22,6 +22,19 @@ export const DATAFOOD = [
                 "id": 3,
                 "name": "banh da"
             },
+            {
+                "id": 4,
+                "name": "banh bot loc"
+            },
+
+            {
+                "id": 5,
+                "name": "banh canh"
+            },
+            {
+                "id": 6,
+                "name": "banh da"
+            },
         ]
         ,
 
