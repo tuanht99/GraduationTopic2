@@ -209,6 +209,7 @@ export default function DetailsScreenView({ route, navigation }) {
           >
             {food.map(item => (
               <TouchableOpacity
+              key={item.id}
                 onPress={() =>
                   navigation.navigate('DetailsScreenView', {
                     title: item.name,
@@ -218,6 +219,7 @@ export default function DetailsScreenView({ route, navigation }) {
                     storeName: storeName,
                     storeAddress: storeAddress,
                     storeImage: storeImage,
+                    
                     food: food
                   })
                 }

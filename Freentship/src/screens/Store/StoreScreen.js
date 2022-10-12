@@ -21,52 +21,42 @@ import ListFood from '../../components/ListFood'
 import { db } from '../../services/firebase'
 import {
   doc,
-  setDoc,
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
   getDoc,
-  getDocs,
-  where,
-  query,
-  collectionGroup
+
 } from 'firebase/firestore'
 
 function StoreScreen({ navigation }) {
   const [stores, setStores] = useState([])
+  const [categories, setCategory] = useState([])
   const storeID = '7T5uG3Si5NHioADgam1Z'
-  console.log('STORE : ', stores)
+  console.log('categories : ', categories)
 
   useEffect(() => {
     const getStore = async () => {
-      //   const foodRef = collection(db, 'food_stores')
-      //   const q = query(foodRef, where('id', '==', '7T5uG3Si5NHioADgam1Z'))
-      //   const querySnapshot = await getDocs(q)
-      //   querySnapshot.forEach(doc => {
-      //     console.log(doc.id, " => ", doc.data())
-      //     // setStores(stores.push({ ...doc.data(), id: doc.id }))
-      //   })
       const store = []
+      const categories = []
       getDoc(doc(db, 'food_stores', '7T5uG3Si5NHioADgam1Z')).then(docData => {
         if (docData.exists()) {
           store.push(docData.data())
+          docData.data().food_categories.forEach(e => {
+            getDoc(doc(db, 'categories', `${e}`)).then(docData => {
+              categories.push({name: docData.data().category_Name} , {id: docData.id})
+            })
+            setCategory(categories)
+          })
         } else {
           console.log('No such a data!')
         }
         setStores(store)
       })
     }
-
     getStore()
   }, [])
 
-  const [count, setCount] = useState(null)
-  //   console.log('hjhj', count)
   const HeaderComponent = () => (
     <View>
       {stores.map(data => (
-        <View>
+        <View keyExtractor = {data.id}>
           <ImageBackground style={Styles.imgFood} source={{ uri: data.image }}>
             <TouchableOpacity
               style={[Styles.iconCicle, Styles.rightIcon]}
@@ -134,12 +124,15 @@ function StoreScreen({ navigation }) {
           >
             <Octicons name="location" style={Styles.loation} />
             <Text style={{ minWidth: 100 }}>3Km</Text>
-            {data.status === 1 ? <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
-              Đang mở cửa
-            </Text> : <Text style={[Styles.orderStatusFalse, Styles.ml15]}>
-              Chưa mở cửa
-            </Text>}
-            
+            {data.status === 1 ? (
+              <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
+                Đang mở cửa
+              </Text>
+            ) : (
+              <Text style={[Styles.orderStatusFalse, Styles.ml15]}>
+                Chưa mở cửa
+              </Text>
+            )}
           </View>
           <View
             style={{
@@ -193,10 +186,11 @@ function StoreScreen({ navigation }) {
   const Store = () => (
     <FlatList
       data={stores}
+      
       renderItem={() => (
         <View>
-          <HeaderComponent />
-          <CategoriesBar categoriesData={setCount} />
+          <HeaderComponent/>
+          <CategoriesBar categoriesData={categories} />
           <Text
             style={{
               fontWeight: 'bold',
@@ -208,7 +202,13 @@ function StoreScreen({ navigation }) {
           >
             Bánh ướt ram giò
           </Text>
-          <ListFood storeName = {stores[0].name} storeImage = {stores[0].image} storeAddress = {stores[0].address} navigation={navigation} categoriesData={count} />
+          <ListFood
+            storeName={stores[0].name}
+            storeImage={stores[0].image}
+            storeAddress={stores[0].address}
+            navigation={navigation}
+            categoriesData={categories}
+          />
         </View>
       )}
     ></FlatList>
