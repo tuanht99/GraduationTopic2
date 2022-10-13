@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons'
@@ -35,6 +35,15 @@ export default function DetailsScreenView({ route, navigation }) {
     storeImage,
     food
   } = route.params
+
+  const [arrFood, setArrFood] = useState(
+    food.map(food => food.id)
+  )
+  
+    
+ 
+  
+  console.log('FoodArr', arrFood.length)
   const titleParams = JSON.stringify(title)
   const descriptionParams = JSON.stringify(description)
   const imageParams = image
@@ -42,7 +51,6 @@ export default function DetailsScreenView({ route, navigation }) {
   const storeAddressParams = JSON.stringify(storeAddress)
   const storeImageParams = storeImage
 
-  console.log('FOOD', food)
   const priceParams = JSON.stringify(price)
 
   React.useLayoutEffect(() => {
@@ -176,7 +184,8 @@ export default function DetailsScreenView({ route, navigation }) {
               >
                 {storeNameParams}
               </Text>
-              <Text>{DATA.shopSl}</Text>
+              {arrFood.length > 0 ? <Text>{arrFood.length} Sản phẩm</Text> : ''}
+
               <Text numberOfLines={1} style={{ color: '#808080', width: 190 }}>
                 {storeAddressParams}
               </Text>
@@ -219,7 +228,6 @@ export default function DetailsScreenView({ route, navigation }) {
                     storeName: storeName,
                     storeAddress: storeAddress,
                     storeImage: storeImage,
-
                     food: food
                   })
                 }
