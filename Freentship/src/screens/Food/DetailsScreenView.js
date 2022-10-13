@@ -48,7 +48,7 @@ export default function DetailsScreenView({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={navigation.goBack}>
+        <TouchableOpacity onPress={() => navigation.navigate('Store')}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
@@ -209,7 +209,7 @@ export default function DetailsScreenView({ route, navigation }) {
           >
             {food.map(item => (
               <TouchableOpacity
-              key={item.id}
+                key={item.id}
                 onPress={() =>
                   navigation.navigate('DetailsScreenView', {
                     title: item.name,
@@ -219,7 +219,7 @@ export default function DetailsScreenView({ route, navigation }) {
                     storeName: storeName,
                     storeAddress: storeAddress,
                     storeImage: storeImage,
-                    
+
                     food: food
                   })
                 }

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Text,
-  Image,
   SafeAreaView,
   ImageBackground,
   TouchableOpacity,
@@ -15,182 +14,158 @@ import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
-import { DATA } from './DataAo'
-import CategoriesBar from '../../components/CategoriesBar'
 import ListFood from '../../components/ListFood'
 import { db } from '../../services/firebase'
-import {
-  doc,
-  getDoc,
-
-} from 'firebase/firestore'
+import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 
 function StoreScreen({ navigation }) {
   const [stores, setStores] = useState([])
   const [categories, setCategory] = useState([])
-  const storeID = '7T5uG3Si5NHioADgam1Z'
-  console.log('categories : ', categories)
-
+  const storeId = '7T5uG3Si5NHioADgam1Z'
   useEffect(() => {
-    const getStore = async () => {
-      const store = []
-      const categories = []
-      getDoc(doc(db, 'food_stores', '7T5uG3Si5NHioADgam1Z')).then(docData => {
-        if (docData.exists()) {
-          store.push(docData.data())
-          docData.data().food_categories.forEach(e => {
-            getDoc(doc(db, 'categories', `${e}`)).then(docData => {
-              categories.push({name: docData.data().category_Name} , {id: docData.id})
+    const cate = []
+    const unsubscribe = onSnapshot(
+      doc(db, 'food_stores', `${storeId}` ),
+      item => {
+        setStores({
+          id: item.id,
+          ...item.data()
+        })
+        item.data().food_categories.forEach(e => {
+          getDoc(doc(db, 'categories', `${e}`)).then(doc => {
+            cate.push({
+              ...doc.data(),
+              name: doc.data().category_Name,
+              id: doc.id
             })
-            setCategory(categories)
+            setCategory(cate)
           })
-        } else {
-          console.log('No such a data!')
-        }
-        setStores(store)
-      })
-    }
-    getStore()
-  }, [])
+        })
+      }
+    )
+    return unsubscribe
+  }, [storeId])
 
   const HeaderComponent = () => (
     <View>
-      {stores.map(data => (
-        <View keyExtractor = {data.id}>
-          <ImageBackground style={Styles.imgFood} source={{ uri: data.image }}>
-            <TouchableOpacity
-              style={[Styles.iconCicle, Styles.rightIcon]}
-              onPress={() => navigation.goBack()}
-            >
-              <AntDesign name="arrowleft" size={21} color="#fff" />
-            </TouchableOpacity>
-            <TouchableOpacity style={[Styles.iconCicle, Styles.heartIcon]}>
-              <AntDesign name="heart" size={21} color="red" />
-            </TouchableOpacity>
-            <TouchableOpacity style={[Styles.iconCicle, Styles.srearchIcon]}>
-              <FontAwesome5 name="search" size={21} color="#fff" />
-            </TouchableOpacity>
-            <TouchableOpacity style={[Styles.iconCicle, Styles.sharechIcon]}>
-              <FontAwesome5 name="external-link-alt" size={21} color="#000" />
-            </TouchableOpacity>
-          </ImageBackground>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: '#FF3333',
-              justifyContent: 'center',
-              borderRadius: 30,
-              padding: 3,
-              marginTop: 20,
-              marginLeft: 20,
-              marginRight: 20,
-              maxWidth: '100%'
-            }}
+      <View>
+        <ImageBackground style={Styles.imgFood} source={{ uri: stores.image }}>
+          <TouchableOpacity
+            style={[Styles.iconCicle, Styles.rightIcon]}
+            onPress={() => navigation.goBack()}
           >
-            <FontAwesome5 name="star" size={18} color="#fff" />
-            <Text style={{ color: '#fff', marginLeft: 15 }}>{data.slogan}</Text>
-          </View>
+            <AntDesign name="arrowleft" size={21} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[Styles.iconCicle, Styles.heartIcon]}>
+            <AntDesign name="heart" size={21} color="red" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[Styles.iconCicle, Styles.srearchIcon]}>
+            <FontAwesome5 name="search" size={21} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[Styles.iconCicle, Styles.sharechIcon]}>
+            <FontAwesome5 name="external-link-alt" size={21} color="#000" />
+          </TouchableOpacity>
+        </ImageBackground>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            backgroundColor: '#FF3333',
+            justifyContent: 'center',
+            borderRadius: 30,
+            padding: 3,
+            marginTop: 20,
+            marginLeft: 20,
+            marginRight: 20,
+            maxWidth: '100%'
+          }}
+        >
+          <FontAwesome5 name="star" size={18} color="#fff" />
+          <Text style={{ color: '#fff', marginLeft: 15 }}>{stores.slogan}</Text>
+        </View>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 20,
+            marginLeft: 20,
+            marginRight: 20,
+            marginTop: 10
+          }}
+        >
+          {stores.name}
+        </Text>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 15,
+            alignItems: 'center'
+          }}
+        >
+          <Octicons name="location" style={Styles.loation} />
+          <Text style={{ minWidth: 100 }}>3Km</Text>
+          {stores.status === 1 ? (
+            <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
+              Đang mở cửa
+            </Text>
+          ) : (
+            <Text style={[Styles.orderStatusFalse, Styles.ml15]}>
+              Chưa mở cửa
+            </Text>
+          )}
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginLeft: 40,
+            marginTop: 5
+          }}
+        >
+          <Fontisto
+            name="star"
+            size={25}
+            color="#FFCC00"
+            style={{ marginRight: 5 }}
+          />
           <Text
             style={{
+              marginRight: 50,
+              fontSize: 17,
+              color: '#000',
               fontWeight: 'bold',
-              fontSize: 20,
-              marginLeft: 20,
-              marginRight: 20,
-              marginTop: 10
+              borderRadius: 10,
+              backgroundColor: '#FFFF99'
             }}
           >
-            {data.name}
+            {' '}
+            4.1 <Text style={{ color: '#666666', fontSize: 15 }}>(15+)</Text>
           </Text>
-
-          <View style={Styles.btnCategory}>
-            <TouchableOpacity style={Styles.category}>
-              <Text>Ăn sáng</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.category}>
-              <Text>Ăn trưa</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.category}>
-              <Text>Ăn tối</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 15,
-              alignItems: 'center'
-            }}
-          >
-            <Octicons name="location" style={Styles.loation} />
-            <Text style={{ minWidth: 100 }}>3Km</Text>
-            {data.status === 1 ? (
-              <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
-                Đang mở cửa
-              </Text>
-            ) : (
-              <Text style={[Styles.orderStatusFalse, Styles.ml15]}>
-                Chưa mở cửa
-              </Text>
-            )}
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: 40,
-              marginTop: 5
-            }}
-          >
-            <Fontisto
-              name="star"
-              size={25}
-              color="#FFCC00"
-              style={{ marginRight: 5 }}
-            />
-            <Text
-              style={{
-                marginRight: 50,
-                fontSize: 17,
-                color: '#000',
-                fontWeight: 'bold',
-                borderRadius: 10,
-                backgroundColor: '#FFFF99'
-              }}
-            >
-              {' '}
-              4.1 <Text style={{ color: '#666666', fontSize: 15 }}>(15+)</Text>
-            </Text>
-            <TouchableOpacity>
-              {/* onPress={() => navigation.navigate('RatingView')} */}
-              <Text style={{ color: '#0099FF', minWidth: 100 }}>Xem thêm</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={[Styles.mr10, Styles.horizonline]} />
-          <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-            <FontAwesome5
-              name="shipping-fast"
-              size={24}
-              color="black"
-              style={{ marginRight: 20 }}
-            />
-            <Text>FreeShip dưới 2km</Text>
-          </View>
-          <View style={[Styles.mr10, Styles.horizonline]} />
+          <TouchableOpacity>
+            <Text style={{ color: '#0099FF', minWidth: 100 }}>Xem thêm</Text>
+          </TouchableOpacity>
         </View>
-      ))}
+
+        <View style={[Styles.mr10, Styles.horizonline]} />
+        <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+          <FontAwesome5
+            name="shipping-fast"
+            size={24}
+            color="black"
+            style={{ marginRight: 20 }}
+          />
+          <Text>FreeShip dưới 2km</Text>
+        </View>
+        <View style={[Styles.mr10, Styles.horizonline]} />
+      </View>
     </View>
   )
 
   const Store = () => (
-    <FlatList
-      data={stores}
-      
-      renderItem={() => (
+    <View>
+      <ScrollView>
         <View>
-          <HeaderComponent/>
-          <CategoriesBar categoriesData={categories} />
+          <HeaderComponent />
           <Text
             style={{
               fontWeight: 'bold',
@@ -202,21 +177,26 @@ function StoreScreen({ navigation }) {
           >
             Bánh ướt ram giò
           </Text>
-          <ListFood
-            storeName={stores[0].name}
-            storeImage={stores[0].image}
-            storeAddress={stores[0].address}
-            navigation={navigation}
-            categoriesData={categories}
-          />
         </View>
-      )}
-    ></FlatList>
+      </ScrollView>
+    </View>
   )
 
   return (
     <SafeAreaView style={Styles.container}>
-      <Store />
+      <FlatList
+        ListHeaderComponent={<HeaderComponent />}
+        ListFooterComponent={
+          <ListFood
+            categoriesData={categories}
+            navigation={navigation}
+            storeName={stores.name}
+            storeAddress={stores.address}
+            storeImager={stores.image}
+            storeId={storeId}
+          />
+        }
+      />
     </SafeAreaView>
   )
 }

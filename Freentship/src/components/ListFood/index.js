@@ -1,42 +1,40 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
-import { DATAFOOD } from '../../screens/Store/DataAo'
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet
+} from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services/firebase'
-import {
-  doc,
-  setDoc,
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  getDoc,
-  getDocs,
-  where,
-  query,
-  collectionGroup
-} from 'firebase/firestore'
 
-const ListFood = ({ navigation, categoriesData , storeName, storeAddress , storeImage }) => {
-  // console.log('aaaaaaaaaa', categoriesData) 
+import { collection, getDocs, where, query } from 'firebase/firestore'
+const ListFood = ({
+  categoriesData,
+  navigation,
+  storeName,
+  storeAddress,
+  storeImage,
+  storeId
+}) => {
   const [food, setFood] = useState([])
-  // console.log('list food',food)
+  const [categoryId, setCategoryId] = useState('')
   useEffect(() => {
-    
-   
     const getFood = async () => {
-      
       const food = []
-      const foodRef = collection(db, 'foods')
-      let q 
-      // if (categoriesData == '') {
-        q = foodRef
-      // } else {
-      //   q = query(
-      //     foodRef,
-      //     where('category_Id', 'array-contains', `${categoriesData}`)
-      //   )
-      // }
+      let foodRef = collection(db, 'foods')
+      let q
+      if (categoryId == '') {
+        q = query(foodRef, where('food_store_id', '==', `${storeId}`))
+      } else {
+        foodRef = collection(db, 'foods')
+        q = query(
+          foodRef,
+          where('category_Id', 'array-contains', `${categoryId}`)
+        )
+      }
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach(doc => {
         food.push({ ...doc.data(), id: doc.id })
@@ -44,11 +42,64 @@ const ListFood = ({ navigation, categoriesData , storeName, storeAddress , store
       setFood(food)
     }
     getFood()
+  }, [categoryId])
 
-  
-  }, [categoriesData])
+  const ButtonAllCategory = () => (
+    <TouchableOpacity
+      onPress={() => {
+        setCategoryId('')
+      }}
+    >
+      {categoryId === '' ? (
+        <Text style={styles.textT}>Tất cả</Text>
+      ) : (
+        <Text style={styles.textF}>Tất cả</Text>
+      )}
+    </TouchableOpacity>
+  )
 
-  return (
+  const CategoriesBar = () => (
+    <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity
+        onPress={() => {
+          setCategoryId('')
+        }}
+      >
+        {categoryId === '' ? (
+          <Text style={styles.textT}>Tất cả</Text>
+        ) : (
+          <Text style={styles.textF}>Tất cả</Text>
+        )}
+      </TouchableOpacity>
+
+      <FlatList
+        horizontal={true}
+        data={categoriesData}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            key={item.id}
+            onPress={() => {
+              setCategoryId(item.id)
+            }}
+          >
+            {categoryId === item.id ? (
+              <Text style={styles.textT}>{item.name}</Text>
+            ) : (
+              <Text style={styles.textF}>{item.name}</Text>
+            )}
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  )
+
+  const A = () => (
+    <FlatList
+      ListHeaderComponent={ButtonAllCategory}
+      ListFooterComponent={CategoriesBar}
+    />
+  )
+  const ListFood = () => (
     <FlatList
       data={food}
       keyExtractor={item => item.id}
@@ -62,10 +113,10 @@ const ListFood = ({ navigation, categoriesData , storeName, storeAddress , store
                 image: item.image,
                 description: item.description,
                 price: item.price,
-                storeName : storeName,
-                storeAddress : storeAddress,
-                storeImage : storeImage,
-                food : food
+                storeName: storeName,
+                storeAddress: storeAddress,
+                storeImage: storeImage,
+                food: food
               })
             }
           >
@@ -107,5 +158,28 @@ const ListFood = ({ navigation, categoriesData , storeName, storeAddress , store
       }}
     ></FlatList>
   )
+  return (
+    <FlatList
+      ListHeaderComponent={<CategoriesBar />}
+      ListFooterComponent={<ListFood />}
+    />
+  )
 }
+
+const styles = StyleSheet.create({
+  textT: {
+    fontSize: 20,
+    marginLeft: 20,
+    textDecoration: 'underline',
+    color: 'red',
+    borderBottomColor: 'red',
+    borderBottomWidth: 1
+  },
+  textF: {
+    fontSize: 20,
+    marginLeft: 20,
+    textDecoration: 'underline'
+  }
+})
+
 export default ListFood
