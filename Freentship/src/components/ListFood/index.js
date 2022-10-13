@@ -20,6 +20,7 @@ const ListFood = ({
   storeId
 }) => {
   const [food, setFood] = useState([])
+  // console.log('food',food.map(i => {a:i.id}))
   const [categoryId, setCategoryId] = useState('')
   useEffect(() => {
     const getFood = async () => {
