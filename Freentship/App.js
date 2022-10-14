@@ -29,12 +29,13 @@ import OrderDeliveredView from './src/screens/OrderDeliveredView'
 import OrderView from './src/screens/OrderView'
 import YourOrderView from './src/screens/YourOrderView'
 const Stack = createNativeStackNavigator();
-
+import { Provider } from "react-redux";
+import store from './src/store'
 export default function App() {
   const [data, setData] = React.useState(null)
 
   return (
-    
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
@@ -46,6 +47,6 @@ export default function App() {
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
       </Stack.Navigator>
     </NavigationContainer>
-
+    </Provider>
   );
 }
