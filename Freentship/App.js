@@ -19,7 +19,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*<HomeScreen />*/}
+      <HomeScreen />
       {/*<SearchScreen />*/}
       {/*<Location1 />*/}
       {/*<MapScreenTest />*/}

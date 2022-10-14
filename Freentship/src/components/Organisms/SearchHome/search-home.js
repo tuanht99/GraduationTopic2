@@ -6,6 +6,7 @@ import { Colors, FontSize } from '../../../styles'
 import { AdIcon } from '../../atoms/AdIcon'
 import LogoApp from '../../../assets/images/logos/app-user-red.png'
 
+
 export const SearchHome = ({ style, styleImg, flexDirection }) => {
   return (
     <View style={[styles.container, style]}>
