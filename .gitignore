@@ -33,3 +33,4 @@ package-lock.json
 # macOS
 /Freentship/.DS_Store
 /Freentship/.expo-shared
+node_modules
