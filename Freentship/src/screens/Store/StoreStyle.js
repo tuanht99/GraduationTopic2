@@ -94,6 +94,9 @@ import {
       marginTop: 10,
       marginRight: 10,
     },
+    disabledButton: {
+      opacity: 0.6
+    }
   });
   
   export default StoreStyle

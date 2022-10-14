@@ -45,19 +45,19 @@ const ListFood = ({
     getFood()
   }, [categoryId])
 
-  const ButtonAllCategory = () => (
-    <TouchableOpacity
-      onPress={() => {
-        setCategoryId('')
-      }}
-    >
-      {categoryId === '' ? (
-        <Text style={styles.textT}>Tất cả</Text>
-      ) : (
-        <Text style={styles.textF}>Tất cả</Text>
-      )}
-    </TouchableOpacity>
-  )
+  // const ButtonAllCategory = () => (
+  //   <TouchableOpacity
+  //     onPress={() => {
+  //       setCategoryId('')
+  //     }}
+  //   >
+  //     {categoryId === '' ? (
+  //       <Text style={styles.textT}>Tất cả</Text>
+  //     ) : (
+  //       <Text style={styles.textF}>Tất cả</Text>
+  //     )}
+  //   </TouchableOpacity>
+  // )
 
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
@@ -84,9 +84,10 @@ const ListFood = ({
             }}
           >
             {categoryId === item.id ? (
-              <Text style={styles.textT}>{item.name}</Text>
+              <Text style={styles.textT}>{item.category_Name}</Text>
             ) : (
-              <Text style={styles.textF}>{item.name}</Text>
+              <Text style={styles.textF}>{item.category_Name}</Text>
+
             )}
           </TouchableOpacity>
         )}
@@ -107,13 +108,17 @@ const ListFood = ({
       renderItem={({ item }) => {
         return (
           <TouchableOpacity
-            style={Styles.htrOrder}
+            
+            // [Styles.htrOrder, Styles.disabledButton]
+            style={item.status === 1 ? Styles.htrOrder :[Styles.htrOrder, Styles.disabledButton]}
+
             onPress={() =>
               navigation.navigate('DetailsScreenView', {
                 title: item.name,
                 image: item.image,
                 description: item.description,
                 price: item.price,
+                status : item.status,
                 storeName: storeName,
                 storeAddress: storeAddress,
                 storeImage: storeImage,
@@ -149,9 +154,10 @@ const ListFood = ({
               <Text style={{ fontSize: 13 }}>{item.price}</Text>
 
               {item.status === 1 ? (
-                <Text style={Styles.orderStatusTrue}> Đang mở cửa </Text>
+                <Text style={Styles.orderStatusTrue}> Còn bán </Text>
               ) : (
-                <Text style={Styles.orderStatusFalse}>Đang đóng cửa</Text>
+                <Text style={Styles.orderStatusFalse}>Đã bán hết</Text>
+
               )}
             </View>
           </TouchableOpacity>
