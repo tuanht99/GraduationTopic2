@@ -14,11 +14,12 @@ export const Location = ({
   style1,
   style2,
   styleText,
-  numberOfLines,
-  children
+  numberOfLines = 1,
+  children,
+  border = false
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, border && styles.containerBorder]}>
       <IconText
         name={name1}
         color={color1}

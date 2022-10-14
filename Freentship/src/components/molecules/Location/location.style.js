@@ -6,13 +6,18 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: Spacing['3'],
+    marginBottom: Spacing['6']
+  },
+  containerBorder: {
     backgroundColor: Colors.black,
     opacity: 0.6,
     marginHorizontal: Spacing['4'],
-    marginTop: Spacing['3'],
-    marginBottom: Spacing['6'],
     padding: Spacing['2'],
     borderRadius: 25
+  },
+  text: {
+    paddingRight: Spacing['1']
   },
   iconContainer: {
     marginLeft: Spacing['1']
