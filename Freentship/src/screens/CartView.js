@@ -66,6 +66,7 @@ export default function CartView({ navigation }) {
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
+        alignItems:'center',
       },
     });
   }, [navigation]);
@@ -138,8 +139,143 @@ export default function CartView({ navigation }) {
             </View>
           </View>
         </View>
-
+              <View style={{margin:10}}></View>
         {/* san pham da them vao gio hang */}
+        <View>
+          {/* ne */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#fff",
+              paddingTop: 10,
+              paddingBottom: 20,
+            }}
+          >
+            <View style={{ marginLeft: 10 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingBottom: 50,
+                }}
+              >
+                <View>
+                  <Text numberOfLines={1}>{DATA.name}</Text>
+                </View>
+                <View>
+                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
+                    {DATA.price}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <View>
+                
+                </View>
+                {/* Tang Giam  */}
+                <Quantity setData={setData} ></Quantity>
+              </View>
+            </View>
+          </View>
+
+        </View>
+        <View>
+          {/* ne */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#fff",
+              paddingTop: 10,
+              paddingBottom: 20,
+            }}
+          >
+            <View style={{ marginLeft: 10 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingBottom: 50,
+                }}
+              >
+                <View>
+                  <Text numberOfLines={1}>{DATA.name}</Text>
+                </View>
+                <View>
+                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
+                    {DATA.price}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <View>
+                
+                </View>
+                {/* Tang Giam  */}
+                <Quantity setData={setData} ></Quantity>
+              </View>
+            </View>
+          </View>
+
+        </View>
+        <View>
+          {/* ne */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#fff",
+              paddingTop: 10,
+              paddingBottom: 20,
+            }}
+          >
+            <View style={{ marginLeft: 10 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingBottom: 50,
+                }}
+              >
+                <View>
+                  <Text numberOfLines={1}>{DATA.name}</Text>
+                </View>
+                <View>
+                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
+                    {DATA.price}
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <View>
+                
+                </View>
+                {/* Tang Giam  */}
+                <Quantity setData={setData} ></Quantity>
+              </View>
+            </View>
+          </View>
+
+        </View>
         <View>
           {/* ne */}
           <View
