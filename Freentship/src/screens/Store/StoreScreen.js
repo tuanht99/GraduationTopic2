@@ -15,13 +15,13 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
 import ListFood from '../../components/ListFood'
-import { db } from '../../services/firebase'
+import { db } from '../../services'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 
 function StoreScreen({ navigation }) {
   const [stores, setStores] = useState([])
   const [categories, setCategory] = useState([])
-  const storeId = '7T5uG3Si5NHioADgam1Z'
+  const storeId = '4dpAvRWJVrvdbml9vKDL'
   useEffect(() => {
     const cate = []
     const unsubscribe = onSnapshot(
@@ -31,6 +31,7 @@ function StoreScreen({ navigation }) {
           id: item.id,
           ...item.data()
         })
+        console.log(item.data())
         item.data().food_categories.forEach(e => {
           getDoc(doc(db, 'categories', `${e}`)).then(doc => {
             cate.push({

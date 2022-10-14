@@ -8,7 +8,7 @@ import {
   StyleSheet
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
-import { db } from '../../services/firebase'
+import { db } from '../../services'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
 const ListFood = ({
@@ -19,6 +19,7 @@ const ListFood = ({
   storeImage,
   storeId
 }) => {
+  console.log('asdf', storeId)
   const [food, setFood] = useState([])
   // console.log('food',food.map(i => {a:i.id}))
   const [categoryId, setCategoryId] = useState('')
