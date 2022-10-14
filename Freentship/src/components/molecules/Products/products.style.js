@@ -9,6 +9,9 @@ export default StyleSheet.create({
     width: 133,
     marginLeft: Spacing['4']
   },
+  itemRow: {
+    marginHorizontal: Spacing['4']
+  },
   alignItemCenter: {
     alignItems: 'center'
   },

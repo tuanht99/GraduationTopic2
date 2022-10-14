@@ -11,7 +11,30 @@ export const ChooseCategoriesFood = () => {
   const [logoUser, setLogoUser] = React.useState(
     'https://firebasestorage.googleapis.com/v0/b/freentship.appspot.com/o/logo-user.jpeg?alt=media&token=ec570cd2-9f21-4028-b662-6ab2630c8321'
   )
-  const [logoTitle, setLogoTitle] = React.useState('Chào buổi tối, Khanh')
+  const [nameUser, setNameUser] = React.useState('Nguyễn Văn A')
+  const textTime = ['Chào buổi sáng, ', 'Chào buổi chiều, ', 'Chào buổi tối, ']
+  const [logoTitle, setLogoTitle] = React.useState(null)
+  let [hours, setHours] = React.useState(0)
+
+  React.useEffect(() => {
+    if (hours >= 5 && hours < 12) {
+      setLogoTitle(textTime[0] + nameUser)
+    } else if (hours >= 12 && hours < 18) {
+      setLogoTitle(textTime[1] + nameUser)
+    } else {
+      setLogoTitle(textTime[2] + nameUser)
+    }
+  }, [hours])
+
+  React.useEffect(() => {
+    const time = setInterval(() => {
+      setHours(new Date().getHours())
+    }, 1000)
+
+    return () => {
+      clearInterval(time)
+    }
+  }, [])
 
   function handleSeeAll() {
     console.log('see all')

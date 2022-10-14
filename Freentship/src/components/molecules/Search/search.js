@@ -9,7 +9,7 @@ export const Search = ({
   styleInput,
   size,
   color,
-  placeholder,
+  placeholder = 'Bạn thèm món gì?',
   value,
   onChange,
   onFocus,

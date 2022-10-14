@@ -7,7 +7,6 @@ import { AdIcon } from '../../atoms/AdIcon'
 import LogoApp from '../../../assets/images/logos/app-user-red.png'
 
 export const SearchHome = ({ style, styleImg, flexDirection }) => {
-  const placeholder = 'Bạn thèm món gì?'
   return (
     <View style={[styles.container, style]}>
       <View style={[styles.menuContainer, styles.menuContainerRow]}>
@@ -18,7 +17,6 @@ export const SearchHome = ({ style, styleImg, flexDirection }) => {
             styleInput={styles.iputSearchRow}
             size={FontSize['2xl']}
             color={Colors.gray}
-            placeholder={placeholder}
             onPress={() => console.log('search icon menu: search')}
           />
         )}
@@ -35,7 +33,6 @@ export const SearchHome = ({ style, styleImg, flexDirection }) => {
           style={styles.searchContainer}
           size={FontSize['2xl']}
           color={Colors.gray}
-          placeholder={placeholder}
           onPress={() => console.log('search icon menu: search')}
         />
       )}
