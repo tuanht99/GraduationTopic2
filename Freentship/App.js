@@ -13,16 +13,14 @@ import { Location1 } from './src/screens/__test__/location'
 import { MapScreen } from './src/screens/MapScreen'
 import { MapScreenTest } from './src/screens/__test__/map'
 import { WriteDataFood_StoresByCategory } from './src/services'
+import Routes from './src/routes'
 
 export default function App() {
   const [data, setData] = React.useState(null)
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*<HomeScreen />*/}
-      {/*<SearchScreen />*/}
-      {/*<Location1 />*/}
-      {/*<MapScreenTest />*/}
+      <Routes/>
     </SafeAreaView>
   )
 }

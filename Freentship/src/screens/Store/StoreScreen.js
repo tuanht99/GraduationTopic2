@@ -21,7 +21,7 @@ import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 function StoreScreen({ navigation }) {
   const [stores, setStores] = useState([])
   const [categories, setCategory] = useState([])
-  const storeId = '7T5uG3Si5NHioADgam1Z'
+  const storeId = '4dpAvRWJVrvdbml9vKDL'
   useEffect(() => {
     const cate = []
     const unsubscribe = onSnapshot(
@@ -35,7 +35,7 @@ function StoreScreen({ navigation }) {
           getDoc(doc(db, 'categories', `${e}`)).then(doc => {
             cate.push({
               ...doc.data(),
-              name: doc.data().category_Name,
+             
               id: doc.id
             })
             setCategory(cate)
