@@ -14,7 +14,13 @@ export const HomeScreen = () => {
     'thương hiệu quen thuộc'
   ]
   const data = [
-    { id: '1', title: 'test1', urlImg: logo, number: 25, advertisement: true },
+    {
+      id: '1',
+      title: 'test1aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      urlImg: logo,
+      number: 25,
+      advertisement: true
+    },
     { id: '2', title: 'test2', urlImg: logo, number: 35, advertisement: false },
     { id: '3', title: 'test3', urlImg: logo, number: 45, advertisement: true },
     { id: '4', title: 'test4', urlImg: logo, number: 55, advertisement: true },
@@ -46,7 +52,7 @@ export const HomeScreen = () => {
     }
   ]
   const [isScrolling, setIsScrolling] = react.useState(false)
-  const handleSroll = event => {
+  const handleScroll = event => {
     const scrollY = event.nativeEvent.contentOffset.y
     if (scrollY > 180) {
       if (!isScrolling) {
@@ -69,7 +75,7 @@ export const HomeScreen = () => {
         style={styles.container}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        onScroll={handleSroll}
+        onScroll={handleScroll}
       >
         <TopBanner />
         <SearchHome style={styles.searchHome} />

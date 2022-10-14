@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Text, View } from 'react-native'
 import styles from './product.style'
 import { AdImageText } from '../../atoms/AdImageText'
 import { Distance } from '../Distance'
@@ -12,19 +12,36 @@ export const Product = ({
   textStyle,
   adStyle,
   number,
-  advertisement
+  advertisement,
+  horizontal = true
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles.container,
+        horizontal ? styles.containerCol : styles.containerRow
+      ]}
+    >
       <AdImageText
-        style={[adStyle]}
+        style={[styles.adImageText, adStyle]}
         textStyle={[styles.text, textStyle]}
-        imageStyle={styles.img}
+        imageStyle={[styles.img, styles.imgRow]}
         source={source}
         label={label}
         numberOfLines={numberOfLines}
+        horizontal={horizontal}
       />
-      {number && <Distance number={number} advertisement={advertisement} />}
+      {horizontal ? (
+        number && <Distance number={number} advertisement={advertisement} />
+      ) : (
+        <View style={styles.rightContainer}>
+          <Text numberOfLines={2} style={styles.textRow}>
+            {label}
+          </Text>
+          {number && <Distance number={number} advertisement={advertisement} />}
+        </View>
+      )}
     </TouchableOpacity>
   )
 }

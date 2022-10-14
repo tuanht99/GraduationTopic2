@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native'
 import styles from './products.style'
 import { Product } from '../Product'
 
-export const Products = ({ data, horizontal = false, type = 0 }) => {
+export const Products = ({ data, horizontal, type = 0 }) => {
   const numberOfColumns = type === 1 ? 2 : 1
   const alignItems = type === 0 ? styles.alignItemCenter : styles.alignItemStart
   const ItemView = (item, index) => {
@@ -11,8 +11,9 @@ export const Products = ({ data, horizontal = false, type = 0 }) => {
       console.log('press: ', item.title)
     }
     return (
-      <View key={index} style={styles.item}>
+      <View key={index} style={horizontal ? styles.item : styles.itemRow}>
         <Product
+          horizontal={horizontal}
           source={item.urlImg}
           label={item.title}
           onPress={handleOnPress}
