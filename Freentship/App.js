@@ -9,7 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 import DetailsScreenView from './src/screens/DetailsScreenView'
-import CartView from './src/screens/CartView'
+import CartView from './src/screens/Cart/CartView'
 import DetailOrderView from './src/screens/DetailOrderView'
 import OrderCanceledView from './src/screens/OrderCanceledView'
 import OrderDeliveredView from './src/screens/OrderDeliveredView'
@@ -18,9 +18,11 @@ import YourOrderView from './src/screens/YourOrderView'
 const Stack = createNativeStackNavigator();
 import { Provider } from "react-redux";
 import store from './src/store'
+import AsyncStorages from '../Freentship/src/components/asyncStore/AsyncStorage';
 export default function App() {
   return (
     <Provider store={store}>
+     
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
@@ -35,12 +37,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop:
-      Platform.OS === 'android' ? StatusBar.currentHeight + Spacing['1'] : 0
-  }
-})
