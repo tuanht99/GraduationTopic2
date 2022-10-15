@@ -5,12 +5,17 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services/firebase'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
+const widthDis = Dimensions.get("window").width
+
+
 const ListFood = ({
   categoriesData,
   navigation,
@@ -20,7 +25,8 @@ const ListFood = ({
   storeId
 }) => {
   const [food, setFood] = useState([])
-  // console.log('food',food.map(i => {a:i.id}))
+  console.log('food', food)
+  const [loading, setLoading] = useState(false)
   const [categoryId, setCategoryId] = useState('')
   useEffect(() => {
     const getFood = async () => {
@@ -41,23 +47,14 @@ const ListFood = ({
         food.push({ ...doc.data(), id: doc.id })
       })
       setFood(food)
+      setLoading(true)
     }
     getFood()
   }, [categoryId])
 
-  // const ButtonAllCategory = () => (
-  //   <TouchableOpacity
-  //     onPress={() => {
-  //       setCategoryId('')
-  //     }}
-  //   >
-  //     {categoryId === '' ? (
-  //       <Text style={styles.textT}>Tất cả</Text>
-  //     ) : (
-  //       <Text style={styles.textF}>Tất cả</Text>
-  //     )}
-  //   </TouchableOpacity>
-  // )
+  const Loading = () => (
+    <ActivityIndicator size="large" color="#E94730" style={{ margin: 150 }} />
+  )
 
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
@@ -93,80 +90,80 @@ const ListFood = ({
       />
     </View>
   )
-
-  const A = () => (
-    <FlatList
-      ListHeaderComponent={ButtonAllCategory}
-      ListFooterComponent={CategoriesBar}
-    />
-  )
-  const ListFood = () => (
-    <FlatList
-      data={food}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => {
-        return (
-          <TouchableOpacity
-            
-            // [Styles.htrOrder, Styles.disabledButton]
-            style={item.status === 1 ? Styles.htrOrder :[Styles.htrOrder, Styles.disabledButton]}
-            onPress={() =>
-              navigation.navigate('DetailsScreenView', {
-                title: item.name,
-                image: item.image,
-                description: item.description,
-                price: item.price,
-                status : item.status,
-                storeName: storeName,
-                storeAddress: storeAddress,
-                storeImage: storeImage,
-                food: food
-              })
-            }
-          >
-            <View
-              style={{
-                flex: 2,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
+  const ListFood = () =>
+   
+      <FlatList
+        data={food}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              // [Styles.htrOrder, Styles.disabledButton]
+              style={
+                item.status === 1
+                  ? Styles.htrOrder
+                  : [Styles.htrOrder, Styles.disabledButton]
+              }
+              onPress={() =>
+                navigation.navigate('DetailsScreenView', {
+                  title: item.name,
+                  image: item.image,
+                  description: item.description,
+                  price: item.price,
+                  status: item.status,
+                  storeName: storeName,
+                  storeAddress: storeAddress,
+                  storeImage: storeImage,
+                  food: food
+                })
+              }
             >
-              <Image
+              <View
                 style={{
-                  height: 90,
-                  width: 90,
-                  borderRadius: 15,
-                  overflow: 'hidden',
-                  resizeMode: 'contain'
+                  flex: 2,
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
-                source={{ uri: item.image }}
-              />
-            </View>
+              >
+                <Image
+                  style={{
+                    height: 90,
+                    width: 90,
+                    borderRadius: 15,
+                    overflow: 'hidden',
+                    resizeMode: 'contain'
+                  }}
+                  source={{ uri: item.image }}
+                />
+              </View>
 
-            <View style={{ flexDirection: 'column', flex: 4 }}>
-              <Text style={[Styles.bold, Styles.textSize17]}>{item.name}</Text>
+              <View style={{ flexDirection: 'column', flex: 4 }}>
+                <Text style={[Styles.bold, Styles.textSize17]}>
+                  {item.name}
+                </Text>
 
-              <Text numberOfLines={1} style={Styles.textGif}>
-                {item.description}
-              </Text>
-              <Text style={{ fontSize: 13 }}>{item.price}</Text>
+                <Text numberOfLines={1} style={Styles.textGif}>
+                  {item.description}
+                </Text>
+                <Text style={{ fontSize: 13 }}>{item.price}</Text>
 
-              {item.status === 1 ? (
-                <Text style={Styles.orderStatusTrue}> Còn bán </Text>
-              ) : (
-                <Text style={Styles.orderStatusFalse}>Đã bán hết</Text>
-              )}
-            </View>
-          </TouchableOpacity>
-        )
-      }}
-    ></FlatList>
-  )
+                {item.status === 1 ? (
+                  <Text style={Styles.orderStatusTrue}> Còn bán </Text>
+                ) : (
+                  <Text style={Styles.orderStatusFalse}>Đã bán hết</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          )
+        }}
+      ></FlatList>
+   
   return (
-    <FlatList
-      ListHeaderComponent={<CategoriesBar />}
-      ListFooterComponent={<ListFood />}
-    />
+    <FlatList     
+    ListHeaderComponent={loading ? <CategoriesBar /> : <Loading />}
+    ListFooterComponent={loading ? <ListFood /> : <Loading />}
+/>
+    
   )
 }
 
