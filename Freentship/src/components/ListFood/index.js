@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services/firebase'
@@ -20,7 +21,7 @@ const ListFood = ({
   storeId
 }) => {
   const [food, setFood] = useState([])
-  // console.log('food',food.map(i => {a:i.id}))
+  const [loading, setLoading] = useState(false)
   const [categoryId, setCategoryId] = useState('')
   useEffect(() => {
     const getFood = async () => {
@@ -41,23 +42,14 @@ const ListFood = ({
         food.push({ ...doc.data(), id: doc.id })
       })
       setFood(food)
+      setLoading(true)
     }
     getFood()
   }, [categoryId])
 
-  // const ButtonAllCategory = () => (
-  //   <TouchableOpacity
-  //     onPress={() => {
-  //       setCategoryId('')
-  //     }}
-  //   >
-  //     {categoryId === '' ? (
-  //       <Text style={styles.textT}>Tất cả</Text>
-  //     ) : (
-  //       <Text style={styles.textF}>Tất cả</Text>
-  //     )}
-  //   </TouchableOpacity>
-  // )
+  const Loading = () => (
+       <ActivityIndicator size="large" color = '#E94730' style = {{margin:150}} />
+  )
 
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
@@ -93,13 +85,6 @@ const ListFood = ({
         )}
       />
     </View>
-  )
-
-  const A = () => (
-    <FlatList
-      ListHeaderComponent={ButtonAllCategory}
-      ListFooterComponent={CategoriesBar}
-    />
   )
   const ListFood = () => (
     <FlatList
@@ -167,8 +152,8 @@ const ListFood = ({
   )
   return (
     <FlatList
-      ListHeaderComponent={<CategoriesBar />}
-      ListFooterComponent={<ListFood />}
+      ListHeaderComponent={loading ?  <CategoriesBar /> : <Loading/>}
+      ListFooterComponent={ loading ? <ListFood/> : <Loading/>}
     />
   )
 }
