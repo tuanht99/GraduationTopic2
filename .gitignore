@@ -18,6 +18,7 @@ bin-release/
 # information for Eclipse / Flash Builder.
 /Freentship/node_modules/
 /Freentship/.expo/
+/Freentship/.idea/
 /Freentship/dist/
 /Freentship/npm-debug.*
 /Freentship/*.jks

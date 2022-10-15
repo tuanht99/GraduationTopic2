@@ -35,3 +35,12 @@ export default function App() {
     </Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.backgroundColor,
+    paddingTop:
+      Platform.OS === 'android' ? StatusBar.currentHeight + Spacing['1'] : 0
+  }
+})
