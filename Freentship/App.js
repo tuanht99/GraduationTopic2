@@ -16,8 +16,6 @@ import { WriteDataFood_StoresByCategory } from './src/services'
 import Routes from './src/routes'
 
 export default function App() {
-  const [data, setData] = React.useState(null)
-
   return (
     <SafeAreaView style={styles.container}>
       <Routes/>

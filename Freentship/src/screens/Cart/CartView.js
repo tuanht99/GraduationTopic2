@@ -6,11 +6,12 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-
+import Ansync from "../../components/asyncStore/AsyncStorage"
+import Quantity from "../Quantity";
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-
-const DATA = {
+import { useState } from "react";
+const DATA = { 
   id: 1,
   name: "Nước ngọt c2",
   namesp: "Gì cũng đc, miễn là cùng cửa hàng",
@@ -18,14 +19,14 @@ const DATA = {
   discription: "Thơm ngon mời bạn ăn nha, getgo, getgo,...",
   location: "",
   relationship: "Đối tác lo ship",
-  price: "20.000",
+  price: 20000,
   status: "",
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  avt: require("../assets/images/nuoc_c2.png"),
+  shopimage: require("../../assets/images/nuoc_c2.png"),
+  monAn1: require("../../assets/images/nuoc_c2.png"),
+  avt: require("../../assets/images/nuoc_c2.png"),
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",
@@ -36,8 +37,24 @@ const DATA = {
   txtTong: "60.000",
 };
 
+
+
 // Navigation
 export default function CartView({ navigation }) {
+  const [Total, setTotal] = useState(0);
+
+
+  const initialVar = 1;
+  const [Qty, setQty] = useState(initialVar)
+
+  React.useEffect(() => {
+    setTotal(Qty * DATA.price);
+  },[Qty])
+
+  const setData = (data) => {
+    setQty(data);
+  }
+ 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -50,6 +67,7 @@ export default function CartView({ navigation }) {
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
+        alignItems:'center',
       },
     });
   }, [navigation]);
@@ -122,311 +140,12 @@ export default function CartView({ navigation }) {
             </View>
           </View>
         </View>
-
+              <View style={{margin:10}}></View>
         {/* san pham da them vao gio hang */}
         <View>
           {/* ne */}
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingTop: 10,
-              paddingBottom: 20,
-            }}
-          >
-            <View style={{ marginLeft: 10 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: 50,
-                }}
-              >
-                <View>
-                  <Text numberOfLines={1}>{DATA.name}</Text>
-                </View>
-                <View>
-                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {DATA.price}
-                  </Text>
-                </View>
-              </View>
+              <Ansync/>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      width: 80,
-                      height: 30,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 0.3,
-                      borderColor: "#808080",
-                    }}
-                  >
-                    <Text style={{ color: "#000", fontWeight: "bold" }}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                {/*  */}
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flex: 0.4,
-                    paddingRight: 10,
-                  }}
-                >
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Text style={{ fontWeight: "bold" }}>01</Text>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          {/* ne */}
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingTop: 10,
-              paddingBottom: 20,
-            }}
-          >
-            <View style={{ marginLeft: 10 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: 50,
-                }}
-              >
-                <View>
-                  <Text numberOfLines={1}>{DATA.name}</Text>
-                </View>
-                <View>
-                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {DATA.price}
-                  </Text>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      width: 80,
-                      height: 30,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 0.3,
-                      borderColor: "#808080",
-                    }}
-                  >
-                    <Text style={{ color: "#000", fontWeight: "bold" }}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                {/*  */}
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flex: 0.4,
-                    paddingRight: 10,
-                  }}
-                >
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Text style={{ fontWeight: "bold" }}>01</Text>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          {/* ne */}
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingTop: 10,
-              paddingBottom: 20,
-            }}
-          >
-            <View style={{ marginLeft: 10 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: 50,
-                }}
-              >
-                <View>
-                  <Text numberOfLines={1}>{DATA.name}</Text>
-                </View>
-                <View>
-                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {DATA.price}
-                  </Text>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      width: 80,
-                      height: 30,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderWidth: 0.3,
-                      borderColor: "#808080",
-                    }}
-                  >
-                    <Text style={{ color: "#000", fontWeight: "bold" }}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                {/*  */}
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flex: 0.4,
-                    paddingRight: 10,
-                  }}
-                >
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Text style={{ fontWeight: "bold" }}>01</Text>
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
         </View>
       </ScrollView>
 
@@ -460,12 +179,12 @@ export default function CartView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {DATA.txtTong}
+                  {Total}
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigation.navigate("OrderView")}
               style={{
                 backgroundColor: "#E94730",
