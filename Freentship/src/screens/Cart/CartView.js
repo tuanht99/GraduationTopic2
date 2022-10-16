@@ -11,7 +11,7 @@ import Quantity from "../Quantity";
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
-const DATA = { 
+const DATA = {
   id: 1,
   name: "Nước ngọt c2",
   namesp: "Gì cũng đc, miễn là cùng cửa hàng",
@@ -38,23 +38,39 @@ const DATA = {
 };
 
 
-
 // Navigation
-export default function CartView({ navigation }) {
+export default function CartView({ navigation, route }) {
+
+
+  const { nameOrder, priceOrder } = route.params;
+  console.log(nameOrder);
+  const priceOrders = Number(priceOrder);
+  console.log(priceOrders);
+  // function Cart()  {
+  //  name =nameOrder;
+  //  price =priceOrders;
+  //  }
+ 
+  // const [name , setname] = useState();
+  // const [pricem, setpricm] = useState();
+
   const [Total, setTotal] = useState(0);
 
 
   const initialVar = 1;
   const [Qty, setQty] = useState(initialVar)
-
+  const [price, setprice] = useState(initialVar)
   React.useEffect(() => {
-    setTotal(Qty * DATA.price);
-  },[Qty])
-
+    setTotal(Qty * price);
+  }, [Qty])
+  const setDataprice = (dataa) => {
+    setprice(dataa);
+  }
+  console.log(Qty);
   const setData = (data) => {
     setQty(data);
   }
- 
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -67,7 +83,7 @@ export default function CartView({ navigation }) {
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
-        alignItems:'center',
+        alignItems: 'center',
       },
     });
   }, [navigation]);
@@ -140,11 +156,12 @@ export default function CartView({ navigation }) {
             </View>
           </View>
         </View>
-              <View style={{margin:10}}></View>
+        <View style={{ margin: 10 }}></View>
         {/* san pham da them vao gio hang */}
         <View>
           {/* ne */}
-              <Ansync/>
+
+          <Ansync  setData={setData} setprices={setDataprice} />
 
         </View>
       </ScrollView>
