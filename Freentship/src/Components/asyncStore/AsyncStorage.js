@@ -23,16 +23,21 @@ export default function AsyncStorages() {
     const state = {
 
         id: '',
+        name:'',
+        price:'',
+
 
     };
-    const inputHandler = (id) => {
-        this.setState({ ...this.state, id: id });
+    const inputHandler = (id,name,price) => {
+        this.setState({ ...this.state, id: id ,name: name,price: price });
         console.log(this.state);
     }
     const saveHandler = async () => {
         try {
             const Order = {
                 id: this.state.id,
+                name: this.state.name,
+                price: this.state.price,
             }
             await AsyncStorage.setItem('id', JSON.stringify(Order));
 
@@ -44,7 +49,8 @@ export default function AsyncStorages() {
         try {
             const OrderString = await AsyncStorage.getItem('id');
             const Order = JSON.parse(OrderString);
-            this.setState({ ...this.state, id: Order.id });
+            this.setState({ ...this.state, id: Order.id 
+            name: Order.name, price: Order.price});
         } catch (error) {
             Alert.alert(error.message);
         }
