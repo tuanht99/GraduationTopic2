@@ -40,17 +40,23 @@ export default function DetailsScreenView({ route, navigation }) {
   const [arrFood, setArrFood] = useState(
     food.map(food => food.id)
   )
-  
-
-  console.log('FoodArr', status)
+  const [datas, setDatas] = useState([]);
+  const data = {
+    'title': title,
+    'price': price,
+  }
+  console.log(data);
+  console.log('FoodArr:', status)
   const titleParams = JSON.stringify(title)
   const descriptionParams = JSON.stringify(description)
   const imageParams = image
   const storeNameParams = JSON.stringify(storeName)
+
   // const storeAddressParams = JSON.stringify(storeAddress)
   const storeImageParams = storeImage
 
   const priceParams = JSON.stringify(price)
+  const prices = parseFloat(price);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -100,7 +106,7 @@ export default function DetailsScreenView({ route, navigation }) {
             {titleParams}
           </Text>
           <Text style={{ fontWeight: 'bold', paddingBottom: 10 }}>
-            {priceParams}
+            {prices}
           </Text>
           <Text numberOfLines={2} style={{ paddingBottom: 20 }}>
             {storeAddress}
@@ -109,7 +115,11 @@ export default function DetailsScreenView({ route, navigation }) {
 
         <View style={{ marginLeft: 10 }}>
           {status === 1 ? <TouchableOpacity
-            onPress={() => navigation.navigate('CartView')}
+            onPress={() => navigation.navigate('CartView',{
+              nameOrder: title,
+              priceOrder: price,
+
+          })}
             style={{
               backgroundColor: '#E94730',
               borderRadius: 15,
@@ -118,11 +128,17 @@ export default function DetailsScreenView({ route, navigation }) {
               alignItems: 'center',
               justifyContent: 'center'
             }}
+
           >
             <Text style={{ color: '#fff' }}>{DATA.txtChonMua}</Text>
           </TouchableOpacity> : <TouchableOpacity
             disabled
-            onPress={() => navigation.navigate('CartView')}
+            onPress={() => navigation.navigate('CartView',{
+                nameOrder: "20000",
+                priceOrder: "456",
+
+            })
+          }
             style={{
               backgroundColor: '#C0C0C0',
               borderRadius: 15,
@@ -134,7 +150,7 @@ export default function DetailsScreenView({ route, navigation }) {
           >
             <Text style={{ color: '#fff' }}>Đã bán hết</Text>
           </TouchableOpacity>}
-         
+
         </View>
       </View>
 
