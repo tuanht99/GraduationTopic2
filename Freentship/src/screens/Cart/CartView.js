@@ -38,7 +38,6 @@ const DATA = {
 };
 
 
-
 // Navigation
 export default function CartView({ navigation, route }) {
 

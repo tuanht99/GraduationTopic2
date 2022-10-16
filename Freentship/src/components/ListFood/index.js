@@ -14,8 +14,6 @@ import { db } from '../../services/firebase'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
 const widthDis = Dimensions.get("window").width
-
-
 const ListFood = ({
   categoriesData,
   navigation,
@@ -25,9 +23,10 @@ const ListFood = ({
   storeId
 }) => {
   const [food, setFood] = useState([])
-  console.log('food', food)
+  // console.log('food', food)
   const [loading, setLoading] = useState(false)
   const [categoryId, setCategoryId] = useState('')
+  
   useEffect(() => {
     const getFood = async () => {
       const food = []
@@ -114,7 +113,7 @@ const ListFood = ({
                   storeName: storeName,
                   storeAddress: storeAddress,
                   storeImage: storeImage,
-                  food: food
+                  storeId : storeId
                 })
               }
             >
