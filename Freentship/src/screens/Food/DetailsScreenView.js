@@ -5,23 +5,14 @@ import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const DATA = {
-  id: 1,
-  name: 'Nước ngọt c2',
-  discription: 'Thơm ngon mời bạn ăn nha, getgo, getgo,...',
-  location: '',
-  relationship: 'Đối tác lo ship',
-  price: '20.000',
-  status: '',
-  shopaddress: '52 Bế văn đàn, an bình, dĩ an, bình dương',
-  shopSl: '14 sản phẩm',
-  shopname: 'Tea 1998',
-  shopimage: require('../../../assets/Food/nuoc_c2.png'),
-  monAn1: require('../../../assets/Food/nuoc_c2.png'),
   txtChonMua: 'CHỌN MUA',
   txtsplq: 'Sản phẩm cùng cửa hàng',
   txtXemCuaHang: 'Xem cửa hàng',
   txtDis: 'Thông tin sản phẩm'
 }
+
+import { db } from '../../services/firebase'
+import { collection, getDocs, where, query } from 'firebase/firestore'
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
@@ -34,22 +25,27 @@ export default function DetailsScreenView({ route, navigation }) {
     storeName,
     storeAddress,
     storeImage,
-    food
+    storeId
   } = route.params
-
-  const [arrFood, setArrFood] = useState(
-    food.map(food => food.id)
-  )
-  
-
-  console.log('FoodArr', status)
+  const [foodOfStore, setFoodOfStore] = useState([])
+  useEffect(() => {
+    const getFood = async () => {
+      const foodOfStore = []
+      let foodRef = collection(db, 'foods')
+      const q = query(foodRef, where('food_store_id', '==', `${storeId}`))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach(doc => {
+        foodOfStore.push({ ...doc.data(), id: doc.id, length: doc.length })
+      })
+      setFoodOfStore(foodOfStore)
+    }
+    getFood()
+  }, [])
   const titleParams = JSON.stringify(title)
   const descriptionParams = JSON.stringify(description)
   const imageParams = image
   const storeNameParams = JSON.stringify(storeName)
-  // const storeAddressParams = JSON.stringify(storeAddress)
   const storeImageParams = storeImage
-
   const priceParams = JSON.stringify(price)
 
   React.useLayoutEffect(() => {
@@ -70,8 +66,6 @@ export default function DetailsScreenView({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      {/* Image */}
-
       <Image
         source={{ uri: imageParams }}
         style={{
@@ -108,33 +102,36 @@ export default function DetailsScreenView({ route, navigation }) {
         </View>
 
         <View style={{ marginLeft: 10 }}>
-          {status === 1 ? <TouchableOpacity
-            onPress={() => navigation.navigate('CartView')}
-            style={{
-              backgroundColor: '#E94730',
-              borderRadius: 15,
-              width: '97%',
-              height: 40,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ color: '#fff' }}>{DATA.txtChonMua}</Text>
-          </TouchableOpacity> : <TouchableOpacity
-            disabled
-            onPress={() => navigation.navigate('CartView')}
-            style={{
-              backgroundColor: '#C0C0C0',
-              borderRadius: 15,
-              width: '97%',
-              height: 40,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ color: '#fff' }}>Đã bán hết</Text>
-          </TouchableOpacity>}
-         
+          {status === 1 ? (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CartView')}
+              style={{
+                backgroundColor: '#E94730',
+                borderRadius: 15,
+                width: '97%',
+                height: 40,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#fff' }}>{DATA.txtChonMua}</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              disabled
+              onPress={() => navigation.navigate('CartView')}
+              style={{
+                backgroundColor: '#C0C0C0',
+                borderRadius: 15,
+                width: '97%',
+                height: 40,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ color: '#fff' }}>Đã bán hết</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
@@ -197,13 +194,13 @@ export default function DetailsScreenView({ route, navigation }) {
               >
                 {storeNameParams}
               </Text>
-              {arrFood.length > 0 ? <Text>{arrFood.length} Sản phẩm</Text> : ''}
+              <Text>{foodOfStore.length} Sản phẩm</Text>
 
               <Text numberOfLines={1} style={{ color: '#808080', width: 190 }}>
                 {storeAddress}
               </Text>
             </View>
-            {/* // */}
+
             <View style={{ marginRight: 10 }}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Store')}
@@ -229,7 +226,7 @@ export default function DetailsScreenView({ route, navigation }) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
-            {food.map(item => (
+            {foodOfStore.map(item => (
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
@@ -240,8 +237,7 @@ export default function DetailsScreenView({ route, navigation }) {
                     price: item.price,
                     storeName: storeName,
                     storeAddress: storeAddress,
-                    storeImage: storeImage,
-                    food: food
+                    storeImage: storeImage
                   })
                 }
                 style={{ justifyContent: 'flex-start', flexDirection: 'row' }}
