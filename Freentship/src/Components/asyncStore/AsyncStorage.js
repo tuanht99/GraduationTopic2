@@ -49,7 +49,7 @@ export default function AsyncStorages() {
         try {
             const OrderString = await AsyncStorage.getItem('id');
             const Order = JSON.parse(OrderString);
-            this.setState({ ...this.state, id: Order.id 
+            this.setState({ ...this.state, id: Order.id ,
             name: Order.name, price: Order.price});
         } catch (error) {
             Alert.alert(error.message);
