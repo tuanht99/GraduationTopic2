@@ -1,3 +1,4 @@
+import Spinner from 'react-native-loading-spinner-overlay'
 import React, { useState, useEffect } from 'react'
 import {
   View,
@@ -6,7 +7,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   FlatList,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native'
 import Styles from './StoreStyle'
 
@@ -19,32 +21,39 @@ import { db } from '../../services/firebase'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 
 function StoreScreen({ navigation }) {
+  const [loading, setLoading] = useState(false)
   const [stores, setStores] = useState([])
   const [categories, setCategory] = useState([])
-  const storeId = '7T5uG3Si5NHioADgam1Z'
+  const storeId = '4dpAvRWJVrvdbml9vKDL'
   useEffect(() => {
     const cate = []
     const unsubscribe = onSnapshot(
-      doc(db, 'food_stores', `${storeId}` ),
+      doc(db, 'food_stores', `${storeId}`),
       item => {
         setStores({
           id: item.id,
           ...item.data()
         })
+
         item.data().food_categories.forEach(e => {
           getDoc(doc(db, 'categories', `${e}`)).then(doc => {
             cate.push({
               ...doc.data(),
-              name: doc.data().category_Name,
               id: doc.id
             })
             setCategory(cate)
           })
         })
+        setLoading(true)
       }
     )
+
     return unsubscribe
   }, [storeId])
+
+  const Loading = () => (
+    <ActivityIndicator size="large" color = '#E94730'/>
+  )
 
   const HeaderComponent = () => (
     <View>
@@ -185,16 +194,22 @@ function StoreScreen({ navigation }) {
   return (
     <SafeAreaView style={Styles.container}>
       <FlatList
-        ListHeaderComponent={<HeaderComponent />}
+        ListHeaderComponent={
+          loading ? (
+            <HeaderComponent />
+          ) : (
+            <Loading/>
+          )
+        }
         ListFooterComponent={
-          <ListFood
-            categoriesData={categories}
-            navigation={navigation}
-            storeName={stores.name}
-            storeAddress={stores.address}
-            storeImager={stores.image}
-            storeId={storeId}
-          />
+            <ListFood
+              categoriesData={categories}
+              navigation={navigation}
+              storeName={stores.name}
+              storeAddress={stores.address}
+              storeImager={stores.image}
+              storeId={storeId}
+            />
         }
       />
     </SafeAreaView>
