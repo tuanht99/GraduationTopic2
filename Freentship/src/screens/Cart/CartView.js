@@ -87,12 +87,11 @@ export default function CartView({ navigation, route }) {
                 price: priceOrders,
             }
             await AsyncStorage.setItem('id', JSON.stringify(Order));
-            console.log(AsyncStorage.setItem('id', JSON.stringify(Order)));
+
         } catch (error) {
             Alert.alert(error.message);
         }
     }
-   
     const loadHeader = async () => {
         try {
             const OrderString = await AsyncStorage.getItem('id');
