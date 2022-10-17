@@ -113,8 +113,7 @@ const ListFood = ({
                   storeName: storeName,
                   storeAddress: storeAddress,
                   storeImage: storeImage,
-                  storeId : storeId,
-                  food:food
+                  storeId : storeId
                 })
               }
             >
