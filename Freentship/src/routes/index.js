@@ -5,7 +5,7 @@ import DetailsScreenView from '../screens/Food/DetailsScreenView'
 import  React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import CardView from '../screens/Cart/CartView'
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +19,7 @@ const Stack = createNativeStackNavigator();
           headerShown: false,
         }} component={StoreScreen} />
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+        <Stack.Screen name="CartView" component={CardView} />
         
       </Stack.Navigator>
     </NavigationContainer>
