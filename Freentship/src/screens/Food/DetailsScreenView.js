@@ -94,7 +94,7 @@ export default function DetailsScreenView({ route, navigation }) {
             {titleParams}
           </Text>
           <Text style={{ fontWeight: 'bold', paddingBottom: 10 }}>
-            {priceParams}
+            {prices}
           </Text>
           <Text numberOfLines={2} style={{ paddingBottom: 20 }}>
             {storeAddress}
