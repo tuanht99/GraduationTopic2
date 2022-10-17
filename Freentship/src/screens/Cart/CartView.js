@@ -41,9 +41,10 @@ const DATA = {
 export default function CartView({ navigation, route }) {
 
 
-  const { nameOrder, priceOrder } = route.params;
+  const { nameOrder, priceOrder, ImageOrder } = route.params;
+  const imageParams = ImageOrder
   // lấy tên
-  // console.log(nameOrder);
+  console.log(imageParams);
   // chuyển chuỗi thành số
   const priceOrders = Number(priceOrder);
   // console.log(priceOrders);
@@ -79,6 +80,7 @@ export default function CartView({ navigation, route }) {
       name: name,
       price: priceOrders,
       Quantity: Quantity,
+      images: ImageOrder,
     },
 
   ];
@@ -92,12 +94,12 @@ export default function CartView({ navigation, route }) {
 
     name: '',
     price: '',
-    quantity:''
-
+    quantity: '',
+    ImageOrder: ''
 
   };
-  const inputHandler = (name, price,quantity) => {
-    this.setState({ ...this.state, name: name, price: price,quantity: quantity }); 
+  const inputHandler = (name, price, quantity) => {
+    this.setState({ ...this.state, name: name, price: price, quantity: quantity });
 
     console.log(this.state);
   }
@@ -110,7 +112,7 @@ export default function CartView({ navigation, route }) {
 
         name: nameOrder,
         price: priceOrders,
-        quantity:Quantity,
+        quantity: Quantity,
 
       }
       await AsyncStorage.setItem('id', JSON.stringify(Order));
@@ -240,8 +242,16 @@ export default function CartView({ navigation, route }) {
                     {1}>
                     {nameOrder}
                   </Text>
+                  <View style={{
+                    marginTop: 20
+
+                  }}>
+                    <Image source={{ uri: imageParams }} style={{ width: 80, height: 80 }} />
+                  </View>
                 </View>
+
                 <View>
+
                   <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
                     {priceOrders}{" Đ"}
                   </Text>
@@ -354,9 +364,13 @@ export default function CartView({ navigation, route }) {
             </View>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("OrderView",{
+              onPress={() => navigation.navigate("OrderView", {
+                nameOrder: nameOrder,
+                priceOrder: priceOrder,
+                ImageOrder: imageParams,
                 Totals: Total,
-              
+                Quantity: Quantity,
+
               })}
 
               style={{

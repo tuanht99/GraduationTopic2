@@ -39,33 +39,25 @@ const DATA = {
 };
 
 // Navigation
-export default function OrderView({ navigation }) {
+export default function OrderView({ navigation,route, }) {
 
-  const [Quantity, setQuantity] = useState(1);
+ 
    // tổng tiền
  const [Total, setTotal] = useState(0);
   // tăng giảm số lượng
-  function IncreaseQuantity() {
-    if (Quantity > 0) {
+ 
+  const { nameOrder, priceOrder, ImageOrder,Totals,Quantity } = route.params;
+console.log("name: "+nameOrder );
 
-      setQuantity(prevState => prevState - 1);
-
-    }
-    else {
-      setQuantity(0);
-    }
-  }
-  function DecreaseQuantity() {
-
-    setQuantity(prevState => prevState + 1);
-
-  }
-
-
+console.log("price: "+priceOrder );
+console.log("Image: "+ImageOrder );
+console.log("tongtien :" +Totals );
+console.log("so tien :" +Quantity );
+const PhiShip = 15000
 
  // tính tổng tiền
  React.useEffect(() => {
-   setTotal(Quantity * DATA.price );
+   setTotal(Totals +PhiShip );
  }, [Quantity])
 
 
@@ -209,6 +201,7 @@ export default function OrderView({ navigation }) {
                 <Text numberOfLines={1} style={{ fontWeight: "bold" }}>
                   {DATA.userName}
                 </Text>
+               
               </View>
               <View style={{ paddingLeft: 10 }}>
                 <Text
@@ -242,11 +235,17 @@ export default function OrderView({ navigation }) {
                 }}
               >
                 <View>
-                  <Text numberOfLines={1}>{DATA.name}</Text>
+                  <Text numberOfLines={1}  style={{fontSize:20}}>{nameOrder}</Text>
+                  <View style={{
+                    marginTop: 20,
+                    marginBottom: -75
+                  }}>
+                    <Image source={{ uri: ImageOrder }} style={{ width: 80, height: 80 }} />
+                  </View>
                 </View>
                 <View>
                   <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {DATA.price}
+                    {Totals}{" Đ"}
                   </Text>
                 </View>
               </View>
@@ -269,46 +268,14 @@ export default function OrderView({ navigation }) {
                   paddingRight: 10,
                 }}>
                   <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-
-                      onPress={() => { IncreaseQuantity() }}
-                    >
-
-
-
-
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
-                    </TouchableOpacity>
+                   
                   </View>
                   <View>
-                    <Text style={{ fontWeight: "bold" }}>{Quantity}</Text>
+                  <Text style={{ fontWeight: "bold" ,fontSize:20,}}>Số Lượng: {Quantity}</Text>
+                    
                   </View>
                   <View>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                      }}
-                      onPress={() => { DecreaseQuantity() }}
-                    >
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
-                    </TouchableOpacity>
+                  
                   </View>
 
                 </View>
@@ -347,7 +314,7 @@ export default function OrderView({ navigation }) {
                     paddingRight: 10,
                   }}
                 >
-                  {Total}
+                  {PhiShip}{" Đ"}
                 </Text>
               </View>
             </View>
@@ -444,7 +411,7 @@ export default function OrderView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {DATA.txtTong}
+                  {Total} {" Đ"}
                 </Text>
               </View>
             </View>

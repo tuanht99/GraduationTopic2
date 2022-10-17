@@ -108,6 +108,7 @@ export default function DetailsScreenView({ route, navigation }) {
               onPress={() => navigation.navigate('CartView',{
                 nameOrder: title,
                 priceOrder: price,
+                ImageOrder : image,
               })}
               style={{
                 backgroundColor: '#E94730',
