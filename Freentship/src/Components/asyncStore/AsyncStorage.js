@@ -2,12 +2,12 @@ import { Text, StyleSheet, View, Alert, TextInput, Button,TouchableOpacity } fro
 import React, { Component } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from '@firebase/util';
-import Quantity from "../../screens/Quantity";
+import Quantity from "../Quantity";
 import { useState } from "react";
 
 export default function AsyncStorages({setA}) {
    
-console.log(setA);
+
     const [Quantity, setQuantity] = useState(1);
     function IncreaseQuantity()  {
         if (Quantity > 0) {

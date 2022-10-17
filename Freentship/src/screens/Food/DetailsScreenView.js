@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
-
+import { StatusBar } from 'expo-status-bar'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -16,6 +16,7 @@ import { collection, getDocs, where, query } from 'firebase/firestore'
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
+  <StatusBar animated='true'/>
   const {
     title,
     description,
@@ -181,13 +182,14 @@ export default function DetailsScreenView({ route, navigation }) {
           <View
             style={{
               flexDirection: 'row',
-              paddingBottom: 20,
+             top: 0,
+             marginTop: 0,
               alignItems: 'center'
             }}
           >
             <Image
               source={{ uri: storeImageParams }}
-              style={{ width: 40, height: 40, borderRadius: 25 }}
+              style={{ width: 40, height: 40, borderRadius: 25, }}
             />
 
             <View style={{ paddingLeft: 10 }}>

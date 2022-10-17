@@ -42,67 +42,96 @@ export default function CartView({ navigation, route }) {
 
 
   const { nameOrder, priceOrder } = route.params;
-  console.log(nameOrder);
+  // lấy tên
+  // console.log(nameOrder);
+  // chuyển chuỗi thành số
   const priceOrders = Number(priceOrder);
-  console.log(priceOrders);
+  // console.log(priceOrders);
+  // giá trị số lượng
   const [Quantity, setQuantity] = useState(1);
-  function IncreaseQuantity()  {
-      if (Quantity > 0) {
-        
-          setQuantity(prevState => prevState - 1);
-        
-      }
-     else {
+  // tăng giảm số lượng
+  function IncreaseQuantity() {
+    if (Quantity > 0) {
+
+      setQuantity(prevState => prevState - 1);
+
+    }
+    else {
       setQuantity(0);
-     }
+    }
   }
   function DecreaseQuantity() {
-   
-      setQuantity(prevState => prevState + 1);
-      
-  }
-  
-  const [name,setname] = useState();
-  const [price, setprice] = useState(15000);
- 
- 
-  // const [name , setname] = useState();
-  // const [pricem, setpricm] = useState();
 
+    setQuantity(prevState => prevState + 1);
+
+  }
+  // tổng tiền
   const [Total, setTotal] = useState(0);
 
-
+  // tính tổng tiền
   React.useEffect(() => {
     setTotal(Quantity * priceOrders);
   }, [Quantity])
 
-//  ansync
+  const initialList = [
+    {
 
-   
-    const saveHandler = async () => {
-        try {
-            const Order = {
-                
-                name: nameOrder,
-                price: priceOrders,
-            }
-            await AsyncStorage.setItem('id', JSON.stringify(Order));
+      name: name,
+      price: priceOrders,
+      Quantity: Quantity,
+    },
 
-        } catch (error) {
-            Alert.alert(error.message);
-        }
+  ];
+  const [list, setList] = React.useState(initialList);
+  // name
+  const [name, setName] = useState(nameOrder);
+  // console.log(name);
+  // list.push(name,priceOrders);
+  const state = {
+
+
+    name: '',
+    price: '',
+    quantity:''
+
+
+  };
+  const inputHandler = (name, price,quantity) => {
+    this.setState({ ...this.state, name: name, price: price,quantity: quantity }); 
+
+    console.log(this.state);
+  }
+
+  //  ansync   
+  // lưu
+  const saveHandler = async () => {
+    try {
+      const Order = {
+
+        name: nameOrder,
+        price: priceOrders,
+        quantity:Quantity,
+
+      }
+      await AsyncStorage.setItem('id', JSON.stringify(Order));
+
+    } catch (error) {
+      Alert.alert(error.message);
     }
-    const loadHeader = async () => {
-        try {
-            const OrderString = await AsyncStorage.getItem('id');
-            const Order = JSON.parse(OrderString);
-            this.setState({ 
-            name: Order.name, price: Order.price});
-        } catch (error) {
-            Alert.alert(error.message);
-        }
+  }
+  // loading
+  const loadHeader = async () => {
+    try {
+      const OrderString = await AsyncStorage.getItem('id');
+      const Order = JSON.parse(OrderString);
+      this.setState({
+        name: Order.name, price: Order.price
+      });
+    } catch (error) {
+      Alert.alert(error.message);
     }
-  
+  }
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -123,7 +152,6 @@ export default function CartView({ navigation, route }) {
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 0.8 }}>
         <View style={{ paddingBottom: 10 }}></View>
-
         {/* in4 shop */}
         <View
           style={{
@@ -146,9 +174,7 @@ export default function CartView({ navigation, route }) {
             </Text>
           </View>
         </View>
-
         <View style={{ paddingBottom: 10 }}></View>
-
         {/*in4 user */}
         <View
           style={{
@@ -188,61 +214,60 @@ export default function CartView({ navigation, route }) {
             </View>
           </View>
         </View>
+
         <View style={{ margin: 10 }}></View>
 
-        {/* san pham da them vao gio hang */}
+        {/* ****************san pham da them vao gio hang******************************** */}
         <View>
           {/* ne */}
 
           <View style={{
-                flex: 1,
-                backgroundColor: "#fff",
-                paddingTop: 10,
-                paddingBottom: 20,
-            }}
-        >
-
+            flex: 1,
+            backgroundColor: "#fff",
+            paddingTop: 10,
+            paddingBottom: 20,
+          }}>
             <View style={{ marginLeft: 10 }}>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingBottom: 50,
-                    }}
-                >
-                    <View>
-                        <Text numberOfLines=
-                        {1}>
-                            {nameOrder} 
-                        </Text>
-                    </View>
-                    <View>
-                        <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                            {priceOrders}{" Đ"}
-                        </Text>
-                    </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingBottom: 50,
+                }}
+              >
+                <View>
+                  <Text numberOfLines=
+                    {1}>
+                    {nameOrder}
+                  </Text>
                 </View>
+                <View>
+                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
+                    {priceOrders}{" Đ"}
+                  </Text>
+                </View>
+              </View>
 
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
-                    <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <View>
 
-                    </View>
-                    {/* Tang Giam  */}
-                    <View style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            flex: 0.4,
-            paddingRight: 10,
-        }}>
-            <View>
-                <TouchableOpacity
-                    style={{
+                </View>
+                {/* Tang Giam  */}
+                <View style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  flex: 0.4,
+                  paddingRight: 10,
+                }}>
+                  <View>
+                    <TouchableOpacity
+                      style={{
                         backgroundColor: "#fff",
                         borderRadius: 5,
                         width: 20,
@@ -251,23 +276,23 @@ export default function CartView({ navigation, route }) {
                         justifyContent: "center",
                         borderWidth: 0.3,
                         borderColor: "#808080",
-                    }}
-                  
-                    onPress={() => { IncreaseQuantity() }}
-                >
+                      }}
+
+                      onPress={() => { IncreaseQuantity() }}
+                    >
 
 
 
 
-                    <Text style={{ fontWeight: "bold" }}>-</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <Text  style={{ fontWeight: "bold" }}>{Quantity}</Text>
-            </View>
-            <View>
-                <TouchableOpacity
-                    style={{
+                      <Text style={{ fontWeight: "bold" }}>-</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <Text style={{ fontWeight: "bold" }}>{Quantity}</Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      style={{
                         backgroundColor: "#fff",
                         borderRadius: 5,
                         width: 20,
@@ -276,17 +301,18 @@ export default function CartView({ navigation, route }) {
                         justifyContent: "center",
                         borderWidth: 0.3,
                         borderColor: "#808080",
-                    }}
-                    onPress={() => { DecreaseQuantity() }}
-                >
-                    <Text style={{ fontWeight: "bold" }}>+</Text>
-                </TouchableOpacity>
-            </View>
-            
-        </View>
+                      }}
+                      onPress={() => { DecreaseQuantity() }}
+                    >
+                      <Text style={{ fontWeight: "bold" }}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+
                 </View>
+              </View>
             </View>
-        </View>
+
+          </View>
 
         </View>
         {/* end */}
@@ -322,14 +348,17 @@ export default function CartView({ navigation, route }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {Total +" Đ"}
+                  {Total + " Đ"}
                 </Text>
               </View>
             </View>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("OrderView")}
-             
+              onPress={() => navigation.navigate("OrderView",{
+                Totals: Total,
+              
+              })}
+
               style={{
                 backgroundColor: "#E94730",
                 borderRadius: 15,
@@ -339,7 +368,7 @@ export default function CartView({ navigation, route }) {
                 justifyContent: "center",
               }}
             >
-              <Text onPress={saveHandler} style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
+              <Text onPress={inputHandler} style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
             </TouchableOpacity>
           </View>
         </View>
