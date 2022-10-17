@@ -289,6 +289,7 @@ export default function CartView({ navigation, route }) {
         </View>
 
         </View>
+        {/* end */}
       </ScrollView>
 
       {/* đặt đơn */}
