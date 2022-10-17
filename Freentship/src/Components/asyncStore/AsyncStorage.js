@@ -5,9 +5,9 @@ import { async } from '@firebase/util';
 import Quantity from "../../screens/Quantity";
 import { useState } from "react";
 
-export default function AsyncStorages(props ) {
+export default function AsyncStorages({setA}) {
    
-
+console.log(setA);
     const [Quantity, setQuantity] = useState(1);
     function IncreaseQuantity()  {
         if (Quantity > 0) {
@@ -28,46 +28,7 @@ export default function AsyncStorages(props ) {
     const [name,setname] = useState();
     const [price, setprice] = useState(15000);
    
-    // setprice(1500);
-    // 
-    props.setData(Quantity);
-    props.setprices(price);
    
-    // const state = {
-
-       
-    //     name:'',
-    //     price:'',
-
-
-    // };
-    // const inputHandler = (name,price) => {
-    //     this.setState({ ...this.state ,name: name,price: price });
-    //     console.log(this.state);
-    // }
-    // const saveHandler = async () => {
-    //     try {
-    //         const Order = {
-                
-    //             name: this.state.name,
-    //             price: this.state.price,
-    //         }
-    //         await AsyncStorage.setItem('id', JSON.stringify(Order));
-
-    //     } catch (error) {
-    //         Alert.alert(error.message);
-    //     }
-    // }
-    // const loadHeader = async () => {
-    //     try {
-    //         const OrderString = await AsyncStorage.getItem('id');
-    //         const Order = JSON.parse(OrderString);
-    //         this.setState({ ...this.state, 
-    //         name: Order.name, price: Order.price});
-    //     } catch (error) {
-    //         Alert.alert(error.message);
-    //     }
-    // }
     return (
         <View style={styles.container}>
     {/* sản phẩm */}
@@ -161,7 +122,8 @@ export default function AsyncStorages(props ) {
         </View>
         {/*  */}
        
-     </View>)
+     </View>
+     )
 
 }
 

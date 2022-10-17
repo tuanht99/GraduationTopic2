@@ -6,8 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import Ansync from "../../components/asyncStore/AsyncStorage"
-import Quantity from "../Quantity";
+// import Ansync from "../../components/asyncStore/AsyncStorage"
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
@@ -46,10 +45,26 @@ export default function CartView({ navigation, route }) {
   console.log(nameOrder);
   const priceOrders = Number(priceOrder);
   console.log(priceOrders);
-  // function Cart()  {
-  //  name =nameOrder;
-  //  price =priceOrders;
-  //  }
+  const [Quantity, setQuantity] = useState(1);
+  function IncreaseQuantity()  {
+      if (Quantity > 0) {
+        
+          setQuantity(prevState => prevState - 1);
+        
+      }
+     else {
+      setQuantity(0);
+     }
+  }
+  function DecreaseQuantity() {
+   
+      setQuantity(prevState => prevState + 1);
+      
+  }
+  
+  const [name,setname] = useState();
+  const [price, setprice] = useState(15000);
+ 
  
   // const [name , setname] = useState();
   // const [pricem, setpricm] = useState();
@@ -57,20 +72,37 @@ export default function CartView({ navigation, route }) {
   const [Total, setTotal] = useState(0);
 
 
-  const initialVar = 1;
-  const [Qty, setQty] = useState(initialVar)
-  const [price, setprice] = useState(initialVar)
   React.useEffect(() => {
-    setTotal(Qty * price);
-  }, [Qty])
-  const setDataprice = (dataa) => {
-    setprice(dataa);
-  }
-  console.log(Qty);
-  const setData = (data) => {
-    setQty(data);
-  }
+    setTotal(Quantity * priceOrders);
+  }, [Quantity])
 
+//  ansync
+
+   
+    const saveHandler = async () => {
+        try {
+            const Order = {
+                
+                name: nameOrder,
+                price: priceOrders,
+            }
+            await AsyncStorage.setItem('id', JSON.stringify(Order));
+
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+    }
+    const loadHeader = async () => {
+        try {
+            const OrderString = await AsyncStorage.getItem('id');
+            const Order = JSON.parse(OrderString);
+            this.setState({ 
+            name: Order.name, price: Order.price});
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+    }
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -117,7 +149,7 @@ export default function CartView({ navigation, route }) {
 
         <View style={{ paddingBottom: 10 }}></View>
 
-        {/*in4 name */}
+        {/*in4 user */}
         <View
           style={{
             flex: 1,
@@ -157,11 +189,104 @@ export default function CartView({ navigation, route }) {
           </View>
         </View>
         <View style={{ margin: 10 }}></View>
+
         {/* san pham da them vao gio hang */}
         <View>
           {/* ne */}
 
-          <Ansync  setData={setData} setprices={setDataprice} />
+          <View style={{
+                flex: 1,
+                backgroundColor: "#fff",
+                paddingTop: 10,
+                paddingBottom: 20,
+            }}
+        >
+
+            <View style={{ marginLeft: 10 }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingBottom: 50,
+                    }}
+                >
+                    <View>
+                        <Text numberOfLines=
+                        {1}>
+                            {nameOrder} 
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
+                            {priceOrders}{" Đ"}
+                        </Text>
+                    </View>
+                </View>
+
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                    }}
+                >
+                    <View>
+
+                    </View>
+                    {/* Tang Giam  */}
+                    <View style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flex: 0.4,
+            paddingRight: 10,
+        }}>
+            <View>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 5,
+                        width: 20,
+                        height: 20,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderWidth: 0.3,
+                        borderColor: "#808080",
+                    }}
+                  
+                    onPress={() => { IncreaseQuantity() }}
+                >
+
+
+
+
+                    <Text style={{ fontWeight: "bold" }}>-</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <Text  style={{ fontWeight: "bold" }}>{Quantity}</Text>
+            </View>
+            <View>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 5,
+                        width: 20,
+                        height: 20,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderWidth: 0.3,
+                        borderColor: "#808080",
+                    }}
+                    onPress={() => { DecreaseQuantity() }}
+                >
+                    <Text style={{ fontWeight: "bold" }}>+</Text>
+                </TouchableOpacity>
+            </View>
+            
+        </View>
+                </View>
+            </View>
+        </View>
 
         </View>
       </ScrollView>
@@ -203,6 +328,7 @@ export default function CartView({ navigation, route }) {
 
             <TouchableOpacity
               onPress={() => navigation.navigate("OrderView")}
+             
               style={{
                 backgroundColor: "#E94730",
                 borderRadius: 15,

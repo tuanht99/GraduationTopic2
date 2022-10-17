@@ -245,7 +245,8 @@ export default function DetailsScreenView({ route, navigation }) {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
           >
-            {food.map(item => (
+              
+            { food.map(item => (
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
