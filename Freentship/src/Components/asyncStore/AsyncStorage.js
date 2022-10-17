@@ -1,54 +1,34 @@
-import { Text, StyleSheet, View, Alert, TextInput, Button } from 'react-native'
+import { Text, StyleSheet, View, Alert, TextInput, Button,TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from '@firebase/util';
 import Quantity from "../../screens/Quantity";
 import { useState } from "react";
 
-export default function AsyncStorages() {
-
-    const [Total, setTotal] = useState(0);
-
-
-    const initialVar = 1;
-    const [Qty, setQty] = useState(initialVar)
-
-    React.useEffect(() => {
-        setTotal(Qty * 20000);
-    }, [Qty])
-
-    const setData = (data) => {
-        setQty(data);
-    }
-    const state = {
-
-        id: '',
-
-    };
-    const inputHandler = (id) => {
-        this.setState({ ...this.state, id: id });
-        console.log(this.state);
-    }
-    const saveHandler = async () => {
-        try {
-            const Order = {
-                id: this.state.id,
-            }
-            await AsyncStorage.setItem('id', JSON.stringify(Order));
-
-        } catch (error) {
-            Alert.alert(error.message);
+export default function AsyncStorages({setA}) {
+   
+console.log(setA);
+    const [Quantity, setQuantity] = useState(1);
+    function IncreaseQuantity()  {
+        if (Quantity > 0) {
+          
+            setQuantity(prevState => prevState - 1);
+          
         }
+       else {
+        setQuantity(0);
+       }
     }
-    const loadHeader = async () => {
-        try {
-            const OrderString = await AsyncStorage.getItem('id');
-            const Order = JSON.parse(OrderString);
-            this.setState({ ...this.state, id: Order.id });
-        } catch (error) {
-            Alert.alert(error.message);
-        }
+    function DecreaseQuantity() {
+     
+        setQuantity(prevState => prevState + 1);
+        
     }
+    
+    const [name,setname] = useState();
+    const [price, setprice] = useState(15000);
+   
+   
     return (
         <View style={styles.container}>
     {/* sản phẩm */}
@@ -68,11 +48,14 @@ export default function AsyncStorages() {
                     }}
                 >
                     <View>
-                        <Text numberOfLines={1}>Trà sữa</Text>
+                        <Text numberOfLines=
+                        {1}>
+                            {"name" } 
+                        </Text>
                     </View>
                     <View>
                         <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                            {20000}
+                            {price}{" Đ"}
                         </Text>
                     </View>
                 </View>
@@ -88,52 +71,59 @@ export default function AsyncStorages() {
 
                     </View>
                     {/* Tang Giam  */}
-                    <Quantity setData={setData} ></Quantity>
+                    <View style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flex: 0.4,
+            paddingRight: 10,
+        }}>
+            <View>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 5,
+                        width: 20,
+                        height: 20,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderWidth: 0.3,
+                        borderColor: "#808080",
+                    }}
+                  
+                    onPress={() => { IncreaseQuantity() }}
+                >
+                    <Text style={{ fontWeight: "bold" }}>-</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <Text  style={{ fontWeight: "bold" }}>{Quantity}</Text>
+            </View>
+            <View>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 5,
+                        width: 20,
+                        height: 20,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderWidth: 0.3,
+                        borderColor: "#808080",
+                    }}
+                    onPress={() => { DecreaseQuantity() }}
+                >
+                    <Text style={{ fontWeight: "bold" }}>+</Text>
+                </TouchableOpacity>
+            </View>
+            
+        </View>
                 </View>
             </View>
         </View>
         {/*  */}
-        <View style={{
-                flex: 1,
-                backgroundColor: "#fff",
-                paddingTop: 10,
-                paddingBottom: 20,
-            }}
-        >
-            <View style={{ marginLeft: 10 }}>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingBottom: 50,
-                    }}
-                >
-                    <View>
-                        <Text numberOfLines={1}>Trà sữa</Text>
-                    </View>
-                    <View>
-                        <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                            {20000}
-                        </Text>
-                    </View>
-                </View>
-
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
-                    <View>
-
-                    </View>
-                    {/* Tang Giam  */}
-                    <Quantity setData={setData} ></Quantity>
-                </View>
-            </View>
-        </View>
-     </View>)
+       
+     </View>
+     )
 
 }
 
