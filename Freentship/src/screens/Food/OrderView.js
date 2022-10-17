@@ -26,7 +26,7 @@ const DATA = {
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
- 
+  
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",
@@ -47,12 +47,17 @@ export default function OrderView({ navigation,route, }) {
   // tăng giảm số lượng
  
   const { nameOrder, priceOrder, ImageOrder,Totals,Quantity } = route.params;
-console.log("name: "+nameOrder );
+ 
+// console.log("name: "+nameOrder );
 
-console.log("price: "+priceOrder );
-console.log("Image: "+ImageOrder );
-console.log("tongtien :" +Totals );
-console.log("so tien :" +Quantity );
+// console.log("price: "+priceOrder );
+// // console.log("Image: "+ImageOrder );
+// console.log("tongtien :" +Totals );
+// console.log("so tien :" +Quantity );
+// // ship
+ function ship(){
+  // tính theo khoản cách từ cửa hàng với khách hàng
+ }
 const PhiShip = 15000
 
  // tính tổng tiền
@@ -319,8 +324,47 @@ const PhiShip = 15000
               </View>
             </View>
           </View>
+          
         </View>
-
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#fff",
+            paddingTop: 20,
+            paddingBottom: 20,
+            borderTopWidth: 0.3,
+            borderTopColor: "#808080",
+          }}
+        >
+          <View style={{marginLeft: 10}}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <Text numberOfLines={1}>Vourcher </Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    paddingRight: -75,
+                  }}
+                >
+                  {PhiShip}{" Đ"}
+                </Text>
+               
+              </View>
+              <TouchableOpacity>
+                  <Text style={{paddingRight:30,  fontWeight: "bold",
+                      color: "#00C2FF",}} >Thêm mã</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+          
+        </View>
         <View style={{paddingBottom: 10}}></View>
 
         {/* phương thức thanh toán */}

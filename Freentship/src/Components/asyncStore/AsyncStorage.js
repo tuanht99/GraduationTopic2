@@ -5,121 +5,63 @@ import { async } from '@firebase/util';
 import Quantity from "../Quantity";
 import { useState } from "react";
 
-export default function AsyncStorages({setA}) {
+export default function AsyncStorages() {
    
+    const state = {
 
-    const [Quantity, setQuantity] = useState(1);
-    function IncreaseQuantity()  {
-        if (Quantity > 0) {
-          
-            setQuantity(prevState => prevState - 1);
-          
-        }
-       else {
-        setQuantity(0);
-       }
-    }
-    function DecreaseQuantity() {
-     
-        setQuantity(prevState => prevState + 1);
-        
-    }
+
+        tittle:'',
+        price:'',
+        total:'',
+        quantity:'',
+        image:'',
     
-    const [name,setname] = useState();
-    const [price, setprice] = useState(15000);
-   
+      };
+      const inputHandler = (name, price,total, quantity , image) => {
+        this.setState({ ...this.state, tittle: name, price: price,total:total, quantity: quantity,image: image });
+    
+        console.log(this.state);
+      }
+    
+      //  ansync   
+      // lưu
+      const saveHandler = async () => {
+        try {
+          const Order = {
+    
+            name: tittle, 
+            price: price,
+            total:total, 
+            quantity: quantity,
+            image: image
+    
+          }
+          await AsyncStorage.setItem('id', JSON.stringify(Order));
+    
+        } catch (error) {
+          Alert.alert(error.message);
+        }
+      }
+      // loading
+      const loadHeader = async () => {
+        try {
+          const OrderString = await AsyncStorage.getItem('id');
+          const Order = JSON.parse(OrderString);
+          this.setState({
+            name: Order.name, price: Order.price,
+            total: Order.total, quantity: Order.quantity, images: Order.images
+            
+          });
+        } catch (error) {
+          Alert.alert(error.message);
+        }
+      }
+ 
    
     return (
         <View style={styles.container}>
     {/* sản phẩm */}
-    <View style={{
-                flex: 1,
-                backgroundColor: "#fff",
-                paddingTop: 10,
-                paddingBottom: 20,
-            }}
-        >
-            <View style={{ marginLeft: 10 }}>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingBottom: 50,
-                    }}
-                >
-                    <View>
-                        <Text numberOfLines=
-                        {1}>
-                            {"name" } 
-                        </Text>
-                    </View>
-                    <View>
-                        <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                            {price}{" Đ"}
-                        </Text>
-                    </View>
-                </View>
-
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
-                    <View>
-
-                    </View>
-                    {/* Tang Giam  */}
-                    <View style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            flex: 0.4,
-            paddingRight: 10,
-        }}>
-            <View>
-                <TouchableOpacity
-                    style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                    }}
-                  
-                    onPress={() => { IncreaseQuantity() }}
-                >
-                    <Text style={{ fontWeight: "bold" }}>-</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <Text  style={{ fontWeight: "bold" }}>{Quantity}</Text>
-            </View>
-            <View>
-                <TouchableOpacity
-                    style={{
-                        backgroundColor: "#fff",
-                        borderRadius: 5,
-                        width: 20,
-                        height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderWidth: 0.3,
-                        borderColor: "#808080",
-                    }}
-                    onPress={() => { DecreaseQuantity() }}
-                >
-                    <Text style={{ fontWeight: "bold" }}>+</Text>
-                </TouchableOpacity>
-            </View>
-            
-        </View>
-                </View>
-            </View>
-        </View>
+   
         {/*  */}
        
      </View>

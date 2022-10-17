@@ -12,28 +12,21 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
 const DATA = {
   id: 1,
-  name: "Nước ngọt c2",
-  namesp: "Gì cũng đc, miễn là cùng cửa hàng",
-  namesp2: "Khi thêm món khác cửa hàng thì làm mới giỏ hàng",
-  discription: "Thơm ngon mời bạn ăn nha, getgo, getgo,...",
-  location: "",
-  relationship: "Đối tác lo ship",
-  price: 20000,
+ 
+ 
+  
   status: "",
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
-  shopimage: require("../../assets/images/nuoc_c2.png"),
-  monAn1: require("../../assets/images/nuoc_c2.png"),
-  avt: require("../../assets/images/nuoc_c2.png"),
+ 
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",
   txtsplq: "Sản phẩm cùng cửa hàng",
   txtXemCuaHang: "Xem cửa hàng",
   txtDis: "Thông tin sản phẩm",
-  txtThayDoi: "Thay đổi",
-  txtTong: "60.000",
+ 
 };
 
 
@@ -44,7 +37,7 @@ export default function CartView({ navigation, route }) {
   const { nameOrder, priceOrder, ImageOrder } = route.params;
   const imageParams = ImageOrder
   // lấy tên
-  console.log(imageParams);
+  // console.log(imageParams);
   // chuyển chuỗi thành số
   const priceOrders = Number(priceOrder);
   // console.log(priceOrders);
@@ -73,22 +66,28 @@ export default function CartView({ navigation, route }) {
   React.useEffect(() => {
     setTotal(Quantity * priceOrders);
   }, [Quantity])
+  // mảng dữ liệu
+  const tittle= nameOrder;
+  const price = priceOrders;
+  const total = Total ;
+  const quantity = Quantity ;
+  const image = imageParams ;
+  const arr = [];
+  React.useEffect(() => {
+    arr.push(
+      cart=[
+      tittle,
+      price,
+      total,
+      quantity,
+      image,
+      ])
+    console.log("mảng : "+arr[0]);
+  
+  },  [nameOrder])
+ 
 
-  const initialList = [
-    {
-
-      name: name,
-      price: priceOrders,
-      Quantity: Quantity,
-      images: ImageOrder,
-    },
-
-  ];
-  const [list, setList] = React.useState(initialList);
-  // name
-  const [name, setName] = useState(nameOrder);
-  // console.log(name);
-  // list.push(name,priceOrders);
+  
   const state = {
 
 
@@ -243,7 +242,8 @@ export default function CartView({ navigation, route }) {
                     {nameOrder}
                   </Text>
                   <View style={{
-                    marginTop: 20
+                    marginTop: 20,
+                    marginBottom: -75
 
                   }}>
                     <Image source={{ uri: imageParams }} style={{ width: 80, height: 80 }} />
