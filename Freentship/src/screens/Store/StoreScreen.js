@@ -34,7 +34,6 @@ function StoreScreen({ navigation }) {
           id: item.id,
           ...item.data()
         })
-
         item.data().food_categories.forEach(e => {
           getDoc(doc(db, 'categories', `${e}`)).then(doc => {
             cate.push({

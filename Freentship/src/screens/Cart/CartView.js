@@ -87,11 +87,12 @@ export default function CartView({ navigation, route }) {
                 price: priceOrders,
             }
             await AsyncStorage.setItem('id', JSON.stringify(Order));
-
+            console.log(AsyncStorage.setItem('id', JSON.stringify(Order)));
         } catch (error) {
             Alert.alert(error.message);
         }
     }
+   
     const loadHeader = async () => {
         try {
             const OrderString = await AsyncStorage.getItem('id');
@@ -322,7 +323,7 @@ export default function CartView({ navigation, route }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {Total}
+                  {Total +" Đ"}
                 </Text>
               </View>
             </View>
@@ -339,7 +340,7 @@ export default function CartView({ navigation, route }) {
                 justifyContent: "center",
               }}
             >
-              <Text style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
+              <Text onPress={saveHandler} style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
             </TouchableOpacity>
           </View>
         </View>
