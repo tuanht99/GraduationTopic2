@@ -4,7 +4,9 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
-  Text
+  Text,
+  View,
+  Button
 } from 'react-native'
 import { HomeScreen } from './src/screens/HomeScreen'
 import { Colors, Spacing } from './src/styles'
@@ -15,7 +17,11 @@ import { MapScreenTest } from './src/screens/__test__/map'
 import { WriteDataFood_StoresByCategory } from './src/services'
 import Routes from './src/routes'
 
+import { db } from './src/services/firebase'
+import { doc, addDoc, Timestamp , collection} from 'firebase/firestore'
+
 export default function App() {
+
   return (
     <SafeAreaView style={styles.container}>
       <Routes/>
