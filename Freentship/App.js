@@ -19,8 +19,8 @@ import Routes from './src/routes'
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Routes/> */}
-      <AsyncStorages/>
+      <Routes/>
+      {/* <AsyncStorages/> */}
     </SafeAreaView>
   )
 }
