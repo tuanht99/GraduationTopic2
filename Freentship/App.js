@@ -13,7 +13,7 @@ import { Location1 } from './src/screens/__test__/location'
 import { MapScreen } from './src/screens/MapScreen'
 import { MapScreenTest } from './src/screens/__test__/map'
 import { WriteDataFood_StoresByCategory } from './src/services'
-import AsyncStorages from '../Freentship/src/components/asyncStore/AsyncStorage'
+import AsyncStorages from './src/Components/asyncStore/AsyncStorage'
 import Routes from './src/routes'
 
 export default function App() {
