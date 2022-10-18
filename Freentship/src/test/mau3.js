@@ -9,7 +9,7 @@ import {
   FlatList,
 } from "react-native";
 
-import Quantity from "../screens/Quantity";
+import Quantity from "../components/Quantity";
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";

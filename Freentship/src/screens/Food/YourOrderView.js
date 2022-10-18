@@ -26,9 +26,7 @@ const DATA = {
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  avt: require("../assets/images/nuoc_c2.png"),
+ 
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",

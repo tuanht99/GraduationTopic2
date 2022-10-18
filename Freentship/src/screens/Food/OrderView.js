@@ -11,7 +11,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { useState } from "react";
 
 const DATA = {
   id: 1,
@@ -21,14 +21,12 @@ const DATA = {
   discription: "Thơm ngon mời bạn ăn nha, getgo, getgo,...",
   location: "",
   relationship: "Đối tác lo ship",
-  price: "20.000",
+  price: 20000,
   status: "",
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  avt: require("../assets/images/nuoc_c2.png"),
+  
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",
@@ -41,7 +39,34 @@ const DATA = {
 };
 
 // Navigation
-export default function OrderView({ navigation }) {
+export default function OrderView({ navigation,route, }) {
+
+ 
+   // tổng tiền
+ const [Total, setTotal] = useState(0);
+  // tăng giảm số lượng
+ 
+  const { nameOrder, priceOrder, ImageOrder,Totals,Quantity ,storeOrder, storeN,storeAdr,storeIM} = route.params;
+ 
+// console.log("name: "+nameOrder );
+
+// console.log("price: "+priceOrder );
+// // console.log("Image: "+ImageOrder );
+// console.log("tongtien :" +Totals );
+// console.log("so tien :" +Quantity );
+console.log(storeOrder + " id: " +" name:" + storeN + " price:" + storeAdr +" storeIM: "+storeIM);
+// // ship
+ function ship(){
+  // tính theo khoản cách từ cửa hàng với khách hàng
+ }
+const PhiShip = 15000
+
+ // tính tổng tiền
+ React.useEffect(() => {
+   setTotal(Totals +PhiShip );
+ }, [Quantity])
+
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -182,6 +207,7 @@ export default function OrderView({ navigation }) {
                 <Text numberOfLines={1} style={{ fontWeight: "bold" }}>
                   {DATA.userName}
                 </Text>
+               
               </View>
               <View style={{ paddingLeft: 10 }}>
                 <Text
@@ -215,11 +241,17 @@ export default function OrderView({ navigation }) {
                 }}
               >
                 <View>
-                  <Text numberOfLines={1}>{DATA.name}</Text>
+                  <Text numberOfLines={1}  style={{fontSize:20}}>{nameOrder}</Text>
+                  <View style={{
+                    marginTop: 20,
+                    marginBottom: -75
+                  }}>
+                    <Image source={{ uri: ImageOrder }} style={{ width: 80, height: 80 }} />
+                  </View>
                 </View>
                 <View>
                   <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {DATA.price}
+                    {Totals}{" Đ"}
                   </Text>
                 </View>
               </View>
@@ -232,149 +264,32 @@ export default function OrderView({ navigation }) {
                 }}
               >
                 <View>
-                  <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 10,
-    width: 80,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                    <Text style={{color: "#000",
-    fontWeight: 'bold',}}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
+                 
                 </View>
                 {/*  */}
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flex: 0.4,
-                    paddingRight: 10,
-                  }}
-                >
+                <View style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  flex: 0.4,
+                  paddingRight: 10,
+                }}>
                   <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
-                    </TouchableOpacity>
+                   
                   </View>
                   <View>
-                    <Text style={{ fontWeight: "bold" }}>01</Text>
+                  <Text style={{ fontWeight: "bold" ,fontSize:20,}}>Số Lượng: {Quantity}</Text>
+                    
                   </View>
                   <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
-                    </TouchableOpacity>
+                  
                   </View>
+
                 </View>
               </View>
             </View>
           </View>
 
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingTop: 10,
-              paddingBottom: 20,
-            }}
-          >
-            <View style={{marginLeft: 10}}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: 50,
-                }}
-              >
-                <View>
-                  <Text numberOfLines={1}>{DATA.name}</Text>
-                </View>
-                <View>
-                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {DATA.price}
-                  </Text>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 10,
-    width: 80,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                    <Text style={{color: "#000",
-    fontWeight: 'bold',}}>
-                      {DATA.txtThayDoi}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                {/*  */}
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flex: 0.4,
-                    paddingRight: 10,
-                  }}
-                >
-                  <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Text style={{ fontWeight: "bold" }}>01</Text>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={{backgroundColor: "#fff",
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0.3,
-    borderColor: "#808080",}}>
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
+         
         </View>
 
         {/* Phí ship */}
@@ -405,13 +320,52 @@ export default function OrderView({ navigation }) {
                     paddingRight: 10,
                   }}
                 >
-                  {DATA.price}
+                  {PhiShip}{" Đ"}
                 </Text>
               </View>
             </View>
           </View>
+          
         </View>
-
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#fff",
+            paddingTop: 20,
+            paddingBottom: 20,
+            borderTopWidth: 0.3,
+            borderTopColor: "#808080",
+          }}
+        >
+          <View style={{marginLeft: 10}}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <Text numberOfLines={1}>Vourcher </Text>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    paddingRight: -75,
+                  }}
+                >
+                  {PhiShip}{" Đ"}
+                </Text>
+               
+              </View>
+              <TouchableOpacity>
+                  <Text style={{paddingRight:30,  fontWeight: "bold",
+                      color: "#00C2FF",}} >Thêm mã</Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+          
+        </View>
         <View style={{paddingBottom: 10}}></View>
 
         {/* phương thức thanh toán */}
@@ -502,7 +456,7 @@ export default function OrderView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {DATA.txtTong}
+                  {Total} {" Đ"}
                 </Text>
               </View>
             </View>
