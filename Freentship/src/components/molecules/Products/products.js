@@ -20,12 +20,12 @@ export const Products = ({
     const handleOnPress = () => {
       isCategories
         ? navigation.navigate('SearchScreen', {
-            id: item.id,
-            name: item.name,
-            index: indexFirestore,
-            location: location
-          })
-        : navigation.navigate('DetailStoreScreen', { id: item.id })
+          id: item.id,
+          name: item.name,
+          index: indexFirestore,
+          location: location
+        })
+        : navigation.navigate('StoreScreen', { id: item.id })
     }
     return (
       <View key={index} style={horizontal ? styles.item : styles.itemRow}>

@@ -28,7 +28,7 @@ export default function DetailsScreenView({ route, navigation }) {
     storeImage,
     storeId
   } = route.params
- 
+
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -54,7 +54,7 @@ export default function DetailsScreenView({ route, navigation }) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Store')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
@@ -105,7 +105,7 @@ export default function DetailsScreenView({ route, navigation }) {
         </View>
 
         <View style={{ marginLeft: 10 }}>
-          { statusParmas === 1 ? (
+          {statusParmas === 1 ? (
             <TouchableOpacity
               onPress={() => navigation.navigate('CartView', {
                 nameOrder: title,
@@ -117,7 +117,7 @@ export default function DetailsScreenView({ route, navigation }) {
                 storeN: storeName,
                 storeAdr: storeAddress,
                 storeIM: storeImageParams,
-              
+
 
 
               })}
@@ -244,7 +244,7 @@ export default function DetailsScreenView({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
           >
             {foodOfStore.map(item => (
-              
+
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>

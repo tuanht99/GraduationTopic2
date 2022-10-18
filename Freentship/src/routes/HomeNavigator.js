@@ -1,10 +1,8 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { SearchScreen } from '../screens/SearchScreen'
 
 const Tab = createBottomTabNavigator()
 const NotificationScreen = () => {
@@ -21,17 +19,8 @@ const SettingScreen = () => {
     </View>
   )
 }
-const DetailStoreScreen = ({ route }) => {
-  const { id } = route.params
-  console.log('id', id)
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>Detail Store Screen</Text>
-    </View>
-  )
-}
 
-const HomeTabs = () => {
+export const HomeNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -67,16 +56,5 @@ const HomeTabs = () => {
         }}
       />
     </Tab.Navigator>
-  )
-}
-
-const Stack = createNativeStackNavigator()
-export const HomeNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeTab" component={HomeTabs} />
-      <Stack.Screen name="SearchScreen" component={SearchScreen} />
-      <Stack.Screen name="DetailStoreScreen" component={DetailStoreScreen} />
-    </Stack.Navigator>
   )
 }

@@ -19,7 +19,8 @@ import ListFood from '../../components/ListFood'
 import { db } from '../../services/firebase'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 
-function StoreScreen({ navigation }) {
+function StoreScreen({ navigation, route }) {
+  const { id } = route.params
   let hours = new Date().getHours() //Current Hours
   let min = new Date().getMinutes() //Current Minutes
 
@@ -29,7 +30,8 @@ function StoreScreen({ navigation }) {
   const [currentDate, setCurrentDate] = useState(hours * 60 + min)
   const [openTime, setOpenTime] = useState(true)
 
-  const storeId = '4dpAvRWJVrvdbml9vKDL'
+  const storeId = id
+  console.log('storeId', storeId);
   useEffect(() => {
     const cate = []
     const unsubscribe = onSnapshot(
