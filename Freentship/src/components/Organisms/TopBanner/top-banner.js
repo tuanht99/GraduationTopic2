@@ -5,7 +5,7 @@ import { View, ImageBackground, Text } from 'react-native'
 import { Colors, FontSize } from '../../../styles'
 import * as LocationPK from 'expo-location'
 
-export const TopBanner = () => {
+export const TopBanner = ({ setLocationUser }) => {
   const nameIcons = ['location-sharp', 'chevron-forward-sharp']
   const colorIcon = Colors.white
   const sizeIcon = FontSize['2xl']
@@ -23,12 +23,18 @@ export const TopBanner = () => {
         return
       }
 
-      let location = await LocationPK.getCurrentPositionAsync({})
-      let locationAddress = await LocationPK.reverseGeocodeAsync({
+      const location = await LocationPK.getCurrentPositionAsync({})
+      const locationAddress = await LocationPK.reverseGeocodeAsync({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
       })
+      // console.log('geoLocation', geoLocation)
       setLocation(locationAddress)
+      setLocationUser({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        address: `${locationAddress[0].streetNumber}, ${locationAddress[0].street}, ${locationAddress[0].subregion}, ${locationAddress[0].region}, ${locationAddress[0].country}`
+      })
     })()
   }, [])
 
@@ -37,9 +43,7 @@ export const TopBanner = () => {
     text = errorMsg
   } else if (location) {
     const locationTmp = location[0]
-    console.log('locationTmp', locationTmp)
     text = `${locationTmp.streetNumber}, ${locationTmp.street}, ${locationTmp.subregion}, ${locationTmp.region}, ${locationTmp.country}`
-    console.log('text', text)
   }
 
   return (

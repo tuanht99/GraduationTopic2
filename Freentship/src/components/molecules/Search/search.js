@@ -29,7 +29,7 @@ export const Search = ({
         placeholder={placeholder}
         placeholderTextColor={Colors.gray}
         value={value}
-        onChange={onChange}
+        onChangeText={onChange}
         onFocus={onFocus}
       />
     </TouchableOpacity>

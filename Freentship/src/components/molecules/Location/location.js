@@ -30,12 +30,7 @@ export const Location = ({
       >
         {children}
       </IconText>
-      <AdIcon
-        name={name2}
-        color={color2}
-        style={[styles.iconContainer, style2]}
-        size={size2}
-      />
+      <AdIcon name={name2} color={color2} style={[style2]} size={size2} />
     </View>
   )
 }

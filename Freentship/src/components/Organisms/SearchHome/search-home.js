@@ -6,7 +6,7 @@ import { Colors, FontSize } from '../../../styles'
 import { AdIcon } from '../../atoms/AdIcon'
 import LogoApp from '../../../assets/images/logos/app-user-red.png'
 
-export const SearchHome = ({ style, styleImg, flexDirection }) => {
+export const SearchHome = ({ style, styleImg, flexDirection, route }) => {
   return (
     <View style={[styles.container, style]}>
       <View style={[styles.menuContainer, styles.menuContainerRow]}>
@@ -14,7 +14,7 @@ export const SearchHome = ({ style, styleImg, flexDirection }) => {
         {flexDirection && (
           <Search
             style={[styles.searchContainer, styles.searchContainerRow]}
-            styleInput={styles.iputSearchRow}
+            styleInput={styles.inputSearchRow}
             size={FontSize['2xl']}
             color={Colors.gray}
             onPress={() => console.log('search icon menu: search')}

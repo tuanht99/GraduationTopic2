@@ -1,1 +1,1 @@
-export { IconText } from './icon-text'
+export {IconText} from './icon-text'

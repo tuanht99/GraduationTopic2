@@ -18,7 +18,7 @@ export default StyleSheet.create({
     paddingTop: Spacing['2'],
     marginBottom: 0
   },
-  iputSearchRow: {
+  inputSearchRow: {
     paddingVertical: 0
   },
   img: {

@@ -5,7 +5,6 @@ export default StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginTop: Spacing['3'],
     marginBottom: Spacing['6']
   },
@@ -17,9 +16,7 @@ export default StyleSheet.create({
     borderRadius: 25
   },
   text: {
-    paddingRight: Spacing['1']
-  },
-  iconContainer: {
-    marginLeft: Spacing['1']
+    flex: 1
+    // paddingRight: 16
   }
 })
