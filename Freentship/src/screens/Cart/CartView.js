@@ -173,11 +173,11 @@ export default function CartView({ navigation, route }) {
               numberOfLines={1}
               style={{ fontWeight: "bold", paddingBottom: 10, fontSize: 20 }}
             >
-              {DATA.shopname}
+              {storeNameParams}
             </Text>
 
             <Text numberOfLines={1} style={{ paddingBottom: 10 }}>
-              {DATA.shopaddress}
+              {storeAddressParams}
             </Text>
           </View>
         </View>

@@ -49,7 +49,8 @@ export default function DetailsScreenView({ route, navigation }) {
   const storeNameParams = JSON.stringify(storeName)
   const storeImageParams = storeImage
   const priceParams = JSON.stringify(price)
-  const prices = parseFloat(price);
+  const prices = parseFloat(price)
+  const statusParmas = status
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -104,7 +105,7 @@ export default function DetailsScreenView({ route, navigation }) {
         </View>
 
         <View style={{ marginLeft: 10 }}>
-          {status === 1 ? (
+          { statusParmas === 1 ? (
             <TouchableOpacity
               onPress={() => navigation.navigate('CartView', {
                 nameOrder: title,
@@ -243,6 +244,7 @@ export default function DetailsScreenView({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
           >
             {foodOfStore.map(item => (
+              
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
@@ -253,7 +255,8 @@ export default function DetailsScreenView({ route, navigation }) {
                     price: item.price,
                     storeName: storeName,
                     storeAddress: storeAddress,
-                    storeImage: storeImage
+                    storeImage: storeImage,
+                    status: item.status
                   })
                 }
                 style={{ justifyContent: 'flex-start', flexDirection: 'row' }}
