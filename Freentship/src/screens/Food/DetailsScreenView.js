@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
-
+import { StatusBar } from 'expo-status-bar'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -16,6 +16,7 @@ import { collection, getDocs, where, query } from 'firebase/firestore'
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
+  <StatusBar animated='true' />
   const {
     title,
     description,
@@ -27,6 +28,7 @@ export default function DetailsScreenView({ route, navigation }) {
     storeImage,
     storeId
   } = route.params
+
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -47,11 +49,12 @@ export default function DetailsScreenView({ route, navigation }) {
   const storeNameParams = JSON.stringify(storeName)
   const storeImageParams = storeImage
   const priceParams = JSON.stringify(price)
-
+  const prices = parseFloat(price)
+  const statusParmas = status
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Store')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
@@ -102,9 +105,22 @@ export default function DetailsScreenView({ route, navigation }) {
         </View>
 
         <View style={{ marginLeft: 10 }}>
-          {status === 1 ? (
+          {statusParmas === 1 ? (
             <TouchableOpacity
-              onPress={() => navigation.navigate('CartView')}
+              onPress={() => navigation.navigate('CartView', {
+                nameOrder: title,
+                priceOrder: price,
+                ImageOrder: image,
+
+                //  cửa hàng
+                storeOrder: storeId,
+                storeN: storeName,
+                storeAdr: storeAddress,
+                storeIM: storeImageParams,
+
+
+
+              })}
               style={{
                 backgroundColor: '#E94730',
                 borderRadius: 15,
@@ -178,13 +194,14 @@ export default function DetailsScreenView({ route, navigation }) {
           <View
             style={{
               flexDirection: 'row',
-              paddingBottom: 20,
+              top: 0,
+              marginTop: 0,
               alignItems: 'center'
             }}
           >
             <Image
               source={{ uri: storeImageParams }}
-              style={{ width: 40, height: 40, borderRadius: 25 }}
+              style={{ width: 40, height: 40, borderRadius: 25, }}
             />
 
             <View style={{ paddingLeft: 10 }}>
@@ -227,6 +244,7 @@ export default function DetailsScreenView({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
           >
             {foodOfStore.map(item => (
+
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
@@ -237,7 +255,8 @@ export default function DetailsScreenView({ route, navigation }) {
                     price: item.price,
                     storeName: storeName,
                     storeAddress: storeAddress,
-                    storeImage: storeImage
+                    storeImage: storeImage,
+                    status: item.status
                   })
                 }
                 style={{ justifyContent: 'flex-start', flexDirection: 'row' }}

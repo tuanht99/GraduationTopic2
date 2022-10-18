@@ -4,20 +4,22 @@ import { Colors, FontSize, Spacing } from '../../../styles'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    borderWidth: 0.6,
+    borderRadius: 10,
+    borderColor: Colors.gray,
+    justifyContent: 'space-between'
   },
   containerCol: {
-    paddingVertical: Spacing['6']
+    marginVertical: Spacing['6']
   },
   containerRow: {
     flexDirection: 'row',
-    paddingTop: Spacing['6']
+    marginTop: Spacing['6']
   },
   img: {
-    flex: 1,
     width: '100%',
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     alignSelf: 'center'
   },
   adImageText: {
@@ -29,9 +31,11 @@ export default StyleSheet.create({
   },
   text: {
     flex: 1,
-    fontSize: FontSize.xl,
+    fontSize: FontSize.lg,
     fontWeight: 'bold',
-    color: Colors.black
+    color: Colors.black,
+    marginVertical: Spacing['1'],
+    paddingHorizontal: Spacing['1']
   },
   rightContainer: {
     flex: 1,
@@ -40,5 +44,27 @@ export default StyleSheet.create({
   },
   textRow: {
     fontSize: FontSize.xl
+  },
+  textCol: {
+    marginVertical: Spacing['4']
+  },
+  loaderDistance: {
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: Spacing['1']
+  },
+  loader1: {
+    flex: 0.2,
+    height: 20,
+    marginHorizontal: Spacing['1'],
+    backgroundColor: Colors.gray,
+    borderRadius: 10
+  },
+  loader2: {
+    flex: 0.8
+  },
+  imgCol: {
+    flex: 1,
+    height: 140
   }
 })

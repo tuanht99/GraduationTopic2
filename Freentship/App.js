@@ -4,27 +4,45 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
-  Text,
-  View,
-  Button
 } from 'react-native'
-import { HomeScreen } from './src/screens/HomeScreen'
 import { Colors, Spacing } from './src/styles'
+import { HomeNavigator } from './src/routes/HomeNavigator'
+import { NavigationContainer } from '@react-navigation/native'
+import StoreScreen from './src/screens/Store/StoreScreen'
 import { SearchScreen } from './src/screens/SearchScreen'
-import { Location1 } from './src/screens/__test__/location'
-import { MapScreen } from './src/screens/MapScreen'
-import { MapScreenTest } from './src/screens/__test__/map'
-import { WriteDataFood_StoresByCategory } from './src/services'
-import Routes from './src/routes'
+import DetailsScreenView from './src/screens/Food/DetailsScreenView'
+import CardView from './src/screens/Cart/CartView'
+import OrderView from './src/screens/Food/OrderView'
+import YourOrderView from './src/screens/Food/YourOrderView';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import { db } from './src/services/firebase'
-import { doc, addDoc, Timestamp , collection} from 'firebase/firestore'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Routes/>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
+            // hidden navbar
+            headerShown: false,
+          }} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} options={{
+            // hidden navbar
+            headerShown: false,
+          }} />
+          <Stack.Screen name="StoreScreen" component={StoreScreen} options={{
+            // hidden navbar
+            headerShown: false,
+          }} />
+          <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+          <Stack.Screen name="CartView" component={CardView} />
+          <Stack.Screen name="OrderView" component={OrderView} />
+          <Stack.Screen name="YourOrderView" component={YourOrderView} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaView>
   )
 }

@@ -11,10 +11,25 @@ export const Product = ({
   numberOfLines,
   textStyle,
   adStyle,
-  number,
   advertisement,
-  horizontal = true
+  horizontal = true,
+  locationFrom,
+  locationTo,
+  distance = true
 }) => {
+  const loaderDistance = locationFrom ? (
+    <Distance
+      locationFrom={locationFrom}
+      locationTo={locationTo}
+      advertisement={advertisement}
+    />
+  ) : (
+    <View style={styles.loaderDistance}>
+      <View style={styles.loader1} />
+      <View style={[styles.loader1, styles.loader2]} />
+    </View>
+  )
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -26,20 +41,20 @@ export const Product = ({
       <AdImageText
         style={[styles.adImageText, adStyle]}
         textStyle={[styles.text, textStyle]}
-        imageStyle={[styles.img, styles.imgRow]}
+        imageStyle={[styles.img, horizontal ? styles.imgCol : styles.imgRow]}
         source={source}
         label={label}
         numberOfLines={numberOfLines}
         horizontal={horizontal}
       />
       {horizontal ? (
-        number && <Distance number={number} advertisement={advertisement} />
+        distance && loaderDistance
       ) : (
         <View style={styles.rightContainer}>
           <Text numberOfLines={2} style={styles.textRow}>
             {label}
           </Text>
-          {number && <Distance number={number} advertisement={advertisement} />}
+          {loaderDistance}
         </View>
       )}
     </TouchableOpacity>

@@ -1,30 +1,50 @@
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native'
 import styles from './products.style'
 import { Product } from '../Product'
+import { Spacing } from '../../../styles'
 
-export const Products = ({ data, horizontal, type = 0 }) => {
+export const Products = ({
+  data,
+  location,
+  horizontal,
+  distance,
+  indexFirestore,
+  type = 0,
+  navigation,
+  isCategories = false
+}) => {
   const numberOfColumns = type === 1 ? 2 : 1
   const alignItems = type === 0 ? styles.alignItemCenter : styles.alignItemStart
   const ItemView = (item, index) => {
     const handleOnPress = () => {
-      console.log('press: ', item.title)
+      isCategories
+        ? navigation.navigate('SearchScreen', {
+          id: item.id,
+          name: item.name,
+          index: indexFirestore,
+          location: location
+        })
+        : navigation.navigate('StoreScreen', { id: item.id })
     }
     return (
       <View key={index} style={horizontal ? styles.item : styles.itemRow}>
         <Product
           horizontal={horizontal}
-          source={item.urlImg}
-          label={item.title}
+          source={item.image}
+          label={item.name}
           onPress={handleOnPress}
-          number={item.number}
           advertisement={item.advertisement}
           numberOfLines={numberOfColumns}
           adStyle={alignItems}
+          locationFrom={indexFirestore !== 0 && location}
+          locationTo={item.locations}
+          distance={distance}
         />
       </View>
     )
   }
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -32,6 +52,16 @@ export const Products = ({ data, horizontal, type = 0 }) => {
         showsHorizontalScrollIndicator={false}
       >
         {data.map(ItemView)}
+        <TouchableOpacity
+          onPress={() => console.log('show all')}
+          style={{
+            width: 133,
+            marginLeft: Spacing['4'],
+            marginVertical: Spacing['6']
+          }}
+        >
+          {/*<Text>Show all stores</Text>*/}
+        </TouchableOpacity>
       </ScrollView>
     </View>
   )
