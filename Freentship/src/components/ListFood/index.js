@@ -7,26 +7,30 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  Pressable
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services/firebase'
+import Modal from 'react-native-modal'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
-const widthDis = Dimensions.get("window").width
+const widthDis = Dimensions.get('window').width
 const ListFood = ({
   categoriesData,
   navigation,
   storeName,
   storeAddress,
   storeImage,
-  storeId
+  storeId,
+  openTime
 }) => {
   const [food, setFood] = useState([])
   // console.log('food', food)
   const [loading, setLoading] = useState(false)
   const [categoryId, setCategoryId] = useState('')
-  
+  const [modalVisible, setModalVisible] = useState(false)
+
   useEffect(() => {
     const getFood = async () => {
       const food = []
@@ -55,6 +59,31 @@ const ListFood = ({
     <ActivityIndicator size="large" color="#E94730" style={{ margin: 150 }} />
   )
 
+  // Modal notification close time
+  const Moadal = () => (
+    <View style={styles.centeredView}>
+      <Modal
+        isVisible={modalVisible}
+        animationIn={'slideInLeft'}
+        animationOut={'slideOutRight'}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Rất tiếc hiện tại cửa hàng đang đóng cửa
+            </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Đóng</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  )
+
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity
@@ -80,89 +109,93 @@ const ListFood = ({
             }}
           >
             {categoryId === item.id ? (
-              <Text style={styles.textT}>{item.category_Name}</Text>
+              <Text style={styles.textT}>{item.name}</Text>
             ) : (
-              <Text style={styles.textF}>{item.category_Name}</Text>
+              <Text style={styles.textF}>{item.name}</Text>
             )}
           </TouchableOpacity>
         )}
       />
     </View>
   )
-  const ListFood = () =>
-   
-      <FlatList
-        data={food}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              // [Styles.htrOrder, Styles.disabledButton]
-              style={
-                item.status === 1
-                  ? Styles.htrOrder
-                  : [Styles.htrOrder, Styles.disabledButton]
-              }
-              onPress={() =>
-                navigation.navigate('DetailsScreenView', {
-                  title: item.name,
-                  image: item.image,
-                  description: item.description,
-                  price: item.price,
-                  status: item.status,
-                  storeName: storeName,
-                  storeAddress: storeAddress,
-                  storeImage: storeImage,
-                  storeId : storeId
-                })
-              }
+
+  console.log('openTimeaaaa', openTime)
+  const ListFood = () => (
+    <FlatList
+      data={food}
+      keyExtractor={item => item.id}
+      renderItem={({ item }) => {
+        return (
+          <TouchableOpacity
+            // [Styles.htrOrder, Styles.disabledButton]
+            style={
+              item.status === 1
+                ? Styles.htrOrder
+                : [Styles.htrOrder, Styles.disabledButton]
+            }
+            onPress={() => {
+              openTime === true
+                ? navigation.navigate('DetailsScreenView', {
+                    title: item.name,
+                    image: item.image,
+                    description: item.description,
+                    price: item.price,
+                    status: item.status,
+                    storeName: storeName,
+                    storeAddress: storeAddress,
+                    storeImage: storeImage,
+                    storeId: storeId
+                  }) :
+              setModalVisible(true)
+            }}
+          >
+            <View
+              style={{
+                flex: 2,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
             >
-              <View
+              <Image
                 style={{
-                  flex: 2,
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  height: 90,
+                  width: 90,
+                  borderRadius: 15,
+                  overflow: 'hidden',
+                  resizeMode: 'contain'
                 }}
-              >
-                <Image
-                  style={{
-                    height: 90,
-                    width: 90,
-                    borderRadius: 15,
-                    overflow: 'hidden',
-                    resizeMode: 'contain'
-                  }}
-                  source={{ uri: item.image }}
-                />
-              </View>
+                source={{ uri: item.image }}
+              />
+            </View>
 
-              <View style={{ flexDirection: 'column', flex: 4 }}>
-                <Text style={[Styles.bold, Styles.textSize17]}>
-                  {item.name}
-                </Text>
+            <View style={{ flexDirection: 'column', flex: 4 }}>
+              <Text style={[Styles.bold, Styles.textSize17]}>{item.name}</Text>
 
-                <Text numberOfLines={1} style={Styles.textGif}>
-                  {item.description}
-                </Text>
-                <Text style={{ fontSize: 13 }}>{item.price}</Text>
+              <Text numberOfLines={1} style={Styles.textGif}>
+                {item.description}
+              </Text>
+              <Text style={{ fontSize: 13 }}>{item.price}</Text>
 
-                {item.status === 1 ? (
-                  <Text style={Styles.orderStatusTrue}> Còn bán </Text>
-                ) : (
-                  <Text style={Styles.orderStatusFalse}>Đã bán hết</Text>
-                )}
-              </View>
-            </TouchableOpacity>
-          )
-        }}
-      ></FlatList>
-   
+              {item.status === 1 ? (
+                <Text style={Styles.orderStatusTrue}> Còn bán </Text>
+              ) : (
+                <Text style={Styles.orderStatusFalse}>Đã bán hết</Text>
+              )}
+            </View>
+          </TouchableOpacity>
+        )
+      }}
+    ></FlatList>
+  )
+
   return (
-    <FlatList     
-    ListHeaderComponent={loading ? <CategoriesBar /> : <Loading />}
-    ListFooterComponent={loading ? <ListFood /> : <Loading />}
-/>
-    
+    <View>
+      <Moadal />
+      <FlatList
+        ListHeaderComponent={loading ? <CategoriesBar /> : <Loading />}
+        ListFooterComponent={loading ? <ListFood /> : <Loading />}
+      />
+    </View>
   )
 }
 
@@ -179,6 +212,47 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     textDecoration: 'underline'
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: '#E94730'
+  },
+  buttonClose: {
+    backgroundColor: '#E94730'
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center'
   }
 })
 
