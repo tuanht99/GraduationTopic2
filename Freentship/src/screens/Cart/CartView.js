@@ -34,8 +34,13 @@ const DATA = {
 export default function CartView({ navigation, route }) {
 
 
-  const { nameOrder, priceOrder, ImageOrder } = route.params;
-  const imageParams = ImageOrder
+  const { nameOrder, priceOrder, ImageOrder,storeOrder, storeN,storeAdr,storeIM} = route.params;
+  const imageParams = ImageOrder;
+  const storeOrders = storeOrder;
+  const storeNameParams= storeN;
+  const storeImageParams = storeIM;
+  const storeAddressParams = storeAdr;
+  
   // lấy tên
   // console.log(imageParams);
   // chuyển chuỗi thành số
@@ -66,6 +71,7 @@ export default function CartView({ navigation, route }) {
   React.useEffect(() => {
     setTotal(Quantity * priceOrders);
   }, [Quantity])
+  
   // mảng dữ liệu
   const tittle= nameOrder;
   const price = priceOrders;
@@ -370,6 +376,11 @@ export default function CartView({ navigation, route }) {
                 ImageOrder: imageParams,
                 Totals: Total,
                 Quantity: Quantity,
+                storeOrder,
+                 storeN,
+                 storeAdr,
+                 storeIM,
+              
 
               })}
 

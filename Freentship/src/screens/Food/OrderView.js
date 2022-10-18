@@ -46,7 +46,7 @@ export default function OrderView({ navigation,route, }) {
  const [Total, setTotal] = useState(0);
   // tăng giảm số lượng
  
-  const { nameOrder, priceOrder, ImageOrder,Totals,Quantity } = route.params;
+  const { nameOrder, priceOrder, ImageOrder,Totals,Quantity ,storeOrder, storeN,storeAdr,storeIM} = route.params;
  
 // console.log("name: "+nameOrder );
 
@@ -54,6 +54,7 @@ export default function OrderView({ navigation,route, }) {
 // // console.log("Image: "+ImageOrder );
 // console.log("tongtien :" +Totals );
 // console.log("so tien :" +Quantity );
+console.log(storeOrder + " id: " +" name:" + storeN + " price:" + storeAdr +" storeIM: "+storeIM);
 // // ship
  function ship(){
   // tính theo khoản cách từ cửa hàng với khách hàng

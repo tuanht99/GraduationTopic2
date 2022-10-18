@@ -2,6 +2,7 @@ import { Text, StyleSheet, View, Alert, TextInput, Button, TouchableOpacity } fr
 import React, { Component } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from "react";
+import { async } from '@firebase/util';
 
 export default function AsyncStorages() {
 
@@ -10,7 +11,7 @@ export default function AsyncStorages() {
   const total = "19000";
   const quantity = "11";
   const image = "abc";
-  const arr=[]
+  
   const Cart = [
     tittle,
     price,
@@ -39,7 +40,7 @@ export default function AsyncStorages() {
   const saveHandler = async (Cart) => {
 
     try {
-      const Order = Carts={
+      const Order ={
 
         name: tittle,
         price: price,
@@ -50,6 +51,9 @@ export default function AsyncStorages() {
       }
       await AsyncStorage.setItem('Order', JSON.stringify(Order));
       console.log( Order);
+
+
+
       Alert.alert('save', "Save Order", [{ Text: "ok" }]);
     } catch (error) {
       Alert.alert("lỗi: " + error.message);
@@ -60,8 +64,17 @@ export default function AsyncStorages() {
     try {
       const OrderString = await AsyncStorage.getItem('Order');
       const Order = JSON.parse(OrderString);
-      arr.push(
-      this.Order
+      
+     this.setState({
+      ...this.Cart,
+      tittle: Order.name,
+      price: Order.price,
+
+      total : Order.total,
+      quantity : Order.quantity,
+      image : Order.image,
+
+     }
       )
       console.log(Order);
       Alert.alert('save', "Load Order", [{ Text: "ok" }]);

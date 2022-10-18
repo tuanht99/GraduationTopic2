@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CardView from '../screens/Cart/CartView'
 import { HomeScreen } from '../screens/HomeScreen/home.screen';
 import OrderView from '../screens/Food/OrderView'
+import YourOrderView from '../screens/Food/YourOrderView';
 const Stack = createNativeStackNavigator();
 
  function Router() {
@@ -23,6 +24,8 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="CartView" component={CardView} />
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
         <Stack.Screen name="OrderView" component={OrderView} />
+        <Stack.Screen name="YourOrderView" component={YourOrderView} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
