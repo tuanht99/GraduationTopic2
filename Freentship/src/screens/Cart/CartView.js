@@ -34,12 +34,13 @@ const DATA = {
 export default function CartView({ navigation, route }) {
 
 
-  const { nameOrder, priceOrder, ImageOrder,storeOrder, storeN,storeAdr,storeIM} = route.params;
+  const { nameOrder, priceOrder, idFood , ImageOrder,storeOrder, storeN,storeAdr,storeIM, storeID ,locationStore} = route.params;
   const imageParams = ImageOrder;
   const storeOrders = storeOrder;
   const storeNameParams= storeN;
   const storeImageParams = storeIM;
   const storeAddressParams = storeAdr;
+  
   
   // lấy tên
   // console.log(imageParams);
@@ -374,12 +375,15 @@ export default function CartView({ navigation, route }) {
                 nameOrder: nameOrder,
                 priceOrder: priceOrder,
                 ImageOrder: imageParams,
+                idFood: idFood,
                 Totals: Total,
                 Quantity: Quantity,
                 storeOrder,
                  storeN,
                  storeAdr,
                  storeIM,
+                 storeID,
+                 locationStore
               
 
               })}

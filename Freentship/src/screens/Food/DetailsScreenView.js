@@ -22,13 +22,16 @@ export default function DetailsScreenView({ route, navigation }) {
     description,
     image,
     price,
+    idFood,
     status,
     storeName,
     storeAddress,
     storeImage,
-    storeId
+    storeId,
+    locationStore
   } = route.params
 
+  
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -51,6 +54,8 @@ export default function DetailsScreenView({ route, navigation }) {
   const priceParams = JSON.stringify(price)
   const prices = parseFloat(price)
   const statusParmas = status
+  const location = JSON.stringify(locationStore)
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -111,15 +116,14 @@ export default function DetailsScreenView({ route, navigation }) {
                 nameOrder: title,
                 priceOrder: price,
                 ImageOrder: image,
-
+                idFood : idFood,
                 //  cửa hàng
                 storeOrder: storeId,
                 storeN: storeName,
                 storeAdr: storeAddress,
                 storeIM: storeImageParams,
-
-
-
+                storeID :  storeId,
+                locationStore : locationStore
               })}
               style={{
                 backgroundColor: '#E94730',
@@ -249,6 +253,7 @@ export default function DetailsScreenView({ route, navigation }) {
                 key={item.id}
                 onPress={() =>
                   navigation.navigate('DetailsScreenView', {
+                    idFood: item.id ,
                     title: item.name,
                     image: item.image,
                     description: item.description,

@@ -14,6 +14,7 @@ import DetailsScreenView from './src/screens/Food/DetailsScreenView'
 import CardView from './src/screens/Cart/CartView'
 import OrderView from './src/screens/Food/OrderView'
 import YourOrderView from './src/screens/Food/YourOrderView';
+import {LocationScreen} from './src/screens/LocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
@@ -25,6 +26,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="LocationScreen" component={LocationScreen} />
           <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
             // hidden navbar
             headerShown: false,

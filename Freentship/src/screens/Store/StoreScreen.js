@@ -31,7 +31,6 @@ function StoreScreen({ navigation, route }) {
   const [openTime, setOpenTime] = useState(true)
 
   const storeId = id
-  console.log('storeId', storeId);
   useEffect(() => {
     const cate = []
     const unsubscribe = onSnapshot(
@@ -47,12 +46,11 @@ function StoreScreen({ navigation, route }) {
     return unsubscribe
   }, [storeId])
 
-  console.log('category', stores.food_categories)
+ 
   useEffect(() => {
     if (stores.food_categories !== undefined) {
       const cate = []
       stores.food_categories.forEach(element => {
-        console.log('category', element)
         getDoc(doc(db, 'categories', `${element}`)).then(doc => {
           cate.push({
             ...doc.data(),
@@ -241,6 +239,7 @@ function StoreScreen({ navigation, route }) {
             storeImager={stores.image}
             storeId={storeId}
             openTime={openTime}
+            locationStore ={stores.locations}
           />
         }
       />

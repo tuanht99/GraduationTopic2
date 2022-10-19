@@ -20,7 +20,15 @@ const SettingScreen = () => {
   )
 }
 
-export const HomeNavigator = () => {
+
+export const HomeNavigator = ({navigation, route}) => {
+  const {location} = route.params
+  React.useEffect(() => {
+    if(location){
+      navigation.navigate('Home', {location: location});
+    }
+  }, [])
+  
   return (
     <Tab.Navigator
       screenOptions={{
