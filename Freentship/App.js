@@ -19,11 +19,11 @@ import Routes from './src/routes'
 
 export default function App() {
   return (
-    // <SafeAreaView style={styles.container}>
-    //   <Routes/>
-    //   {/* <AsyncStorages/> */}
-    // </SafeAreaView>
-    <InforSettingView/>
+    <SafeAreaView style={styles.container}>
+      <Routes/>
+      {/* <AsyncStorages/> */}
+    </SafeAreaView>
+  
   )
 }
 

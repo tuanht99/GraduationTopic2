@@ -3,8 +3,8 @@ import { StyleSheet,  flex, } from 'react-native'
 
 const InforSettingView = StyleSheet.create({
     container: {
-      flex: 1,
-      display: 'flex',
+     
+      
       backgroundColor: "#DCDCDC",
       width: '100%',
       height: '100%',

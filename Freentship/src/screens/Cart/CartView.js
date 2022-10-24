@@ -103,41 +103,7 @@ export default function CartView({ navigation, route }) {
     ImageOrder: ''
 
   };
-  const inputHandler = (name, price, quantity) => {
-    this.setState({ ...this.state, name: name, price: price, quantity: quantity });
-
-    console.log(this.state);
-  }
-
-  //  ansync   
-  // lưu
-  const saveHandler = async () => {
-    try {
-      const Order = {
-
-        name: nameOrder,
-        price: priceOrders,
-        quantity: Quantity,
-
-      }
-      await AsyncStorage.setItem('id', JSON.stringify(Order));
-
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
-  // loading
-  const loadHeader = async () => {
-    try {
-      const OrderString = await AsyncStorage.getItem('id');
-      const Order = JSON.parse(OrderString);
-      this.setState({
-        name: Order.name, price: Order.price
-      });
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
+  
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
