@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Button } from 'react-native'
 import React from 'react'
-import AppStyle from '../themes/ChangePasswordtheme'
+import AppStyle from '../../themes/ChangePasswordtheme'
 import { Ionicons } from '@expo/vector-icons';
 import PasswordTheme from '../components/Password';
 

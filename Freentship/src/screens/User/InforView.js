@@ -8,7 +8,7 @@ import Logo from '../assets/favicon.png';
 import Avatar from '../assets/longxaodua.jpg';
 import Longxaodua from '../assets/longxaodua.jpg';
 import Gif from '../assets/gif.jpg';
-import AppStyle from '../themes/IndexTheme';
+import AppStyle from '../../themes/IndexTheme';
 
 
 
