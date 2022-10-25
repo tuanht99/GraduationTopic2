@@ -14,6 +14,9 @@ import DetailsScreenView from './src/screens/Food/DetailsScreenView'
 import CardView from './src/screens/Cart/CartView'
 import OrderView from './src/screens/Food/OrderView'
 import YourOrderView from './src/screens/Food/YourOrderView';
+import DetailOrderView from './src/screens/DetailOrderView';
+import OrderCanceledView from './src/screens/OrderCanceledView';
+import OrderDeliveredView from './src/screens/OrderDeliveredView';
 import {LocationScreen} from './src/screens/LocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -26,7 +29,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="LocationScreen" component={LocationScreen} />
+          {/* <Stack.Screen name="LocationScreen" component={LocationScreen} />
           <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
             // hidden navbar
             headerShown: false,
@@ -37,12 +40,16 @@ export default function App() {
           }} />
           <Stack.Screen name="StoreScreen" component={StoreScreen} options={{
             // hidden navbar
-            headerShown: false,
+            headerShown: false, 
           }} />
           <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-          <Stack.Screen name="CartView" component={CardView} />
-          <Stack.Screen name="OrderView" component={OrderView} />
+          <Stack.Screen name="CartView" component={CardView} /> */}
+          {/* <Stack.Screen name="OrderView" component={OrderView} /> */}
           <Stack.Screen name="YourOrderView" component={YourOrderView} />
+          <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
+          
+          <Stack.Screen name="OrderCanceledView" component={OrderCanceledView} />
+          <Stack.Screen name="OrderDeliveredView" component={OrderDeliveredView} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

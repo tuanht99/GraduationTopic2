@@ -236,7 +236,7 @@ export default function OrderDeliveredView({ navigation }) {
             </View>
 
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("DetailOrderView")}>
                 <Text
                   style={{
                     fontWeight: "bold",
