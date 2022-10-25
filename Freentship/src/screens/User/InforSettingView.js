@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 
 // list dữ liệu
+import * as ImagePicker from 'expo-image-picker';
 
 // list
 
@@ -25,7 +26,22 @@ export default function InforSettingView({ navigation, route }) {
   console.log("gmail: " + gmail);
   console.log("phone: " + phone);
   
-  
+  // image picker
+  const [ChangeImage, setChangeImage] = useState(null)
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    setChangeImage(pickerResult.uri)
+    console.log("địa chỉ: "+ pickerResult.uri);
+  }
+  console.log("thay đổi: "+ ChangeImage);
+  // end
   <StatusBar backgroundColor={'black'}></StatusBar>
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,8 +55,12 @@ export default function InforSettingView({ navigation, route }) {
       headerTitleAlign: 'center',
       headerTitleStyle: {
         fontSize: 15,
-        alignItems: 'center'
-      }
+        alignItems: 'center',
+       color: 'red',
+       backgroundColor:"red",
+      },
+      
+
     })
   }, [navigation])
   return (
@@ -50,7 +70,7 @@ export default function InforSettingView({ navigation, route }) {
 
         {/* avatars */}
         <View style={AppStyle.avatar}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={openImagePickerAsync}>
             {
               <View>
                 <View
@@ -96,8 +116,10 @@ export default function InforSettingView({ navigation, route }) {
 
         {/* Profile */}
         <View style={AppStyle.Profile}>
+
+
           {/* nút thay đổi */}
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row' , paddingBottom:40}}>
             <Text style={AppStyle.profileText}>Thông tin cá nhân</Text>
             <TouchableOpacity   onPress={() => navigation.navigate('ChangeProfile',{
                 guestname, avatar, dateofbirth, sex, id,gmail,phone 
@@ -129,14 +151,14 @@ export default function InforSettingView({ navigation, route }) {
             </TouchableOpacity>
           </View>
           <View>
-            <View style={{ flexDirection: 'row', paddingTop: 20 }}>
+            <View style={{ flexDirection: 'row', paddingTop: 5 }}>
               <Ionicons name="call-outline" size={50} color="black" />
               <Text style={AppStyle.profileText}>{phone}</Text>
             </View>
           </View>
         </View>
         {/* change password */}
-        <View style={AppStyle.ChangePassword}>
+        {/* <View style={AppStyle.ChangePassword}>
           <View style={{ flexDirection: 'row' }}>
             <Ionicons
               style={{ paddingTop: 5 }}
@@ -154,7 +176,7 @@ export default function InforSettingView({ navigation, route }) {
               />
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   )

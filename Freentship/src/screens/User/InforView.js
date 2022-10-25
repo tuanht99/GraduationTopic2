@@ -31,68 +31,25 @@ export default function InforView({ navigation }) {
     }
   ]
 
-  const supportList = [
-    {
-      icon1: 'smile',
-      content: 'Cộng đồng lo ship',
-      icon2: 'right',
-      navigation: 'ComingSoon'
-    },
-    {
-      icon1: 'heart',
-      content: 'Cửa hàng yêu thích',
-      icon2: 'right',
-      navigation: 'FavoriteStore'
-    },
-    {
-      icon1: 'credit-card',
-      content: 'Quản lý thanh toán',
-      icon2: 'right',
-      navigation: 'ComingSoon'
-    },
-    {
-      icon1: 'question',
-      content: 'Câu hỏi thường gặp',
-      icon2: 'right',
-      navigation: 'ComingSoon'
-    },
-    {
-      icon1: 'facebook-messenger',
-      content: 'Đề xuất mong muốn',
-      icon2: 'right',
-      navigation: 'ComingSoon'
-    },
-    {
-      icon1: 'telegram-plane',
-      content: 'Đóng góp tính năng loship',
-      icon2: 'right',
-      navigation: 'ComingSoon'
-    },
-    {
-      icon1: 'phone',
-      content: 'Liên hệ với loship',
-      icon2: 'right',
-      navigation: 'ComingSoon'
-    }
-  ]
+ 
 
   const PROFILE = {
     id: 1,
     guestname: 'Nguyễn Văn 10',
     phone: '0966533691',
-    avatar: "https://sp-ao.shortpixel.ai/client/q_glossy,ret_img,w_598,h_918/https://hungphatsaigon.vn/wp-content/uploads/2022/07/10_hinh-nen-gau-cute.jpg",
+    avatar:
+      'https://sp-ao.shortpixel.ai/client/q_glossy,ret_img,w_598,h_918/https://hungphatsaigon.vn/wp-content/uploads/2022/07/10_hinh-nen-gau-cute.jpg',
     dateofbirth: '8 Mar 2002',
     sex: 'nam',
-    gmail:"thanh126126@gmail.com",
+    gmail: 'thanh126126@gmail.com'
   }
   const guestname = PROFILE.guestname
   const avatar = PROFILE.avatar
   const dateofbirth = PROFILE.dateofbirth
   const sex = PROFILE.sex
   const id = PROFILE.id
-  const gmail = PROFILE.gmail 
+  const gmail = PROFILE.gmail
   const phone = PROFILE.phone
-  console.log('hình:' + avatar)
 
   const footerComponent = () => (
     // <FlatList
@@ -163,7 +120,7 @@ export default function InforView({ navigation }) {
             >
               <Image
                 style={AppStyle.InforUserTheme.imgUser}
-                source={{ uri: avatar}}
+                source={{ uri: avatar }}
               />
             </View>
 
@@ -182,17 +139,15 @@ export default function InforView({ navigation }) {
                     textShadowRadius: 20
                   }}
                   onPress={() =>
-                    navigation.navigate(
-                      'InforSettingView',{
+                    navigation.navigate('InforSettingView', {
                       guestname,
                       avatar,
                       dateofbirth,
                       sex,
                       id,
                       gmail,
-                      phone,
-                      }
-                    )
+                      phone
+                    })
                   }
                 >
                   Cập nhật hồ sơ
@@ -237,27 +192,91 @@ export default function InforView({ navigation }) {
               AppStyle.InforUserTheme.horizonline
             ]}
           />
-          {supportList.map(support => (
-            <TouchableOpacity
-              style={AppStyle.InforUserTheme.supportLoShip}
-              onPress={() => navigation.navigate('InforSettingView')}
-            >
-              <View>
-                <FontAwesome5
-                  name={support.icon1}
-                  style={AppStyle.InforUserTheme.icon}
-                />
-              </View>
-              <View style={{ flexDirection: 'row', flex: 4 }}>
-                <Text style={{ fontSize: 15 }}>{support.content}</Text>
-              </View>
-              <AntDesign
-                name={support.icon2}
-                style={AppStyle.InforUserTheme.rightIcon}
+          {/* cộng đồng loship */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5 name="smile" style={AppStyle.InforUserTheme.icon} />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Cộng đồng lo ship</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* cửa hàng yêu thích */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5 name="heart" style={AppStyle.InforUserTheme.icon} />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Cửa hàng yêu thích</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Quản lí thanh toán */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5
+                name="credit-card"
+                style={AppStyle.InforUserTheme.icon}
               />
-            </TouchableOpacity>
-          ))}
-
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Quản lí thanh toán</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Câu hỏi thường gặp*/}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5
+                name="question"
+                style={AppStyle.InforUserTheme.icon}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Quản lí thanh toán</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Đề xuất monng muốn */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5
+                name="facebook-messenger"
+                style={AppStyle.InforUserTheme.icon}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Đề xuất mong muốn</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Đóng góp tính năng */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5
+                name="telegram-plane"
+                style={AppStyle.InforUserTheme.icon}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Đóng góp tính năng loship</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Liên hệ với Loship */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+              <FontAwesome5
+                name="phone"
+                style={AppStyle.InforUserTheme.icon}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Liên hệ với loship</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
           <View
             style={[
               AppStyle.InforUserTheme.mr10,

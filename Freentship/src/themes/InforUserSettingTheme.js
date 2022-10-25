@@ -83,7 +83,7 @@ const InforSettingView = StyleSheet.create({
       alignItems: 'center',
     },
     Phone: {
-      flex: 2,
+      flex: 1,
       margin: 5,
       backgroundColor: 'white',
     },
