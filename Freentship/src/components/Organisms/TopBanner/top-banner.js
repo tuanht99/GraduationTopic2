@@ -5,46 +5,12 @@ import { View, ImageBackground, Text } from 'react-native'
 import { Colors, FontSize } from '../../../styles'
 import * as LocationPK from 'expo-location'
 
-export const TopBanner = ({ setLocationUser }) => {
+export const TopBanner = ({ location }) => {
   const nameIcons = ['location-sharp', 'chevron-forward-sharp']
   const colorIcon = Colors.white
   const sizeIcon = FontSize['2xl']
   const numberOfLines = 1
   const uriImg = 'https://loship.vn/dist/images/home-banner-18062021.jpg'
-
-  const [location, setLocation] = useState(null)
-  const [errorMsg, setErrorMsg] = useState(null)
-
-  useEffect(() => {
-    ;(async () => {
-      let { status } = await LocationPK.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        return
-      }
-
-      const location = await LocationPK.getCurrentPositionAsync({})
-      const locationAddress = await LocationPK.reverseGeocodeAsync({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
-      })
-      // console.log('geoLocation', geoLocation)
-      setLocation(locationAddress)
-      setLocationUser({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        address: `${locationAddress[0].streetNumber}, ${locationAddress[0].street}, ${locationAddress[0].subregion}, ${locationAddress[0].region}, ${locationAddress[0].country}`
-      })
-    })()
-  }, [])
-
-  let text = 'Waiting..'
-  if (errorMsg) {
-    text = errorMsg
-  } else if (location) {
-    const locationTmp = location[0]
-    text = `${locationTmp.streetNumber}, ${locationTmp.street}, ${locationTmp.subregion}, ${locationTmp.region}, ${locationTmp.country}`
-  }
 
   return (
     <View style={styles.container}>
@@ -60,7 +26,7 @@ export const TopBanner = ({ setLocationUser }) => {
           styleText={styles.text}
           numberOfLines={numberOfLines}
         >
-          {text}
+          {location.address}
         </Location>
       </ImageBackground>
     </View>

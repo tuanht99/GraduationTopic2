@@ -9,14 +9,15 @@ import { ReadDataFoodStores, ReadDataFoodStoresByFood } from '../../services'
 import { orderBy, where, limit } from 'firebase/firestore'
 import { CategoryHeader } from '../../components/molecules/CategoryHeader'
 
-export const HomeScreen = ({ navigation }) => {
+export const HomeScreen = ({ navigation, route }) => {
+  
+  const {location} = route.params !== undefined && route.params
   const LIMIT = 10
   const categories = [
     'Thử quán mới',
     'Đang khuyến mãi',
     'Thương hiệu quen thuộc'
   ]
-  const [location, setLocation] = useState(null)
   const [isScrolling, setIsScrolling] = React.useState(false)
   const [data, setData] = React.useState(null)
   const q = [
@@ -84,14 +85,14 @@ export const HomeScreen = ({ navigation }) => {
           flexDirection={true}
         />
       )}
-      <ScrollView
+      {location !== undefined && <ScrollView
         onScrollToTop={() => console.log('onScrollToTop')}
         style={styles.container}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
         onScroll={handleScroll}
       >
-        <TopBanner setLocationUser={setLocation} />
+        <TopBanner location={location} />
         <SearchHome style={styles.searchHome} />
         <ChooseCategoriesFood location={location} navigation={navigation} />
         {data !== null
@@ -110,7 +111,7 @@ export const HomeScreen = ({ navigation }) => {
               )
             })
           : firestore.map(Loader)}
-      </ScrollView>
+      </ScrollView>}
     </>
   )
 }

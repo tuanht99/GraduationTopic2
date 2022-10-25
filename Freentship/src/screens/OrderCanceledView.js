@@ -136,7 +136,7 @@ export default function OrderCanceledView({ navigation }) {
               </View>
 
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("DetailOrderView")}>
                   <Text
                     style={{
                       fontWeight: "bold",

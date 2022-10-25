@@ -25,7 +25,7 @@ export const Products = ({
           index: indexFirestore,
           location: location
         })
-        : navigation.navigate('StoreScreen', { id: item.id })
+        : navigation.navigate('StoreScreen', { id: item.id, location: location })
     }
     return (
       <View key={index} style={horizontal ? styles.item : styles.itemRow}>

@@ -41,7 +41,7 @@ const DATA = {
 };
 
 // Navigation
-export default function OrderView({ navigation }) {
+export default function OrderView({ navigation, route}) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (

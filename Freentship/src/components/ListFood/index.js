@@ -23,7 +23,8 @@ const ListFood = ({
   storeAddress,
   storeImage,
   storeId,
-  openTime
+  openTime,
+  locationStore
 }) => {
   const [food, setFood] = useState([])
   // console.log('food', food)
@@ -136,6 +137,7 @@ const ListFood = ({
             onPress={() => {
               openTime === true
                 ? navigation.navigate('DetailsScreenView', {
+                    idFood :item.id ,
                     title: item.name,
                     image: item.image,
                     description: item.description,
@@ -144,7 +146,8 @@ const ListFood = ({
                     storeName: storeName,
                     storeAddress: storeAddress,
                     storeImage: storeImage,
-                    storeId: storeId
+                    storeId: storeId ,
+                    locationStore : locationStore
                   }) :
               setModalVisible(true)
             }}
