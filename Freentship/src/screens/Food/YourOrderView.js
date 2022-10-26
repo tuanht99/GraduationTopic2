@@ -7,6 +7,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  where,
+  query,
+  QuerySnapshot,
+  editDoc,
+  onSnapshot,
+} from "firebase/firestore";
+
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -63,6 +79,37 @@ export default function YourOrderView({ navigation }) {
       },
     });
   }, [navigation]);
+  
+  const [inYourOrder, setInYourOrder] = useState([]);
+
+  //get information of yourorer
+  useEffect(() => {
+    let unsubscribe;
+    setInYourOrder(null);
+    const getYourOrder = async () => {
+      const orderRef = collection(db, "orders", "PPKK6atKTPOzCZWYvHF9");
+      const c = query(
+        orderRef
+        // where("category_Id", "==", category.id)
+      );
+      console.log(collection(db, "orders", "PPKK6atKTPOzCZWYvHF9"));
+      const querySnapshot = await getDocs(c);
+      const inYourOrder = [];
+      unsubscribe = onSnapshot(c, (querySnapshot) => {
+        setInYourOrder(
+          querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+    getYourOrder();
+    return unsubscribe;
+  }, []);
+  console.log('ordersset', inYourOrder)
+  
+  
 
   return (
     <ScrollView style={{ flex: 1 }}>
