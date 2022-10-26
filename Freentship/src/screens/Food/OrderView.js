@@ -147,6 +147,7 @@ export default function OrderView({ navigation, route }) {
   }
 
   const orderTheOrder = () => {
+    navigation.goBack('YourOrderView');
     const { id } = addDoc(collection(db, 'orders'), docData)
     .then(async (docRef) => {
       // Data saved successfully!
@@ -163,6 +164,7 @@ export default function OrderView({ navigation, route }) {
         console.log(error)
       }
     )
+    
   }
 
   function ship() {
