@@ -29,7 +29,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen name="LocationScreen" component={LocationScreen} />
+          <Stack.Screen name="LocationScreen" component={LocationScreen} />
           <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
             // hidden navbar
             headerShown: false,
