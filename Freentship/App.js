@@ -44,7 +44,7 @@ export default function App() {
           }} />
           <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
           <Stack.Screen name="CartView" component={CardView} />
-          {/* <Stack.Screen name="OrderView" component={OrderView} /> */}
+          <Stack.Screen name="OrderView" component={OrderView} />
           <Stack.Screen name="YourOrderView" component={YourOrderView} />
           <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
           
