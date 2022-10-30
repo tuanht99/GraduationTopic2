@@ -358,7 +358,7 @@ export default function DetailOrderView({ navigation }) {
                 </Text>
               </View>
 
-              <View>
+              {/* <View>
                 <TouchableOpacity>
                   <Text
                     style={{
@@ -370,7 +370,7 @@ export default function DetailOrderView({ navigation }) {
                     {DATA.txtThayDoi}
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
 
             <View style={{ flexDirection: "row" }}>
