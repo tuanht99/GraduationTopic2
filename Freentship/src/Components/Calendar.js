@@ -4,12 +4,7 @@ import { StyleSheet, Text, View,Dimensions } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Apap() {
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
-  const startDate = selectedStartDate
-    ? selectedStartDate.format('DD/MM/YYYY').toString()
-    : '';
-
+export default function Calendar() {
   return (
     <SafeAreaView style={styles.container} >
     

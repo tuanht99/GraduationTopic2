@@ -45,8 +45,7 @@ const InforSettingView = StyleSheet.create({
     ChangePassword: {
       margin: 5,
       flex: 1,
-      display: 'flex',
-      justifyContent: 'center',
+      
       backgroundColor: 'white',
     },
     navigatorsText: {
@@ -69,13 +68,14 @@ const InforSettingView = StyleSheet.create({
       
     },
     profileText: {
-      fontSize: 20,
+      fontSize: 25,
       textAlign: 'center',
-      paddingTop: 10,
+      paddingTop: 3,
+      fontWeight:'bold'
     },
     
     textProfile: {
-      marginLeft: 130,
+      marginLeft: 100,
       fontSize: 20,
       color: 'blue',
     },
@@ -83,8 +83,9 @@ const InforSettingView = StyleSheet.create({
       alignItems: 'center',
     },
     Phone: {
-      flex: 1,
+      flex: 2,
       margin: 5,
+      padding:5,
       backgroundColor: 'white',
     },
     PhoneText: {
@@ -94,7 +95,7 @@ const InforSettingView = StyleSheet.create({
       color: 'black',
     },
     textPhone: {
-      marginLeft: 110,
+      marginLeft: 70,
       fontSize: 20,
       color: 'blue',
     },

@@ -12,9 +12,9 @@ export default function ModalSimple(props) {
     
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const startDate = selectedStartDate
-      ? selectedStartDate.format('DD/MM/YYYY').toString()
+      ? selectedStartDate.format("D M Y").toString()
       : '';
-  
+    console.log(selectedStartDate)
     return (
     <TouchableOpacity
             disabled={true}
@@ -29,7 +29,7 @@ export default function ModalSimple(props) {
 
                 <View style={styles.buttionView}>
                     <TouchableOpacity style={styles.TouchableOpacity}
-                        onPress={() => CloseModal(false, 'Cancel')}
+                        onPress={() => CloseModal(false)}
                     >
                         <Text style={{ color: 'blue' }}> Cancel</Text>
 

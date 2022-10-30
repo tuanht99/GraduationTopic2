@@ -12,12 +12,28 @@ import { Picker } from '@react-native-picker/picker'
 import AppStyle from '../../themes/ChangeProfileTheme'
 import { Ionicons } from '@expo/vector-icons'
 import ModalSimple from '../../Components/ModalCalendar'
-import React, { useState, useEffect,useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
+import { db } from '../../services/config'
 
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  where,
+  query,
+  QuerySnapshot,
+  editDoc,
+  onSnapshot
+} from 'firebase/firestore'
 export default function ChangeProfileView({ navigation, route }) {
   // lấy dữ liệu bên màn hình infosetting
-  const { guestname, avatar, dateofbirth, sex, id, gmail, phone } = route.params
+  const { guestname, avatar, date, sex, id, gmail, phone } = route.params
   // end
 
   // biến của model lịch
@@ -35,14 +51,16 @@ export default function ChangeProfileView({ navigation, route }) {
   // dữ liệu thay đổi
   const [username, setusername] = useState()
   const [email, setemail] = useState()
-  const [date, setdateofbirth] = useState()
+  const [dates, setdateofbirth] = useState()
   const [phoneNumber, setphoneNumber] = useState()
   const [password, setpassword] = useState()
+
+  console.log('DATE : ' + date)
   // end
   // dữ liệu chọ nam nữ
   const [selectedLanguage, setSelectedLanguage] = useState()
   const pickerRef = useRef()
-
+// console.log(selectedLanguage);
   function open() {
     pickerRef.current.focus()
   }
@@ -51,6 +69,22 @@ export default function ChangeProfileView({ navigation, route }) {
     pickerRef.current.blur()
   }
   // end
+
+// update Firebase
+function editProfile() {
+  updateDoc(doc(db, 'users', id), {
+    guestName: username,
+    dateOfBirth: date,
+    avatar: avatar,
+    sex: selectedLanguage,
+    email: email,
+    phone: phone,
+  })
+  navigation.goback
+  // 7T5uG3Si5NHioADgam1Z
+}
+// console.log(username);
+  // navigation
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -67,18 +101,18 @@ export default function ChangeProfileView({ navigation, route }) {
       }
     })
   }, [navigation])
-
+// end
   return (
     <SafeAreaView style={AppStyle.container}>
       <View style={AppStyle.content}>
         <Text style={AppStyle.TextTitle}>Tên thường gọi (*)</Text>
         <View style={AppStyle.inputContainer}>
-          <TextInput style={AppStyle.inputField}>{guestname}</TextInput>
+          <TextInput style={AppStyle.inputField}  onChangeText={text => setusername(text)}>{guestname}</TextInput>
         </View>
 
         <Text style={AppStyle.TextTitle}>Email</Text>
         <View style={AppStyle.inputContainer}>
-          <TextInput style={AppStyle.inputField}>{gmail}</TextInput>
+          <TextInput style={AppStyle.inputField} onChangeText={text => setemail(text)}>{gmail}</TextInput>
         </View>
 
         <View style={AppStyle.Date}>
@@ -88,7 +122,10 @@ export default function ChangeProfileView({ navigation, route }) {
             <TouchableOpacity onPress={() => changeModelVisible(true)}>
               <View style={{ flexDirection: 'row' }}>
                 <Ionicons name="calendar-outline" size={50} color="black" />
-                <Text style={AppStyle.profileText}>{ChooseData}</Text>
+                {ChooseData !=null ?
+                <Text style={AppStyle.profileText}>{ChooseData}</Text>: <Text style={AppStyle.profileText}>{date}</Text>}
+              
+               
                 <Modal
                   transparent={true}
                   animationType="fade"
@@ -113,8 +150,8 @@ export default function ChangeProfileView({ navigation, route }) {
                 setSelectedLanguage(itemValue)
               }
             >
-              <Picker.Item label="Nam" value="1" />
-              <Picker.Item label="nữ" value="2" />
+              <Picker.Item label="Nam" value="Nam" />
+              <Picker.Item label="nữ" value="Nữ" />
             </Picker>
             {/* end */}
           </View>
@@ -133,7 +170,7 @@ export default function ChangeProfileView({ navigation, route }) {
             marginTop: 10,
             marginRight: 30
           }}
-          onPress={navigation.goBack}
+          onPress={editProfile}
         >
           <Text>Xác nhận</Text>
         </TouchableOpacity>

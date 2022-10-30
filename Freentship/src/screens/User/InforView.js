@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Text,
   View,
@@ -7,7 +7,8 @@ import {
   ScrollView,
   StatusBar,
   TouchableOpacity,
-  FlatList
+  FlatList,
+ 
 } from 'react-native'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -19,10 +20,16 @@ import Longxaodua from '../../../assets/Food/longxaodua.png'
 import Gif from '../../../assets/gift.jpg'
 import AppStyle from '../../themes/IndexTheme'
 
+// firebase import
+import { db } from '../../services/config'
+import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
+// end
 export default function InforView({ navigation }) {
+  ;<StatusBar style="auto" />
+
   const DATA = [
     {
-      id: 1,
+      id: 'kxzmOQS3sVUr2pm9AbLI',
       image: Longxaodua,
       name: 'Lòng xòa dưa',
       discription: 'Nhiều lòng ít dưa',
@@ -31,26 +38,45 @@ export default function InforView({ navigation }) {
     }
   ]
 
+  // firebase
+  const idUser = 'kxzmOQS3sVUr2pm9AbLI'
+  const [User, setUser] = useState([])
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
+      console.log("Current data: ", doc.data());
+      setUser(doc.data())
+      // đợi trợ giúp
+      // console.log('ngày giờ fire base  : '+ User.dateOfBirth.seconds)
+      // console.log('ngày giờ fire base  : '+ User.dateOfBirth.nanoseconds)
+
+    })
  
 
-  const PROFILE = {
-    id: 1,
-    guestname: 'Nguyễn Văn 10',
-    phone: '0966533691',
-    avatar:
-      'https://sp-ao.shortpixel.ai/client/q_glossy,ret_img,w_598,h_918/https://hungphatsaigon.vn/wp-content/uploads/2022/07/10_hinh-nen-gau-cute.jpg',
-    dateofbirth: '8 Mar 2002',
-    sex: 'nam',
-    gmail: 'thanh126126@gmail.com'
-  }
-  const guestname = PROFILE.guestname
-  const avatar = PROFILE.avatar
-  const dateofbirth = PROFILE.dateofbirth
-  const sex = PROFILE.sex
-  const id = PROFILE.id
-  const gmail = PROFILE.gmail
-  const phone = PROFILE.phone
+  }, [idUser])
 
+  // lưu ý cần fixed
+
+
+  // const nano = User.dateOfBirth.nanoseconds
+  // const secon = User.dateOfBirth.seconds
+  // const timestemp = new Date(nano)
+  // const formatted = timestemp.format('dd/mm/yyyy')
+  // console.log(formatted);
+  // console.log(userDocument)
+  // end
+
+
+  // dữ liệu
+  const guestname = User.guestName
+  const avatar = User.avatar
+  // thời gian
+
+  const date = '12 /21/2001'
+  const sex = User.sex
+  const id = idUser
+  const gmail = User.email
+  const phone = User.phone
+  // end
   const footerComponent = () => (
     // <FlatList
     //   data={DATA}
@@ -100,7 +126,6 @@ export default function InforView({ navigation }) {
     // ></FlatList>
     <View></View>
   )
-
   return (
     <SafeAreaView style={AppStyle.InforUserTheme.container}>
       <View>
@@ -125,10 +150,8 @@ export default function InforView({ navigation }) {
             </View>
 
             <View style={{ flexDirection: 'column', flex: 4 }}>
-              <Text style={{ fontSize: 16 }}>{PROFILE.guestname}</Text>
-              <Text style={{ color: '#FF00FF', fontSize: 15 }}>
-                {PROFILE.phone}
-              </Text>
+              <Text style={{ fontSize: 16 }}>{guestname}</Text>
+              <Text style={{ color: '#FF00FF', fontSize: 15 }}>0{phone}</Text>
               <TouchableOpacity style={{}}>
                 <Text
                   style={{
@@ -142,7 +165,7 @@ export default function InforView({ navigation }) {
                     navigation.navigate('InforSettingView', {
                       guestname,
                       avatar,
-                      dateofbirth,
+                      date,
                       sex,
                       id,
                       gmail,
@@ -267,10 +290,7 @@ export default function InforView({ navigation }) {
           {/* Liên hệ với Loship */}
           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
-              <FontAwesome5
-                name="phone"
-                style={AppStyle.InforUserTheme.icon}
-              />
+              <FontAwesome5 name="phone" style={AppStyle.InforUserTheme.icon} />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
               <Text style={{ fontSize: 15 }}>Liên hệ với loship</Text>
