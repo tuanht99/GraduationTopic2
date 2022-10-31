@@ -16,7 +16,6 @@ import {
   Timestamp,
   doc,
   updateDoc
-
 } from 'firebase/firestore'
 import { getDistance, getPreciseDistance } from 'geolib'
 import { createErrorHandler } from 'expo/build/errors/ExpoErrorManager'
@@ -148,21 +147,19 @@ export default function OrderView({ navigation, route }) {
 
   const orderTheOrder = () => {
     const { id } = addDoc(collection(db, 'orders'), docData)
-    .then(async (docRef) => {
-      // Data saved successfully!
-      const washingtonRef = doc(db, 'shippers', `${docData.shipper_id}`)
+      .then(async docRef => {
+        // Data saved successfully!
+        const washingtonRef = doc(db, 'shippers', `${docData.shipper_id}`)
 
-      await updateDoc(washingtonRef, {
-        lastest_order_id: docRef.id
+        await updateDoc(washingtonRef, {
+          lastest_order_id: docRef.id
+        })
+        console.log('Document written with ID: ', docRef.id)
       })
-      console.log('Document written with ID: ', docRef.id)
-    })
-    .catch(
-      error => {
+      .catch(error => {
         // The write failed...
         console.log(error)
-      }
-    )
+      })
   }
 
   function ship() {
