@@ -204,7 +204,22 @@ export default function InforSettingView({ navigation, route }) {
         <View style={AppStyle.Phone}>
           <View style={{ flexDirection: 'row' }}>
             <Text style={AppStyle.profileText}>Số điện thoại liên lạc</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={() =>
+                navigation.navigate('OTPChangeView', {
+                  guestname,
+                  avatar,
+                  date,
+                  sex,
+                  id,
+                  gmail,
+                  phone
+                })
+              }
+            
+            
+            
+            >
               <Text style={AppStyle.textPhone}>thay đổi</Text>
             </TouchableOpacity>
           </View>

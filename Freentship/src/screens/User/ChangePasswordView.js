@@ -3,7 +3,7 @@ import React from 'react'
 import AppStyle from '../../themes/ChangePasswordtheme'
 import { Ionicons } from '@expo/vector-icons';
 import PasswordTheme from '../components/Password';
-
+import app, { auth } from '../services/config'
 export default function ChangePasswordView() {
     return (
         <View style={AppStyle.container}>

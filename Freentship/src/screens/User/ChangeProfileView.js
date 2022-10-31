@@ -55,12 +55,12 @@ export default function ChangeProfileView({ navigation, route }) {
   const [phoneNumber, setphoneNumber] = useState()
   const [password, setpassword] = useState()
 
-  console.log('DATE : ' + date)
+  // console.log('DATE : ' + date)
   // end
   // dữ liệu chọ nam nữ
   const [selectedLanguage, setSelectedLanguage] = useState()
   const pickerRef = useRef()
-// console.log(selectedLanguage);
+console.log(selectedLanguage);
   function open() {
     pickerRef.current.focus()
   }

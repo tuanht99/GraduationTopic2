@@ -5,13 +5,26 @@ import DetailsScreenView from '../screens/Food/DetailsScreenView'
 import  React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// giỏ hàng
 import CardView from '../screens/Cart/CartView'
+// trang chính
 import { HomeScreen } from '../screens/HomeScreen/home.screen';
+// đơn hàng
 import OrderView from '../screens/Food/OrderView'
+// đơn hàng của bạn
 import YourOrderView from '../screens/Food/YourOrderView';
+// thônng tin tài khoản
 import InforView from '../screens/User/InforView'
+// sửa thông tin tài khoản
 import InforSettingView from '../screens/User/InforSettingView';
+// thay đổi thông tin tài khoản
 import ChangeProfileView from '../screens/User/ChangeProfileView';
+// OTP thay đổi tài khoản
+import OTPChangeView from '../screens/User/OTPChangeView';
+// confirm 
+import  {ConfirmOTP}  from '../screens/User/ConfirmOTPView';
+// ChangePhone
+import {ChangePhoneNumber} from '../screens/User/ChangePhone'
 const Stack = createNativeStackNavigator();
 
  function Router() {
@@ -47,6 +60,8 @@ const Stack = createNativeStackNavigator();
     {/* <Stack.Screen name="InforView" component={InforView} /> */}
     <Stack.Screen name="InforSettingView" component={InforSettingView} />
     <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
+    <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
+    <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
 
   </Stack.Navigator>
 </NavigationContainer>
