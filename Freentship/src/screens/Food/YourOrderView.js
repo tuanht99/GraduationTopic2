@@ -60,6 +60,7 @@ const DATA = {
 // Navigation
 export default function YourOrderView({ navigation }) {
   // const { food_price } = route.params;
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -83,6 +84,7 @@ export default function YourOrderView({ navigation }) {
   }, [navigation]);
 
   // const [food_Price, setFoodPrice] = useState([inYourOrder]);
+  const [order_Id, setOrder_Id] = useState([])
   
   const [inYourOrder, setInYourOrder] = useState([]);
 
@@ -91,32 +93,34 @@ export default function YourOrderView({ navigation }) {
     let unsubscribe;
     setInYourOrder(null);
     const getYourOrder = async () => {
-      const orderRef = collection(db, "orders");
-      const c = query(
-        orderRef
-        // where("category_Id", "==", category.id)
-      );
-      console.log(collection(db, "orders"));
-      const querySnapshot = await getDocs(c);
-      const inYourOrder = [];
-      unsubscribe = onSnapshot(c, (querySnapshot) => {
-        setInYourOrder(
-          querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-        );
-      });
+      const docRef = doc(db, "orders", "PPKK6atKTPOzCZWYvHF9");
+      const docSnap = await getDoc(docRef); 
+      setInYourOrder({id: docSnap.id, ...docSnap.data()})
+    //   const c = query(
+    //     orderRef
+    //     // where("category_Id", "==", category.id)
+    //   );
+      
+    //   const querySnapshot = await getDocs(c);
+    //   const inYourOrder = [];
+      // unsubscribe = onSnapshot(docSnap, (querySnapshot) => {
+      //   setInYourOrder(
+      //     querySnapshot.docs.map((doc) => ({
+      //       id: doc.id,
+      //       ...doc.data(),
+      //     }))
+      //   );
+      // });
     };
     getYourOrder();
-    return unsubscribe;
+    // return unsubscribe;
   }, []);
   console.log('ordersset', inYourOrder)
   
  
 
   return (
-    <ScrollView data={inYourOrder} style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       <View style={{ paddingBottom: 10 }}></View>
 
       {/* cam on */}
@@ -130,7 +134,7 @@ export default function YourOrderView({ navigation }) {
       >
         <View style={{ marginLeft: 10 }}>
           <Text>Cảm ơn</Text>
-          <Text style={{ fontWeight: "bold", color: '#000' }}>{setInYourOrder.price}</Text>
+          <Text style={{ fontWeight: "bold", color: '#000' }}>{inYourOrder !== null ? inYourOrder.user_id : 0}</Text>
           
           <Text>đã cho freentship có cơ hội được phuc vụ</Text>
         </View>
@@ -159,7 +163,7 @@ export default function YourOrderView({ navigation }) {
           >
             <View>
               <Text numberOfLines={1} style={{ paddingBottom: 10 }}>
-                Mã đơn ss
+                {inYourOrder !== null ? inYourOrder.id : 0}
               </Text>
             </View>
 
@@ -190,7 +194,7 @@ export default function YourOrderView({ navigation }) {
             <View>
               <Text>Nơi bán hàng</Text>
               <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                {DATA.shopname}
+                {inYourOrder !== null ? inYourOrder.food_store_id : 0}
               </Text>
             </View>
           </View>
@@ -222,7 +226,7 @@ export default function YourOrderView({ navigation }) {
         <View style={{ marginLeft: 10 }}>
           <View>
             <Text numberOfLines={1}>
-              2 món | {DATA.name}, {DATA.namesp}
+              2 món | {inYourOrder !== null ? inYourOrder.food_id : 0}
             </Text>
           </View>
 
@@ -237,7 +241,7 @@ export default function YourOrderView({ navigation }) {
               <Text style={{ fontWeight: "bold" }}>Tổng</Text>
             </View>
             <View style={{marginRight: 10}}>
-              <Text style={{ fontWeight: "bold" }}>{DATA.txtTong}</Text>
+              <Text style={{ fontWeight: "bold" }}>{inYourOrder !== null ? inYourOrder.totalPrice : 0}</Text>
             </View>
           </View>
         </View>

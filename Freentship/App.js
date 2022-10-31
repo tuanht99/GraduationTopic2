@@ -47,7 +47,7 @@ export default function App() {
           <Stack.Screen name="OrderView" component={OrderView} /> */}
           <Stack.Screen name="YourOrderView" component={YourOrderView} />
           <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
-          
+
           <Stack.Screen name="OrderCanceledView" component={OrderCanceledView} />
           <Stack.Screen name="OrderDeliveredView" component={OrderDeliveredView} />
         </Stack.Navigator>
