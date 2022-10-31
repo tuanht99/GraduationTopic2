@@ -10,7 +10,9 @@ import {
   PhoneAuthProvider,
 } from 'firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-export default function OTPChangeView({navigation}) {
+export default function OTPChangeView({navigation,route}) {
+  const { guestname, avatar, date, sex, id, gmail, phone } = route.params
+
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerLeft: () => (
@@ -34,9 +36,10 @@ export default function OTPChangeView({navigation}) {
       const [valid, setValid] = useState(false)
       const [showMessage, setShowMessage] = useState(false)
       const phoneInput = useRef(null)
+      console.log(value);
       return (
-        <>
-          <StatusBar barStyle="dark-content" />
+      
+        
           <View style={styles.container}>
             <SafeAreaView style={styles.wrapper}>
               {showMessage && (
@@ -56,7 +59,7 @@ export default function OTPChangeView({navigation}) {
                 withDarkTheme
                 withShadow
                 autoFocus
-                placeholder="Khanh ăn cứt"
+                placeholder="Nhập số điện thoại"
                 countryPickerProps={{}}
               />
               <TouchableOpacity
@@ -68,6 +71,13 @@ export default function OTPChangeView({navigation}) {
                   if (checkValid) {
                     navigation.navigate('ConfirmOTP', {
                       phoneNumber: formattedValue,
+                      guestname,
+                      avatar,
+                      date,
+                      sex,
+                      id,
+                      gmail,
+                      phone
                     })
                   }
                 }}
@@ -76,7 +86,7 @@ export default function OTPChangeView({navigation}) {
               </TouchableOpacity>
             </SafeAreaView>
           </View>
-        </>
+     
       )
 }
 

@@ -5,11 +5,11 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  Platform,
+  Platform
 } from 'react-native'
 import {
   FirebaseRecaptchaVerifierModal,
-  FirebaseRecaptchaBanner,
+  FirebaseRecaptchaBanner
 } from 'expo-firebase-recaptcha'
 import { initializeApp, getApp } from 'firebase/app'
 import app, { auth } from '../../services/config'
@@ -19,14 +19,16 @@ import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 // Double-check that we can run the example
 if (!app?.options || Platform.OS === 'web') {
   throw new Error(
-    'This example only works on Android or iOS, and requires a valid Firebase config.',
+    'This example only works on Android or iOS, and requires a valid Firebase config.'
   )
 }
 
-export function ConfirmOTP({  navigation,route, }) {
+export function ConfirmOTP({ navigation, route }) {
   // Ref or state management hooks
   const recaptchaVerifier = useRef(null)
-  const { phoneNumber } = route.params
+  const { phoneNumber, guestname, avatar, date, sex, id, gmail, phone } =
+    route.params
+
   const [verificationId, setVerificationId] = useState()
   const [verificationCode, setVerificationCode] = useState()
 
@@ -42,11 +44,11 @@ export function ConfirmOTP({  navigation,route, }) {
       const phoneProvider = new PhoneAuthProvider(auth)
       const verificationId = await phoneProvider.verifyPhoneNumber(
         phoneNumber + '',
-        recaptchaVerifier.current,
+        recaptchaVerifier.current
       )
       setVerificationId(verificationId)
       showMessage({
-        text: 'Verification code has been sent to your phone.',
+        text: 'Verification code has been sent to your phone.'
       })
     } catch (err) {
       showMessage({ text: `Error: ${err.message}`, color: 'red' })
@@ -78,11 +80,22 @@ export function ConfirmOTP({  navigation,route, }) {
           try {
             const credential = PhoneAuthProvider.credential(
               verificationId,
-              verificationCode,
+              verificationCode
             )
             await signInWithCredential(auth, credential)
             showMessage({ text: 'Phone authentication successful 👍' })
-            navigation.navigate('LocationScreen')
+            navigation.navigate(
+              'ChangePhoneView',
+              {
+                  guestname,
+                  avatar,
+                  date,
+                  sex,
+                  id,
+                  gmail,
+                  phone
+                }
+            )
           } catch (err) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' })
             goBack()
@@ -93,7 +106,7 @@ export function ConfirmOTP({  navigation,route, }) {
         <TouchableOpacity
           style={[
             StyleSheet.absoluteFill,
-            { backgroundColor: 0xffffffee, justifyContent: 'center' },
+            { backgroundColor: 0xffffffee, justifyContent: 'center' }
           ]}
           onPress={() => showMessage(undefined)}
         >
@@ -102,7 +115,7 @@ export function ConfirmOTP({  navigation,route, }) {
               color: message.color || 'blue',
               fontSize: 17,
               textAlign: 'center',
-              margin: 20,
+              margin: 20
             }}
           >
             {message.text}

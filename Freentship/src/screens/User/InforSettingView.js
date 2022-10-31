@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react'
 import AppStyle from '../../themes/InforUserSettingTheme'
 import { Ionicons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
-
+import NumberFormat from 'react-number-format'
 // list dữ liệu
 import * as ImagePicker from 'expo-image-picker'
 import { db } from '../../services/config'
@@ -37,13 +37,22 @@ export default function InforSettingView({ navigation, route }) {
   const { guestname, avatar, date, sex, id, gmail, phone } = route.params
   console.log('name: ' + guestname)
   console.log('avatar: ' + avatar)
-
+  const avatarlocal = avatar
   console.log('sex: ' + sex)
   console.log('id: ' + id)
   console.log('gmail: ' + gmail)
   console.log('phone: ' + phone)
   // update Firebase Image *************** CN xong
   function editImage() {
+    if (ChangeImage == null) {
+      updateDoc(doc(db, 'users', id), {
+        guestName: guestname,
+        avatar: avatar,
+        sex: sex,
+        email: gmail,
+        phone: phone
+      })
+    }
     updateDoc(doc(db, 'users', id), {
       guestName: guestname,
       avatar: ChangeImage,
@@ -71,7 +80,6 @@ export default function InforSettingView({ navigation, route }) {
   }
   console.log('thay đổi: ' + ChangeImage)
   // end
-  ;<StatusBar backgroundColor={'black'}></StatusBar>
   // Header
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -92,6 +100,22 @@ export default function InforSettingView({ navigation, route }) {
     })
   }, [navigation])
   // end
+  // phone fomart
+  // function formatPhoneNumber(phone) {
+  //   if (!phone) return phone;
+  //   const phoneNumber = phone.replace(/[^\d]/g, '');
+  //   const phoneNumberLength = phoneNumber.length;
+  //   if (phoneNumberLength < 4) return phoneNumber;
+  //   if (phoneNumberLength < 7) {
+  //     return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+  //   }
+  //   return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+  //     3,
+  //     6
+  //   )}-${phoneNumber.slice(6, 9)}`;
+  // }
+  console.log()
+  //end
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={AppStyle.container}>
@@ -131,7 +155,7 @@ export default function InforSettingView({ navigation, route }) {
                   >
                     <Image
                       style={AppStyle.avatarchange}
-                      source={{ uri: avatar }}
+                      source={{ uri: avatarlocal }}
                     />
                     <Ionicons
                       style={{ position: 'absolute', left: 200, bottom: -15 }}
@@ -205,7 +229,7 @@ export default function InforSettingView({ navigation, route }) {
           <View style={{ flexDirection: 'row' }}>
             <Text style={AppStyle.profileText}>Số điện thoại liên lạc</Text>
             <TouchableOpacity
-            onPress={() =>
+              onPress={() =>
                 navigation.navigate('OTPChangeView', {
                   guestname,
                   avatar,
@@ -216,9 +240,6 @@ export default function InforSettingView({ navigation, route }) {
                   phone
                 })
               }
-            
-            
-            
             >
               <Text style={AppStyle.textPhone}>thay đổi</Text>
             </TouchableOpacity>
@@ -229,7 +250,7 @@ export default function InforSettingView({ navigation, route }) {
               <Text
                 style={{
                   marginTop: 10,
-                  paddingLeft:5,
+                  paddingLeft: 5,
                   fontSize: 20,
                   textAlign: 'center',
                   color: 'black'

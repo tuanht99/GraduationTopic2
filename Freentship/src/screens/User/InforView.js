@@ -14,8 +14,6 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
-import Logo from '../../../assets/Food/nuoc_c2.png'
-import Avatar from '../../../assets/Food/longxaodua.png'
 import Longxaodua from '../../../assets/Food/longxaodua.png'
 import Gif from '../../../assets/gift.jpg'
 import AppStyle from '../../themes/IndexTheme'
@@ -71,7 +69,7 @@ export default function InforView({ navigation }) {
   const avatar = User.avatar
   // thời gian
 
-  const date = '12 /21/2001'
+  const date = User.dateOfBirth
   const sex = User.sex
   const id = idUser
   const gmail = User.email
