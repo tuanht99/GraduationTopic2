@@ -14,9 +14,9 @@ import DetailsScreenView from './src/screens/Food/DetailsScreenView'
 import CardView from './src/screens/Cart/CartView'
 import OrderView from './src/screens/Food/OrderView'
 import YourOrderView from './src/screens/Food/YourOrderView';
-import DetailOrderView from './src/screens/DetailOrderView';
-import OrderCanceledView from './src/screens/OrderCanceledView';
-import OrderDeliveredView from './src/screens/OrderDeliveredView';
+import DetailOrderView from './src/screens/Order/DetailOrderView';
+import OrderCanceledView from './src/screens/Order/OrderCanceledView';
+import OrderDeliveredView from './src/screens/Order/OrderDeliveredView';
 import {LocationScreen} from './src/screens/LocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
