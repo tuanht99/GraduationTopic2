@@ -14,7 +14,7 @@ import { MapScreen } from './src/screens/MapScreen'
 import { MapScreenTest } from './src/screens/__test__/map'
 import { WriteDataFood_StoresByCategory } from './src/services'
 import InforSettingView from './src/screens/User/InforView'
-import Routes from './src/routes'
+import Routes from './src/routes' 
 
 export default function App() {
   return (
