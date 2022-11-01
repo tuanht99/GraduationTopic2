@@ -62,7 +62,7 @@ export default function YourOrderView({ navigation }) {
         fontSize: 15,
       },
     });
-  }, [navigation]);
+  }, [navigation]); 
 
   return (
     <ScrollView style={{ flex: 1 }}>
