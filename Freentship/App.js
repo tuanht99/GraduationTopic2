@@ -4,54 +4,25 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
+  Text
 } from 'react-native'
+import { HomeScreen } from './src/screens/HomeScreen'
 import { Colors, Spacing } from './src/styles'
-import { HomeNavigator } from './src/routes/HomeNavigator'
-import { NavigationContainer } from '@react-navigation/native'
-import StoreScreen from './src/screens/Store/StoreScreen'
 import { SearchScreen } from './src/screens/SearchScreen'
-import DetailsScreenView from './src/screens/Food/DetailsScreenView'
-import CardView from './src/screens/Cart/CartView'
-import OrderView from './src/screens/Food/OrderView'
-import YourOrderView from './src/screens/Food/YourOrderView';
-import DetailOrderView from './src/screens/DetailOrderView';
-import OrderCanceledView from './src/screens/OrderCanceledView';
-import OrderDeliveredView from './src/screens/OrderDeliveredView';
-import {LocationScreen} from './src/screens/LocationScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-
-const Stack = createNativeStackNavigator()
+import { Location1 } from './src/screens/__test__/location'
+import { MapScreen } from './src/screens/MapScreen'
+import { MapScreenTest } from './src/screens/__test__/map'
+import { WriteDataFood_StoresByCategory } from './src/services'
 
 export default function App() {
+  const [data, setData] = React.useState(null)
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {/* <Stack.Screen name="LocationScreen" component={LocationScreen} />
-          <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="StoreScreen" component={StoreScreen} options={{
-            // hidden navbar
-            headerShown: false, 
-          }} />
-          <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-          <Stack.Screen name="CartView" component={CardView} />
-          <Stack.Screen name="OrderView" component={OrderView} /> */}
-          <Stack.Screen name="YourOrderView" component={YourOrderView} />
-          <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
-
-          <Stack.Screen name="OrderCanceledView" component={OrderCanceledView} />
-          <Stack.Screen name="OrderDeliveredView" component={OrderDeliveredView} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      {/*<HomeScreen />*/}
+      {/*<SearchScreen />*/}
+      {/*<Location1 />*/}
+      {/*<MapScreenTest />*/}
     </SafeAreaView>
   )
 }
