@@ -73,7 +73,7 @@ export default function YourOrderView({ navigation }) {
         </TouchableOpacity>
       ),
 
-      title: "Đơn hàng " + DATA.txtmadon,
+      title: "Đơn hàng của nạn",
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
@@ -110,7 +110,51 @@ export default function YourOrderView({ navigation }) {
   }, []);
   console.log('ordersset', inYourOrder)
   
-  
+  // food
+  const idFood = '0w1IntroHd8JwVvD9tTz'
+  const [food, setFood] = useState([])
+  useEffect(() => {
+    const fs = onSnapshot(doc(db, 'foods', idFood), doc => {
+      console.log('food: ', doc.data())
+      setFood(doc.data())
+    })
+  }, [idFood])
+  const foodName = food.name
+
+  // order
+  const idOrder = 'PPKK6atKTPOzCZWYvHF9'
+  const [Order, setOrder] = useState([])
+  useEffect(() => {
+    const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
+      console.log('ordero: ', doc.data())
+      setOrder(doc.data())
+    })
+  }, [idOrder])
+  const totalPrice = Order.totalPrice
+
+  // order status
+  const idOrderStatus = '9'
+  const [orderStatus, setOrderStatus] = useState([])
+  useEffect(() => {
+    const odr = onSnapshot(doc(db, 'order_status',idOrderStatus), doc => {
+      console.log('ordestatus: ', doc.data())
+      setOrderStatus(doc.data())
+    })
+  }, [idOrder])
+  const OrderStatus = orderStatus.value
+
+  // foodStore
+  const idFoodStore = '4dpAvRWJVrvdbml9vKDL'
+  const [foodStore, setFoodStore] = useState([])
+  useEffect(() => {
+    const fs = onSnapshot(doc(db, 'food_stores', idFoodStore), doc => {
+      console.log('foodStore: ', doc.data())
+      setFoodStore(doc.data())
+    })
+  }, [idFoodStore])
+  const foodStoreName = foodStore.name
+  const foodStoreImage = foodStore.image
+  const foodStoreAddress = foodStore.address
 
   return (
     <ScrollView style={{ flex: 1 }}>
@@ -127,7 +171,7 @@ export default function YourOrderView({ navigation }) {
       >
         <View style={{ marginLeft: 10 }}>
           <Text>Cảm ơn</Text>
-          <Text style={{ fontWeight: "bold" }}>{DATA.userName}</Text>
+          <Text style={{ fontWeight: "bold" }}>Khanh</Text>
           <Text>đã cho freentship có cơ hội được phuc vụ</Text>
         </View>
       </View>
@@ -155,7 +199,7 @@ export default function YourOrderView({ navigation }) {
           >
             <View>
               <Text numberOfLines={1} style={{ paddingBottom: 10 }}>
-                Mã đơn {DATA.txtmadon}
+                Mã đơn {idOrder}
               </Text>
             </View>
 
@@ -186,7 +230,7 @@ export default function YourOrderView({ navigation }) {
             <View>
               <Text>Nơi bán hàng</Text>
               <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                {DATA.shopname}
+                {foodStoreName}
               </Text>
             </View>
           </View>
@@ -198,8 +242,8 @@ export default function YourOrderView({ navigation }) {
 
             <View>
               <Text>Nơi giao hàng</Text>
-              <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                {DATA.shopaddress}
+              <Text numberOfLines={2} style={{ fontWeight: "bold", width: 320 }}>
+                {foodStoreAddress}
               </Text>
             </View>
           </View>
@@ -218,7 +262,7 @@ export default function YourOrderView({ navigation }) {
         <View style={{ marginLeft: 10 }}>
           <View>
             <Text numberOfLines={1}>
-              2 món | {DATA.name}, {DATA.namesp}
+              1 món | {foodName}
             </Text>
           </View>
 
@@ -233,7 +277,7 @@ export default function YourOrderView({ navigation }) {
               <Text style={{ fontWeight: "bold" }}>Tổng</Text>
             </View>
             <View style={{marginRight: 10}}>
-              <Text style={{ fontWeight: "bold" }}>{DATA.txtTong}</Text>
+              <Text style={{ fontWeight: "bold" }}>{totalPrice}</Text>
             </View>
           </View>
         </View>
