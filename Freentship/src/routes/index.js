@@ -27,6 +27,12 @@ import OTPChangeView from '../screens/User/OTPChangeView'
 import { ConfirmOTP } from '../screens/User/ConfirmOTPView'
 // ChangePhone
 import InputPhoneNumScreen from '../screens/User/ChangePhoneNumber'
+// huy don
+import OrderCanceledView from '../screens/Order/OrderCanceledView'
+// chi tiet don
+import DetailOrderView from '../screens/Order/DetailOrderView'
+// don da nhan
+import OrderDeliveredView from '../screens/Order/OrderDeliveredView'
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -73,6 +79,9 @@ function Router() {
         <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
         <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
         <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
+        <Stack.Screen name="OrderCanceledView" component={OrderCanceledView} />
+        <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
+        <Stack.Screen name="OrderDeliveredView" component={OrderDeliveredView} />
       </Stack.Navigator>
     </NavigationContainer>
   )
