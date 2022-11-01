@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -13,6 +13,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import { onSnapshot, doc } from "firebase/firestore";
+import { db } from '../../services/config'
 
 
 const DATA = {
@@ -28,9 +30,9 @@ const DATA = {
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  avt: require("../assets/images/nuoc_c2.png"),
+  shopimage: require("../../../assets/Food/nuoc_c2.png"),
+  monAn1: require("../../../assets/Food/nuoc_c2.png"),
+  avt: require("../../../assets/Food/nuoc_c2.png"),
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",
@@ -61,13 +63,60 @@ export default function OrderCanceledView({ navigation }) {
         </TouchableOpacity>
       ),
 
-      title:"Đơn hàng " + DATA.txtmadon,
+      title:"Lịch sử đơn hàng" ,
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
       },
     });
   }, [navigation]);
+
+  // food
+  const idFood = '0w1IntroHd8JwVvD9tTz'
+  const [food, setFood] = useState([])
+  useEffect(() => {
+    const fs = onSnapshot(doc(db, 'foods', idFood), doc => {
+      console.log('food: ', doc.data())
+      setFood(doc.data())
+    })
+  }, [idFood])
+  const foodName = food.name
+  
+
+  // order
+  const idOrder = 'PPKK6atKTPOzCZWYvHF9'
+  const [Order, setOrder] = useState([])
+  useEffect(() => {
+    const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
+      console.log('ordero: ', doc.data())
+      setOrder(doc.data())
+    })
+  }, [idOrder])
+  const totalPrice = Order.totalPrice
+
+  // order status
+  const idOrderStatus = '9'
+  const [orderStatus, setOrderStatus] = useState([])
+  useEffect(() => {
+    const odr = onSnapshot(doc(db, 'order_status',idOrderStatus), doc => {
+      console.log('ordestatus: ', doc.data())
+      setOrderStatus(doc.data())
+    })
+  }, [idOrder])
+  const OrderStatus = orderStatus.value
+
+  // foodStore
+  const idFoodStore = '4dpAvRWJVrvdbml9vKDL'
+  const [foodStore, setFoodStore] = useState([])
+  useEffect(() => {
+    const fs = onSnapshot(doc(db, 'food_stores', idFoodStore), doc => {
+      console.log('foodStore: ', doc.data())
+      setFoodStore(doc.data())
+    })
+  }, [idFoodStore])
+  const foodStoreName = foodStore.name
+  const foodStoreImage = foodStore.image
+  const foodStoreAddress = foodStore.address
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 0.8 }}>
@@ -98,7 +147,7 @@ export default function OrderCanceledView({ navigation }) {
                   </Text>
                   <Text numberOfLines={5}>
                     Đơn của quý khách đã được hủy và mong quý khách tiếp tục ủng
-                    hộn Freeship ở những lần sau. Freeship chờ đợi cơ hội phục
+                    hộ Freeship ở những lần sau. Freeship chờ đợi cơ hội phục
                     vụ quý khách trong thời gian tới. FreeShip biết bạn có nhiều
                     sự lựa chọn, cảm ơn vì đã chọn Freeship ngày hôm nay.
                   </Text>
@@ -131,12 +180,14 @@ export default function OrderCanceledView({ navigation }) {
             >
               <View>
                 <Text numberOfLines={1} style={{ paddingBottom: 10 }}>
-                  Mã đơn {DATA.txtmadon}
+                  Mã đơn {idOrder}
                 </Text>
               </View>
 
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() =>
+                      navigation.navigate('DetailOrderView')
+                    }>
                   <Text
                     style={{
                       fontWeight: "bold",
@@ -162,7 +213,7 @@ export default function OrderCanceledView({ navigation }) {
               <View>
                 <Text>Nơi bán hàng</Text>
                 <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                  {DATA.shopname}
+                  {foodStoreName}
                 </Text>
               </View>
             </View>
@@ -174,8 +225,8 @@ export default function OrderCanceledView({ navigation }) {
 
               <View>
                 <Text>Nơi giao hàng</Text>
-                <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                  {DATA.shopaddress}
+                <Text numberOfLines={2} style={{ fontWeight: "bold", width: 320 }}>
+                  {foodStoreAddress}
                 </Text>
               </View>
             </View>
@@ -194,7 +245,7 @@ export default function OrderCanceledView({ navigation }) {
           <View style={{marginLeft: 10}}>
             <View style={{ width: 300, paddingBottom: 20 }}>
               <Text numberOfLines={1}>
-                2 món | {DATA.name}, {DATA.namesp}
+                1 món | {foodName}
               </Text>
             </View>
 
@@ -209,7 +260,7 @@ export default function OrderCanceledView({ navigation }) {
               </View>
               <View>
                 <Text style={{ fontWeight: "bold", paddingRight: 10 }}>
-                  {DATA.txtTong}
+                  {totalPrice}
                 </Text>
               </View>
             </View>
@@ -281,7 +332,7 @@ export default function OrderCanceledView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {DATA.txtTong}
+                  {totalPrice}
                 </Text>
               </View>
             </View>
