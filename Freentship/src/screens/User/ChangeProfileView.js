@@ -6,7 +6,8 @@ import {
   TextInput,
   Modal,
   View,
-  Time
+  Time,
+  Alert,
 } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import AppStyle from '../../themes/ChangeProfileTheme'
@@ -51,14 +52,11 @@ export default function ChangeProfileView({ navigation, route }) {
   // dữ liệu thay đổi
   const [username, setusername] = useState()
   const [email, setemail] = useState()
-  const [dates, setdateofbirth] = useState()
-  const [phoneNumber, setphoneNumber] = useState()
-  const [password, setpassword] = useState()
 
-  // console.log('DATE : ' + date)
+  console.log('DATE : ' + ChooseData)
   // end
   // dữ liệu chọ nam nữ
-  const [selectedLanguage, setSelectedLanguage] = useState()
+  const [selectedLanguage, setSelectedLanguage] = useState("nam")
   const pickerRef = useRef()
 console.log(selectedLanguage);
   function open() {
@@ -74,13 +72,20 @@ console.log(selectedLanguage);
 function editProfile() {
   updateDoc(doc(db, 'users', id), {
     guestName: username,
-    dateOfBirth: date,
+    dateOfBirth: ChooseData,
     avatar: avatar,
     sex: selectedLanguage,
     email: email,
     phone: phone,
   })
-  navigation.goback
+  Alert.alert(
+    "Thông báo",
+    "Thay đổi thông tin thành công",
+    [
+     
+      { text: "OK" }
+    ]
+  )
   // 7T5uG3Si5NHioADgam1Z
 }
 // console.log(username);

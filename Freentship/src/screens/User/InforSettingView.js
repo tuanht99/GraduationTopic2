@@ -4,7 +4,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar
+  StatusBar,Alert,
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AppStyle from '../../themes/InforUserSettingTheme'
@@ -44,15 +44,7 @@ export default function InforSettingView({ navigation, route }) {
   console.log('phone: ' + phone)
   // update Firebase Image *************** CN xong
   function editImage() {
-    if (ChangeImage == null) {
-      updateDoc(doc(db, 'users', id), {
-        guestName: guestname,
-        avatar: avatar,
-        sex: sex,
-        email: gmail,
-        phone: phone
-      })
-    }
+   
     updateDoc(doc(db, 'users', id), {
       guestName: guestname,
       avatar: ChangeImage,
@@ -60,9 +52,19 @@ export default function InforSettingView({ navigation, route }) {
       email: gmail,
       phone: phone
     })
-    navigation.goback
+    Alert.alert(
+      "Thông báo",
+      "Thay đổi hình ảnh thành công",
+      [
+       
+        { text: "OK" }
+      ]
+    )
+  
     // 7T5uG3Si5NHioADgam1Z
   }
+   
+  
   // image picker
   const [ChangeImage, setChangeImage] = useState(null)
   let openImagePickerAsync = async () => {
@@ -276,7 +278,7 @@ export default function InforSettingView({ navigation, route }) {
               marginTop: 20,
               marginBottom: 20
             }}
-            onPress={editImage()}
+            onPress={editImage}
           >
             <Text>Xác nhận</Text>
           </TouchableOpacity>
