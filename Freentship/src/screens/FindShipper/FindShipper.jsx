@@ -118,7 +118,7 @@ const FindShipper = ({ navigation, route }) => {
   useEffect(() => {
     const myTimeout = setTimeout(() => {
       getShippers()
-    }, 5000)
+    }, 3000)
 
     return () => clearTimeout(myTimeout)
   }, [orderStatus])
@@ -143,12 +143,12 @@ const FindShipper = ({ navigation, route }) => {
 
   return orderStatus.shipperId == '' ? (
     <View style={styles.container}>
-      {/* <BouncingPreloader
+      <BouncingPreloader
         icons={icons}
         leftDistance={-100}
         rightDistance={-150}
         speed={1000}
-      /> */}
+      />
 
       <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
         Đang tìm tài xế .....{' '}
