@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, Image} from "react-native";
+import {View, Image} from "react-native";
 import styles from "./come-back.style";
 import {AdIcon} from "../../atoms/AdIcon";
 import {Colors, FontSize} from "../../../styles";

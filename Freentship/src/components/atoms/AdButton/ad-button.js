@@ -1,4 +1,4 @@
-import React, {Children} from "react";
+import React from "react";
 import {TouchableOpacity, Text} from "react-native";
 
 export const AdButton = ({children, containerStyle, textStyle, onPress}) => {

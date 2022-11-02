@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text } from 'react-native'
 import styles from './location-search.style'
 import { Location } from '../../molecules/Location'
 import { Colors, FontSize } from '../../../styles'
 
 export const LocationSearch = ({ title = 'Giao tới địa chỉ' }) => {
-  const [location, setLocation] = React.useState(
+  const [location] = React.useState(
     '53 Đ. Võ Văn Ngân, Linh Chiểu, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh'
   )
   const icon1 = {

@@ -1,26 +1,21 @@
 import * as React from 'react'
-import MapView, { Callout, Marker } from 'react-native-maps'
-import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import { useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import { Ionicons } from '@expo/vector-icons'
 
 export const MapScreenTest = () => {
-  const [keyword, setKeyword] = useState('')
   const KEYMAP = 'AIzaSyCm7K0XCEvpUZUHnYxOtzkY27uMpqVbQFQ'
-  const COMPONENTS = 'country:vn'
-  const apiMap = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&language=vi&components=${COMPONENTS}&key=${KEYMAP}`
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0
   })
-  const [errorMsg, setErrorMsg] = useState(null)
   useEffect(() => {
     ;(async () => {
       let { status } = await Location.requestForegroundPermissionsAsync()
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
+        console.log('Permission to access location was denied')
         return
       }
 
@@ -33,13 +28,6 @@ export const MapScreenTest = () => {
     })()
   }, [])
 
-  let text = 'Waiting..'
-  if (errorMsg) {
-    text = errorMsg
-  } else if (location) {
-    text = JSON.stringify(location)
-  }
-  console.log('location: ', location)
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete

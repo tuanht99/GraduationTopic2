@@ -3,12 +3,11 @@ import { ScrollView } from 'react-native'
 import styles from './search-screen.style'
 import { ComeBack } from '../../components/Organisms/ComeBack'
 import { LocationSearch } from '../../components/Organisms/LocationSearch'
-import { Products } from '../../components/molecules/Products'
 import logo from '../../assets/images/logos/app-user-red.png'
 import { CategoryFood } from '../../components/Organisms/CategoryFood'
 
 export const SearchScreen = () => {
-  const [title, setTitle] = React.useState('Thử quán mới')
+  const [title] = React.useState('Thử quán mới')
   const data = [
     { id: '1', title: 'test1', urlImg: logo, number: 25, advertisement: true },
     { id: '2', title: 'test2', urlImg: logo, number: 35, advertisement: false },

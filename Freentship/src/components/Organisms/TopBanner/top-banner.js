@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Location } from '../../molecules/Location'
 import styles from './top-banner.style'
-import { View, ImageBackground, Text } from 'react-native'
+import { View, ImageBackground } from 'react-native'
 import { Colors, FontSize } from '../../../styles'
 import * as LocationPK from 'expo-location'
 

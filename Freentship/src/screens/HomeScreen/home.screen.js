@@ -1,5 +1,5 @@
 import react from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import styles from './home.style'
 import { TopBanner } from '../../components/Organisms/TopBanner'
 import { SearchHome } from '../../components/Organisms/SearchHome/search-home'

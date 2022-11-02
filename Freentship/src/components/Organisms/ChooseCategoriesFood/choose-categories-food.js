@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import styles from './choose-categories-food.style'
 import { Greeting } from '../../molecules/Greeting'
 import { CategoryHeader } from '../../molecules/CategoryHeader'
@@ -8,10 +8,10 @@ import logo from '../../../assets/images/logos/app-user-red.png'
 
 export const ChooseCategoriesFood = () => {
   const titleCategories = ['chọn theo thể loại']
-  const [logoUser, setLogoUser] = React.useState(
+  const [logoUser] = React.useState(
     'https://firebasestorage.googleapis.com/v0/b/freentship.appspot.com/o/logo-user.jpeg?alt=media&token=ec570cd2-9f21-4028-b662-6ab2630c8321'
   )
-  const [nameUser, setNameUser] = React.useState('Nguyễn Văn A')
+  const [nameUser] = React.useState('Nguyễn Văn A')
   const textTime = ['Chào buổi sáng, ', 'Chào buổi chiều, ', 'Chào buổi tối, ']
   const [logoTitle, setLogoTitle] = React.useState(null)
   let [hours, setHours] = React.useState(0)
