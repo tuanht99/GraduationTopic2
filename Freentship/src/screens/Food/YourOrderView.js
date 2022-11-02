@@ -46,7 +46,7 @@ const DATA = {
  
   userName: "Phú",
   txtyour: "bạn",
-  txtDatDon: "Đặt đơn",
+  txtDatDon: "Tiếp theo",
   txtsplq: "Sản phẩm cùng cửa hàng",
   txtXemCuaHang: "Xem cửa hàng",
   txtDis: "Thông tin sản phẩm",
@@ -59,6 +59,7 @@ const DATA = {
 
 // Navigation
 export default function YourOrderView({ navigation }) {
+  // const { food_price } = route.params;
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -80,6 +81,8 @@ export default function YourOrderView({ navigation }) {
       },
     });
   }, [navigation]);
+
+  // const [food_Price, setFoodPrice] = useState([inYourOrder]);
   
   const [inYourOrder, setInYourOrder] = useState([]);
 
@@ -88,12 +91,12 @@ export default function YourOrderView({ navigation }) {
     let unsubscribe;
     setInYourOrder(null);
     const getYourOrder = async () => {
-      const orderRef = collection(db, "orders", "PPKK6atKTPOzCZWYvHF9");
+      const orderRef = collection(db, "orders");
       const c = query(
         orderRef
         // where("category_Id", "==", category.id)
       );
-      console.log(collection(db, "orders", "PPKK6atKTPOzCZWYvHF9"));
+      console.log(collection(db, "orders"));
       const querySnapshot = await getDocs(c);
       const inYourOrder = [];
       unsubscribe = onSnapshot(c, (querySnapshot) => {
@@ -157,7 +160,7 @@ export default function YourOrderView({ navigation }) {
   const foodStoreAddress = foodStore.address
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView data={inYourOrder} style={{ flex: 1 }}>
       <View style={{ paddingBottom: 10 }}></View>
 
       {/* cam on */}
@@ -171,7 +174,8 @@ export default function YourOrderView({ navigation }) {
       >
         <View style={{ marginLeft: 10 }}>
           <Text>Cảm ơn</Text>
-          <Text style={{ fontWeight: "bold" }}>Khanh</Text>
+          <Text style={{ fontWeight: "bold", color: '#000' }}>{setInYourOrder.price}</Text>
+          
           <Text>đã cho freentship có cơ hội được phuc vụ</Text>
         </View>
       </View>

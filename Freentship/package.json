@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
-    "@expo/webpack-config": "^0.17.2",
+    "@expo/webpack-config": "^0.16.19",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-firebase/app": "~15.4.0",
     "@react-native-firebase/firestore": "^15.7.0",
@@ -29,6 +29,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
+    "react-native-bouncing-preloader": "^1.0.1",
     "react-native-country-picker-modal": "^2.0.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~2.5.0",
@@ -47,7 +48,7 @@
     "react-redux": "^8.0.4",
     "redux": "^4.2.0",
     "redux-toolkit": "^1.1.2",
-    "src": "^1.1.2",
+    "src": "^1.0.0",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
