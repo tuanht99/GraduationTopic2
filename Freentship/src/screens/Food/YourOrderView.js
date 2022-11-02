@@ -46,7 +46,7 @@ const DATA = {
  
   userName: "Phú",
   txtyour: "bạn",
-  txtDatDon: "Đặt đơn",
+  txtDatDon: "Tiếp theo",
   txtsplq: "Sản phẩm cùng cửa hàng",
   txtXemCuaHang: "Xem cửa hàng",
   txtDis: "Thông tin sản phẩm",
