@@ -1,10 +1,10 @@
 import react from 'react'
 import { ScrollView, View } from 'react-native'
 import styles from './home.style'
-import { TopBanner } from '../../components/Organisms/TopBanner'
-import { SearchHome } from '../../components/Organisms/SearchHome/search-home'
-import { ChooseCategoriesFood } from '../../components/Organisms/ChooseCategoriesFood/'
-import { CategoryFood } from '../../components/Organisms/CategoryFood'
+import { TopBanner } from '../../Components/Organisms/TopBanner'
+import { SearchHome } from '../../Components/Organisms/SearchHome/search-home'
+import { ChooseCategoriesFood } from '../../Components/Organisms/ChooseCategoriesFood/'
+import { CategoryFood } from '../../Components/Organisms/CategoryFood'
 import logo from '../../assets/images/logos/app-user-red.png'
 
 export const HomeScreen = () => {

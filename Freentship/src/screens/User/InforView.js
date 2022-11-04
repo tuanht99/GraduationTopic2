@@ -23,30 +23,18 @@ import { db } from '../../services/config'
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
 // end
 export default function InforView({ navigation }) {
-  ;<StatusBar style="auto" />
-
-  const DATA = [
-    {
-      id: 'kxzmOQS3sVUr2pm9AbLI',
-      image: Longxaodua,
-      name: 'Lòng xòa dưa',
-      discription: 'Nhiều lòng ít dưa',
-      price: '30.000',
-      status: 'Đang mở cửa'
-    }
-  ]
+ 
 
   // firebase
   const idUser = 'kxzmOQS3sVUr2pm9AbLI'
   const [User, setUser] = useState([])
   useEffect(() => {
     const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
-      console.log("Current data: ", doc.data());
+      console.log("Current data: ", doc.data())
       setUser(doc.data())
       // đợi trợ giúp
       // console.log('ngày giờ fire base  : '+ User.dateOfBirth.seconds)
       // console.log('ngày giờ fire base  : '+ User.dateOfBirth.nanoseconds)
-
     })
  
 

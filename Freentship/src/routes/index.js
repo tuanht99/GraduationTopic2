@@ -31,50 +31,50 @@ const Stack = createNativeStackNavigator()
 
 function Router() {
   return (
-    //  <NavigationContainer>
-    //     <Stack.Navigator initialRouteName="Home">
-    //       <Stack.Screen name="Home" options={{
-    //         // hidden navbar
-    //         headerShown: false,
-    //       }} component={HomeScreen} />
-    // <Stack.Screen name="Store" component={StoreScreen} />
-    //       <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-    //       <Stack.Screen name="CartView" component={CardView} />
-    //       {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-    //       <Stack.Screen name="OrderView" component={OrderView} />
-    //       <Stack.Screen name="YourOrderView" component={YourOrderView} />
-    //       {/* <Stack.Screen name="InforView" component={InforView} />
-    //       <Stack.Screen name="InforSettingView" component={InforSettingView} /> */}
-    // <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
-    // <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
-    // <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
-    // <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
-
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="InforView">
-        <Stack.Screen
-          name="InforView"
-          options={{
+     <NavigationContainer>
+        <Stack.Navigator initialRouteName="Store">
+          <Stack.Screen name="Store" options={{
             // hidden navbar
-            headerShown: false
-          }}
-          component={InforView}
-        />
-        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-        <Stack.Screen name="CartView" component={CardView} />
-        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-        <Stack.Screen name="OrderView" component={OrderView} />
-        <Stack.Screen name="YourOrderView" component={YourOrderView} />
-        {/* <Stack.Screen name="InforView" component={InforView} /> */}
-        <Stack.Screen name="InforSettingView" component={InforSettingView} />
-        <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
-        <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
-        <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
-        <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+            headerShown: false,
+          }} component={StoreScreen} />
+    {/* <Stack.Screen name="Store" component={StoreScreen} /> */}
+          <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+          <Stack.Screen name="CartView" component={CardView} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="OrderView" component={OrderView} />
+          <Stack.Screen name="YourOrderView" component={YourOrderView} />
+          <Stack.Screen name="InforView" component={InforView} />
+          <Stack.Screen name="InforSettingView" component={InforSettingView} />
+    <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
+    <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
+    <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
+    <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    // <NavigationContainer>
+    //   <Stack.Navigator initialRouteName="InforView">
+    //     <Stack.Screen
+    //       name="InforView"
+    //       options={{
+    //         // hidden navbar
+    //         headerShown: false
+    //       }}
+    //       component={InforView}
+    //     />
+    //     <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+    //     <Stack.Screen name="CartView" component={CardView} />
+    //     {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+    //     <Stack.Screen name="OrderView" component={OrderView} />
+    //     <Stack.Screen name="YourOrderView" component={YourOrderView} />
+    //     {/* <Stack.Screen name="InforView" component={InforView} /> */}
+    //     <Stack.Screen name="InforSettingView" component={InforSettingView} />
+    //     <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
+    //     <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
+    //     <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
+    //     <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   )
 }
 

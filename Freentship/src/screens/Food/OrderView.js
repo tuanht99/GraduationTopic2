@@ -44,13 +44,11 @@ export default function OrderView({ navigation,route, }) {
  
    // tổng tiền
  const [Total, setTotal] = useState(0);
-  // tăng giảm số lượng
- 
+  // cọc tiền
   const { nameOrder, priceOrder, ImageOrder,Totals,Quantity ,storeOrder, storeN,storeAdr,storeIM} = route.params;
  
 // console.log("name: "+nameOrder );
 
-// console.log("price: "+priceOrder );
 // // console.log("Image: "+ImageOrder );
 // console.log("tongtien :" +Totals );
 // console.log("so tien :" +Quantity );
@@ -61,11 +59,19 @@ console.log(storeOrder + " id: " +" name:" + storeN + " price:" + storeAdr +" st
  }
 const PhiShip = 15000
 
+
  // tính tổng tiền
  React.useEffect(() => {
    setTotal(Totals +PhiShip );
  }, [Quantity])
+// tiền cọc
+const [Deposit, setDeposit] = useState(0);
 
+React.useEffect(() => {
+  setDeposit((Totals * 30 )/100);
+}, [Total])
+ 
+console.log("price: "+Deposit );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -462,7 +468,11 @@ const PhiShip = 15000
             </View>
 
             <TouchableOpacity
-            onPress={() => navigation.navigate("YourOrderView")}
+            onPress={() => navigation.navigate("YourOrderView",{
+
+
+
+            })}
             style={{backgroundColor: "#E94730",
               borderRadius: 15,
               width: "97%",

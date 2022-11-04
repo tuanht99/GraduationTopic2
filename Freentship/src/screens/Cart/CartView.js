@@ -80,13 +80,13 @@ export default function CartView({ navigation, route }) {
   const arr = [];
   React.useEffect(() => {
     arr.push(
-      cart=[
+     
       tittle,
       price,
       total,
       quantity,
       image,
-      ])
+      )
     console.log("mảng : "+arr[0]);
   
   },  [nameOrder])
@@ -358,7 +358,7 @@ export default function CartView({ navigation, route }) {
                 justifyContent: "center",
               }}
             >
-              <Text onPress={inputHandler} style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
+              <Text  style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
             </TouchableOpacity>
           </View>
         </View>
