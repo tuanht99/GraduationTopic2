@@ -3,6 +3,7 @@ import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
+import { Feather } from '@expo/vector-icons'
 
 const DATA = {
   txtChonMua: 'CHỌN MUA',
@@ -16,7 +17,7 @@ import { collection, getDocs, where, query } from 'firebase/firestore'
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
-  <StatusBar animated='true' />
+  ;<StatusBar animated="true" />
   const {
     title,
     description,
@@ -31,7 +32,6 @@ export default function DetailsScreenView({ route, navigation }) {
     locationStore
   } = route.params
 
-  
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -112,19 +112,21 @@ export default function DetailsScreenView({ route, navigation }) {
         <View style={{ marginLeft: 10 }}>
           {statusParmas === 1 ? (
             <TouchableOpacity
-              onPress={() => navigation.navigate('CartView', {
-                nameOrder: title,
-                priceOrder: price,
-                ImageOrder: image,
-                idFood : idFood,
-                //  cửa hàng
-                storeOrder: storeId,
-                storeN: storeName,
-                storeAdr: storeAddress,
-                storeIM: storeImageParams,
-                storeID :  storeId,
-                locationStore : locationStore
-              })}
+              onPress={() =>
+                navigation.navigate('CartView', {
+                  nameOrder: title,
+                  priceOrder: price,
+                  ImageOrder: image,
+                  idFood: idFood,
+                  //  cửa hàng
+                  storeOrder: storeId,
+                  storeN: storeName,
+                  storeAdr: storeAddress,
+                  storeIM: storeImageParams,
+                  storeID: storeId,
+                  locationStore: locationStore
+                })
+              }
               style={{
                 backgroundColor: '#E94730',
                 borderRadius: 15,
@@ -205,7 +207,7 @@ export default function DetailsScreenView({ route, navigation }) {
           >
             <Image
               source={{ uri: storeImageParams }}
-              style={{ width: 40, height: 40, borderRadius: 25, }}
+              style={{ width: 40, height: 40, borderRadius: 25 }}
             />
 
             <View style={{ paddingLeft: 10 }}>
@@ -248,12 +250,11 @@ export default function DetailsScreenView({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
           >
             {foodOfStore.map(item => (
-
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
                   navigation.navigate('DetailsScreenView', {
-                    idFood: item.id ,
+                    idFood: item.id,
                     title: item.name,
                     image: item.image,
                     description: item.description,
@@ -281,6 +282,267 @@ export default function DetailsScreenView({ route, navigation }) {
               </TouchableOpacity>
             ))}
           </ScrollView>
+        </View>
+      </View>
+
+      {/* GD moiws */}
+      {/* chọn số lượng món */}
+      <View style={{ flex: 0.2 }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            paddingTop: 10,
+            paddingBottom: 10,
+            width: '100%',
+            borderTopColor: '#808080',
+            borderTopWidth: 0.3,
+
+            bottom: 0
+          }}
+        >
+          <View style={{ marginLeft: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                borderBottomWidth: 1,
+                borderBottomColor: '#808080',
+                alignItems: 'center',
+                paddingBottom: 10,
+                marginRight: 10
+              }}
+            >
+              <View>
+                <TouchableOpacity
+                  numberOfLines={1}
+                  style={{ color: '#808080' }}
+                >
+                  <Feather name="x" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View style={{ paddingLeft: '35%' }}>
+                <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
+                  Thêm món
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingTop: 10,
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}
+            >
+              <View style={{ width: '47%' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flex: 0.4,
+                    paddingRight: 10,
+                    alignItems: 'center'
+                  }}
+                >
+                  <View>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 5,
+                        width: 20,
+                        height: 20,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 0.3,
+                        borderColor: '#808080'
+                      }}
+                      // onPress={() => {
+                      //   IncreaseQuantity()
+                      // }}
+                    >
+                      <Text style={{ fontWeight: 'bold' }}>-</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <Text style={{ fontWeight: 'bold' }}>
+                      {/* {Quantity} */}1
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: '#fff',
+                        borderRadius: 5,
+                        width: 20,
+                        height: 20,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 0.3,
+                        borderColor: '#808080'
+                      }}
+                      // onPress={() => {
+                      //   DecreaseQuantity()
+                      // }}
+                    >
+                      <Text style={{ fontWeight: 'bold' }}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+              <TouchableOpacity
+                // onPress={() =>
+                //   navigation.navigate('OrderView', {
+                //     nameOrder: nameOrder,
+                //     priceOrder: priceOrder,
+                //     ImageOrder: imageParams,
+                //     idFood: idFood,
+                //     Totals: Total,
+                //     Quantity: Quantity,
+                //     storeOrder,
+                //      storeN,
+                //      storeAdr,
+                //      storeIM,
+                //      storeID,
+                //      locationStore
+                //   })
+                // }
+                style={{
+                  backgroundColor: '#E94730',
+                  borderRadius: 15,
+                  width: '49%',
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Text
+                  // onPress={inputHandler}
+                  style={{ color: '#fff' }}
+                >
+                  Thêm
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Đã thêm vào giỏ */}
+      <View style={{ flex: 0.2 }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            paddingTop: 10,
+            paddingBottom: 10,
+            width: '100%',
+            borderTopColor: '#808080',
+            borderTopWidth: 0.3,
+
+            bottom: 0
+          }}
+        >
+          <View style={{ marginLeft: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}
+            >
+              <View style={{ width: '47%' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flex: 0.4,
+                    paddingRight: 10,
+                    alignItems: 'center'
+                  }}
+                >
+                  <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={navigation.navigate('')}>
+                      <View
+                        style={{
+                          flex: 1,
+                          backgroundColor: '#fff',
+                          padding: 10,
+                          borderRadius: 15,
+                          borderWidth: 0.3,
+                          borderColor: '#808080'
+                        }}
+                      >
+                        <View>
+                          <AntDesign
+                            name="shoppingcart"
+                            size={24}
+                            color="black"
+                          />
+                        </View>
+                        <View
+                          style={{
+                            position: 'absolute',
+                            zIndex: 1,
+                            bottom: 30,
+                            right: 0
+                          }}
+                        >
+                          <View
+                            style={{
+                              backgroundColor: 'red',
+                              borderRadius: 5,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              width: 20,
+                              height: 18
+                            }}
+                          >
+                            <Text style={{ color: '#fff' }}>12</Text>
+                          </View>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                    <View style={{paddingLeft: 20, justifyContent: 'center', alignItems: 'center'}}>
+                      <View><Text style={{fontWeight: 'bold'}}>100.000 Đ</Text></View>
+                      <View><Text>(tạm tính)</Text></View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <TouchableOpacity
+                // onPress={() =>
+                //   navigation.navigate('OrderView', {
+                //     nameOrder: nameOrder,
+                //     priceOrder: priceOrder,
+                //     ImageOrder: imageParams,
+                //     idFood: idFood,
+                //     Totals: Total,
+                //     Quantity: Quantity,
+                //     storeOrder,
+                //      storeN,
+                //      storeAdr,
+                //      storeIM,
+                //      storeID,
+                //      locationStore
+                //   })
+                // }
+                style={{
+                  backgroundColor: '#E94730',
+                  borderRadius: 15,
+                  width: '49%',
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Text
+                  // onPress={inputHandler}
+                  style={{ color: '#fff' }}
+                >
+                  Đặt đơn
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     </ScrollView>
