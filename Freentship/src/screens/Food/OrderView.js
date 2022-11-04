@@ -50,6 +50,7 @@ const DATA = {
 export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
+  const user_id = "kxzmOQS3sVUr2pm9AbLI"
   // tăng giảm số lượng
 
   const {
@@ -127,10 +128,11 @@ export default function OrderView({ navigation, route }) {
     order_date: Timestamp.now(),
     ordered_food: [{ food_id: idFood, qty: Quantity }],
     ship_fee: PhiShip,
+    total_food : Totals,
     shipper_id: '',
     status: 2,
-    totalPrice: Totals,
-    user_id: ''
+    totalPrice: Total,
+    user_id: user_id
   }
 
   const orderTheOrder = () => {
