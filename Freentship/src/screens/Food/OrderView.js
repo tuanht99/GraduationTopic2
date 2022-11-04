@@ -128,9 +128,10 @@ export default function OrderView({ navigation, route }) {
     order_date: Timestamp.now(),
     ordered_food: [{ food_id: idFood, qty: Quantity }],
     ship_fee: PhiShip,
+    total_food : Totals,
     shipper_id: '',
     status: 2,
-    totalPrice: Totals,
+    totalPrice: Total,
     user_id: user_id
   }
 
