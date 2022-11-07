@@ -135,7 +135,7 @@ export default function InforView({ navigation }) {
   
 
   // order
-  const idOrder = 'PPKK6atKTPOzCZWYvHF9'
+  const idOrder = '0pPQyIMtwVKPSkg7rcv3'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
