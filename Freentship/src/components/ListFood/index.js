@@ -120,7 +120,7 @@ const ListFood = ({
     </View>
   )
 
-  console.log('openTimeaaaa', openTime)
+  // console.log('openTimeaaaa', openTime)
   const ListFood = () => (
     <FlatList
       data={food}
@@ -128,10 +128,11 @@ const ListFood = ({
       renderItem={({ item }) => {
         return (
           <TouchableOpacity
+         
             // [Styles.htrOrder, Styles.disabledButton]
             style={
               item.status === 1
-                ? Styles.htrOrder
+                ? Styles.htrOrderText
                 : [Styles.htrOrder, Styles.disabledButton]
             }
             onPress={() => {

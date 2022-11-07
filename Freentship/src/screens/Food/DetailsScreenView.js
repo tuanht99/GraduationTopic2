@@ -224,7 +224,7 @@ export default function DetailsScreenView({ route, navigation }) {
 
             <View style={{ marginRight: 10 }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Store')}
+                onPress={() => navigation.goBack()}
                 style={{
                   backgroundColor: '#fff',
                   borderRadius: 15,

@@ -72,7 +72,7 @@ export default function OrderView({ navigation, route }) {
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState([])
   // console.log('shippers', shippers)
-  // console.log('shipper', shipper)
+  // console.log('storeID', storeID)
   const [isCreateOrder, setIsCreateOrder] = useState(false)
 
   const getShippers = async () => {
