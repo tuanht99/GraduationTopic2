@@ -86,10 +86,10 @@ import {
       fontSize: 20, marginLeft:45, marginRight: 5 
     },
     htrOrderText: {
-      fontSize: 18,
-      fontWeight: '900',
-      marginLeft: 20,
+      flexDirection: 'row',
       marginBottom: 10,
+      marginTop: 10,
+      flexDirection: 'row',
     },
     htrOrder: {
       flexDirection: 'row',
