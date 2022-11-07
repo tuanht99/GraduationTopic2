@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -7,11 +7,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  where,
+  query,
+  QuerySnapshot,
+  editDoc,
+  onSnapshot,
+} from "firebase/firestore";
+
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 
+import { db } from "../../services/firebase";
 
 const DATA = {
   id: 1,
@@ -42,6 +59,7 @@ const DATA = {
 
 // Navigation
 export default function YourOrderView({ navigation }) {
+  // const { food_price } = route.params;
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -64,8 +82,41 @@ export default function YourOrderView({ navigation }) {
     });
   }, [navigation]);
 
+  // const [food_Price, setFoodPrice] = useState([inYourOrder]);
+  
+  const [inYourOrder, setInYourOrder] = useState([]);
+
+  //get information of yourorer
+  useEffect(() => {
+    let unsubscribe;
+    setInYourOrder(null);
+    const getYourOrder = async () => {
+      const orderRef = collection(db, "orders");
+      const c = query(
+        orderRef
+        // where("category_Id", "==", category.id)
+      );
+      console.log(collection(db, "orders"));
+      const querySnapshot = await getDocs(c);
+      const inYourOrder = [];
+      unsubscribe = onSnapshot(c, (querySnapshot) => {
+        setInYourOrder(
+          querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+    getYourOrder();
+    return unsubscribe;
+  }, []);
+  console.log('ordersset', inYourOrder)
+  
+ 
+
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView data={inYourOrder} style={{ flex: 1 }}>
       <View style={{ paddingBottom: 10 }}></View>
 
       {/* cam on */}
@@ -79,7 +130,8 @@ export default function YourOrderView({ navigation }) {
       >
         <View style={{ marginLeft: 10 }}>
           <Text>Cảm ơn</Text>
-          <Text style={{ fontWeight: "bold" }}>{DATA.userName}</Text>
+          <Text style={{ fontWeight: "bold", color: '#000' }}>{setInYourOrder.price}</Text>
+          
           <Text>đã cho freentship có cơ hội được phuc vụ</Text>
         </View>
       </View>
@@ -107,7 +159,7 @@ export default function YourOrderView({ navigation }) {
           >
             <View>
               <Text numberOfLines={1} style={{ paddingBottom: 10 }}>
-                Mã đơn {DATA.txtmadon}
+                Mã đơn ss
               </Text>
             </View>
 
