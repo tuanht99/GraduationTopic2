@@ -77,7 +77,7 @@ export default function OrderDeliveredView({ navigation }) {
   const foodName = food.name
 
   // order
-  const idOrder = 'PPKK6atKTPOzCZWYvHF9'
+  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {

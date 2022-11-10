@@ -19,9 +19,16 @@ import AppStyle from '../../themes/IndexTheme'
 
 // firebase import
 import { db } from '../../services/config'
-import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  getDocs
+} from 'firebase/firestore'
 // end
-export default function InforView({ navigation }) {
+export default function InforView({ navigation, route }) {
   ;<StatusBar style="auto" />
 
   const DATA = [
@@ -71,15 +78,16 @@ export default function InforView({ navigation }) {
   // end
   const footerComponent = () => (
     <FlatList
-      data={DATA}
+      data={listOrder}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={AppStyle.InforUserTheme.htrOrder}
           onPress={() =>
             navigation.navigate('OrderCanceledView', {
-              totalPrice,
-            })}
+              totalPrice
+            })
+          }
         >
           <View
             style={{
@@ -96,7 +104,7 @@ export default function InforView({ navigation }) {
                 overflow: 'hidden',
                 resizeMode: 'contain'
               }}
-              source={item.image}
+              // source={item.image}
             />
           </View>
           <View style={{ flexDirection: 'column', flex: 4 }}>
@@ -108,9 +116,7 @@ export default function InforView({ navigation }) {
             >
               {foodStoreName}
             </Text>
-            <Text style={AppStyle.InforUserTheme.textGif}>
-              {foodName}
-            </Text>
+            <Text style={AppStyle.InforUserTheme.textGif}>{foodName}</Text>
             <Text style={{ fontSize: 13 }}>{totalPrice}</Text>
             <Text style={AppStyle.InforUserTheme.orderStatusFalse}>
               {OrderStatus}
@@ -120,37 +126,57 @@ export default function InforView({ navigation }) {
       )}
     ></FlatList>
   )
+  
+  const [listOrder, setListOrder] = useState([])
+  useEffect(() => {
+    let unsubscribe
+    setListOrder(null)
+    const getOrder = async () => {
+      const OrderRef = collection(db, 'orders')
+      const c = query(OrderRef, where('user_id', '==', idUser))
 
- 
+      const querySnapshot = await getDocs(c)
+      const listOrder = []
+      unsubscribe = onSnapshot(c, querySnapshot => {
+        setListOrder(
+          querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }))
+        )
+      })
+    }
+    getOrder()
+    return unsubscribe
+  }, [])
+
+  console.log(listOrder);
+
   // food
   const idFood = '0w1IntroHd8JwVvD9tTz'
   const [food, setFood] = useState([])
   useEffect(() => {
     const fs = onSnapshot(doc(db, 'foods', idFood), doc => {
-      console.log('food: ', doc.data())
       setFood(doc.data())
     })
   }, [idFood])
   const foodName = food.name
-  
 
   // order
-  const idOrder = '0pPQyIMtwVKPSkg7rcv3'
+  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
-      console.log('ordero: ', doc.data())
       setOrder(doc.data())
     })
   }, [idOrder])
-  const totalPrice = Order.totalPrice
+  const totalPrice = '' + Order.totalPrice
 
   // orderStatus
   const idOrderStatus = '9'
   const [orderStatus, setOrderStatus] = useState([])
   useEffect(() => {
-    const odr = onSnapshot(doc(db, 'order_status',idOrderStatus), doc => {
-      console.log('ordestatus: ', doc.data())
+    const odr = onSnapshot(doc(db, 'order_status', idOrderStatus), doc => {
       setOrderStatus(doc.data())
     })
   }, [idOrder])
@@ -161,13 +187,12 @@ export default function InforView({ navigation }) {
   const [foodStore, setFoodStore] = useState([])
   useEffect(() => {
     const fs = onSnapshot(doc(db, 'food_stores', idFoodStore), doc => {
-      console.log('foodStore: ', doc.data())
       setFoodStore(doc.data())
     })
   }, [idFoodStore])
   const foodStoreName = foodStore.name
   const foodStoreImage = foodStore.image
-  
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -396,12 +421,61 @@ export default function InforView({ navigation }) {
               ]}
             />
           </View>
-
+              {/* ls */}
           <View style={{ flex: 0.2 }}>
             <Text style={AppStyle.InforUserTheme.htrOrderText}>
               Lịch sử đơn hàng
             </Text>
-            <FlatList ListFooterComponent={footerComponent}></FlatList>
+            <FlatList
+              data={listOrder}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={AppStyle.InforUserTheme.htrOrder}
+                  onPress={() =>
+                    navigation.navigate('OrderCanceledView', {
+                      totalPrice
+                    })
+                  }
+                >
+                  <View
+                    style={{
+                      flex: 2,
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Image
+                      style={{
+                        height: 90,
+                        width: 90,
+                        borderRadius: 15,
+                        overflow: 'hidden',
+                        resizeMode: 'contain'
+                      }}
+                      source={item.image}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'column', flex: 4 }}>
+                    <Text
+                      style={[
+                        AppStyle.InforUserTheme.bold,
+                        AppStyle.InforUserTheme.textSize17
+                      ]}
+                    >
+                      {item.food_store_id}
+                    </Text>
+                    <Text style={AppStyle.InforUserTheme.textGif}>
+                      {foodName}
+                    </Text>
+                    <Text style={{ fontSize: 13 }}>{item.totalPrice}</Text>
+                    <Text style={AppStyle.InforUserTheme.orderStatusFalse}>
+                      {item.status}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            ></FlatList>
           </View>
         </View>
       </ScrollView>
