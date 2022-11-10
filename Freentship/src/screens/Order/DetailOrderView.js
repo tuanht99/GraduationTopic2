@@ -79,7 +79,7 @@ export default function DetailOrderView({ navigation }) {
   
 
   // order
-  const idOrder = 'PPKK6atKTPOzCZWYvHF9'
+  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
