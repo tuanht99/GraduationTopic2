@@ -53,7 +53,7 @@ export default function InforView({ navigation }) {
 
 
   // dữ liệu
-  const guestname = User.guestName
+  const guestname = User.name
   const avatar = User.avatar
   // thời gian
 
