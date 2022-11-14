@@ -50,6 +50,7 @@ const DATA = {
 export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
+  const user_id = "kxzmOQS3sVUr2pm9AbLI"
   // tăng giảm số lượng
 
   const {
@@ -70,8 +71,8 @@ export default function OrderView({ navigation, route }) {
 
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState([])
-  console.log('shippers', shippers)
-  console.log('shipper', shipper)
+  // console.log('shippers', shippers)
+  // console.log('storeID', storeID)
   const [isCreateOrder, setIsCreateOrder] = useState(false)
 
   const getShippers = async () => {
@@ -102,21 +103,6 @@ export default function OrderView({ navigation, route }) {
     setShippers(manyShippers)
   }
 
-  // useEffect(() => {
-  //   setIsCreateOrder(true)
-  //   const getData = async () => {
-  //     try {
-  //       const jsonValue = await AsyncStorage.getItem('@recent_location')
-  //       console.log('kakakakakkaka', JSON.parse(jsonValue))
-  //       return jsonValue != null ? JSON.parse(jsonValue) : null
-  //     } catch (e) {
-  //       // error reading value
-  //     }
-  //   }
-
-  //   getData()
-  // }, [])
-
   useEffect(() => {
     getShippers()
   }, [isCreateOrder])
@@ -126,8 +112,11 @@ export default function OrderView({ navigation, route }) {
       const shipper = shippers.reduce((prev, curr) =>
         prev.distance < curr.distance ? prev : curr
       )
+      if (shipper.distance < 5000) {
+        setShipper(shipper)
+      }
 
-      setShipper(shipper)
+      setShipper('')
     }
   }, [shippers])
 
@@ -139,22 +128,18 @@ export default function OrderView({ navigation, route }) {
     order_date: Timestamp.now(),
     ordered_food: [{ food_id: idFood, qty: Quantity }],
     ship_fee: PhiShip,
-    shipper_id: shipper.id,
+    total_food : Totals,
+    shipper_id: '',
     status: 2,
-    totalPrice: Totals,
-    user_id: ''
+    totalPrice: Total,
+    user_id: user_id
   }
 
   const orderTheOrder = () => {
     const { id } = addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-        // Data saved successfully!
-        const washingtonRef = doc(db, 'shippers', `${docData.shipper_id}`)
-
-        await updateDoc(washingtonRef, {
-          lastest_order_id: docRef.id
-        })
-        console.log('Document written with ID: ', docRef.id)
+        console.log('docRef',docRef.id);
+        navigation.navigate('FindShipper',{ orderId: docRef.id , shipperId : docRef.shipper_id , locationStore: locationStore });
       })
       .catch(error => {
         // The write failed...
@@ -576,6 +561,7 @@ export default function OrderView({ navigation, route }) {
             {/* () => navigation.navigate('YourOrderView') */}
             {/*order */}
             <TouchableOpacity
+              // onPress={() => orderTheOrder()}
               onPress={() => orderTheOrder()}
               style={{
                 backgroundColor: '#E94730',
