@@ -248,9 +248,10 @@ export default function OrderDeliveredView({ navigation }) {
               </Text>
             </View>
             <View style={{paddingTop: 10, paddingRight: 10 }}>
-              <Image source={DATA.avt} style={{width: 40,
+              {/* <Image source={DATA.avt} 
+              style={{width: 40,
     height: 40,
-    borderRadius: 25,}} />
+    borderRadius: 25,}} /> */}
             </View>
           </View>
         </View>
