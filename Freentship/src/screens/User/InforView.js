@@ -75,57 +75,6 @@ export default function InforView({ navigation, route }) {
   const id = idUser
   const gmail = User.email
   const phone = User.phone
-  // end
-  const footerComponent = () => (
-    <FlatList
-      data={listOrder}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          style={AppStyle.InforUserTheme.htrOrder}
-          onPress={() =>
-            navigation.navigate('OrderCanceledView', {
-              totalPrice
-            })
-          }
-        >
-          <View
-            style={{
-              flex: 2,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <Image
-              style={{
-                height: 90,
-                width: 90,
-                borderRadius: 15,
-                overflow: 'hidden',
-                resizeMode: 'contain'
-              }}
-              // source={item.image}
-            />
-          </View>
-          <View style={{ flexDirection: 'column', flex: 4 }}>
-            <Text
-              style={[
-                AppStyle.InforUserTheme.bold,
-                AppStyle.InforUserTheme.textSize17
-              ]}
-            >
-              {foodStoreName}
-            </Text>
-            <Text style={AppStyle.InforUserTheme.textGif}>{foodName}</Text>
-            <Text style={{ fontSize: 13 }}>{totalPrice}</Text>
-            <Text style={AppStyle.InforUserTheme.orderStatusFalse}>
-              {OrderStatus}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      )}
-    ></FlatList>
-  )
   
   const [listOrder, setListOrder] = useState([])
   useEffect(() => {
@@ -152,46 +101,46 @@ export default function InforView({ navigation, route }) {
 
   console.log(listOrder);
 
-  // food
-  const idFood = '0w1IntroHd8JwVvD9tTz'
-  const [food, setFood] = useState([])
-  useEffect(() => {
-    const fs = onSnapshot(doc(db, 'foods', idFood), doc => {
-      setFood(doc.data())
-    })
-  }, [idFood])
-  const foodName = food.name
+  // // food
+  // const idFood = '0w1IntroHd8JwVvD9tTz'
+  // const [food, setFood] = useState([])
+  // useEffect(() => {
+  //   const fs = onSnapshot(doc(db, 'foods', idFood), doc => {
+  //     setFood(doc.data())
+  //   })
+  // }, [idFood])
+  // const foodName = food.name
 
-  // order
-  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
-  const [Order, setOrder] = useState([])
-  useEffect(() => {
-    const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
-      setOrder(doc.data())
-    })
-  }, [idOrder])
-  const totalPrice = '' + Order.totalPrice
+  // // order
+  // const idOrder = '9sqoBr9vzZUk3VHdAIKk'
+  // const [Order, setOrder] = useState([])
+  // useEffect(() => {
+  //   const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
+  //     setOrder(doc.data())
+  //   })
+  // }, [idOrder])
+  // const totalPrice = '' + Order.totalPrice
 
-  // orderStatus
-  const idOrderStatus = '9'
-  const [orderStatus, setOrderStatus] = useState([])
-  useEffect(() => {
-    const odr = onSnapshot(doc(db, 'order_status', idOrderStatus), doc => {
-      setOrderStatus(doc.data())
-    })
-  }, [idOrder])
-  const OrderStatus = orderStatus.value
+  // // orderStatus
+  // const idOrderStatus = '9'
+  // const [orderStatus, setOrderStatus] = useState([])
+  // useEffect(() => {
+  //   const odr = onSnapshot(doc(db, 'order_status', idOrderStatus), doc => {
+  //     setOrderStatus(doc.data())
+  //   })
+  // }, [idOrder])
+  // const OrderStatus = orderStatus.value
 
-  // foodStore
-  const idFoodStore = '4dpAvRWJVrvdbml9vKDL'
-  const [foodStore, setFoodStore] = useState([])
-  useEffect(() => {
-    const fs = onSnapshot(doc(db, 'food_stores', idFoodStore), doc => {
-      setFoodStore(doc.data())
-    })
-  }, [idFoodStore])
-  const foodStoreName = foodStore.name
-  const foodStoreImage = foodStore.image
+  // // foodStore
+  // const idFoodStore = '4dpAvRWJVrvdbml9vKDL'
+  // const [foodStore, setFoodStore] = useState([])
+  // useEffect(() => {
+  //   const fs = onSnapshot(doc(db, 'food_stores', idFoodStore), doc => {
+  //     setFoodStore(doc.data())
+  //   })
+  // }, [idFoodStore])
+  // const foodStoreName = foodStore.name
+  // const foodStoreImage = foodStore.image
 
 
   return (
@@ -434,7 +383,8 @@ export default function InforView({ navigation, route }) {
                   style={AppStyle.InforUserTheme.htrOrder}
                   onPress={() =>
                     navigation.navigate('OrderCanceledView', {
-                      totalPrice
+                      totalPrice,
+                      
                     })
                   }
                 >
@@ -466,7 +416,7 @@ export default function InforView({ navigation, route }) {
                       {item.food_store_id}
                     </Text>
                     <Text style={AppStyle.InforUserTheme.textGif}>
-                      {foodName}
+                      {/* {foodName} */}
                     </Text>
                     <Text style={{ fontSize: 13 }}>{item.totalPrice}</Text>
                     <Text style={AppStyle.InforUserTheme.orderStatusFalse}>
