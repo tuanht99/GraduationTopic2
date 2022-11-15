@@ -324,7 +324,7 @@ export default function CartView({ navigation, route }) {
               }}
             >
               <View>
-                <Text numberOfLines={1} style={{ color: "#808080" }}>
+                <Text numberOfLines={1} style={{ color: '#808080' }}>
                   Tổng (tạm tính)
                 </Text>
               </View>

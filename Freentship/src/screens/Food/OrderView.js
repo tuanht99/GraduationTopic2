@@ -51,7 +51,19 @@ const DATA = {
 export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
-  const user_id = "kxzmOQS3sVUr2pm9AbLI"
+  const [userId, setUserId] = useState('')
+
+
+  const UserId = async () => {
+    const value = await AsyncStorage.getItem('userID1')
+    setUserId(value)
+  }
+
+  useEffect(() => {
+    UserId()
+  }, [])
+
+  const user_id = userId
   // tăng giảm số lượng
 
   const {
@@ -129,7 +141,7 @@ export default function OrderView({ navigation, route }) {
     order_date: Timestamp.now(),
     ordered_food: [{ food_id: idFood, qty: Quantity }],
     ship_fee: PhiShip,
-    total_food : Totals,
+    total_food: Totals,
     shipper_id: '',
     status: 2,
     totalPrice: Total,
@@ -139,8 +151,12 @@ export default function OrderView({ navigation, route }) {
   const orderTheOrder = () => {
     const { id } = addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-        console.log('docRef',docRef.id);
-        navigation.navigate('FindShipper',{ orderId: docRef.id , shipperId : docRef.shipper_id , locationStore: locationStore });
+        console.log('docRef', docRef.id)
+        navigation.navigate('FindShipper', {
+          orderId: docRef.id,
+          shipperId: docRef.shipper_id,
+          locationStore: locationStore
+        })
       })
       .catch(error => {
         // The write failed...
