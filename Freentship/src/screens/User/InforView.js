@@ -263,9 +263,9 @@ const [UserID, setUserID] = useState("")
               />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
-              <Text style={{ fontSize: 15 }}>Quản lí thanh toán</Text>
+              <Text style={{ fontSize: 15 }}>Câu hỏi thường gặp</Text>
             </View>
-            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+            <AntDesign name="question" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
           {/* Đề xuất monng muốn */}
           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
@@ -317,7 +317,7 @@ const [UserID, setUserID] = useState("")
             />
             <View style={{ flexDirection: 'row', flex: 4 }}>
               <Text style={AppStyle.InforUserTheme.textVersion}>
-                Phiên bản hiện tại 2.21.201
+                Phiên bản hiện tại 1.0
               </Text>
             </View>
           </View>
