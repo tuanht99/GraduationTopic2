@@ -41,7 +41,7 @@ export const SearchScreen = ({ route, navigation }) => {
     ReadDataFoodStoresByFood
   ]
   React.useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const data = id
         ? await firestore[1](q[3])
         : await firestore[index](q[index])
