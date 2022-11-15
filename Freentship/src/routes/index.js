@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // thông tin Food
 import DetailsScreenView from '../screens/Food/DetailsScreenView'
 // cửa hàng
-import storeScreen from '../screens/Store/StoreScreen'
 // giỏ hàng
 import CardView from '../screens/Cart/CartView'
 // trang chính
@@ -28,6 +27,15 @@ import { ConfirmOTP } from '../screens/User/ConfirmOTPView'
 import InputPhoneNumScreen from '../screens/User/ChangePhoneNumber'
 // notify Order
 import NotifyOrder from '../screens/Notify/NotifyOrder'
+// import StoreScreen from '../screens/Store/StoreScreen.js'
+// import { LocationScreen } from '../screens/LocationScreen'
+// // tab home
+// import { HomeNavigator } from './HomeNavigator'
+// // tìm kiem user
+// import FindShipper from '../screens/FindShipper/FindShipper'
+// // tim kiem 
+// import { SearchScreen } from '../screens/SearchScreen'
+
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -55,7 +63,7 @@ function Router() {
     //     </Stack.Navigator>
     //   </NavigationContainer>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="NotifyOrder">
+      <Stack.Navigator initialRouteName="Home">
       {/* chạy dầu */}
         <Stack.Screen
           name="InforView"
@@ -65,6 +73,8 @@ function Router() {
           }}
           component={InforView}
         />
+        {/* cửa hàng */}
+     {/* <Stack.Screen name="Store" component={StoreScreen} /> */}
         {/* thôn tin food */}
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
         {/* giỏ hàng */}
@@ -87,7 +97,16 @@ function Router() {
         <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
         {/*  thông báo đơn hàng */}
         <Stack.Screen name="NotifyOrder" component={NotifyOrder} />
-
+        {/* địa chỉ */}
+        {/* <Stack.Screen name="LocationScreen" component={LocationScreen} />
+          <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
+            // hidden navbar
+            headerShown: false,
+          }} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} options={{
+            // hidden navbar
+            headerShown: false,
+          }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )

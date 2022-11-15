@@ -1,45 +1,57 @@
-import React, { useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import react from 'react'
+import { ScrollView } from 'react-native'
 import styles from './home.style'
-import { TopBanner } from '../../components/Organisms/TopBanner'
-import { SearchHome } from '../../components/Organisms/SearchHome/search-home'
-import { ChooseCategoriesFood } from '../../components/Organisms/ChooseCategoriesFood/'
-import { CategoryFood } from '../../components/Organisms/CategoryFood'
-import { ReadDataFoodStores, ReadDataFoodStoresByFood } from '../../services'
-import { orderBy, where, limit } from 'firebase/firestore'
-import { CategoryHeader } from '../../components/molecules/CategoryHeader'
+import { TopBanner } from '../../Components/Organisms/TopBanner'
+import { SearchHome } from '../../Components/Organisms/SearchHome/search-home'
+import { ChooseCategoriesFood } from '../../Components/Organisms/ChooseCategoriesFood/'
+import { CategoryFood } from '../../Components/Organisms/CategoryFood'
+import logo from '../../assets/images/logos/app-user-red.png'
 
-export const HomeScreen = ({ navigation, route }) => {
-  
-  const {location} = route.params !== undefined && route.params
-  const LIMIT = 10
-  const categories = [
+export const HomeScreen = () => {
+  const titleCategories = [
     'Thử quán mới',
-    'Đang khuyến mãi',
-    'Thương hiệu quen thuộc'
+    'đang khuyến mãi',
+    'thương hiệu quen thuộc'
   ]
-  const [isScrolling, setIsScrolling] = React.useState(false)
-  const [data, setData] = React.useState(null)
-  const q = [
-    [orderBy('created', 'desc'), limit(LIMIT)],
-    [where('discount', '>', 0), orderBy('discount', 'desc'), limit(LIMIT)]
+  const data = [
+    {
+      id: '1',
+      title: 'test1aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      urlImg: logo,
+      number: 25,
+      advertisement: true
+    },
+    { id: '2', title: 'test2', urlImg: logo, number: 35, advertisement: false },
+    { id: '3', title: 'test3', urlImg: logo, number: 45, advertisement: true },
+    { id: '4', title: 'test4', urlImg: logo, number: 55, advertisement: true },
+    { id: '5', title: 'test5', urlImg: logo, number: 65, advertisement: true },
+    { id: '6', title: 'test6', urlImg: logo, number: 75, advertisement: true },
+    { id: '7', title: 'test7', urlImg: logo, number: 85, advertisement: true },
+    { id: '8', title: 'test8', urlImg: logo, number: 95, advertisement: false },
+    { id: '9', title: 'test9', urlImg: logo, number: 105, advertisement: true },
+    {
+      id: '10',
+      title: 'test10',
+      urlImg: logo,
+      number: 1151,
+      advertisement: true
+    },
+    {
+      id: '11',
+      title: 'test11',
+      urlImg: logo,
+      number: 125,
+      advertisement: true
+    },
+    {
+      id: '12',
+      title: 'test12',
+      urlImg: logo,
+      number: 135,
+      advertisement: false
+    }
   ]
-  const firestore = [ReadDataFoodStores, ReadDataFoodStoresByFood]
-
-  React.useEffect(() => {
-    ;(async () => {
-      let data
-      data = []
-      await Promise.all(
-        firestore.map(async (item, index) => {
-          const dataTemp = await item(q[index])
-          data.push([...dataTemp])
-        })
-      )
-      setData(data)
-    })()
-  }, [])
-
+  const [isScrolling, setIsScrolling] = react.useState(false)
   const handleScroll = event => {
     const scrollY = event.nativeEvent.contentOffset.y
     if (scrollY > 180) {
@@ -50,32 +62,6 @@ export const HomeScreen = ({ navigation, route }) => {
       setIsScrolling(false)
     }
   }
-  const ItemLoader = (item, index) => {
-    return (
-      <View key={index} style={styles.itemLoader}>
-        <View style={styles.itemLoaderImg} />
-        <View style={styles.itemLoaderName} />
-        <View style={styles.itemLoaderDistance}>
-          <View style={styles.itemLoaderDistanceIcon} />
-          <View style={styles.itemLoaderDistanceText} />
-        </View>
-      </View>
-    )
-  }
-  const Loader = (item, index) => {
-    const dataTemp = [1, 2, 3, 4, 5]
-    return (
-      <View key={index} style={styles.container}>
-        <View style={styles.container}>
-          <CategoryHeader isCheck={true}>{categories[index]}</CategoryHeader>
-        </View>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          {dataTemp.map(ItemLoader)}
-        </ScrollView>
-      </View>
-    )
-  }
-
   return (
     <>
       {isScrolling && (
@@ -85,33 +71,19 @@ export const HomeScreen = ({ navigation, route }) => {
           flexDirection={true}
         />
       )}
-      {location !== undefined && <ScrollView
-        onScrollToTop={() => console.log('onScrollToTop')}
+      <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
         onScroll={handleScroll}
       >
-        <TopBanner location={location} />
+        <TopBanner />
         <SearchHome style={styles.searchHome} />
-        <ChooseCategoriesFood location={location} navigation={navigation} />
-        {data !== null
-          ? data.map((item, index) => {
-              return (
-                <View key={index}>
-                  <CategoryFood
-                    indexFirestore={index + 1}
-                    firestore={firestore[index]}
-                    location={location}
-                    title={categories[index]}
-                    data={item}
-                    navigation={navigation}
-                  />
-                </View>
-              )
-            })
-          : firestore.map(Loader)}
-      </ScrollView>}
+        <ChooseCategoriesFood />
+        <CategoryFood data={data} title={titleCategories[0]} />
+        <CategoryFood data={data} title={titleCategories[1]} />
+        <CategoryFood data={data} title={titleCategories[2]} />
+      </ScrollView>
     </>
   )
 }

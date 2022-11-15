@@ -16,7 +16,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
 //import ListFood from '../../Components/ListFood'
-import ListFood from '../../Components/ListFood/index'
+import ListFood from '../../Components/ListFood'
 import { db } from '../../services/firebase'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 

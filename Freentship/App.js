@@ -18,7 +18,6 @@ import { WriteDataFood_StoresByCategory } from './src/services'
 import InforSettingView from './src/screens/User/InforView'
 import Routes from './src/routes'
 
-
 export default function App() {
 
   return (
