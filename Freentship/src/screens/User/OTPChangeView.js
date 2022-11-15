@@ -42,13 +42,12 @@ export default function OTPChangeView({navigation,route}) {
         
           <View style={styles.container}>
             <SafeAreaView style={styles.wrapper}>
-              {showMessage && (
-                <View style={styles.message}>
-                  <Text>Value : {value}</Text>
-                  <Text>Formatted Value : {formattedValue}</Text>
-                  <Text>Valid : {valid ? 'true' : 'false'}</Text>
-                </View>
-              )}
+            {showMessage && (
+          <View style={styles.message}>
+            <Text>Sai Quyền truy cập</Text>
+            <Text>Vui lòng nhập đúng số điện thoại đã đăng kí</Text>
+          </View>
+        )}
               <PhoneInput
                 ref={phoneInput}
                 defaultValue={value}
@@ -65,7 +64,7 @@ export default function OTPChangeView({navigation,route}) {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  const checkValid = phoneInput.current?.isValidNumber(value)
+                  const checkValid = phoneInput.current?.isValidNumber(value)&& value == phone
                   setShowMessage(true)
                   setValid(checkValid ? checkValid : false)
                   if (checkValid) {

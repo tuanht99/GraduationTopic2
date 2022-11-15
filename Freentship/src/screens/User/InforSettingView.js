@@ -88,6 +88,7 @@ export default function InforSettingView({ navigation, route }) {
     let pickerResult = await ImagePicker.launchImageLibraryAsync()
     setChangeImage(pickerResult.uri)
     console.log('địa chỉ Local :' + pickerResult.uri)
+    
     // test 12:29
      // TODO: Fix
     const storage = getStorage()
@@ -116,7 +117,7 @@ export default function InforSettingView({ navigation, route }) {
       // causes crash
       console.log('Uploaded a blob or file!')
     })
-    // setImage(pickerResult.uri)
+    setImage(pickerResult.uri)
     getDownloadURL(ref(storage, namePathImage)).then(url => {
       setImage(url)
       addDoc(collection(db, 'avatar'), {
