@@ -40,9 +40,10 @@ const ChangeProfilers = StyleSheet.create({
     },
     bottom:{
         flex: 1,
-        display: 'flex',
+       
         backgroundColor: 'white',
         justifyContent: 'center',
+     
     },
     inputField: {
         fontSize: 20,
@@ -61,20 +62,24 @@ const ChangeProfilers = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#d7d7d7',
         margin:10,
+        
       },
     Date:{
+        flex:1,
         margin:5,
         flexDirection:'row'
     }
     ,profileText:{
         textAlign: 'center',
-        paddingTop:5,
+        paddingTop:20,
+        paddingLeft:15
     },
     sex:{
+        
        
-        alignItems: 'center',
         flexDirection: 'column',
         flex:1,
+        paddingLeft:50
     }
 });
 export default ChangeProfilers
