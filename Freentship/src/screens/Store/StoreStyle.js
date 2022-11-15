@@ -72,7 +72,10 @@ import {
       fontWeight: '700',
     }
     , btnCategory:{
-      flexDirection: 'row', justifyContent: 'space-evenly' ,  marginTop: 10
+ 
+      marginRight: 10,
+    },
+    disabledButton: {     flexDirection: 'row', justifyContent: 'space-evenly' ,  marginTop: 10
     }
     , category:{
       borderRadius: 20 , backgroundColor: "#C0C0C0" , paddingLeft: 15 , paddingRight: 15 
@@ -83,18 +86,15 @@ import {
       fontSize: 20, marginLeft:45, marginRight: 5 
     },
     htrOrderText: {
-      fontSize: 18,
-      fontWeight: '900',
-      marginLeft: 20,
+      flexDirection: 'row',
       marginBottom: 10,
+      marginTop: 10,
+      flexDirection: 'row',
     },
     htrOrder: {
       flexDirection: 'row',
       marginBottom: 10,
       marginTop: 10,
-      marginRight: 10,
-    },
-    disabledButton: {
       opacity: 0.6
     }
   });

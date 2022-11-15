@@ -33,12 +33,13 @@ const DATA = {
 export default function CartView({ navigation, route }) {
 
 
-  const { nameOrder, priceOrder, ImageOrder,storeOrder, storeN,storeAdr,storeIM} = route.params;
+  const { nameOrder, priceOrder, idFood , ImageOrder,storeOrder, storeN,storeAdr,storeIM, storeID ,locationStore} = route.params;
   const imageParams = ImageOrder;
   const storeOrders = storeOrder;
   const storeNameParams= storeN;
   const storeImageParams = storeIM;
   const storeAddressParams = storeAdr;
+  
   
   // lấy tên
   // console.log(imageParams);
@@ -138,11 +139,11 @@ export default function CartView({ navigation, route }) {
               numberOfLines={1}
               style={{ fontWeight: "bold", paddingBottom: 10, fontSize: 20 }}
             >
-              {DATA.shopname}
+              {storeNameParams}
             </Text>
 
             <Text numberOfLines={1} style={{ paddingBottom: 10 }}>
-              {DATA.shopaddress}
+              {storeAddressParams}
             </Text>
           </View>
         </View>
@@ -339,12 +340,15 @@ export default function CartView({ navigation, route }) {
                 nameOrder: nameOrder,
                 priceOrder: priceOrder,
                 ImageOrder: imageParams,
+                idFood: idFood,
                 Totals: Total,
                 Quantity: Quantity,
                 storeOrder,
                  storeN,
                  storeAdr,
                  storeIM,
+                 storeID,
+                 locationStore
               
 
               })}

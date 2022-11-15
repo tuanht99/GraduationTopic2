@@ -5,42 +5,12 @@ import { View, ImageBackground, Text } from 'react-native'
 import { Colors, FontSize } from '../../../styles'
 import * as LocationPK from 'expo-location'
 
-export const TopBanner = () => {
+export const TopBanner = ({ location }) => {
   const nameIcons = ['location-sharp', 'chevron-forward-sharp']
   const colorIcon = Colors.white
   const sizeIcon = FontSize['2xl']
   const numberOfLines = 1
   const uriImg = 'https://loship.vn/dist/images/home-banner-18062021.jpg'
-
-  const [location, setLocation] = useState(null)
-  const [errorMsg, setErrorMsg] = useState(null)
-
-  useEffect(() => {
-    ;(async () => {
-      let { status } = await LocationPK.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        return
-      }
-
-      let location = await LocationPK.getCurrentPositionAsync({})
-      let locationAddress = await LocationPK.reverseGeocodeAsync({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude
-      })
-      setLocation(locationAddress)
-    })()
-  }, [])
-
-  let text = 'Waiting..'
-  if (errorMsg) {
-    text = errorMsg
-  } else if (location) {
-    const locationTmp = location[0]
-    console.log('locationTmp', locationTmp)
-    text = `${locationTmp.streetNumber}, ${locationTmp.street}, ${locationTmp.subregion}, ${locationTmp.region}, ${locationTmp.country}`
-    console.log('text', text)
-  }
 
   return (
     <View style={styles.container}>
@@ -56,7 +26,7 @@ export const TopBanner = () => {
           styleText={styles.text}
           numberOfLines={numberOfLines}
         >
-          {text}
+          {location.address}
         </Location>
       </ImageBackground>
     </View>

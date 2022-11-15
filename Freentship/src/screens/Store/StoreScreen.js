@@ -1,4 +1,3 @@
-import Spinner from 'react-native-loading-spinner-overlay'
 import React, { useState, useEffect } from 'react'
 import {
   View,
@@ -16,15 +15,23 @@ import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
-import ListFood from '../../Components/ListFood'
+//import ListFood from '../../Components/ListFood'
+import ListFood from '../../Components/ListFood/index'
 import { db } from '../../services/firebase'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 
-function StoreScreen({ navigation }) {
+function StoreScreen({ navigation, route }) {
+  const { id } = route.params
+  let hours = new Date().getHours() //Current Hours
+  let min = new Date().getMinutes() //Current Minutes
+
   const [loading, setLoading] = useState(false)
   const [stores, setStores] = useState([])
   const [categories, setCategory] = useState([])
-  const storeId = '4dpAvRWJVrvdbml9vKDL'
+  const [currentDate, setCurrentDate] = useState(hours * 60 + min)
+  const [openTime, setOpenTime] = useState(true)
+
+  const storeId = id
   useEffect(() => {
     const cate = []
     const unsubscribe = onSnapshot(
@@ -34,25 +41,55 @@ function StoreScreen({ navigation }) {
           id: item.id,
           ...item.data()
         })
-        item.data().food_categories.forEach(e => {
-          getDoc(doc(db, 'categories', `${e}`)).then(doc => {
-            cate.push({
-              ...doc.data(),
-              id: doc.id
-            })
-            setCategory(cate)
-          })
-        })
         setLoading(true)
       }
     )
-
     return unsubscribe
   }, [storeId])
 
-  const Loading = () => (
-    <ActivityIndicator size="large" color = '#E94730'/>
-  )
+ 
+  useEffect(() => {
+    if (stores.food_categories !== undefined) {
+      const cate = []
+      stores.food_categories.forEach(element => {
+        getDoc(doc(db, 'categories', `${element}`)).then(doc => {
+          cate.push({
+            ...doc.data(),
+            id: doc.id
+          })
+          setCategory(cate)
+        })
+      })
+    }
+  }, [stores])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      hours = new Date().getHours()
+      min = new Date().getMinutes()
+      // Convert hours to minutes
+      setCurrentDate(hours * 60 + min)
+      // console.log('setTimeout', hours * 60 + min)
+    }, 60000)
+
+    if (stores.opentime) {
+      if (
+        currentDate >= stores.opentime[0] &&
+        currentDate < stores.opentime[1]
+      ) {
+        setOpenTime(true)
+      } else {
+        setOpenTime(false)
+      }
+    }
+
+    return () => clearTimeout(timer)
+  }, [currentDate, stores.opentime])
+
+  // console.log('stores.opentime', stores.opentime)
+  // console.log('currentDate', currentDate)
+
+  const Loading = () => <ActivityIndicator size="large" color="#E94730" />
 
   const HeaderComponent = () => (
     <View>
@@ -112,7 +149,7 @@ function StoreScreen({ navigation }) {
         >
           <Octicons name="location" style={Styles.loation} />
           <Text style={{ minWidth: 100 }}>3Km</Text>
-          {stores.status === 1 ? (
+          {stores.status === 1 && openTime ? (
             <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
               Đang mở cửa
             </Text>
@@ -193,22 +230,18 @@ function StoreScreen({ navigation }) {
   return (
     <SafeAreaView style={Styles.container}>
       <FlatList
-        ListHeaderComponent={
-          loading ? (
-            <HeaderComponent />
-          ) : (
-            <Loading/>
-          )
-        }
+        ListHeaderComponent={loading ? <HeaderComponent /> : <Loading />}
         ListFooterComponent={
-            <ListFood
-              categoriesData={categories}
-              navigation={navigation}
-              storeName={stores.name}
-              storeAddress={stores.address}
-              storeImager={stores.image}
-              storeId={storeId}
-            />
+          <ListFood
+            categoriesData={categories}
+            navigation={navigation}
+            storeName={stores.name}
+            storeAddress={stores.address}
+            storeImager={stores.image}
+            storeId={storeId}
+            openTime={openTime}
+            locationStore ={stores.locations}
+          />
         }
       />
     </SafeAreaView>

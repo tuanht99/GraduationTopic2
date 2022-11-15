@@ -4,11 +4,10 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import { useEffect, useState } from 'react'
 import * as Location from 'expo-location'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import { Ionicons } from '@expo/vector-icons'
 
 export const MapScreenTest = () => {
   const [keyword, setKeyword] = useState('')
-  const KEYMAP = 'AIzaSyCm7K0XCEvpUZUHnYxOtzkY27uMpqVbQFQ'
+  const KEYMAP = 'AIzaSyAz79--n30yY9Q_e2q1dzDZRhVG7kIQTpM'
   const COMPONENTS = 'country:vn'
   const apiMap = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&language=vi&components=${COMPONENTS}&key=${KEYMAP}`
   const [location, setLocation] = useState({
@@ -50,6 +49,12 @@ export const MapScreenTest = () => {
         }}
         onPress={(data, details = null) => {
           console.log('a', data, details)
+          console.log(
+            'lat: ',
+            details.geometry.location.lat,
+            'long: ',
+            details.geometry.location.lng
+          )
           setLocation({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng
@@ -58,7 +63,7 @@ export const MapScreenTest = () => {
         query={{
           key: KEYMAP,
           language: 'vi',
-          components: 'country:vn'
+          components: COMPONENTS
         }}
         styles={styles.googleAPI}
       />

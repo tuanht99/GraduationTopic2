@@ -4,10 +4,7 @@ import styles from './location-search.style'
 import { Location } from '../../molecules/Location'
 import { Colors, FontSize } from '../../../styles'
 
-export const LocationSearch = ({ title = 'Giao tới địa chỉ' }) => {
-  const [location, setLocation] = React.useState(
-    '53 Đ. Võ Văn Ngân, Linh Chiểu, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh'
-  )
+export const LocationSearch = ({ title = 'Giao tới địa chỉ', address }) => {
   const icon1 = {
     name: 'md-location',
     color: Colors.red,
@@ -29,7 +26,7 @@ export const LocationSearch = ({ title = 'Giao tới địa chỉ' }) => {
         color2={icon2.color}
         size2={icon2.size}
       >
-        {location}
+        {address}
       </Location>
     </View>
   )

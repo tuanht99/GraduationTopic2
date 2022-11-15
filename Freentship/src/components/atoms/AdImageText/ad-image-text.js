@@ -12,7 +12,7 @@ export const AdImageText = ({
 }) => {
   return (
     <View style={style}>
-      <Image source={source} style={imageStyle} />
+      <Image source={{ uri: source }} style={imageStyle} />
       {horizontal && (
         <Text numberOfLines={numberOfLines} style={textStyle}>
           {label}

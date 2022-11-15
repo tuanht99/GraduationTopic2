@@ -22,13 +22,16 @@ export default function DetailsScreenView({ route, navigation }) {
     description,
     image,
     price,
+    idFood,
     status,
     storeName,
     storeAddress,
     storeImage,
-    storeId
+    storeId,
+    locationStore
   } = route.params
- 
+
+  
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -49,11 +52,14 @@ export default function DetailsScreenView({ route, navigation }) {
   const storeNameParams = JSON.stringify(storeName)
   const storeImageParams = storeImage
   const priceParams = JSON.stringify(price)
-  const prices = parseFloat(price);
+  const prices = parseFloat(price)
+  const statusParmas = status
+  const location = JSON.stringify(locationStore)
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Store')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
@@ -96,7 +102,7 @@ export default function DetailsScreenView({ route, navigation }) {
             {titleParams}
           </Text>
           <Text style={{ fontWeight: 'bold', paddingBottom: 10 }}>
-            {prices}
+            {priceParams}
           </Text>
           <Text numberOfLines={2} style={{ paddingBottom: 20 }}>
             {storeAddress}
@@ -104,21 +110,20 @@ export default function DetailsScreenView({ route, navigation }) {
         </View>
 
         <View style={{ marginLeft: 10 }}>
-          {status === 1 ? (
+          {statusParmas === 1 ? (
             <TouchableOpacity
               onPress={() => navigation.navigate('CartView', {
                 nameOrder: title,
                 priceOrder: price,
                 ImageOrder: image,
-
+                idFood : idFood,
                 //  cửa hàng
                 storeOrder: storeId,
                 storeN: storeName,
                 storeAdr: storeAddress,
                 storeIM: storeImageParams,
-              
-
-
+                storeID :  storeId,
+                locationStore : locationStore
               })}
               style={{
                 backgroundColor: '#E94730',
@@ -219,7 +224,7 @@ export default function DetailsScreenView({ route, navigation }) {
 
             <View style={{ marginRight: 10 }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Store')}
+                onPress={() => navigation.goBack()}
                 style={{
                   backgroundColor: '#fff',
                   borderRadius: 15,
@@ -243,17 +248,20 @@ export default function DetailsScreenView({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
           >
             {foodOfStore.map(item => (
+
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
                   navigation.navigate('DetailsScreenView', {
+                    idFood: item.id ,
                     title: item.name,
                     image: item.image,
                     description: item.description,
                     price: item.price,
                     storeName: storeName,
                     storeAddress: storeAddress,
-                    storeImage: storeImage
+                    storeImage: storeImage,
+                    status: item.status
                   })
                 }
                 style={{ justifyContent: 'flex-start', flexDirection: 'row' }}
