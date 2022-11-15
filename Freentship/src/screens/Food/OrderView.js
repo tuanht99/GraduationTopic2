@@ -46,6 +46,7 @@ const DATA = {
   txtPttt: 'Trả tiền mặt khi nhận hàng'
 }
 
+
 // Navigation
 export default function OrderView({ navigation, route }) {
   // tổng tiền
@@ -155,6 +156,7 @@ export default function OrderView({ navigation, route }) {
   React.useEffect(() => {
     setTotal(Totals + PhiShip)
   }, [Quantity])
+
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -561,6 +563,7 @@ export default function OrderView({ navigation, route }) {
             {/* () => navigation.navigate('YourOrderView') */}
             {/*order */}
             <TouchableOpacity
+
               // onPress={() => orderTheOrder()}
               onPress={() => orderTheOrder()}
               style={{
@@ -573,6 +576,7 @@ export default function OrderView({ navigation, route }) {
               }}
             >
               <Text style={{ color: '#fff' }}>{DATA.txtDatDon}</Text>
+
             </TouchableOpacity>
           </View>
         </View>

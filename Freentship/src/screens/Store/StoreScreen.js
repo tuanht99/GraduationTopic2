@@ -16,7 +16,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
 //import ListFood from '../../Components/ListFood'
-import ListFood from '../../components/ListFood/index'
+import ListFood from '../../Components/ListFood/index'
 import { db } from '../../services/firebase'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 
@@ -47,7 +47,7 @@ function StoreScreen({ navigation, route }) {
     return unsubscribe
   }, [storeId])
 
- 
+
   useEffect(() => {
     if (stores.food_categories !== undefined) {
       const cate = []
@@ -240,7 +240,7 @@ function StoreScreen({ navigation, route }) {
             storeImager={stores.image}
             storeId={storeId}
             openTime={openTime}
-            locationStore ={stores.locations}
+            locationStore={stores.locations}
           />
         }
       />

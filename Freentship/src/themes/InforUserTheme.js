@@ -8,8 +8,7 @@ const windowHeight = Dimensions.get("window").height;
 
 const StyleInforUser = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    
   },
   fdRow: {
     flexDirection: 'row',
