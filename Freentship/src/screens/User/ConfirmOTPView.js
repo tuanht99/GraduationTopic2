@@ -70,7 +70,7 @@ export function ConfirmOTP({ navigation, route }) {
       <TextInput
         style={{ marginVertical: 10, fontSize: 17 }}
         editable={!!verificationId}
-        placeholder="123456"
+        placeholder="Nhập mã OTP ở đây..."
         onChangeText={setVerificationCode}
       />
       <Button
@@ -83,7 +83,7 @@ export function ConfirmOTP({ navigation, route }) {
               verificationCode
             )
             await signInWithCredential(auth, credential)
-            showMessage({ text: 'Phone authentication successful 👍' })
+            showMessage({ text: 'Phone xác nhận thành công 👍' })
             navigation.navigate(
               'ChangePhoneView',
               {
