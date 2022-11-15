@@ -95,7 +95,7 @@ export default function InforSettingView({ navigation, route }) {
     // const id = React.useId()
     const bytes = new Uint8Array(pickerResult.uri)
     const metadata = {
-      contentType: 'image/png'
+      contentType: 'image/jpeg'
     }
     const imgName = 'img-' + new Date().getTime()
     setNamePathImage(`images/${imgName}.jpg`)

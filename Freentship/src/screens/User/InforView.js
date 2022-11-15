@@ -30,20 +30,20 @@ const [UserID, setUserID] = useState("")
 
 
  //  lấy id user
- const getData = async () => {
-  try {
-    const value = await AsyncStorage.getItem('userID1')
-    if (value !== null) {
-      setUserID(value)
+//  const getData = async () => {
+//   try {
+//     const value = await AsyncStorage.getItem('userID1')
+//     if (value !== null) {
+//       setUserID(value)
     
-    }
-  } catch (e) {
-    console.log(12444)
-  }
-}
+//     }
+//   } catch (e) {
+//     console.log(12444)
+//   }
+// }
 
-console.log(UserID);
-getData();
+// console.log(UserID);
+// getData();
 
 
 
