@@ -48,7 +48,7 @@ export function ConfirmOTP({ navigation, route }) {
       )
       setVerificationId(verificationId)
       showMessage({
-        text: 'Verification code has been sent to your phone.'
+         text: 'Mã xác nhận đã được gửi.'
       })
     } catch (err) {
       showMessage({ text: `Error: ${err.message}`, color: 'red' })
