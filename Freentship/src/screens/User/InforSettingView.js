@@ -4,7 +4,8 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar,Alert,
+  StatusBar,
+  Alert
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AppStyle from '../../themes/InforUserSettingTheme'
@@ -30,41 +31,49 @@ import {
   editDoc,
   onSnapshot
 } from 'firebase/firestore'
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getBlob
+} from 'firebase/storage'
 
 // list
 
 export default function InforSettingView({ navigation, route }) {
   const { guestname, avatar, date, sex, id, gmail, phone } = route.params
-  console.log('name: ' + guestname)
-  console.log('avatar: ' + avatar)
+  // console.log('name: ' + guestname)
+  // console.log('avatar: ' + avatar)
   const avatarlocal = avatar
-  console.log('sex: ' + sex)
-  console.log('id: ' + id)
-  console.log('gmail: ' + gmail)
-  console.log('phone: ' + phone)
+  // console.log('sex: ' + sex)
+  // console.log('id: ' + id)
+  // console.log('gmail: ' + gmail)
+  // console.log('phone: ' + phone)
   // update Firebase Image *************** CN xong
+  const [image, setImage] = useState('')
+  const [namePathImage, setNamePathImage] = React.useState(null)
+
+
+ 
+
   function editImage() {
-   
     updateDoc(doc(db, 'users', id), {
       guestName: guestname,
-      avatar: ChangeImage,
+      avatar: image,
       sex: sex,
       email: gmail,
       phone: phone
+    }).catch(error => {
+      console.log(error)
     })
-    Alert.alert(
-      "Thông báo",
-      "Thay đổi hình ảnh thành công",
-      [
-       
-        { text: "OK" }
-      ]
-    )
-  
+    Alert.alert('Thông báo', 'Thay đổi hình ảnh thành công', [{ text: 'OK' }])
+
     // 7T5uG3Si5NHioADgam1Z
   }
-   
-  
+
+
+
   // image picker
   const [ChangeImage, setChangeImage] = useState(null)
   let openImagePickerAsync = async () => {
@@ -78,9 +87,45 @@ export default function InforSettingView({ navigation, route }) {
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync()
     setChangeImage(pickerResult.uri)
-    console.log('địa chỉ: ' + pickerResult.uri)
+    console.log('địa chỉ Local :' + pickerResult.uri)
+    // test 12:29
+     // TODO: Fix
+    const storage = getStorage()
+    // const id = Math.random().toString(36).substring(7);
+    // const id = React.useId()
+    const bytes = new Uint8Array(pickerResult.uri)
+    const metadata = {
+      contentType: 'image/png'
+    }
+    const imgName = 'img-' + new Date().getTime()
+    setNamePathImage(`images/${imgName}.jpg`)
+    const storageRef = ref(storage, `images/${imgName}.jpg`)
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        resolve(xhr.response)
+      }
+      xhr.onerror = function () {
+        reject(new TypeError('Network request failed'))
+      }
+      xhr.responseType = 'blob'
+      xhr.open('GET', pickerResult.uri, true)
+      xhr.send(null)
+    })
+    uploadBytes(storageRef, blob).then(snapshot => {
+      // causes crash
+      console.log('Uploaded a blob or file!')
+    })
+    // setImage(pickerResult.uri)
+    getDownloadURL(ref(storage, namePathImage)).then(url => {
+      setImage(url)
+      addDoc(collection(db, 'avatar'), {
+        image: url
+      })
+    })
+    // end
   }
-  console.log('thay đổi: ' + ChangeImage)
+  console.log('thay đổi 1: ' + image)
   // end
   // Header
   React.useLayoutEffect(() => {
@@ -101,22 +146,7 @@ export default function InforSettingView({ navigation, route }) {
       }
     })
   }, [navigation])
-  // end
-  // phone fomart
-  // function formatPhoneNumber(phone) {
-  //   if (!phone) return phone;
-  //   const phoneNumber = phone.replace(/[^\d]/g, '');
-  //   const phoneNumberLength = phoneNumber.length;
-  //   if (phoneNumberLength < 4) return phoneNumber;
-  //   if (phoneNumberLength < 7) {
-  //     return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-  //   }
-  //   return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-  //     3,
-  //     6
-  //   )}-${phoneNumber.slice(6, 9)}`;
-  // }
-  console.log()
+
   //end
   return (
     <SafeAreaView style={{ flex: 1 }}>

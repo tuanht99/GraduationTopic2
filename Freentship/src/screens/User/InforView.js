@@ -17,16 +17,36 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import Longxaodua from '../../../assets/Food/longxaodua.png'
 import Gif from '../../../assets/gift.jpg'
 import AppStyle from '../../themes/IndexTheme'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 // firebase import
 import { db } from '../../services/config'
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
 // end
 export default function InforView({ navigation }) {
  
-
+const [UserID, setUserID] = useState("")
   // firebase
   const idUser = 'kxzmOQS3sVUr2pm9AbLI'
+
+
+ //  lấy id user
+ const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('userID1')
+    if (value !== null) {
+      setUserID(value)
+    
+    }
+  } catch (e) {
+    console.log(12444)
+  }
+}
+
+console.log(UserID);
+getData();
+
+
+
   const [User, setUser] = useState([])
   useEffect(() => {
     const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
