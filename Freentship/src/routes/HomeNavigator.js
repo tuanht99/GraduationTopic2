@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
-
+import InforUserSetting from 'src/screens/'
 const Tab = createBottomTabNavigator()
 const NotificationScreen = () => {
   return (
@@ -12,13 +12,7 @@ const NotificationScreen = () => {
     </View>
   )
 }
-const SettingScreen = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>Setting Screen</Text>
-    </View>
-  )
-}
+
 
 
 export const HomeNavigator = ({navigation, route}) => {

@@ -31,7 +31,21 @@ export default function DetailsScreenView({ route, navigation }) {
     locationStore
   } = route.params
 
-  
+  const saveHandler = async () => {
+    try {
+      const Order = {
+
+        name: nameOrder,
+        price: priceOrders,
+    
+
+      }
+      await AsyncStorage.setItem('id', JSON.stringify(Order));
+
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  }
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -124,7 +138,7 @@ export default function DetailsScreenView({ route, navigation }) {
                 storeIM: storeImageParams,
                 storeID :  storeId,
                 locationStore : locationStore
-              })}
+              },saveHandler())}
               style={{
                 backgroundColor: '#E94730',
                 borderRadius: 15,

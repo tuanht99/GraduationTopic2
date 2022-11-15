@@ -1,6 +1,6 @@
 // Screens
 import StoreScreen from '../screens/Store/StoreScreen';
-import DetailsScreenView from '../screens/Food/DetailsScreenView'
+import DetailScreenView from '../screens/Food/DetailsScreenView'
 
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -16,7 +16,7 @@ function Router() {
       <Stack.Screen name="StoreScreen" options={{
         headerShown: false,
       }} component={StoreScreen} />
-      <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+      <Stack.Screen name="DetailsScreenView" component={DetailScreenView} />
       <Stack.Screen name="CartView" component={CardView} />
       <Stack.Screen name="OrderView" component={OrderView} />
       <Stack.Screen name="YourOrderView" component={YourOrderView} />
