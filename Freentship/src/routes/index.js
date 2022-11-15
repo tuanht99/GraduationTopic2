@@ -1,9 +1,11 @@
 // Screens
-import StoreScreen from '../screens/Store/StoreScreen'
-import DetailsScreenView from '../screens/Food/DetailsScreenView'
+
+
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+// thông tin Food
+import DetailsScreenView from '../screens/Food/DetailsScreenView'
 // cửa hàng
 import storeScreen from '../screens/Store/StoreScreen'
 // giỏ hàng
@@ -26,6 +28,8 @@ import OTPChangeView from '../screens/User/OTPChangeView'
 import { ConfirmOTP } from '../screens/User/ConfirmOTPView'
 // ChangePhone
 import InputPhoneNumScreen from '../screens/User/ChangePhoneNumber'
+// notify Order
+import NotifyOrder from '../screens/Notify/NotifyOrder'
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -52,7 +56,7 @@ function Router() {
     //     </Stack.Navigator>
     //   </NavigationContainer>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="InforView">
+      <Stack.Navigator initialRouteName="NotifyOrder">
         <Stack.Screen
           name="InforView"
           options={{
@@ -66,12 +70,13 @@ function Router() {
         {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
         <Stack.Screen name="OrderView" component={OrderView} />
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
-        {/* <Stack.Screen name="InforView" component={InforView} /> */}
         <Stack.Screen name="InforSettingView" component={InforSettingView} />
         <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
         <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
         <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
         <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
+        <Stack.Screen name="NotifyOrder" component={NotifyOrder} />
+
       </Stack.Navigator>
     </NavigationContainer>
   )
