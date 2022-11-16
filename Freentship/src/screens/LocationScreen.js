@@ -3,12 +3,15 @@ import {View, Text, Button, Alert } from "react-native";
 import styles from "./LocationScreen.style";
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from "react-redux";
+import {setLocations} from "../redux/location";
 
 export const LocationScreen = ({navigation}) => {
   const [location, setLocation] = React.useState(null);
-  console.log('location' , location)
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [isCheckedLocation, setIsCheckedLocation] = React.useState(false);
+  const dispatch = useDispatch()
+
 
   React.useEffect(() => {
     (async () => {
@@ -52,7 +55,8 @@ export const LocationScreen = ({navigation}) => {
         }
       }
       storeData()
-      navigation.navigate('HomeTab', {location: location});
+      dispatch(setLocations({location}))
+      navigation.navigate('HomeTab');
     }
   }, [location])
 

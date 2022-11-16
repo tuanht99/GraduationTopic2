@@ -8,10 +8,11 @@ import { CategoryFood } from '../../components/Organisms/CategoryFood'
 import { ReadDataFoodStores, ReadDataFoodStoresByFood } from '../../services'
 import { orderBy, where, limit } from 'firebase/firestore'
 import { CategoryHeader } from '../../components/molecules/CategoryHeader'
+import {useSelector} from "react-redux";
 
 export const HomeScreen = ({ navigation, route }) => {
-  
-  const {location} = route.params !== undefined && route.params
+
+  const location = useSelector(state => state.locUser)
   const LIMIT = 10
   const categories = [
     'Thử quán mới',

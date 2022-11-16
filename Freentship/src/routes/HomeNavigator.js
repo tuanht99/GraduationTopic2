@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
+import {useSelector} from "react-redux";
 
 const Tab = createBottomTabNavigator()
 const NotificationScreen = () => {
@@ -22,13 +23,19 @@ const SettingScreen = () => {
   )
 }
 
-export const HomeNavigator = ({ navigation, route }) => {
-  const { location } = route.params
-  React.useEffect(() => {
-    if (location) {
-      navigation.navigate('Home', { location: location })
-    }
-  }, [])
+export const HomeNavigator = ({ navigation }) => {
+    const carts = useSelector(state => state.carts)
+    const [totals, setTotals] = useState(0)
+
+    React.useEffect(() => {
+        let total = 0;
+        if (carts.length > 0) carts.forEach(item => {
+            item.items.forEach(item => {
+                total += item.Quantity;
+            })
+        })
+        setTotals(total)
+    }, [carts])
 
   return (
     <View style={{ flex: 1 }}>
@@ -67,41 +74,41 @@ export const HomeNavigator = ({ navigation, route }) => {
         />
       </Tab.Navigator>
 
-      <View style={{ position: 'absolute', zIndex: 1, bottom: 80, right: 30 }}>
-        <TouchableOpacity onPress= {navigation.navigate("")}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#fff',
-              padding: 10,
-              borderRadius: 15,
-              borderWidth: 0.3,
-              borderColor: '#808080'
-            }}
-          >
-            <View>
-              <AntDesign name="shoppingcart" size={24} color="black" />
-            </View>
-            <View
-              style={{ position: 'absolute', zIndex: 1, bottom: 30, right: 0 }}
-            >
-              <View
-                style={{
-                  backgroundColor: 'red',
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center', 
-                  width: 20,
-                  height: 18
-                  
-                }}
-              >
-                <Text style={{ color: '#fff' }}>12</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+        {totals > 0 &&<View style={{position: 'absolute', zIndex: 1, bottom: 80, right: 30}}>
+            <TouchableOpacity onPress={() => navigation.navigate('CartView')}>
+                <View
+                    style={{
+                        flex: 1,
+                        backgroundColor: '#fff',
+                        padding: 10,
+                        borderRadius: 15,
+                        borderWidth: 0.3,
+                        borderColor: '#808080'
+                    }}
+                >
+                    <View>
+                        <AntDesign name="shoppingcart" size={24} color="black"/>
+                    </View>
+                    <View
+                        style={{position: 'absolute', zIndex: 1, bottom: 30, right: 0}}
+                    >
+                        <View
+                            style={{
+                                backgroundColor: 'red',
+                                borderRadius: 5,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: 20,
+                                height: 18
+
+                            }}
+                        >
+                            <Text style={{color: '#fff'}}>{totals}</Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        </View>}
     </View>
   )
 }
