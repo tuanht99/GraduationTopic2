@@ -28,7 +28,7 @@ const DATA = {
   avt: require("../assets/images/nuoc_c2.png"),
   userName: "Phú",
   txtyour: "bạn",
-  txtDatDon: "Đặt đơn",
+  txtDatDon: "Đặt đơn 1",
   txtsplq: "Sản phẩm cùng cửa hàng",
   txtXemCuaHang: "Xem cửa hàng",
   txtDis: "Thông tin sản phẩm",
@@ -39,20 +39,19 @@ const DATA = {
 
 
 // Navigation
-export default function CartView({ navigation }) {
+export default function CartView({ navigation, route }) {
   const [Total, setTotal] = useState(0);
+  const {carts} = route.params;
+    console.log('carts: ', carts);
 
-
-  const initialVar = 1;
-  const [Qty, setQty] = useState(initialVar)
 
   React.useEffect(() => {
-    setTotal(Qty * DATA.price);
-  },[Qty])
-
-  const setData = (data) => {
-    setQty(data);
-  }
+    let total = 0;
+    carts.forEach((item) => {
+        total += item.price * item.Quantity;
+    });
+      setTotal(total);
+  })
  
   React.useLayoutEffect(() => {
     navigation.setOptions({

@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons'
+import {addToCart} from '../../redux/cartItems'
 
 const DATA = {
   txtChonMua: 'CHỌN MUA',
@@ -22,6 +23,7 @@ const DATA = {
 
 import { db } from '../../services/firebase'
 import { collection, getDocs, where, query } from 'firebase/firestore'
+import {useDispatch, useSelector} from "react-redux";
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
@@ -63,10 +65,16 @@ export default function DetailsScreenView({ route, navigation }) {
   const prices = parseFloat(price)
   const statusParmas = status
   const location = JSON.stringify(locationStore)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [a, setA] = useState(false)
+    const dispatch = useDispatch()
+    const carts = useSelector(state => state.carts)
 
   // console.log(priceOrders);
   // giá trị số lượng
   const [Quantity, setQuantity] = useState(1);
+    const [totalQuantity, setTotalQuantity] = useState(0)
+    const [totals, setTotals] = useState(0)
   // tăng giảm số lượng
   function IncreaseQuantity() {
     if (Quantity > 0) {
@@ -84,8 +92,23 @@ export default function DetailsScreenView({ route, navigation }) {
 
   }
 
-  const [modalVisible, setModalVisible] = useState(false)
-  const a = true
+  function handleAddToCart() {
+      const item = {
+          idFood,
+          title,
+          description,
+          image,
+          price,
+          storeName,
+          storeAddress,
+          storeImageParams,
+          storeId,
+          Quantity
+      }
+      dispatch(addToCart(item));
+    setModalVisible(!modalVisible)
+    setQuantity(1)
+  }
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -102,6 +125,24 @@ export default function DetailsScreenView({ route, navigation }) {
       }
     })
   }, [navigation])
+    React.useEffect(() => {
+        let total = 0
+        let totalQuantity = 0
+        if (carts.length > 0) {
+            console.log('carts:', carts)
+            carts.map((item) => {
+                item.items.forEach(e => {
+                    total += e.price * e.Quantity
+                    totalQuantity += e.Quantity
+                })
+            })
+            setA(true)
+        } else {
+            setA(false)
+        }
+        setTotals(total)
+        setTotalQuantity(totalQuantity)
+    },[carts])
 
   return (
     <View style={{ flex: 1 }}>
@@ -347,7 +388,10 @@ export default function DetailsScreenView({ route, navigation }) {
                 >
                   <View>
                     <TouchableOpacity
-                      onPress={() => setModalVisible(!modalVisible)}
+                      onPress={() => {
+                          setModalVisible(!modalVisible)
+                          setQuantity(1)
+                      }}
                       numberOfLines={1}
                       style={{ color: '#808080' }}
                     >
@@ -440,7 +484,7 @@ export default function DetailsScreenView({ route, navigation }) {
                     //      locationStore
                     //   })
                     // }
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={handleAddToCart}
                     style={{
                       backgroundColor: '#E94730',
                       borderRadius: 15,
@@ -454,7 +498,7 @@ export default function DetailsScreenView({ route, navigation }) {
                       // onPress={inputHandler}
                       style={{ color: '#fff' }}
                     >
-                      Thêm
+                      Thêm +{Quantity * prices}đ
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -498,7 +542,7 @@ export default function DetailsScreenView({ route, navigation }) {
                     }}
                   >
                     <View style={{ flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={navigation.navigate('')}>
+                      <TouchableOpacity onPress={() => navigation.navigate('CartView')}>
                         <View
                           style={{
                             flex: 1,
@@ -534,7 +578,7 @@ export default function DetailsScreenView({ route, navigation }) {
                                 height: 18
                               }}
                             >
-                              <Text style={{ color: '#fff' }}>1</Text>
+                              <Text style={{ color: '#fff' }}>{totalQuantity}</Text>
                             </View>
                           </View>
                         </View>
@@ -547,7 +591,7 @@ export default function DetailsScreenView({ route, navigation }) {
                         }}
                       >
                         <View>
-                          <Text style={{ fontWeight: 'bold' }}>N/A Đ</Text>
+                            <Text style={{ fontWeight: 'bold' }}>{totals}</Text>
                         </View>
                         <View>
                           <Text>(tạm tính)</Text>
@@ -559,17 +603,8 @@ export default function DetailsScreenView({ route, navigation }) {
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('OrderView', {
-                    nameOrder: title,
-                    priceOrder: price,
-                    ImageOrder: image,
-                    idFood : idFood,
-                    //  cửa hàng
-                    storeOrder: storeId,
-                    storeN: storeName,
-                    storeAdr: storeAddress,
-                    storeIM: storeImageParams,
-                    storeID :  storeId,
-                    locationStore : locationStore
+                      carts: carts,
+
                   })}
                   style={{
                     backgroundColor: '#E94730',

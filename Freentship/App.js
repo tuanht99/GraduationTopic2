@@ -18,6 +18,8 @@ import FindShipper from './src/screens/FindShipper/FindShipper'
 import {LocationScreen} from './src/screens/LocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ShipperInfor from './src/screens/FindShipper/ShipperInfor'
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
 
 const Stack = createNativeStackNavigator()
 
@@ -25,36 +27,38 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="LocationScreen" component={LocationScreen} />
-          <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="StoreScreen" component={StoreScreen} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-          <Stack.Screen name="CartView" component={CardView} />
-          <Stack.Screen name="OrderView" component={OrderView} />
-          <Stack.Screen name="YourOrderView" component={YourOrderView} />
-          <Stack.Screen name="FindShipper" component={FindShipper} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="ShipperInfor" component={ShipperInfor} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="LocationScreen" component={LocationScreen} />
+              <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
+                // hidden navbar
+                headerShown: false,
+              }} />
+              <Stack.Screen name="SearchScreen" component={SearchScreen} options={{
+                // hidden navbar
+                headerShown: false,
+              }} />
+              <Stack.Screen name="StoreScreen" component={StoreScreen} options={{
+                // hidden navbar
+                headerShown: false,
+              }} />
+              <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+              <Stack.Screen name="CartView" component={CardView} />
+              <Stack.Screen name="OrderView" component={OrderView} />
+              <Stack.Screen name="YourOrderView" component={YourOrderView} />
+              <Stack.Screen name="FindShipper" component={FindShipper} options={{
+                // hidden navbar
+                headerShown: false,
+              }} />
+              <Stack.Screen name="ShipperInfor" component={ShipperInfor} options={{
+                // hidden navbar
+                headerShown: false,
+              }} />
 
-        </Stack.Navigator>
-      </NavigationContainer>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
     </SafeAreaView>
   )
 }
