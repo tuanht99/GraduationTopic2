@@ -84,7 +84,7 @@ export default function OrderCanceledView({ navigation }) {
   
 
   // order
-  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
+  const idOrder = 'EIywbIIOVW0O7nIIIUke'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {

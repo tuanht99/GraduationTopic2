@@ -77,7 +77,7 @@ export default function OrderDeliveredView({ navigation }) {
   const foodName = food.name
 
   // order
-  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
+  const idOrder = 'EIywbIIOVW0O7nIIIUke'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
@@ -359,7 +359,9 @@ export default function OrderDeliveredView({ navigation }) {
               <Text style={{ fontWeight: "bold" }}>Tổng</Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingRight: 10 }}>{totalPrice}</Text>
+              <Text style={{ fontWeight: "bold", paddingRight: 10 }}>
+                {totalPrice}
+              </Text>
             </View>
           </View>
         </View>
@@ -397,7 +399,7 @@ export default function OrderDeliveredView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {totalPrice}
+                  {/* {totalPrice} */}
                 </Text>
               </View>
             </View>
