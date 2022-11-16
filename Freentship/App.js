@@ -23,7 +23,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import OrderCanceledView from './src/screens/Order/OrderCanceledView';
 import DetailOrderView from './src/screens/Order/DetailOrderView';
-import OrderDeliveredView from './src/screens/Order/OrderDeliveredView';
+import OrderDeliveredView from './src/screens/Order/';
 const Stack = createNativeStackNavigator()
 
 export default function App() {
@@ -33,7 +33,7 @@ export default function App() {
         <Provider store={store}>
           <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen name="LocationScreen" component={LocationScreen} />
+              {/* <Stack.Screen name="LocationScreen" component={LocationScreen} /> */}
               <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
                 // hidden navbar
                 headerShown: false,
