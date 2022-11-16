@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import InforUserSetting from 'src/screens/'
+import InforUserView from '../screens/User/InforView'
 const Tab = createBottomTabNavigator()
 const NotificationScreen = () => {
   return (
@@ -50,7 +50,7 @@ export const HomeNavigator = ({navigation, route}) => {
       />
       <Tab.Screen
         name="Setting"
-        component={SettingScreen}
+        component={InforUserView}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" color={color} size={size} />

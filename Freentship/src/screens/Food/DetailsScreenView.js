@@ -3,6 +3,7 @@ import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const DATA = {
   txtChonMua: 'CHỌN MUA',
@@ -30,22 +31,8 @@ export default function DetailsScreenView({ route, navigation }) {
     storeId,
     locationStore
   } = route.params
-
-  const saveHandler = async () => {
-    try {
-      const Order = {
-
-        name: nameOrder,
-        price: priceOrders,
-    
-
-      }
-      await AsyncStorage.setItem('id', JSON.stringify(Order));
-
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
+ 
+ 
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -69,6 +56,28 @@ export default function DetailsScreenView({ route, navigation }) {
   const prices = parseFloat(price)
   const statusParmas = status
   const location = JSON.stringify(locationStore)
+
+  // local
+  const  orders = {
+   
+    
+      "nameOrder": title,
+      "priceOrder": price,
+      "image": image 
+    
+  }
+  const storeData = async () => {		
+    try {
+      await AsyncStorage.setItem('@listOrder',JSON.stringify(orders))
+    
+    } catch (e) {
+      // saving error
+      console.log("lỗi");
+    }
+  }
+ useEffect(() => {
+  storeData();
+ }, [titleParams])
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -138,7 +147,7 @@ export default function DetailsScreenView({ route, navigation }) {
                 storeIM: storeImageParams,
                 storeID :  storeId,
                 locationStore : locationStore
-              },saveHandler())}
+              },)}
               style={{
                 backgroundColor: '#E94730',
                 borderRadius: 15,

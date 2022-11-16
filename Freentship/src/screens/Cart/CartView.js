@@ -1,145 +1,123 @@
-import React from "react";
-import {
-  View,
-  SafeAreaView,
-  Image,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import React from 'react'
+import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
 // import Ansync from "../../components/asyncStore/AsyncStorage"
-import { AntDesign } from "@expo/vector-icons";
-import { ScrollView } from "react-native-gesture-handler";
-import { useState } from "react";
+import { AntDesign } from '@expo/vector-icons'
+import { ScrollView } from 'react-native-gesture-handler'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const DATA = {
   id: 1,
- 
- 
-  
-  status: "",
-  shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
-  shopSl: "14 sản phẩm",
-  shopname: "Tea 1998",
- 
-  userName: "Phú",
-  txtyour: "bạn",
-  txtDatDon: "Đặt đơn",
-  txtsplq: "Sản phẩm cùng cửa hàng",
-  txtXemCuaHang: "Xem cửa hàng",
-  txtDis: "Thông tin sản phẩm",
- 
-};
 
+  status: '',
+  shopaddress: '52 Bế văn đàn, an bình, dĩ an, bình dương',
+  shopSl: '14 sản phẩm',
+  shopname: 'Tea 1998',
+
+  userName: 'Phú',
+  txtyour: 'bạn',
+  txtDatDon: 'Đặt đơn',
+  txtsplq: 'Sản phẩm cùng cửa hàng',
+  txtXemCuaHang: 'Xem cửa hàng',
+  txtDis: 'Thông tin sản phẩm'
+}
 
 // Navigation
 export default function CartView({ navigation, route }) {
+  const {
+    nameOrder,
+    priceOrder,
+    idFood,
+    ImageOrder,
+    storeOrder,
+    storeN,
+    storeAdr,
+    storeIM,
+    storeID,
+    locationStore
+  } = route.params
+  const imageParams = ImageOrder
+  const storeOrders = storeOrder
+  const storeNameParams = storeN
+  const storeImageParams = storeIM
+  const storeAddressParams = storeAdr
 
-
-  const { nameOrder, priceOrder, idFood , ImageOrder,storeOrder, storeN,storeAdr,storeIM, storeID ,locationStore} = route.params;
-  const imageParams = ImageOrder;
-  const storeOrders = storeOrder;
-  const storeNameParams= storeN;
-  const storeImageParams = storeIM;
-  const storeAddressParams = storeAdr;
-  
-  
   // lấy tên
   // console.log(imageParams);
   // chuyển chuỗi thành số
-  const priceOrders = Number(priceOrder);
+  const priceOrders = Number(priceOrder)
   // console.log(priceOrders);
   // giá trị số lượng
-  const [Quantity, setQuantity] = useState(1);
+  const [Quantity, setQuantity] = useState(1)
   // tăng giảm số lượng
   function IncreaseQuantity() {
     if (Quantity > 0) {
-
-      setQuantity(prevState => prevState - 1);
-
-    }
-    else {
-      setQuantity(0);
+      setQuantity(prevState => prevState - 1)
+    } else {
+      setQuantity(0)
     }
   }
   function DecreaseQuantity() {
-
-    setQuantity(prevState => prevState + 1);
-
+    setQuantity(prevState => prevState + 1)
   }
   // tổng tiền
-  const [Total, setTotal] = useState(0);
+  const [Total, setTotal] = useState(0)
 
   // tính tổng tiền
   React.useEffect(() => {
-    setTotal(Quantity * priceOrders);
+    setTotal(Quantity * priceOrders)
   }, [Quantity])
-  
+
   // mảng dữ liệu
-  const tittle= nameOrder;
-  const price = priceOrders;
-  const total = Total ;
-  const quantity = Quantity ;
-  const image = imageParams ;
-  const arr = [];
-  React.useEffect(() => {
-    arr.push(
-      cart=[
-      tittle,
-      price,
-      total,
-      quantity,
-      image,
-      ])
-    console.log("mảng : "+arr[0]);
-  
-  },  [nameOrder])
+  const tittle = nameOrder
+  const price = priceOrders
+  const total = Total
+  const quantity = Quantity
+  const image = imageParams
  
-
+  const [ListOrder, setListOrder] = useState([])
+  const  orders = {
+   
+    
+    "nameOrder": tittle,
+    "priceOrder": price,
+    "image": image 
   
-  const state = {
-
-
-    name: '',
-    price: '',
-    quantity: '',
-    ImageOrder: ''
-
-  };
-  const inputHandler = (name, price, quantity) => {
-    this.setState({ ...this.state, name: name, price: price, quantity: quantity });
-
-    console.log(this.state);
-  }
-
-  //  ansync   
+}
+console.log(orders);
+  //  ansync
   // lưu
-  const saveHandler = async () => {
-    try {
-      const Order = {
 
-        name: nameOrder,
-        price: priceOrders,
-        quantity: Quantity,
-
-      }
-      await AsyncStorage.setItem('id', JSON.stringify(Order));
-
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  }
   // loading
-  const loadHeader = async () => {
+  const getData = async () => {
     try {
-      const OrderString = await AsyncStorage.getItem('id');
-      const Order = JSON.parse(OrderString);
-      this.setState({
-        name: Order.name, price: Order.price
-      });
-    } catch (error) {
-      Alert.alert(error.message);
+      const value = await AsyncStorage.getItem('@listOrder')
+      const Order = JSON.parse(value);
+      
+      if (Order !== null) {
+        // value previously stored
+        ListOrder.push({ ...Order,orders})
+      }
+    } catch (e) {
+      console.log(' lỗi local')
     }
   }
-
+useEffect(() => {
+  getData()
+  // clearStorage();
+}, [])
+console.log(ListOrder);
+// clear
+const clearStorage = async () => {
+  try {
+    await AsyncStorage.clear();
+    alert('Storage successfully cleared!');
+  } catch (e) {
+    alert('Failed to clear the async storage.');
+  }
+};
+  // console.log(ListOrder)
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -148,14 +126,14 @@ export default function CartView({ navigation, route }) {
         </TouchableOpacity>
       ),
 
-      title: "Giỏ hàng của bạn",
-      headerTitleAlign: "center",
+      title: 'Giỏ hàng của bạn',
+      headerTitleAlign: 'center',
       headerTitleStyle: {
         fontSize: 15,
-        alignItems: 'center',
-      },
-    });
-  }, [navigation]);
+        alignItems: 'center'
+      }
+    })
+  }, [navigation])
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 0.8 }}>
@@ -164,15 +142,15 @@ export default function CartView({ navigation, route }) {
         <View
           style={{
             flex: 1,
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
             paddingTop: 10,
-            paddingBottom: 10,
+            paddingBottom: 10
           }}
         >
           <View style={{ marginLeft: 10 }}>
             <Text
               numberOfLines={1}
-              style={{ fontWeight: "bold", paddingBottom: 10, fontSize: 20 }}
+              style={{ fontWeight: 'bold', paddingBottom: 10, fontSize: 20 }}
             >
               {storeNameParams}
             </Text>
@@ -187,18 +165,18 @@ export default function CartView({ navigation, route }) {
         <View
           style={{
             flex: 1,
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
             paddingTop: 20,
             paddingBottom: 20,
             borderBottomWidth: 0.3,
-            borderBottomColor: "#808080",
+            borderBottomColor: '#808080'
           }}
         >
           <View style={{ marginLeft: 10 }}>
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                flexDirection: 'row',
+                alignItems: 'center'
               }}
             >
               <Image
@@ -207,14 +185,14 @@ export default function CartView({ navigation, route }) {
               />
 
               <View style={{ paddingLeft: 10 }}>
-                <Text numberOfLines={1} style={{ fontWeight: "bold" }}>
+                <Text numberOfLines={1} style={{ fontWeight: 'bold' }}>
                   {DATA.userName}
                 </Text>
               </View>
               <View style={{ paddingLeft: 10 }}>
                 <Text
                   numberOfLines={1}
-                  style={{ color: "#808080", width: 190 }}
+                  style={{ color: '#808080', width: 190 }}
                 >
                   ({DATA.txtyour})
                 </Text>
@@ -228,109 +206,109 @@ export default function CartView({ navigation, route }) {
         {/* ****************san pham da them vao gio hang******************************** */}
         <View>
           {/* ne */}
-
-          <View style={{
-            flex: 1,
-            backgroundColor: "#fff",
-            paddingTop: 10,
-            paddingBottom: 20,
-          }}>
+          {ListOrder.map(item => (
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#fff',
+              paddingTop: 10,
+              paddingBottom: 20
+            }}
+          >
             <View style={{ marginLeft: 10 }}>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingBottom: 50,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingBottom: 50
                 }}
               >
                 <View>
-                  <Text numberOfLines=
-                    {1}>
-                    {nameOrder}
-                  </Text>
-                  <View style={{
-                    marginTop: 20,
-                    marginBottom: -75
-
-                  }}>
-                    <Image source={{ uri: imageParams }} style={{ width: 80, height: 80 }} />
+                  <Text numberOfLines={1}>{nameOrder}</Text>
+                  <View
+                    style={{
+                      marginTop: 20,
+                      marginBottom: -75
+                    }}
+                  >
+                    <Image
+                      source={{ uri: imageParams }}
+                      style={{ width: 80, height: 80 }}
+                    />
                   </View>
                 </View>
 
                 <View>
-
-                  <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                    {priceOrders}{" Đ"}
+                  <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
+                    {priceOrders}
+                    {' Đ'}
                   </Text>
                 </View>
               </View>
 
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
                 }}
               >
-                <View>
-
-                </View>
+                <View></View>
                 {/* Tang Giam  */}
-                <View style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  flex: 0.4,
-                  paddingRight: 10,
-                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flex: 0.4,
+                    paddingRight: 10
+                  }}
+                >
                   <View>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: "#fff",
+                        backgroundColor: '#fff',
                         borderRadius: 5,
                         width: 20,
                         height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         borderWidth: 0.3,
-                        borderColor: "#808080",
+                        borderColor: '#808080'
                       }}
-
-                      onPress={() => { IncreaseQuantity() }}
+                      onPress={() => {
+                        IncreaseQuantity()
+                      }}
                     >
-
-
-
-
-                      <Text style={{ fontWeight: "bold" }}>-</Text>
+                      <Text style={{ fontWeight: 'bold' }}>-</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <Text style={{ fontWeight: "bold" }}>{Quantity}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>{Quantity}</Text>
                   </View>
                   <View>
                     <TouchableOpacity
                       style={{
-                        backgroundColor: "#fff",
+                        backgroundColor: '#fff',
                         borderRadius: 5,
                         width: 20,
                         height: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         borderWidth: 0.3,
-                        borderColor: "#808080",
+                        borderColor: '#808080'
                       }}
-                      onPress={() => { DecreaseQuantity() }}
+                      onPress={() => {
+                        DecreaseQuantity()
+                      }}
                     >
-                      <Text style={{ fontWeight: "bold" }}>+</Text>
+                      <Text style={{ fontWeight: 'bold' }}>+</Text>
                     </TouchableOpacity>
                   </View>
-
                 </View>
               </View>
             </View>
-
           </View>
-
+          ))}
         </View>
         {/* end */}
       </ScrollView>
@@ -340,68 +318,67 @@ export default function CartView({ navigation, route }) {
         <View
           style={{
             flex: 1,
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
             paddingTop: 10,
             paddingBottom: 10,
-            width: "100%",
-            borderTopColor: "#808080",
+            width: '100%',
+            borderTopColor: '#808080',
             borderTopWidth: 0.3,
 
-            bottom: 0,
+            bottom: 0
           }}
         >
           <View style={{ marginLeft: 10 }}>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingBottom: 10,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 10
               }}
             >
               <View>
-                <Text numberOfLines={1} style={{ color: "#808080" }}>
+                <Text numberOfLines={1} style={{ color: '#808080' }}>
                   Tổng (tạm tính)
                 </Text>
               </View>
               <View>
-                <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {Total + " Đ"}
+                <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
+                  {Total + ' Đ'}
                 </Text>
               </View>
             </View>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("OrderView", {
-                nameOrder: nameOrder,
-                priceOrder: priceOrder,
-                ImageOrder: imageParams,
-                idFood: idFood,
-                Totals: Total,
-                Quantity: Quantity,
-                storeOrder,
-                 storeN,
-                 storeAdr,
-                 storeIM,
-                 storeID,
-                 locationStore
-              
-
-              })}
-
+              onPress={() =>
+                navigation.navigate('OrderView', {
+                  nameOrder: nameOrder,
+                  priceOrder: priceOrder,
+                  ImageOrder: imageParams,
+                  idFood: idFood,
+                  Totals: Total,
+                  Quantity: Quantity,
+                  storeOrder,
+                  storeN,
+                  storeAdr,
+                  storeIM,
+                  storeID,
+                  locationStore
+                },clearStorage())
+              }
               style={{
-                backgroundColor: "#E94730",
+                backgroundColor: '#E94730',
                 borderRadius: 15,
-                width: "97%",
+                width: '97%',
                 height: 40,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
-              <Text onPress={inputHandler} style={{ color: "#fff" }}>{DATA.txtDatDon}</Text>
+              <Text style={{ color: '#fff' }}>{DATA.txtDatDon}</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
     </View>
-  );
+  )
 }
