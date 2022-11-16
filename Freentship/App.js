@@ -14,13 +14,16 @@ import DetailsScreenView from './src/screens/Food/DetailsScreenView'
 import CardView from './src/screens/Cart/CartView'
 import OrderView from './src/screens/Food/OrderView'
 import YourOrderView from './src/screens/Food/YourOrderView';
+
 import FindShipper from './src/screens/FindShipper/FindShipper'
 import {LocationScreen} from './src/screens/LocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ShipperInfor from './src/screens/FindShipper/ShipperInfor'
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
-
+import OrderCanceledView from './src/screens/Order/OrderCanceledView';
+import DetailOrderView from './src/screens/Order/DetailOrderView';
+import OrderDeliveredView from './src/screens/Order/OrderDeliveredView';
 const Stack = createNativeStackNavigator()
 
 export default function App() {
@@ -55,6 +58,9 @@ export default function App() {
                 // hidden navbar
                 headerShown: false,
               }} />
+              <Stack.Screen name="DetailOrderView" component={DetailOrderView} />
+              <Stack.Screen name="OrderCanceledView" component={OrderCanceledView} />
+              <Stack.Screen name="OrderDeliveredView" component={OrderDeliveredView} />
 
             </Stack.Navigator>
           </NavigationContainer>
