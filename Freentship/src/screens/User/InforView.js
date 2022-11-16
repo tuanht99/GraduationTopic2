@@ -112,7 +112,7 @@ export default function InforView({ navigation, route }) {
   const foodName = food.name
 
   // order
-  const idOrder = '9sqoBr9vzZUk3VHdAIKk'
+  const idOrder = 'EIywbIIOVW0O7nIIIUke'
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
@@ -418,7 +418,9 @@ export default function InforView({ navigation, route }) {
                     <Text style={AppStyle.InforUserTheme.textGif}>
                       {foodName}
                     </Text>
-                    <Text style={{ fontSize: 13 }}>{item.totalPrice}</Text>
+                    <Text style={{ fontSize: 13 }}>
+                      {item.totalPrice}
+                    </Text>
                     <Text style={AppStyle.InforUserTheme.orderStatusFalse}>
                       {item.status}
                     </Text>
