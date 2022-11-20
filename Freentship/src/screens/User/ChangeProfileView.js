@@ -32,6 +32,7 @@ import {
   editDoc,
   onSnapshot
 } from 'firebase/firestore'
+import RNPickerSelect from 'react-native-picker-select';
 export default function ChangeProfileView({ navigation, route }) {
   // lấy dữ liệu bên màn hình infosetting
   const { guestname, avatar, date, sex, id, gmail, phone } = route.params
@@ -71,7 +72,7 @@ console.log(selectedLanguage);
 // update Firebase
 function editProfile() {
   updateDoc(doc(db, 'users', id), {
-    guestName: username,
+    name: username,
     dateOfBirth: ChooseData,
     avatar: avatar,
     sex: selectedLanguage,
@@ -148,16 +149,14 @@ function editProfile() {
           <View style={AppStyle.sex}>
             <Text style={AppStyle.TextTitle}>Giới tính</Text>
             {/* giới tính */}
-            <Picker
-              ref={pickerRef}
-              selectedValue={selectedLanguage}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedLanguage(itemValue)
-              }
-            >
-              <Picker.Item label="Nam" value="Nam" />
-              <Picker.Item label="nữ" value="Nữ" />
-            </Picker>
+            <RNPickerSelect 
+            onValueChange={(value) => setSelectedLanguage(value)}
+            items={[
+                { label: 'Nam', value: 'Nam' },
+                { label: 'Nữ', value: 'Nữ' },
+                { label: 'Không tiết lộ', value: 'Không rõ' },
+            ]}
+        />
             {/* end */}
           </View>
         </View>

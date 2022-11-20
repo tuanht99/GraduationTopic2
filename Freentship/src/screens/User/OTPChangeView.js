@@ -36,7 +36,9 @@ export default function OTPChangeView({navigation,route}) {
       const [valid, setValid] = useState(false)
       const [showMessage, setShowMessage] = useState(false)
       const phoneInput = useRef(null)
-      console.log(value);
+      console.log("input: "+value);
+      console.log("data: "+phone);
+
       return (
       
         
@@ -64,11 +66,11 @@ export default function OTPChangeView({navigation,route}) {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  const checkValid = phoneInput.current?.isValidNumber(value)&& value == phone
+                  const checkValid =value == ("0"+phone)
                   setShowMessage(true)
                   setValid(checkValid ? checkValid : false)
                   if (checkValid) {
-                    navigation.navigate('ConfirmOTPChange', {
+                    navigation.navigate('ChangePhoneView', {
                       phoneNumber: formattedValue,
                       guestname,
                       avatar,

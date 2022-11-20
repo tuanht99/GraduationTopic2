@@ -74,10 +74,7 @@ export default function App() {
             headerShown: false,
           }} />
           {/* phần chỉnh sửa user */}
-          <Stack.Screen name="InforSettingView" component={InforSettingView} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
+          <Stack.Screen name="InforSettingView" component={InforSettingView} />
            {/* chỉnh sửa hình ảnh */}
         {/* chỉnh sửa thông tin */}
         <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />

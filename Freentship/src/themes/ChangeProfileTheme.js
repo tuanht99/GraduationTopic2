@@ -75,6 +75,7 @@ const ChangeProfilers = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
         flex:1,
+        paddingLeft:50
     }
 });
 export default ChangeProfilers
