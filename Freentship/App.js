@@ -22,7 +22,13 @@ import { LoginScreen } from './src/screens/LoginScreen'
 import { SignupScreen } from './src/screens/SignupScreen'
 import { ConfirmOTP } from './src/screens/ConfirmOTP'
 import { SignupPending } from './src/screens/SignupPending'
-
+import InforSettingView from './src/screens/User/InforSettingView'
+import ChangeProfileView from './src/screens/User/ChangeProfileView'
+import OTPChangeView from './src/screens/User/OTPChangeView'
+// confirm
+import { ConfirmOTPChange } from './src/screens/User/ConfirmOTPView'
+// ChangePhone
+import InputPhoneNumScreen from './src/screens/User/ChangePhoneNumber'
 const Stack = createNativeStackNavigator()
 
 export default function App() {
@@ -30,6 +36,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
+      
         <Stack.Navigator
           initialRouteName='LoginScreen'
         >
@@ -66,10 +73,22 @@ export default function App() {
             // hidden navbar
             headerShown: false,
           }} />
-          <Stack.Screen name="ShipperInfor" component={ShipperInfor} options={{
+          {/* phần chỉnh sửa user */}
+          <Stack.Screen name="InforSettingView" component={InforSettingView} options={{
             // hidden navbar
             headerShown: false,
           }} />
+           {/* chỉnh sửa hình ảnh */}
+        {/* chỉnh sửa thông tin */}
+        <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
+        {/* OTP Thay đổi sdt */}
+        <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
+        {/* xác nhận thay đổi số điện thoại */}
+        <Stack.Screen name="ConfirmOTPChange" component={ConfirmOTP} />
+        {/* thay đổi số điện thoại */}
+        <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
+        {/*  thông báo đơn hàng */}
+        {/* <Stack.Screen name="NotifyOrder" component={NotifyOrder} /> */}
 
         </Stack.Navigator>
       </NavigationContainer>

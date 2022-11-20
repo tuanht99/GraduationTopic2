@@ -23,7 +23,7 @@ if (!app?.options || Platform.OS === 'web') {
   )
 }
 
-export function ConfirmOTP({ navigation, route }) {
+export function ConfirmOTPChange({ navigation, route }) {
   // Ref or state management hooks
   const recaptchaVerifier = useRef(null)
   const { phoneNumber, guestname, avatar, date, sex, id, gmail, phone } =

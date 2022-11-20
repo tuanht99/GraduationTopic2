@@ -11,7 +11,6 @@ import React, { useState, useEffect } from 'react'
 import AppStyle from '../../themes/InforUserSettingTheme'
 import { Ionicons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
-import NumberFormat from 'react-number-format'
 // list dữ liệu
 import * as ImagePicker from 'expo-image-picker'
 import { db } from '../../services/config'

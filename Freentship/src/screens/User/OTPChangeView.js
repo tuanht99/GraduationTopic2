@@ -68,7 +68,7 @@ export default function OTPChangeView({navigation,route}) {
                   setShowMessage(true)
                   setValid(checkValid ? checkValid : false)
                   if (checkValid) {
-                    navigation.navigate('ConfirmOTP', {
+                    navigation.navigate('ConfirmOTPChange', {
                       phoneNumber: formattedValue,
                       guestname,
                       avatar,
