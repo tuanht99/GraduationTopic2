@@ -5,24 +5,33 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions,
+  Pressable
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
-import { db } from '../../services'
+import { db } from '../../services/firebase'
+import Modal from 'react-native-modal'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
+const widthDis = Dimensions.get('window').width
 const ListFood = ({
   categoriesData,
   navigation,
   storeName,
   storeAddress,
   storeImage,
-  storeId
+  storeId,
+  openTime,
+  locationStore
 }) => {
-  console.log('asdf', storeId)
   const [food, setFood] = useState([])
-  // console.log('food',food.map(i => {a:i.id}))
+  // console.log('food', food)
+  const [loading, setLoading] = useState(false)
   const [categoryId, setCategoryId] = useState('')
+  const [modalVisible, setModalVisible] = useState(false)
+
   useEffect(() => {
     const getFood = async () => {
       const food = []
@@ -42,22 +51,38 @@ const ListFood = ({
         food.push({ ...doc.data(), id: doc.id })
       })
       setFood(food)
+      setLoading(true)
     }
     getFood()
   }, [categoryId])
 
-  const ButtonAllCategory = () => (
-    <TouchableOpacity
-      onPress={() => {
-        setCategoryId('')
-      }}
-    >
-      {categoryId === '' ? (
-        <Text style={styles.textT}>Tất cả</Text>
-      ) : (
-        <Text style={styles.textF}>Tất cả</Text>
-      )}
-    </TouchableOpacity>
+  const Loading = () => (
+    <ActivityIndicator size="large" color="#E94730" style={{ margin: 150 }} />
+  )
+
+  // Modal notification close time
+  const Moadal = () => (
+    <View style={styles.centeredView}>
+      <Modal
+        isVisible={modalVisible}
+        animationIn={'slideInLeft'}
+        animationOut={'slideOutRight'}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Rất tiếc hiện tại cửa hàng đang đóng cửa
+            </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Đóng</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    </View>
   )
 
   const CategoriesBar = () => (
@@ -95,12 +120,7 @@ const ListFood = ({
     </View>
   )
 
-  const A = () => (
-    <FlatList
-      ListHeaderComponent={ButtonAllCategory}
-      ListFooterComponent={CategoriesBar}
-    />
-  )
+  console.log('openTimeaaaa', openTime)
   const ListFood = () => (
     <FlatList
       data={food}
@@ -108,19 +128,29 @@ const ListFood = ({
       renderItem={({ item }) => {
         return (
           <TouchableOpacity
-            style={Styles.htrOrder}
-            onPress={() =>
-              navigation.navigate('DetailsScreenView', {
-                title: item.name,
-                image: item.image,
-                description: item.description,
-                price: item.price,
-                storeName: storeName,
-                storeAddress: storeAddress,
-                storeImage: storeImage,
-                food: food
-              })
+            // [Styles.htrOrder, Styles.disabledButton]
+            style={
+              item.status === 1
+                ? Styles.htrOrder
+                : [Styles.htrOrder, Styles.disabledButton]
             }
+            onPress={() => {
+              openTime === true
+                ? navigation.navigate('DetailsScreenView', {
+                    idFood :item.id ,
+                    title: item.name,
+                    image: item.image,
+                    description: item.description,
+                    price: item.price,
+                    status: item.status,
+                    storeName: storeName,
+                    storeAddress: storeAddress,
+                    storeImage: storeImage,
+                    storeId: storeId ,
+                    locationStore : locationStore
+                  }) :
+              setModalVisible(true)
+            }}
           >
             <View
               style={{
@@ -150,9 +180,9 @@ const ListFood = ({
               <Text style={{ fontSize: 13 }}>{item.price}</Text>
 
               {item.status === 1 ? (
-                <Text style={Styles.orderStatusTrue}> Đang mở cửa </Text>
+                <Text style={Styles.orderStatusTrue}> Còn bán </Text>
               ) : (
-                <Text style={Styles.orderStatusFalse}>Đang đóng cửa</Text>
+                <Text style={Styles.orderStatusFalse}>Đã bán hết</Text>
               )}
             </View>
           </TouchableOpacity>
@@ -160,11 +190,15 @@ const ListFood = ({
       }}
     ></FlatList>
   )
+
   return (
-    <FlatList
-      ListHeaderComponent={<CategoriesBar />}
-      ListFooterComponent={<ListFood />}
-    />
+    <View>
+      <Moadal />
+      <FlatList
+        ListHeaderComponent={loading ? <CategoriesBar /> : <Loading />}
+        ListFooterComponent={loading ? <ListFood /> : <Loading />}
+      />
+    </View>
   )
 }
 
@@ -181,6 +215,47 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     textDecoration: 'underline'
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: '#E94730'
+  },
+  buttonClose: {
+    backgroundColor: '#E94730'
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center'
   }
 })
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -12,7 +12,22 @@ import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { db } from "../../services/firebase";
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  where,
+  query,
+  QuerySnapshot,
+  editDoc,
+  onSnapshot,
+} from "firebase/firestore";
 import { Fontisto } from "@expo/vector-icons";
 
 const DATA = {
@@ -28,9 +43,9 @@ const DATA = {
   shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
   shopSl: "14 sản phẩm",
   shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  avt: require("../assets/images/nuoc_c2.png"),
+  shopimage: require("../../../assets/Food/nuoc_c2.png"),
+  monAn1: require("../../../assets/Food/nuoc_c2.png"),
+  avt: require("../../../assets/Food/longxaodua.png"),
   userName: "Phú",
   txtyour: "bạn",
   txtDatDon: "Đặt đơn",
@@ -63,6 +78,53 @@ export default function DetailOrderView({ navigation }) {
     });
   }, [navigation]);
 
+  // food
+  const idFood = '0w1IntroHd8JwVvD9tTz'
+  const [food, setFood] = useState([])
+  useEffect(() => {
+    const fs = onSnapshot(doc(db, 'foods', idFood), doc => {
+      console.log('food: ', doc.data())
+      setFood(doc.data())
+    })
+  }, [idFood])
+  const foodName = food.name
+  const foodPrice = food.price
+
+  // order
+  const idOrder = 'PPKK6atKTPOzCZWYvHF9'
+  const [Order, setOrder] = useState([])
+  useEffect(() => {
+    const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
+      console.log('ordero: ', doc.data())
+      setOrder(doc.data())
+    })
+  }, [idOrder])
+  //const totalPrice = Order.totalPrice
+
+  // order status
+  const idOrderStatus = '9'
+  const [orderStatus, setOrderStatus] = useState([])
+  useEffect(() => {
+    const odr = onSnapshot(doc(db, 'order_status',idOrderStatus), doc => {
+      console.log('ordestatus: ', doc.data())
+      setOrderStatus(doc.data())
+    })
+  }, [idOrder])
+  const OrderStatus = orderStatus.value
+
+  // foodStore
+  const idFoodStore = '4dpAvRWJVrvdbml9vKDL'
+  const [foodStore, setFoodStore] = useState([])
+  useEffect(() => {
+    const fs = onSnapshot(doc(db, 'food_stores', idFoodStore), doc => {
+      console.log('foodStore: ', doc.data())
+      setFoodStore(doc.data())
+    })
+  }, [idFoodStore])
+  const foodStoreName = foodStore.name
+  const foodStoreImage = foodStore.image
+  const foodStoreAddress = foodStore.address
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 0.8 }}>
@@ -92,7 +154,7 @@ export default function DetailOrderView({ navigation }) {
               <View>
                 <Text>Nơi bán hàng</Text>
                 <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                  {DATA.shopname}
+                  {foodStoreName}
                 </Text>
               </View>
             </View>
@@ -104,8 +166,8 @@ export default function DetailOrderView({ navigation }) {
 
               <View>
                 <Text>Nơi giao hàng</Text>
-                <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
-                  {DATA.shopaddress}
+                <Text numberOfLines={2} style={{ fontWeight: "bold", width: 320 }}>
+                  {foodStoreAddress}
                 </Text>
               </View>
             </View>
@@ -167,12 +229,12 @@ export default function DetailOrderView({ navigation }) {
                         width: 270,
                       }}
                     >
-                      {DATA.name}
+                      {foodName}
                     </Text>
                   </View>
                   <View>
                     <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                      {DATA.price}
+                      {foodPrice}
                     </Text>
                   </View>
                 </View>
@@ -180,115 +242,7 @@ export default function DetailOrderView({ navigation }) {
             </View>
           </View>
 
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingTop: 20,
-              paddingBottom: 10,
-              borderBottomWidth: 0.3,
-              borderBottomColor: "#808080",
-            }}
-          >
-            <View style={{marginLeft: 10}}>
-              <View
-                style={{
-                  flexDirection: "row",
-
-                  paddingBottom: 10,
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <View>
-                    <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                      02
-                    </Text>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View>
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        paddingRight: 10,
-                        fontWeight: "bold",
-                        width: 270,
-                      }}
-                    >
-                      {DATA.namesp}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                      {DATA.price}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#fff",
-              paddingTop: 20,
-              paddingBottom: 10,
-              borderBottomWidth: 0.3,
-              borderBottomColor: "#808080",
-            }}
-          >
-            <View style={{marginLeft: 10}}>
-              <View
-                style={{
-                  flexDirection: "row",
-
-                  paddingBottom: 10,
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <View>
-                    <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                      02
-                    </Text>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View>
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        paddingRight: 10,
-                        fontWeight: "bold",
-                        width: 270,
-                      }}
-                    >
-                      {DATA.namesp}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                      {DATA.price}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
+          
         </View>
 
         {/* Phí ship */}
@@ -319,7 +273,7 @@ export default function DetailOrderView({ navigation }) {
                     paddingRight: 10,
                   }}
                 >
-                  {DATA.txtShip}
+                  {0}
                 </Text>
               </View>
             </View>
@@ -358,7 +312,7 @@ export default function DetailOrderView({ navigation }) {
                 </Text>
               </View>
 
-              <View>
+              {/* <View>
                 <TouchableOpacity>
                   <Text
                     style={{
@@ -370,7 +324,7 @@ export default function DetailOrderView({ navigation }) {
                     {DATA.txtThayDoi}
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
 
             <View style={{ flexDirection: "row" }}>
@@ -415,12 +369,12 @@ export default function DetailOrderView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {DATA.txtTong}
+                  {/* {totalPrice} */}
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity
+            <TouchableOpacity onPress={() => navigation.navigate("OrderView")}
               style={{
                 alignItems: "center",
                 justifyContent: "center",

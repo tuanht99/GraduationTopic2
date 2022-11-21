@@ -2,28 +2,28 @@
 import StoreScreen from '../screens/Store/StoreScreen';
 import DetailsScreenView from '../screens/Food/DetailsScreenView'
 
-import  React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
+import CardView from '../screens/Cart/CartView'
+import OrderView from '../screens/Food/OrderView'
+import YourOrderView from '../screens/Food/YourOrderView';
+import FindShipper from '../screens/FindShipper/FindShipper';
 const Stack = createNativeStackNavigator();
 
- function Router() {
+function Router() {
   return (
-    
-   <NavigationContainer>
-      <Stack.Navigator initialRouteName="Store">
-        <Stack.Screen name="Store" options={{
-          // hidden navbar
-          headerShown: false,
-        }} component={StoreScreen} />
-        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-        
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="StoreScreen" options={{
+        headerShown: false,
+      }} component={StoreScreen} />
+      <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+      <Stack.Screen name="CartView" component={CardView} />
+      <Stack.Screen name="OrderView" component={OrderView} />
+      <Stack.Screen name="YourOrderView" component={YourOrderView} />
+      <Stack.Screen name="FindShipper" component={FindShipper} />
+    </Stack.Navigator>
   );
-  
+
 }
- 
+
 export default Router
