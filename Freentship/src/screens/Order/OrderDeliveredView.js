@@ -101,7 +101,7 @@ export default function OrderDeliveredView({ navigation }) {
       setOrder(doc.data())
     })
   }, [idOrder])
-  // const totalPrice = Order.totalPrice
+  const totalPrice = Order.totalPrice
 
   // order status
   const idOrderStatus = '9'
@@ -372,9 +372,7 @@ export default function OrderDeliveredView({ navigation }) {
               <Text style={{ fontWeight: "bold" }}>Tổng</Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingRight: 10 }}>
-                {/* {totalPrice} */}
-              </Text>
+              <Text style={{ fontWeight: "bold", paddingRight: 10 }}>{totalPrice}</Text>
             </View>
           </View>
         </View>
@@ -412,12 +410,12 @@ export default function OrderDeliveredView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {/* {totalPrice} */}
+                  {totalPrice}
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("OrderView")}
+            <TouchableOpacity
               style={{
                 alignItems: "center",
                 justifyContent: "center",

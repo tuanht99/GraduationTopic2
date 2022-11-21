@@ -99,7 +99,7 @@ export default function DetailOrderView({ navigation }) {
       setOrder(doc.data())
     })
   }, [idOrder])
-  //const totalPrice = Order.totalPrice
+  const totalPrice = Order.totalPrice
 
   // order status
   const idOrderStatus = '9'
@@ -369,12 +369,12 @@ export default function DetailOrderView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {/* {totalPrice} */}
+                  {totalPrice}
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("OrderView")}
+            <TouchableOpacity
               style={{
                 alignItems: "center",
                 justifyContent: "center",

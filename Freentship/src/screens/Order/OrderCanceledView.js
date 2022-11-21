@@ -106,7 +106,7 @@ useEffect(() => {
     setOrder(doc.data())
   })
 }, [idOrder])
-//const totalPrice = Order.totalPrice
+const totalPrice = Order.totalPrice
 
 // order status
 const idOrderStatus = '9'
@@ -274,7 +274,7 @@ const foodStoreAddress = foodStore.address
               </View>
               <View>
                 <Text style={{ fontWeight: "bold", paddingRight: 10 }}>
-                  {/* {totalPrice} */}
+                  {totalPrice}
                 </Text>
               </View>
             </View>
@@ -346,12 +346,12 @@ const foodStoreAddress = foodStore.address
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: "bold" }}>
-                  {/* {totalPrice} */}
+                  {totalPrice}
                 </Text>
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("OrderView")}
+            <TouchableOpacity
               style={{
                 alignItems: "center",
                 justifyContent: "center",

@@ -74,7 +74,7 @@ export default function YourOrderView({ navigation }) {
         </TouchableOpacity>
       ),
 
-      title: "Đơn hàng của bạn",
+      title: "Đơn hàng của nạn",
       headerTitleAlign: "center",
       headerTitleStyle: {
         fontSize: 15,
@@ -133,7 +133,7 @@ export default function YourOrderView({ navigation }) {
       setOrder(doc.data())
     })
   }, [idOrder])
-  //const totalPrice = Order.totalPrice
+  const totalPrice = Order.totalPrice
 
   // order status
   const idOrderStatus = '9'
@@ -174,10 +174,7 @@ export default function YourOrderView({ navigation }) {
       >
         <View style={{ marginLeft: 10 }}>
           <Text>Cảm ơn</Text>
-          <Text style={{ fontWeight: "bold", color: '#000' }}>
-            {/* {setInYourOrder.price} */}
-            Phu
-            </Text>
+          <Text style={{ fontWeight: "bold", color: '#000' }}>{setInYourOrder.price}</Text>
           
           <Text>đã cho freentship có cơ hội được phuc vụ</Text>
         </View>
@@ -284,9 +281,7 @@ export default function YourOrderView({ navigation }) {
               <Text style={{ fontWeight: "bold" }}>Tổng</Text>
             </View>
             <View style={{marginRight: 10}}>
-              <Text style={{ fontWeight: "bold" }}>
-                {/* {totalPrice} */}
-              </Text>
+              <Text style={{ fontWeight: "bold" }}>{totalPrice}</Text>
             </View>
           </View>
         </View>
