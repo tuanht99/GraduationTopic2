@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
+  Text
 } from 'react-native'
 import { Colors, Spacing } from './src/styles'
 import { HomeNavigator } from './src/routes/HomeNavigator'
