@@ -17,6 +17,7 @@ const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 import imgShipper from '../../assets/shiper.png'
+import imgShipper1 from '../../assets/shiper1.png'
 import imgShop from '../../assets/shop.png'
 import imgUser from '../../assets/user.png'
 
@@ -95,7 +96,7 @@ export class MapScreen extends React.Component {
                             coordinate={shippers.location}
                             anchor={{ x: 0.5, y: 0.5 }}
                         >
-                            <Image source={imgShipper} style={{width: 60, height: 60, transform: [
+                            <Image source={shippers.heading > 180 ? imgShipper : imgShipper1} style={{width: 60, height: 60, transform: [
                                     { rotate: `${shippers.heading}deg` }
                                 ]}}/>
                         </Marker.Animated>

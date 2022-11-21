@@ -9,4 +9,4 @@ export {
 } from './FoodStores'
 export { ReadDataFoods, ReadDataFoodStoresByFood } from './Foods'
 export { ReadCategories } from './Categories'
-export const KEY = 'AIzaSyBcQPt2HX3mEIcgARRTYwtJPv0yzDPsWGM'
+export { KEY } from './Key'
