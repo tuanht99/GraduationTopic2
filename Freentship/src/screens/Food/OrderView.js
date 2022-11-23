@@ -20,6 +20,7 @@ import {
 import { getDistance, getPreciseDistance } from 'geolib'
 import { createErrorHandler } from 'expo/build/errors/ExpoErrorManager'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {useSelector} from "react-redux";
 
 const DATA = {
   id: 1,
@@ -50,44 +51,22 @@ const DATA = {
 export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
-  const [userId, setUserId] = useState('')
+    const carts = useSelector(state => state.carts)
 
-  const UserId = async () => {
-    const value = await AsyncStorage.getItem('userID1')
-    setUserId(value)
-  }
+    const user_id = "kxzmOQS3sVUr2pm9AbLI"
+    const location = useSelector(state => state.locUser)
 
-  useEffect(() => {
-    UserId()
-  }, [])
+    // tăng giảm số lượng
 
-  const user_id = userId
-  // tăng giảm số lượng
-
-  const {
-    nameOrder,
-    priceOrder,
-    ImageOrder,
-    Totals,
-    idFood,
-    Quantity,
-    storeOrder,
-    storeN,
-    storeAdr,
-    storeIM,
-    storeID,
-    locationStore
-  } = route.params
   const PhiShip = 15000
 
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState([])
-  console.log('shippers', shippers)
-  // console.log('storeID', storeID)
-  // const [isCreateOrder, setIsCreateOrder] = useState(false)
+  // console.log('shippers', shippers)
+  // console.log('shipper', shipper)
+  const [isCreateOrder, setIsCreateOrder] = useState(false)
 
   const getShippers = async () => {
-    let manyShippers = []
     const q = query(
       collection(db, 'shippers'),
       where('isActive', '==', true),
@@ -101,8 +80,8 @@ export default function OrderView({ navigation, route }) {
         distance:
           getPreciseDistance(
             {
-              latitude: locationStore._lat,
-              longitude: locationStore._long
+              latitude: location.latitude,
+              longitude: location.longitude
             },
             {
               latitude: doc.data().location._lat,
@@ -116,7 +95,7 @@ export default function OrderView({ navigation, route }) {
 
   useEffect(() => {
     getShippers()
-  }, [])
+  }, [isCreateOrder])
 
   useEffect(() => {
     if (shippers.length > 0) {
@@ -134,12 +113,12 @@ export default function OrderView({ navigation, route }) {
   const docData = {
     deposit: 0,
     distance: 0,
-    food_price: priceOrder,
-    food_store_id: storeID,
+    food_price: 123,
+    food_store_id: '4dpAvRWJVrvdbml9vKDL',
     order_date: Timestamp.now(),
-    ordered_food: [{ food_id: idFood, qty: Quantity }],
+    ordered_food: [{ food_id: '0w1IntroHd8JwVvD9tTz', qty: 1 }],
     ship_fee: PhiShip,
-    total_food: Totals,
+    total_food : Total,
     shipper_id: '',
     status: 2,
     totalPrice: Total,
@@ -147,14 +126,10 @@ export default function OrderView({ navigation, route }) {
   }
 
   const orderTheOrder = () => {
-    addDoc(collection(db, 'orders'), docData)
+    const { id } = addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-      
-        navigation.navigate('FindShipper', {
-          orderId: docRef.id,
-          // shipperId: docRef.shipper_id,
-          locationStore: locationStore
-        })
+        console.log('docRef',docRef.id);
+        navigation.navigate('FindShipper',{ orderId: docRef.id , shipperId : docRef.shipper_id , locationStore: {latitude: 10.851426882303631, longitude: 106.75808940590774} });
       })
       .catch(error => {
         // The write failed...
@@ -167,9 +142,18 @@ export default function OrderView({ navigation, route }) {
   }
 
   // tính tổng tiền
-  React.useEffect(() => {
-    setTotal(Totals + PhiShip)
-  }, [Quantity])
+    useEffect(() => {
+        if (carts.length === 0) {
+            navigation.goBack()
+        }
+        let total = 0;
+        carts.forEach((item) => {
+            item.items.forEach(item => {
+                total += item.Quantity * item.price;
+            } )
+        })
+        setTotal(total + PhiShip);
+    }, [carts])
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -242,7 +226,7 @@ export default function OrderView({ navigation, route }) {
               </View>
 
               <View style={{ alignItems: 'center' }}>
-                <Text numberOfLines={2}>{storeAdr}</Text>
+                <Text style={{flex: 1}} numberOfLines={2}>{location.address}</Text>
               </View>
             </View>
           </View>
@@ -336,65 +320,67 @@ export default function OrderView({ navigation, route }) {
               paddingBottom: 20
             }}
           >
-            <View style={{ marginLeft: 10 }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingBottom: 50
-                }}
-              >
-                <View>
-                  <Text numberOfLines={1} style={{ fontSize: 20 }}>
-                    {nameOrder}
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: 20,
-                      marginBottom: -75
-                    }}
-                  >
-                    <Image
-                      source={{ uri: ImageOrder }}
-                      style={{ width: 80, height: 80 }}
-                    />
-                  </View>
-                </View>
-                <View>
-                  <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
-                    {Totals}
-                    {' Đ'}
-                  </Text>
-                </View>
-              </View>
+              {carts.map((item) => (
+                  item.items.map((item, index) => (
+                          <View key={index} style={{ marginLeft: 10 }}>
+                              <View
+                                  style={{
+                                      flexDirection: 'row',
+                                      justifyContent: 'space-between',
+                                      paddingBottom: 50
+                                  }}
+                              >
+                                  <View>
+                                      <Text numberOfLines={1} style={{ fontSize: 20 }}>
+                                          {item.title}
+                                      </Text>
+                                      <View
+                                          style={{
+                                              marginTop: 20,
+                                              marginBottom: -75
+                                          }}
+                                      >
+                                          <Image
+                                              source={{ uri: item.image }}
+                                              style={{ width: 80, height: 80 }}
+                                          />
+                                      </View>
+                                  </View>
+                                  <View>
+                                      <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
+                                          {item.price * item.Quantity} đ
+                                      </Text>
+                                  </View>
+                              </View>
 
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}
-              >
-                <View></View>
-                {/*  */}
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    flex: 0.4,
-                    paddingRight: 10
-                  }}
-                >
-                  <View></View>
-                  <View>
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                      Số Lượng: {Quantity}
-                    </Text>
-                  </View>
-                  <View></View>
-                </View>
-              </View>
-            </View>
+                              <View
+                                  style={{
+                                      flexDirection: 'row',
+                                      justifyContent: 'space-between',
+                                      alignItems: 'center'
+                                  }}
+                              >
+                                  <View></View>
+                                  {/*  */}
+                                  <View
+                                      style={{
+                                          flexDirection: 'row',
+                                          justifyContent: 'space-between',
+                                          flex: 0.4,
+                                          paddingRight: 10
+                                      }}
+                                  >
+                                      <View></View>
+                                      <View>
+                                          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                                              Số Lượng: {item.Quantity}
+                                          </Text>
+                                      </View>
+                                  </View>
+                              </View>
+                          </View>
+                      ) )
+              ))}
           </View>
         </View>
 

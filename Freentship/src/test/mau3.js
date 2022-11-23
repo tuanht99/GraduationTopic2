@@ -15,7 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 
 import Products from "../Components/Products"
-import { addToCart } from "../reducers/cartItems"
+import { addToCart } from "../redux/cartItems"
 import { FoodsOder } from '../redux/Data'
 import { useState } from "react";
 const StoreContainer = () => {
