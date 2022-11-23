@@ -53,7 +53,6 @@ export default function OrderView({ navigation, route }) {
   const [Total, setTotal] = useState(0)
   const [userId, setUserId] = useState('')
 
-
   const UserId = async () => {
     const value = await AsyncStorage.getItem('userID1')
     setUserId(value)
@@ -84,9 +83,9 @@ export default function OrderView({ navigation, route }) {
 
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState([])
-  // console.log('shippers', shippers)
+  console.log('shippers', shippers)
   // console.log('storeID', storeID)
-  const [isCreateOrder, setIsCreateOrder] = useState(false)
+  // const [isCreateOrder, setIsCreateOrder] = useState(false)
 
   const getShippers = async () => {
     let manyShippers = []
@@ -118,7 +117,7 @@ export default function OrderView({ navigation, route }) {
 
   useEffect(() => {
     getShippers()
-  }, [isCreateOrder])
+  }, [])
 
   useEffect(() => {
     if (shippers.length > 0) {
@@ -149,12 +148,12 @@ export default function OrderView({ navigation, route }) {
   }
 
   const orderTheOrder = () => {
-    const { id } = addDoc(collection(db, 'orders'), docData)
+    addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-        console.log('docRef', docRef.id)
+      
         navigation.navigate('FindShipper', {
           orderId: docRef.id,
-          shipperId: docRef.shipper_id,
+          // shipperId: docRef.shipper_id,
           locationStore: locationStore
         })
       })
