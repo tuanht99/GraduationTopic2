@@ -51,10 +51,12 @@ const DATA = {
 export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
+    const [dataFood, setDataFood] = useState([])
     const carts = useSelector(state => state.carts)
 
     const user_id = "kxzmOQS3sVUr2pm9AbLI"
     const location = useSelector(state => state.locUser)
+
 
     // tăng giảm số lượng
 
@@ -67,6 +69,7 @@ export default function OrderView({ navigation, route }) {
   const [isCreateOrder, setIsCreateOrder] = useState(false)
 
   const getShippers = async () => {
+      let manyShippers = []
     const q = query(
       collection(db, 'shippers'),
       where('isActive', '==', true),
@@ -79,15 +82,15 @@ export default function OrderView({ navigation, route }) {
         ...doc.data(),
         distance:
           getPreciseDistance(
-            {
-              latitude: location.latitude,
-              longitude: location.longitude
-            },
-            {
-              latitude: doc.data().location._lat,
-              longitude: doc.data().location._long
-            }
-          ) * 1
+              {
+                  latitude: location.latitude,
+                  longitude: location.longitude
+              },
+              {
+                  latitude: doc.data().location._lat,
+                  longitude: doc.data().location._long
+              }
+          )
       })
     })
     setShippers(manyShippers)
@@ -113,17 +116,18 @@ export default function OrderView({ navigation, route }) {
   const docData = {
     deposit: 0,
     distance: 0,
-    food_price: 123,
-    food_store_id: '4dpAvRWJVrvdbml9vKDL',
+    // food_price: priceOrder,
+    food_store_id: carts[0].storeId,
     order_date: Timestamp.now(),
-    ordered_food: [{ food_id: '0w1IntroHd8JwVvD9tTz', qty: 1 }],
+    ordered_food: dataFood,
     ship_fee: PhiShip,
-    total_food : Total,
+    total_food : Total - PhiShip,
     shipper_id: '',
     status: 2,
     totalPrice: Total,
     user_id: user_id
   }
+    console.log('docData', docData)
 
   const orderTheOrder = () => {
     const { id } = addDoc(collection(db, 'orders'), docData)
@@ -143,6 +147,7 @@ export default function OrderView({ navigation, route }) {
 
   // tính tổng tiền
     useEffect(() => {
+        const data = []
         if (carts.length === 0) {
             navigation.goBack()
         }
@@ -150,9 +155,11 @@ export default function OrderView({ navigation, route }) {
         carts.forEach((item) => {
             item.items.forEach(item => {
                 total += item.Quantity * item.price;
+                data.push({food_id: item.idFood, quantity: item.Quantity, food_price: item.price})
             } )
         })
         setTotal(total + PhiShip);
+        setDataFood(data)
     }, [carts])
 
   React.useLayoutEffect(() => {
