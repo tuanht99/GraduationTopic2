@@ -11,7 +11,7 @@ import {
   Pressable
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
-import { db } from '../../services/firebase'
+import { db } from '../../services'
 import Modal from 'react-native-modal'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
