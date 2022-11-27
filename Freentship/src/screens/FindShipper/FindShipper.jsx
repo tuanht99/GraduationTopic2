@@ -21,7 +21,7 @@ import {
 
 import { getDistance, getPreciseDistance } from 'geolib'
 import BouncingPreloader from 'react-native-bouncing-preloader'
-const windowWidth = Dimensions.get('window').width
+
 
 const FindShipper = ({ navigation, route }) => {
   const icons = [
@@ -39,17 +39,8 @@ const FindShipper = ({ navigation, route }) => {
 
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState('')
-  console.log('shipper', shipper)
-  console.log('orderStatus', orderStatus.status)
-  // const updateOrderStatus = async () => {
-  //   const washingtonRef = doc(db, 'orders', orderId + '')
 
-  //   await updateDoc(washingtonRef, {
-  //     status: 2
-  //   })
-  // }
-
-  // const getOrderStatus = () => {}
+ 
   const getShipper = async () => {
     // Set the order's ID for shipper
     const washingtonRef = doc(db, 'shippers', shipper.id)
@@ -92,18 +83,17 @@ const FindShipper = ({ navigation, route }) => {
           distance:
             getPreciseDistance(
               {
-                latitude: locationStore._lat,
-                longitude: locationStore._long
+                latitude: locationStore.latitude,
+                longitude: locationStore.longitude
               },
               {
-                latitude: doc.data().location._lat,
-                longitude: doc.data().location._long
+                latitude: doc.data().location.latitude,
+                longitude: doc.data().location.longitude
               }
             ) * 1
         })
       })
 
-      console.log('manyShippers', manyShippers)
       setShippers(manyShippers)
     }
   }
