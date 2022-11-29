@@ -6,11 +6,10 @@ import {
   ImageBackground,
   TouchableOpacity,
   FlatList,
-  ScrollView,
   ActivityIndicator
 } from 'react-native'
 import Styles from './StoreStyle'
-
+import Modal from 'react-native-modal'
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Octicons } from '@expo/vector-icons'
@@ -18,7 +17,12 @@ import { Fontisto } from '@expo/vector-icons'
 import ListFood from '../../components/ListFood/index'
 import { db } from '../../services'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import {
+  UpdateFavoriteStore,
+  getFavoriteStore,
+  DeleteLoveStore
+} from '../../services/index'
 function StoreScreen({ navigation, route }) {
   const { id } = route.params
   let hours = new Date().getHours() //Current Hours
@@ -29,10 +33,13 @@ function StoreScreen({ navigation, route }) {
   const [categories, setCategory] = useState([])
   const [currentDate, setCurrentDate] = useState(hours * 60 + min)
   const [openTime, setOpenTime] = useState(true)
+  const [isLove, setLove] = useState(false)
+  const [favorites, setFavorites] = useState()
 
+  console.log('favorites', favorites)
   const storeId = id
+
   useEffect(() => {
-    const cate = []
     const unsubscribe = onSnapshot(
       doc(db, 'food_stores', `${storeId}`),
       item => {
@@ -46,6 +53,60 @@ function StoreScreen({ navigation, route }) {
     return unsubscribe
   }, [storeId])
 
+  useEffect(() => {
+    // getFavoriteStore().then(doc => setFavorites(doc))
+    const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+
+    const unsub = onSnapshot(washingtonRef, doc => {
+      if (doc.exists()) {
+        console.log('Document data:', doc.data())
+        setFavorites(doc.data().loveStore)
+      } else {
+        // doc.data() will be undefined in this case
+        console.log('No such document!')
+      }
+    })
+
+    retunr = () => {
+      unsub
+    }
+  }, [])
+
+  //The store has been added to favorites
+  useEffect(() => {
+    if (favorites !== undefined) {
+      CheckFavoritesStore()
+    }
+  }, [favorites])
+
+  const CheckFavoritesStore = () => {
+    const value = favorites.filter(checkAdult)
+    if (value[0] === storeId) {
+      setLove(true)
+    } else {
+      setLove(false)
+    }
+  }
+
+  function checkAdult(id) {
+    return id === storeId
+  }
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const value = await AsyncStorage.getItem('userID1')
+  //       if (value !== null) {
+  //         // value previously stored
+  //         console.log('value', value)
+  //       }
+  //     } catch (e) {
+  //       // error reading value
+  //       console.log('value is not exists')
+  //     }
+  //   }
+
+  //   getData()
+  // }, [])
 
   useEffect(() => {
     if (stores.food_categories !== undefined) {
@@ -85,11 +146,19 @@ function StoreScreen({ navigation, route }) {
     return () => clearTimeout(timer)
   }, [currentDate, stores.opentime])
 
-  // console.log('stores.opentime', stores.opentime)
-  // console.log('currentDate', currentDate)
-
   const Loading = () => <ActivityIndicator size="large" color="#E94730" />
+  // const HandleLove = () => {
+  //   setLove(!isLove)
+  // }
 
+  //Appears when added to favorites
+  const LoveModal = () => {
+    return (
+      <View className="absolute bg-red-400 w-full h-14 top-3">
+        <Text>dadsjdj</Text>
+      </View>
+    )
+  }
   const HeaderComponent = () => (
     <View>
       <View>
@@ -100,8 +169,17 @@ function StoreScreen({ navigation, route }) {
           >
             <AntDesign name="arrowleft" size={21} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity style={[Styles.iconCicle, Styles.heartIcon]}>
-            <AntDesign name="heart" size={21} color="red" />
+          <TouchableOpacity
+            onPress={() =>
+              isLove ? DeleteLoveStore(storeId) : UpdateFavoriteStore(storeId)
+            }
+            style={[Styles.iconCicle, Styles.heartIcon]}
+          >
+            <AntDesign
+              name="heart"
+              size={21}
+              color={isLove ? 'red' : 'white'}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={[Styles.iconCicle, Styles.srearchIcon]}>
             <FontAwesome5 name="search" size={21} color="#fff" />
@@ -198,31 +276,10 @@ function StoreScreen({ navigation, route }) {
             color="black"
             style={{ marginRight: 20 }}
           />
-          <Text>FreeShip dưới 2km</Text>
+          <Text className="text-red-600">FreeShip dưới 2km</Text>
         </View>
         <View style={[Styles.mr10, Styles.horizonline]} />
       </View>
-    </View>
-  )
-
-  const Store = () => (
-    <View>
-      <ScrollView>
-        <View>
-          <HeaderComponent />
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 20,
-              marginLeft: 20,
-              marginRight: 20,
-              marginTop: 10
-            }}
-          >
-            Bánh ướt ram giò
-          </Text>
-        </View>
-      </ScrollView>
     </View>
   )
 
@@ -243,6 +300,7 @@ function StoreScreen({ navigation, route }) {
           />
         }
       />
+      {/* {isLove && <LoveModal />} */}
     </SafeAreaView>
   )
 }

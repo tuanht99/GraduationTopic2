@@ -8,6 +8,7 @@ import {
   
   const StoreStyle = StyleSheet.create({
     container: {
+      position : 'relative' ,
       flex: 1,
       backgroundColor: '#fff',
     },

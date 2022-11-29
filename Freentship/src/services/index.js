@@ -6,4 +6,5 @@ export {
   ReadDataFoodStores
 } from './FoodStores'
 export { ReadDataFoods, ReadDataFoodStoresByFood } from './Foods'
-export { ReadCategories } from './Categories'
+export { ReadCategories } from '../screens/Categories'
+export {UpdateFavoriteStore , getFavoriteStore , DeleteLoveStore} from './user'
