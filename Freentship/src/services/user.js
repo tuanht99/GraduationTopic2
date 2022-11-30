@@ -1,13 +1,9 @@
 import { db } from './firebase'
 import {
-  collection,
-  documentId,
   updateDoc,
-  query,
   doc,
   getDoc,
   onSnapshot,
-  where,
   arrayRemove
 } from 'firebase/firestore'
 
@@ -16,7 +12,6 @@ export async function getFavoriteStore() {
 
   const unsub = onSnapshot(washingtonRef, doc => {
     if (doc.exists()) {
-      console.log('Document data:', doc.data())
       return doc.data().loveStore
     } else {
       // doc.data() will be undefined in this case
@@ -42,7 +37,6 @@ export async function UpdateFavoriteStore(storeId) {
   const docSnap = await getDoc(washingtonRef)
   // Set the "capital" field of the city 'DC'
   if (docSnap.exists()) {
-    console.log('Document data:', docSnap.data().loveStore)
     await updateDoc(washingtonRef, {
       loveStore: [...docSnap.data().loveStore, `${storeId}`]
     })

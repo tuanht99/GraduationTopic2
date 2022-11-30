@@ -1,12 +1,8 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions
-} from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
-
+import { Feather } from '@expo/vector-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { db } from '../../services/firebase'
 import {
   collection,
@@ -15,32 +11,17 @@ import {
   getDocs,
   doc,
   updateDoc,
-  onSnapshot,
-  Animated
+  onSnapshot
 } from 'firebase/firestore'
 
 import { getDistance, getPreciseDistance } from 'geolib'
-import BouncingPreloader from 'react-native-bouncing-preloader'
-
 
 const FindShipper = ({ navigation, route }) => {
-  const icons = [
-    'https://www.shareicon.net/data/256x256/2016/05/04/759946_bar_512x512.png',
-    'https://www.shareicon.net/data/256x256/2016/05/04/759908_food_512x512.png',
-    'https://www.shareicon.net/data/256x256/2016/05/04/759956_food_512x512.png',
-    'https://www.shareicon.net/data/256x256/2016/05/04/759954_food_512x512.png',
-    'https://www.shareicon.net/data/256x256/2016/05/04/759906_food_512x512.png',
-    'https://www.shareicon.net/data/256x256/2016/05/04/759921_food_512x512.png'
-  ]
-
   const { orderId, locationStore } = route.params
-
   const [orderStatus, setOrderStatus] = useState([])
-
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState('')
 
- 
   const getShipper = async () => {
     // Set the order's ID for shipper
     const washingtonRef = doc(db, 'shippers', shipper.id)
@@ -143,17 +124,78 @@ const FindShipper = ({ navigation, route }) => {
       </Text>
     </View>
   ) : (
-    <View style={styles.container}>
-      <BouncingPreloader
-        icons={icons}
-        leftDistance={-100}
-        rightDistance={-150}
-        speed={1000}
-      />
+    <View className="flex-1 text-white m-5">
+      <View className="flex justify-center items-center p-6">
+        <Image
+          className="w-[100px] h-[100px] "
+          source={{
+            uri: 'https://media.tenor.com/e01tMfpXv2kAAAAi/looking-spying.gif'
+          }}
+        />
+      </View>
 
-      <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
-        Đang tìm tài xế .....{' '}
+      <Text className="uppercase text-[18px] font-bold">
+        đang tìm tài xế cho bạn
       </Text>
+      <View className="flex-row pt-3">
+        <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
+          <View
+            className="bg-red-600 h-1 rounded-full dark:bg-red-500"
+            style={{ width: '100%' }}
+          ></View>
+        </View>
+        <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
+          <View
+            className="bg-red-600 h-1 rounded-full dark:bg-red-500"
+            style={{ width: '50%' }}
+          ></View>
+        </View>
+        <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
+          <View
+            className=" h-1 rounded-full dark:bg-red-500"
+            style={{ width: '100%' }}
+          ></View>
+        </View>
+      </View>
+
+      <Text>
+        Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
+        hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
+      </Text>
+
+      <View className="border-b my-3"></View>
+
+      <View className="flex-row justify-between">
+        <View>
+          <Text>Phan Thế Mạnh</Text>
+          <Text>Loại xe ..... </Text>
+          <View className="flex-row">
+            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2">
+              <Feather name="phone" size={20} color="black" />
+              <Text className="font-bold ml-1"> Gọi</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+              <FontAwesome5 name="search-location" size={20} color="black" />
+              <Text className="font-bold ml-1">Xem trên bản đồ</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View className="relative w-14 h-18 flex items-center">
+          <Image
+            className="absolute rounded-full w-14 h-14"
+            source={{
+              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs_M6ZtzPQKC_V2fNnCjuYQQE2Molt6pgbzQ&usqp=CAU',
+              width: 90,
+              height: 90
+            }}
+          />
+          <View className = 'border border-gray-500 flex-row absolute bottom-0 bg-white items-center px-1 rounded-xl'>
+            <Entypo name="emoji-flirt" size={15} color="orange" />
+            <Text className = 'font-bold ml-2'>100%</Text>
+          </View>
+        </View>
+      </View>
 
       <TouchableOpacity
         onPress={() => cancelOrder()}
@@ -173,12 +215,3 @@ const FindShipper = ({ navigation, route }) => {
 }
 
 export default FindShipper
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff'
-  }
-})

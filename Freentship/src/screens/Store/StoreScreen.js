@@ -36,7 +36,7 @@ function StoreScreen({ navigation, route }) {
   const [isLove, setLove] = useState(false)
   const [favorites, setFavorites] = useState()
 
-  console.log('favorites', favorites)
+  // console.log('favorites', favorites)
   const storeId = id
 
   useEffect(() => {
@@ -276,7 +276,7 @@ function StoreScreen({ navigation, route }) {
             color="black"
             style={{ marginRight: 20 }}
           />
-          <Text className="text-red-600">FreeShip dưới 2km</Text>
+          <Text>FreeShip dưới 2km</Text>
         </View>
         <View style={[Styles.mr10, Styles.horizonline]} />
       </View>
