@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { db } from '../../services/firebase'
 import {
   collection,
@@ -117,6 +118,42 @@ const FindShipper = ({ navigation, route }) => {
     }
   }, [shipper])
 
+  const ShipperInfor = () => {
+    return (
+      <View className="flex-row justify-between">
+        <View>
+          <Text className="my-1 font-bold">Phan Thế Mạnh</Text>
+          <Text className="my-1">Loại xe ..... </Text>
+          <View className="flex-row mt-1">
+            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2">
+              <Feather name="phone" size={20} color="black" />
+              <Text className="font-bold ml-1"> Gọi</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+              <FontAwesome5 name="search-location" size={20} color="black" />
+              <Text className="font-bold ml-1">Xem trên bản đồ</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View className="relative w-14 h-18 flex items-center mr-5 ">
+          <Image
+            className="absolute rounded-full w-14 h-14"
+            source={{
+              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs_M6ZtzPQKC_V2fNnCjuYQQE2Molt6pgbzQ&usqp=CAU',
+              width: 90,
+              height: 90
+            }}
+          />
+          <View className="border border-gray-500 flex-row absolute  bottom-5 bg-white items-center px-1 rounded-xl">
+            <Entypo name="emoji-flirt" size={15} color="orange" />
+            <Text className="font-bold ml-2">100%</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
   return orderStatus.shipperId !== '' && orderStatus.status == 3 ? (
     <View>
       <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
@@ -124,13 +161,12 @@ const FindShipper = ({ navigation, route }) => {
       </Text>
     </View>
   ) : (
-    <View className="flex-1 text-white m-5">
+    <ScrollView className="flex-1 text-white m-5">
       <View className="flex justify-center items-center p-6">
         <Image
           className="w-[100px] h-[100px] "
-          source={{
-            uri: 'https://media.tenor.com/e01tMfpXv2kAAAAi/looking-spying.gif'
-          }}
+          source={require('../../assets/gif/giaohangthanhcong.gif')}
+         
         />
       </View>
 
@@ -163,42 +199,57 @@ const FindShipper = ({ navigation, route }) => {
         hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
       </Text>
 
-      <View className="border-b my-3"></View>
+      <View className="border-b border-yellow-600 my-3"></View>
+      {/* Shipper info */}
+      <ShipperInfor />
 
-      <View className="flex-row justify-between">
-        <View>
-          <Text>Phan Thế Mạnh</Text>
-          <Text>Loại xe ..... </Text>
-          <View className="flex-row">
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2">
-              <Feather name="phone" size={20} color="black" />
-              <Text className="font-bold ml-1"> Gọi</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
-              <FontAwesome5 name="search-location" size={20} color="black" />
-              <Text className="font-bold ml-1">Xem trên bản đồ</Text>
-            </TouchableOpacity>
+      <View className="border-b border-yellow-600 my-3"></View>
+
+      <View>
+        <Text className="mb-2 text-base  text-gray-400 underline">
+          Mã đơn #jhhđá
+        </Text>
+        <View className="flex-row items-center mb-2">
+          <MaterialCommunityIcons
+            name="food-fork-drink"
+            size={24}
+            color="#E94730"
+          />
+
+          <View className="ml-2 ">
+            <Text>Nơi mua hàng</Text>
+            <Text className="font-bold text-base">Trà sữa bibo</Text>
           </View>
         </View>
 
-        <View className="relative w-14 h-18 flex items-center">
-          <Image
-            className="absolute rounded-full w-14 h-14"
-            source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs_M6ZtzPQKC_V2fNnCjuYQQE2Molt6pgbzQ&usqp=CAU',
-              width: 90,
-              height: 90
-            }}
-          />
-          <View className = 'border border-gray-500 flex-row absolute bottom-0 bg-white items-center px-1 rounded-xl'>
-            <Entypo name="emoji-flirt" size={15} color="orange" />
-            <Text className = 'font-bold ml-2'>100%</Text>
+        <View className="flex-row items-center mb-2">
+          <Entypo name="location-pin" size={24} color="#E94730" />
+          <View className="ml-2 ">
+            <Text>Nơi giao hàng</Text>
+            <Text className="font-bold text-base">
+              13/21 đường số sdsald;sladsad
+            </Text>
+          </View>
+        </View>
+
+        <Text className="text-base border-y border-gray-300 py-3">
+          Ghi chú : "1 ly ít đường"
+        </Text>
+
+        <View>
+          <Text className="text-base">
+            3 món | Trà sửa truyền thống full ma túy (x3)
+          </Text>
+          <View className="flex-row justify-between">
+            <Text className="font-bold text-base">Tổng</Text>
+            <Text className="font-bold text-base">71.000 đ</Text>
           </View>
         </View>
       </View>
 
       <TouchableOpacity
         onPress={() => cancelOrder()}
+        className="mt-8"
         style={{
           backgroundColor: '#E94730',
           borderRadius: 15,
@@ -210,7 +261,7 @@ const FindShipper = ({ navigation, route }) => {
       >
         <Text style={{ color: '#fff' }}>Hủy đơn</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   )
 }
 
