@@ -41,7 +41,6 @@ export function LoginScreen({ navigation }) {
       console.log(12444)
     }
   }
-
   getData()
   return (
     <>

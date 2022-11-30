@@ -23,7 +23,7 @@ if (!app?.options || Platform.OS === 'web') {
   )
 }
 
-export function ConfirmOTP({ navigation, route }) {
+export function ConfirmOTPView({ navigation, route }) {
   // Ref or state management hooks
   const recaptchaVerifier = useRef(null)
   const { phoneNumber, guestname, avatar, date, sex, id, gmail, phone } =
@@ -31,8 +31,6 @@ export function ConfirmOTP({ navigation, route }) {
 
   const [verificationId, setVerificationId] = useState()
   const [verificationCode, setVerificationCode] = useState()
-
-  const firebaseConfig = app ? app.options : undefined
   const [message, showMessage] = useState()
   const attemptInvisibleVerification = false
   const sendVerificationCode = async () => {
@@ -64,7 +62,7 @@ export function ConfirmOTP({ navigation, route }) {
       <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifier}
         firebaseConfig={app.options}
-        // attemptInvisibleVerification
+      // attemptInvisibleVerification
       />
       <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
       <TextInput
@@ -87,14 +85,14 @@ export function ConfirmOTP({ navigation, route }) {
             navigation.navigate(
               'ChangePhoneView',
               {
-                  guestname,
-                  avatar,
-                  date,
-                  sex,
-                  id,
-                  gmail,
-                  phone
-                }
+                guestname,
+                avatar,
+                date,
+                sex,
+                id,
+                gmail,
+                phone
+              }
             )
           } catch (err) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' })

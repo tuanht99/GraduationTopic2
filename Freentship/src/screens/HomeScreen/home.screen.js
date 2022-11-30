@@ -25,7 +25,6 @@ export const HomeScreen = ({ navigation, route }) => {
     [where('discount', '>', 0), orderBy('discount', 'desc'), limit(LIMIT)]
   ]
   const firestore = [ReadDataFoodStores, ReadDataFoodStoresByFood]
-
   React.useEffect(() => {
     ; (async () => {
       let data

@@ -25,7 +25,7 @@ export const HomeNavigator = ({ navigation, route }) => {
   const { location } = route.params
   React.useEffect(() => {
     if (location) {
-      navigation.navigate('Home', { location: location });
+      navigation.navigate('HomeScreen', { location: location });
     }
   }, [])
 

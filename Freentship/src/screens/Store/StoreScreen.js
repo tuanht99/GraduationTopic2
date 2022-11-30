@@ -47,7 +47,7 @@ function StoreScreen({ navigation, route }) {
     return unsubscribe
   }, [storeId])
 
- 
+
   useEffect(() => {
     if (stores.food_categories !== undefined) {
       const cate = []
@@ -240,7 +240,7 @@ function StoreScreen({ navigation, route }) {
             storeImager={stores.image}
             storeId={storeId}
             openTime={openTime}
-            locationStore ={stores.locations}
+            locationStore={stores.locations}
           />
         }
       />
