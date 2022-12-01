@@ -57,66 +57,14 @@ export default function OrderView({ navigation, route }) {
     const user_id = "kxzmOQS3sVUr2pm9AbLI"
     const location = useSelector(state => state.locUser)
 
-
     // tăng giảm số lượng
 
   const PhiShip = 15000
 
-  const [shippers, setShippers] = useState([])
-  const [shipper, setShipper] = useState([])
-  // console.log('shippers', shippers)
-  // console.log('shipper', shipper)
-  const [isCreateOrder, setIsCreateOrder] = useState(false)
-
-  const getShippers = async () => {
-      let manyShippers = []
-    const q = query(
-      collection(db, 'shippers'),
-      where('isActive', '==', true),
-      where('lastest_order_id', '==', '')
-    )
-    const querySnapshot = await getDocs(q)
-    querySnapshot.forEach(doc => {
-      manyShippers.push({
-        id: doc.id,
-        ...doc.data(),
-        distance:
-          getPreciseDistance(
-              {
-                  latitude: location.latitude,
-                  longitude: location.longitude
-              },
-              {
-                  latitude: doc.data().location._lat,
-                  longitude: doc.data().location._long
-              }
-          )
-      })
-    })
-    setShippers(manyShippers)
-  }
-
-  useEffect(() => {
-    getShippers()
-  }, [isCreateOrder])
-
-  useEffect(() => {
-    if (shippers.length > 0) {
-      const shipper = shippers.reduce((prev, curr) =>
-        prev.distance < curr.distance ? prev : curr
-      )
-      if (shipper.distance < 5000) {
-        setShipper(shipper)
-      }
-
-      setShipper('')
-    }
-  }, [shippers])
-
   const docData = {
     deposit: 0,
     distance: 0,
-    // food_price: priceOrder,
+    meno: '1 ly sieu to khong lo',
     food_store_id: carts[0].storeId,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
@@ -127,13 +75,11 @@ export default function OrderView({ navigation, route }) {
     totalPrice: Total,
     user_id: user_id
   }
-    console.log('docData', docData)
 
   const orderTheOrder = () => {
-    const { id } = addDoc(collection(db, 'orders'), docData)
+    addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-        console.log('docRef',docRef.id);
-        navigation.navigate('FindShipper',{ orderId: docRef.id , shipperId : docRef.shipper_id , locationStore: {latitude: 10.851426882303631, longitude: 106.75808940590774} });
+        navigation.navigate('FindShipper',{ orderId: docRef.id  , locationStore: {latitude: 10.851426882303631, longitude: 106.75808940590774} });
       })
       .catch(error => {
         // The write failed...

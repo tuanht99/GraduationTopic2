@@ -5,6 +5,10 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { db } from '../../services/firebase'
+import lookingspying from '../../assets/gif/looking-spying.gif'
+import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
+import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
+
 import {
   collection,
   query,
@@ -19,9 +23,14 @@ import { getDistance, getPreciseDistance } from 'geolib'
 
 const FindShipper = ({ navigation, route }) => {
   const { orderId, locationStore } = route.params
-  const [orderStatus, setOrderStatus] = useState([])
+
+  const [orderStatus, setOrderStatus] = useState()
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState('')
+  const [progress, setProgress] = useState()
+
+  console.log('progress', progress)
+  // console.log('shipper', shipper)
 
   const getShipper = async () => {
     // Set the order's ID for shipper
@@ -48,7 +57,7 @@ const FindShipper = ({ navigation, route }) => {
   }
 
   const getShippers = async () => {
-    if (orderStatus.status == 2) {
+    if (orderStatus.status === 2 && orderStatus.shipperId == '') {
       let manyShippers = []
       const q = query(
         collection(db, 'shippers'),
@@ -81,6 +90,10 @@ const FindShipper = ({ navigation, route }) => {
   }
 
   useEffect(() => {
+    getShippers()
+  }, [orderStatus])
+
+  useEffect(() => {
     const unsub = onSnapshot(doc(db, 'orders', orderId + ''), doc => {
       setOrderStatus({
         status: doc.data().status,
@@ -94,20 +107,12 @@ const FindShipper = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const myTimeout = setTimeout(() => {
-      getShippers()
-    }, 3000)
-    return () => clearTimeout(myTimeout)
-  }, [orderStatus])
-
-  useEffect(() => {
     if (shippers.length > 0 && orderStatus != 9) {
       const shipper = shippers.reduce((prev, curr) =>
         prev.distance < curr.distance ? prev : curr
       )
       if (shipper.distance < 5000) {
         setShipper(shipper)
-        // updateOrderStatus()
       }
     }
   }, [shippers])
@@ -120,90 +125,148 @@ const FindShipper = ({ navigation, route }) => {
 
   const ShipperInfor = () => {
     return (
-      <View className="flex-row justify-between">
-        <View>
-          <Text className="my-1 font-bold">Phan Thế Mạnh</Text>
-          <Text className="my-1">Loại xe ..... </Text>
-          <View className="flex-row mt-1">
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2">
-              <Feather name="phone" size={20} color="black" />
-              <Text className="font-bold ml-1"> Gọi</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
-              <FontAwesome5 name="search-location" size={20} color="black" />
-              <Text className="font-bold ml-1">Xem trên bản đồ</Text>
-            </TouchableOpacity>
+      <View>
+        <View className="border-b border-yellow-600 my-3"></View>
+        <View className="flex-row justify-between">
+          <View>
+            <Text className="my-1 font-bold">Phan Thế Mạnh</Text>
+            <Text className="my-1">Loại xe ..... </Text>
+            <View className="flex-row mt-1">
+              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2">
+                <Feather name="phone" size={20} color="black" />
+                <Text className="font-bold ml-1"> Gọi</Text>
+              </TouchableOpacity>
+              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+                <FontAwesome5 name="search-location" size={20} color="black" />
+                <Text className="font-bold ml-1">Xem trên bản đồ</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        <View className="relative w-14 h-18 flex items-center mr-5 ">
-          <Image
-            className="absolute rounded-full w-14 h-14"
-            source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs_M6ZtzPQKC_V2fNnCjuYQQE2Molt6pgbzQ&usqp=CAU',
-              width: 90,
-              height: 90
-            }}
-          />
-          <View className="border border-gray-500 flex-row absolute  bottom-5 bg-white items-center px-1 rounded-xl">
-            <Entypo name="emoji-flirt" size={15} color="orange" />
-            <Text className="font-bold ml-2">100%</Text>
+          <View className="relative w-14 h-18 flex items-center mr-5 ">
+            <Image
+              className="absolute rounded-full w-14 h-14"
+              source={{
+                uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs_M6ZtzPQKC_V2fNnCjuYQQE2Molt6pgbzQ&usqp=CAU',
+                width: 90,
+                height: 90
+              }}
+            />
+            <View className="border border-gray-500 flex-row absolute  bottom-5 bg-white items-center px-1 rounded-xl">
+              <Entypo name="emoji-flirt" size={15} color="orange" />
+              <Text className="font-bold ml-2">100%</Text>
+            </View>
           </View>
         </View>
+        <View className="border-b border-yellow-600 my-3"></View>
       </View>
     )
   }
 
-  return orderStatus.shipperId !== '' && orderStatus.status == 3 ? (
-    <View>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
-        Yế đã có tài xế cho đơn hàng của bạn
-      </Text>
-    </View>
-  ) : (
+  const ProGressBar = ({ title, progress1, progress2, progress3, gif }) => {
+    return (
+      <View>
+        <View className="flex justify-center items-center p-6">
+          <Image className="w-[100px] h-[100px] " source={gif} />
+        </View>
+
+        <Text className="uppercase text-[18px] font-bold">{title}</Text>
+        <View className="flex-row pt-3">
+          <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
+            <View
+              className="bg-red-600 h-1 rounded-full dark:bg-red-500"
+              style={{ width: progress1 }}
+            ></View>
+          </View>
+          <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
+            <View
+              className="bg-red-600 h-1 rounded-full dark:bg-red-500"
+              style={{ width: progress2 }}
+            ></View>
+          </View>
+          <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
+            <View
+              className=" h-1 bg-red-500 rounded-full dark:bg-red-500"
+              style={{ width: progress3 }}
+            ></View>
+          </View>
+        </View>
+
+        <Text>
+          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
+          hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
+        </Text>
+      </View>
+    )
+  }
+
+  useEffect(() => {
+    if (orderStatus !== undefined) {
+      switch (orderStatus.status) {
+        case 2:
+          setProgress({
+            title: 'tìm tài xế cho bạn',
+            progress1: '100%',
+            progress2: '0%',
+            progress3: '0%',
+            gif: lookingspying
+          })
+          break
+        case 3:
+          // code block tài xế đang đến cửa hàng
+          setProgress({
+            title: 'tìm tài xế cho bạn',
+            progress1: '100%',
+            progress2: '50%',
+            progress3: '0%',
+            gif: pigshipperunscreen
+          })
+          break
+        case 6:
+          // code block tài xế đã lấy hàng thành công
+          setProgress({
+            title: 'tài xế đã lấy hàng thành công',
+            progress1: '100%',
+            progress2: '100%',
+            progress3: '0%',
+            gif: pigshipperunscreen
+          })
+          break
+        case 5:
+          // code block giao hàng thành công
+          setProgress({
+            title: 'giao hàng thành công',
+            progress1: '100%',
+            progress2: '100%',
+            progress3: '100%',
+            gif: giaohangthanhcong
+          })
+          break
+      }
+    }
+  }, [orderStatus])
+
+  return (
     <ScrollView className="flex-1 text-white m-5">
-      <View className="flex justify-center items-center p-6">
-        <Image
-          className="w-[100px] h-[100px] "
-          source={require('../../assets/gif/giaohangthanhcong.gif')}
-         
+      {progress !== undefined && (
+        <ProGressBar
+          title={progress.title}
+          progress1={progress.progress1}
+          progress2={progress.progress2}
+          progress3={progress.progress3}
+          gif={progress.gif}
         />
-      </View>
+      )}
 
-      <Text className="uppercase text-[18px] font-bold">
-        đang tìm tài xế cho bạn
-      </Text>
-      <View className="flex-row pt-3">
-        <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-          <View
-            className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-            style={{ width: '100%' }}
-          ></View>
-        </View>
-        <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-          <View
-            className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-            style={{ width: '50%' }}
-          ></View>
-        </View>
-        <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-          <View
-            className=" h-1 rounded-full dark:bg-red-500"
-            style={{ width: '100%' }}
-          ></View>
-        </View>
-      </View>
-
-      <Text>
-        Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
-        hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
-      </Text>
-
-      <View className="border-b border-yellow-600 my-3"></View>
       {/* Shipper info */}
-      <ShipperInfor />
-
-      <View className="border-b border-yellow-600 my-3"></View>
+      {orderStatus !== undefined &&
+      orderStatus.shipperId !== '' &&
+      orderStatus.status >= 3 &&
+      orderStatus.status <= 6 ? (
+        <ShipperInfor />
+      ) : (
+        ''
+      )}
 
       <View>
         <Text className="mb-2 text-base  text-gray-400 underline">
@@ -247,20 +310,40 @@ const FindShipper = ({ navigation, route }) => {
         </View>
       </View>
 
-      <TouchableOpacity
-        onPress={() => cancelOrder()}
-        className="mt-8"
-        style={{
-          backgroundColor: '#E94730',
-          borderRadius: 15,
-          width: '97%',
-          height: 40,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Text style={{ color: '#fff' }}>Hủy đơn</Text>
-      </TouchableOpacity>
+      {orderStatus !== undefined &&
+      orderStatus.shipperId !== '' &&
+      orderStatus.status >= 3 &&
+      orderStatus.status <= 6 ? (
+        <TouchableOpacity
+          disabled
+          className="mt-8"
+          style={{
+            backgroundColor: '#C0C0C0',
+            borderRadius: 15,
+            width: '97%',
+            height: 40,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text style={{ color: '#fff' }}>Hủy đơn</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => cancelOrder()}
+          className="mt-8"
+          style={{
+            backgroundColor: '#E94730',
+            borderRadius: 15,
+            width: '97%',
+            height: 40,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text style={{ color: '#fff' }}>Hủy đơn</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   )
 }
