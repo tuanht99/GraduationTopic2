@@ -3,8 +3,14 @@ export {
   dataFood,
   WriteDataFoodInFoodStores,
   WriteDataFood_StoresByCategory,
-  ReadDataFoodStores
+  ReadDataFoodStores,
+  getStoreinfo
 } from './FoodStores'
 export { ReadDataFoods, ReadDataFoodStoresByFood } from './Foods'
 export { ReadCategories } from '../screens/Categories'
-export {UpdateFavoriteStore , getFavoriteStore , DeleteLoveStore} from './user'
+export {
+  UpdateFavoriteStore,
+  getFavoriteStore,
+  DeleteLoveStore,
+  getInfoUser
+} from './user'

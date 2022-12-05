@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
@@ -8,6 +8,7 @@ import { db } from '../../services/firebase'
 import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
+import { getInfoUser, getStoreinfo } from '../../services'
 
 import {
   collection,
@@ -29,9 +30,7 @@ const FindShipper = ({ navigation, route }) => {
   const [shipper, setShipper] = useState('')
   const [progress, setProgress] = useState()
 
-  console.log('progress', progress)
-  // console.log('shipper', shipper)
-
+  console.log('orderStatus', orderStatus)
   const getShipper = async () => {
     // Set the order's ID for shipper
     const washingtonRef = doc(db, 'shippers', shipper.id)
@@ -93,11 +92,18 @@ const FindShipper = ({ navigation, route }) => {
     getShippers()
   }, [orderStatus])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const unsub = onSnapshot(doc(db, 'orders', orderId + ''), doc => {
-      setOrderStatus({
-        status: doc.data().status,
-        shipperId: doc.data().shipper_id
+      getInfoUser(doc.data().user_id).then(user => {
+        getStoreinfo(doc.data().food_store_id).then(store => {
+          setOrderStatus({
+            status: doc.data().status,
+            shipperId: doc.data().shipper_id,
+            userAddress: user.address,
+            storeAddress: store.address,
+            menoOfOrder: doc.data().meno
+          })
+        })
       })
     })
 
@@ -215,7 +221,7 @@ const FindShipper = ({ navigation, route }) => {
         case 3:
           // code block tài xế đang đến cửa hàng
           setProgress({
-            title: 'tìm tài xế cho bạn',
+            title: 'đã tìm thấy tài xế',
             progress1: '100%',
             progress2: '50%',
             progress3: '0%',
@@ -267,48 +273,51 @@ const FindShipper = ({ navigation, route }) => {
       ) : (
         ''
       )}
-
-      <View>
-        <Text className="mb-2 text-base  text-gray-400 underline">
-          Mã đơn #jhhđá
-        </Text>
-        <View className="flex-row items-center mb-2">
-          <MaterialCommunityIcons
-            name="food-fork-drink"
-            size={24}
-            color="#E94730"
-          />
-
-          <View className="ml-2 ">
-            <Text>Nơi mua hàng</Text>
-            <Text className="font-bold text-base">Trà sữa bibo</Text>
-          </View>
-        </View>
-
-        <View className="flex-row items-center mb-2">
-          <Entypo name="location-pin" size={24} color="#E94730" />
-          <View className="ml-2 ">
-            <Text>Nơi giao hàng</Text>
-            <Text className="font-bold text-base">
-              13/21 đường số sdsald;sladsad
-            </Text>
-          </View>
-        </View>
-
-        <Text className="text-base border-y border-gray-300 py-3">
-          Ghi chú : "1 ly ít đường"
-        </Text>
-
+      {orderStatus !== undefined && (
         <View>
-          <Text className="text-base">
-            3 món | Trà sửa truyền thống full ma túy (x3)
+          <Text className="mb-2 text-base  text-gray-400 underline">
+            Mã đơn #{orderId.substr(0, 6).toUpperCase()}
           </Text>
-          <View className="flex-row justify-between">
-            <Text className="font-bold text-base">Tổng</Text>
-            <Text className="font-bold text-base">71.000 đ</Text>
+          <View className="flex-row items-center mb-2">
+            <MaterialCommunityIcons
+              name="food-fork-drink"
+              size={24}
+              color="#E94730"
+            />
+
+            <View className="ml-2 ">
+              <Text>Nơi mua hàng</Text>
+              <Text className="font-bold text-base">
+                {orderStatus.storeAddress}
+              </Text>
+            </View>
+          </View>
+
+          <View className="flex-row items-center mb-2">
+            <Entypo name="location-pin" size={24} color="#E94730" />
+            <View className="ml-2 ">
+              <Text>Nơi giao hàng</Text>
+              <Text numberOfLines={2} className="font-bold text-base">
+                {orderStatus.userAddress}
+              </Text>
+            </View>
+          </View>
+
+          <Text className="text-base border-y border-gray-300 py-3">
+            Ghi chú : " {orderStatus.menoOfOrder}"
+          </Text>
+
+          <View>
+            <Text className="text-base">
+              3 món | Trà sửa truyền thống full ma túy (x3)
+            </Text>
+            <View className="flex-row justify-between">
+              <Text className="font-bold text-base">Tổng</Text>
+              <Text className="font-bold text-base">71.000 đ</Text>
+            </View>
           </View>
         </View>
-      </View>
+      )}
 
       {orderStatus !== undefined &&
       orderStatus.shipperId !== '' &&

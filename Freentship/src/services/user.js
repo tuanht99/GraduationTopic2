@@ -7,29 +7,28 @@ import {
   arrayRemove
 } from 'firebase/firestore'
 
-export async function getFavoriteStore() {
-  const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
-
-  const unsub = onSnapshot(washingtonRef, doc => {
-    if (doc.exists()) {
-      return doc.data().loveStore
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!')
-    }
-    unsub()
-  })
+export async function getInfoUser(idUser) {
+  const ref = doc(db, 'users', `${idUser}`)
+  const docSnap = await getDoc(ref)
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    console.log('No such document!')
+  }
 }
 
-// const docSnap = await getDoc(washingtonRef)
-// // Set the "capital" field of the city 'DC'
-// if (docSnap.exists()) {
-//   console.log('Document data:', docSnap.data())
-//   return docSnap.data().loveStore
-// } else {
-//   // doc.data() will be undefined in this case
-//   console.log('No such document!')
-// }
+// export async function getFavoriteStore() {
+//   const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+
+//   const unsub = onSnapshot(washingtonRef, doc => {
+//     if (doc.exists()) {
+//       return doc.data().loveStore
+//     } else {
+//       // doc.data() will be undefined in this case
+//       console.log('No such document!')
+//     }
+//     unsub()
+//   })
 // }
 
 export async function UpdateFavoriteStore(storeId) {
