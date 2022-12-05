@@ -12,13 +12,8 @@ const NotificationScreen = () => {
     </View>
   )
 }
-const SettingScreen = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>Setting Screen</Text>
-    </View>
-  )
-}
+
+
 
 
 export const HomeNavigator = ({navigation, route}) => {
