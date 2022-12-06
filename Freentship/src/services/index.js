@@ -12,5 +12,5 @@ export {
   UpdateFavoriteStore,
   getFavoriteStore,
   DeleteLoveStore,
-  getInfoUser
+  getInfoUser , ShipperInFo
 } from './user'

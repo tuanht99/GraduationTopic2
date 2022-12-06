@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
+import { View, Image, Text, TouchableOpacity } from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -9,18 +9,12 @@ import { useState } from 'react'
 import { db } from '../../services/firebase'
 import {
   collection,
-  query,
-  where,
-  getDocs,
   addDoc,
   Timestamp,
-  doc,
-  updateDoc
 } from 'firebase/firestore'
-import { getDistance, getPreciseDistance } from 'geolib'
-import { createErrorHandler } from 'expo/build/errors/ExpoErrorManager'
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {useSelector} from "react-redux";
+import { useSelector } from 'react-redux'
 
 const DATA = {
   id: 1,
@@ -51,13 +45,13 @@ const DATA = {
 export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
-    const [dataFood, setDataFood] = useState([])
-    const carts = useSelector(state => state.carts)
+  const [dataFood, setDataFood] = useState([])
+  const carts = useSelector(state => state.carts)
 
-    const user_id = "kxzmOQS3sVUr2pm9AbLI"
-    const location = useSelector(state => state.locUser)
+  const user_id = 'kxzmOQS3sVUr2pm9AbLI'
+  const location = useSelector(state => state.locUser)
 
-    // tăng giảm số lượng
+  // tăng giảm số lượng
 
   const PhiShip = 15000
 
@@ -69,8 +63,9 @@ export default function OrderView({ navigation, route }) {
     order_date: Timestamp.now(),
     ordered_food: dataFood,
     ship_fee: PhiShip,
-    total_food : Total - PhiShip,
+    total_food: Total - PhiShip,
     shipper_id: '',
+    shipper_cancel_orders : [ 1, 2],
     status: 2,
     totalPrice: Total,
     user_id: user_id
@@ -79,7 +74,13 @@ export default function OrderView({ navigation, route }) {
   const orderTheOrder = () => {
     addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-        navigation.navigate('FindShipper',{ orderId: docRef.id  , locationStore: {latitude: 10.851426882303631, longitude: 106.75808940590774} });
+        navigation.navigate('FindShipper', {
+          orderId: docRef.id,
+          locationStore: {
+            latitude: 10.851426882303631,
+            longitude: 106.75808940590774
+          }
+        })
       })
       .catch(error => {
         // The write failed...
@@ -92,21 +93,26 @@ export default function OrderView({ navigation, route }) {
   }
 
   // tính tổng tiền
-    useEffect(() => {
-        const data = []
-        if (carts.length === 0) {
-            navigation.goBack()
-        }
-        let total = 0;
-        carts.forEach((item) => {
-            item.items.forEach(item => {
-                total += item.Quantity * item.price;
-                data.push({food_id: item.idFood, quantity: item.Quantity, food_price: item.price})
-            } )
+  useEffect(() => {
+    const data = []
+    if (carts.length === 0) {
+      navigation.goBack()
+    }
+    let total = 0
+    carts.forEach(item => {
+      item.items.forEach(item => {
+        total += item.Quantity * item.price
+        data.push({
+          food_id: item.idFood,
+          food_name: item.title,
+          quantity: item.Quantity,
+          food_price: item.price
         })
-        setTotal(total + PhiShip);
-        setDataFood(data)
-    }, [carts])
+      })
+    })
+    setTotal(total + PhiShip)
+    setDataFood(data)
+  }, [carts])
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -179,7 +185,9 @@ export default function OrderView({ navigation, route }) {
               </View>
 
               <View style={{ alignItems: 'center' }}>
-                <Text style={{flex: 1}} numberOfLines={2}>{location.address}</Text>
+                <Text style={{ flex: 1 }} numberOfLines={2}>
+                  {location.address}
+                </Text>
               </View>
             </View>
           </View>
@@ -273,67 +281,67 @@ export default function OrderView({ navigation, route }) {
               paddingBottom: 20
             }}
           >
-              {carts.map((item) => (
-                  item.items.map((item, index) => (
-                          <View key={index} style={{ marginLeft: 10 }}>
-                              <View
-                                  style={{
-                                      flexDirection: 'row',
-                                      justifyContent: 'space-between',
-                                      paddingBottom: 50
-                                  }}
-                              >
-                                  <View>
-                                      <Text numberOfLines={1} style={{ fontSize: 20 }}>
-                                          {item.title}
-                                      </Text>
-                                      <View
-                                          style={{
-                                              marginTop: 20,
-                                              marginBottom: -75
-                                          }}
-                                      >
-                                          <Image
-                                              source={{ uri: item.image }}
-                                              style={{ width: 80, height: 80 }}
-                                          />
-                                      </View>
-                                  </View>
-                                  <View>
-                                      <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
-                                          {item.price * item.Quantity} đ
-                                      </Text>
-                                  </View>
-                              </View>
+            {carts.map(item =>
+              item.items.map((item, index) => (
+                <View key={index} style={{ marginLeft: 10 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      paddingBottom: 50
+                    }}
+                  >
+                    <View>
+                      <Text numberOfLines={1} style={{ fontSize: 20 }}>
+                        {item.title}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 20,
+                          marginBottom: -75
+                        }}
+                      >
+                        <Image
+                          source={{ uri: item.image }}
+                          style={{ width: 80, height: 80 }}
+                        />
+                      </View>
+                    </View>
+                    <View>
+                      <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
+                        {item.price * item.Quantity} đ
+                      </Text>
+                    </View>
+                  </View>
 
-                              <View
-                                  style={{
-                                      flexDirection: 'row',
-                                      justifyContent: 'space-between',
-                                      alignItems: 'center'
-                                  }}
-                              >
-                                  <View></View>
-                                  {/*  */}
-                                  <View
-                                      style={{
-                                          flexDirection: 'row',
-                                          justifyContent: 'space-between',
-                                          flex: 0.4,
-                                          paddingRight: 10
-                                      }}
-                                  >
-                                      <View></View>
-                                      <View>
-                                          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                              Số Lượng: {item.Quantity}
-                                          </Text>
-                                      </View>
-                                  </View>
-                              </View>
-                          </View>
-                      ) )
-              ))}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <View></View>
+                    {/*  */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        flex: 0.4,
+                        paddingRight: 10
+                      }}
+                    >
+                      <View></View>
+                      <View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                          Số Lượng: {item.Quantity}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              ))
+            )}
           </View>
         </View>
 

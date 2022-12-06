@@ -8,8 +8,8 @@ import { db } from '../../services/firebase'
 import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
-import { getInfoUser, getStoreinfo } from '../../services'
-
+import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
+import call from 'react-native-phone-call'
 import {
   collection,
   query,
@@ -29,8 +29,20 @@ const FindShipper = ({ navigation, route }) => {
   const [shippers, setShippers] = useState([])
   const [shipper, setShipper] = useState('')
   const [progress, setProgress] = useState()
+  const [shipperInfo, setShipperInfo] = useState()
 
-  console.log('orderStatus', orderStatus)
+  console.log('orderStatus', orderStatus.shipper_cancel_orders)
+  // console.log('shipperInfo', shipperInfo)
+
+  useEffect(() => {
+    if (orderStatus !== undefined) {
+      if (orderStatus.shipperId !== '') {
+        ShipperInFo(orderStatus.shipperId).then(doc => {
+          setShipperInfo(doc)
+        })
+      }
+    }
+  }, [orderStatus])
   const getShipper = async () => {
     // Set the order's ID for shipper
     const washingtonRef = doc(db, 'shippers', shipper.id)
@@ -66,7 +78,6 @@ const FindShipper = ({ navigation, route }) => {
 
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach(doc => {
-        console.log('loggggg', doc.data())
         manyShippers.push({
           id: doc.id,
           ...doc.data(),
@@ -89,19 +100,26 @@ const FindShipper = ({ navigation, route }) => {
   }
 
   useEffect(() => {
+
     getShippers()
   }, [orderStatus])
 
   useLayoutEffect(() => {
     const unsub = onSnapshot(doc(db, 'orders', orderId + ''), doc => {
+      const sum = doc.data().ordered_food.reduce((accumulator, object) => {
+        return accumulator + object.quantity
+      }, 0)
+
       getInfoUser(doc.data().user_id).then(user => {
         getStoreinfo(doc.data().food_store_id).then(store => {
           setOrderStatus({
+            ...doc.data(),
             status: doc.data().status,
             shipperId: doc.data().shipper_id,
             userAddress: user.address,
             storeAddress: store.address,
-            menoOfOrder: doc.data().meno
+            menoOfOrder: doc.data().meno,
+            quantityTotal: sum
           })
         })
       })
@@ -129,16 +147,26 @@ const FindShipper = ({ navigation, route }) => {
     }
   }, [shipper])
 
-  const ShipperInfor = () => {
+  const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
       <View>
         <View className="border-b border-yellow-600 my-3"></View>
         <View className="flex-row justify-between">
           <View>
-            <Text className="my-1 font-bold">Phan Thế Mạnh</Text>
-            <Text className="my-1">Loại xe ..... </Text>
+            <Text className="my-1 font-bold">{name}</Text>
+            <Text className="my-1" numberOfLines={1}>
+              Loại xe : {loaixe}{' '}
+            </Text>
             <View className="flex-row mt-1">
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2">
+              <TouchableOpacity
+                onPress={() =>
+                  call({
+                    number: phone + '',
+                    prompt: false
+                  }).catch(console.error)
+                }
+                className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2"
+              >
                 <Feather name="phone" size={20} color="black" />
                 <Text className="font-bold ml-1"> Gọi</Text>
               </TouchableOpacity>
@@ -153,7 +181,7 @@ const FindShipper = ({ navigation, route }) => {
             <Image
               className="absolute rounded-full w-14 h-14"
               source={{
-                uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs_M6ZtzPQKC_V2fNnCjuYQQE2Molt6pgbzQ&usqp=CAU',
+                uri: avatar,
                 width: 90,
                 height: 90
               }}
@@ -266,10 +294,16 @@ const FindShipper = ({ navigation, route }) => {
 
       {/* Shipper info */}
       {orderStatus !== undefined &&
+      shipperInfo !== undefined &&
       orderStatus.shipperId !== '' &&
       orderStatus.status >= 3 &&
       orderStatus.status <= 6 ? (
-        <ShipperInfor />
+        <ShipperInfor
+          avatar={shipperInfo.avatar}
+          name={shipperInfo.name}
+          loaixe={shipperInfo.loaixe}
+          phone={shipperInfo.phone}
+        />
       ) : (
         ''
       )}
@@ -308,12 +342,26 @@ const FindShipper = ({ navigation, route }) => {
           </Text>
 
           <View>
-            <Text className="text-base">
-              3 món | Trà sửa truyền thống full ma túy (x3)
-            </Text>
+            <View className="flex-row">
+              <Text className="text-base mr-4">
+                {orderStatus.quantityTotal} món |
+              </Text>
+
+              <View>
+                {orderStatus.ordered_food.map(e => (
+                  <View className="flex-row items-center justify-between">
+                    <Text className="text-base">{e.food_name} </Text>
+                    <Text>(x{e.quantity})</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+
             <View className="flex-row justify-between">
               <Text className="font-bold text-base">Tổng</Text>
-              <Text className="font-bold text-base">71.000 đ</Text>
+              <Text className="font-bold text-base">
+                {orderStatus.totalPrice}
+              </Text>
             </View>
           </View>
         </View>

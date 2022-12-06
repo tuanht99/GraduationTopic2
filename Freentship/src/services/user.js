@@ -17,19 +17,15 @@ export async function getInfoUser(idUser) {
   }
 }
 
-// export async function getFavoriteStore() {
-//   const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
-
-//   const unsub = onSnapshot(washingtonRef, doc => {
-//     if (doc.exists()) {
-//       return doc.data().loveStore
-//     } else {
-//       // doc.data() will be undefined in this case
-//       console.log('No such document!')
-//     }
-//     unsub()
-//   })
-// }
+export async function ShipperInFo(idShipper) {
+  const ref = doc(db, 'users', `${idShipper}`)
+  const docSnap = await getDoc(ref)
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    console.log('No such document!')
+  }
+}
 
 export async function UpdateFavoriteStore(storeId) {
   const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
