@@ -65,7 +65,7 @@ export default function OrderView({ navigation, route }) {
     ship_fee: PhiShip,
     total_food: Total - PhiShip,
     shipper_id: '',
-    shipper_cancel_orders : [ 1, 2],
+    shipper_cancel_orders : [],
     status: 2,
     totalPrice: Total,
     user_id: user_id

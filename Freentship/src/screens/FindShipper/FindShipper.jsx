@@ -20,7 +20,7 @@ import {
   onSnapshot
 } from 'firebase/firestore'
 
-import { getDistance, getPreciseDistance } from 'geolib'
+import { getPreciseDistance } from 'geolib'
 
 const FindShipper = ({ navigation, route }) => {
   const { orderId, locationStore } = route.params
@@ -31,8 +31,7 @@ const FindShipper = ({ navigation, route }) => {
   const [progress, setProgress] = useState()
   const [shipperInfo, setShipperInfo] = useState()
 
-  console.log('orderStatus', orderStatus.shipper_cancel_orders)
-  // console.log('shipperInfo', shipperInfo)
+  console.log('shippers', shippers)
 
   useEffect(() => {
     if (orderStatus !== undefined) {
@@ -59,6 +58,7 @@ const FindShipper = ({ navigation, route }) => {
 
   // Cancel Order
   const cancelOrder = async () => {
+    
     const cancel = doc(db, 'orders', orderId)
     await updateDoc(cancel, {
       status: 9
@@ -70,6 +70,7 @@ const FindShipper = ({ navigation, route }) => {
   const getShippers = async () => {
     if (orderStatus.status === 2 && orderStatus.shipperId == '') {
       let manyShippers = []
+
       const q = query(
         collection(db, 'shippers'),
         where('isActive', '==', true),
@@ -95,13 +96,49 @@ const FindShipper = ({ navigation, route }) => {
         })
       })
 
-      setShippers(manyShippers)
+      const results = manyShippers.filter(
+        ({ id: id1 }) =>
+          !orderStatus.shipper_cancel_orders.some(({ id: id2 }) => id2 === id1)
+      )
+      setShippers(results)
     }
   }
 
   useEffect(() => {
-
     getShippers()
+  }, [orderStatus])
+
+  useEffect(() => {
+    if (orderStatus !== undefined) {
+      const timer = setTimeout(() => {
+        if (orderStatus.status === 2) {
+          const removeShipper = async () => {
+            const ordersRef = doc(db, 'orders', orderId)
+            if (orderStatus.shipper_id !== '') {
+              await updateDoc(ordersRef, {
+                shipper_id: '',
+                shipper_cancel_orders: [
+                  ...orderStatus.shipper_cancel_orders,
+                  { id: orderStatus.shipper_id }
+                ]
+              })
+            }
+          }
+
+          const removeShipperIsOrder = async () => {
+            // Set the order's ID for shipper
+            const washingtonRef = doc(db, 'shippers', shipper.id)
+            await updateDoc(washingtonRef, {
+              lastestOrderID: ''
+            })
+          }
+
+          removeShipper()
+          removeShipperIsOrder()
+        }
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
   }, [orderStatus])
 
   useLayoutEffect(() => {
