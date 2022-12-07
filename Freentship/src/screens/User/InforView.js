@@ -235,6 +235,16 @@ const [UserID, setUserID] = useState("")
             </View>
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
+          {/* Vourcher */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+            <Image style={{height:30,width:30,marginRight:10, marginLeft:20}} source={require("../../../assets/coupon.png")}></Image>
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Mã Khuyến Mãi</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
           {/* cộng đồng loship */}
           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
