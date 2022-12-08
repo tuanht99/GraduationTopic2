@@ -4,11 +4,13 @@ import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { db } from '../../services/firebase'
 import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
+import formatCash from '../../components/formatCash'
 import call from 'react-native-phone-call'
 import {
   collection,
@@ -30,8 +32,7 @@ const FindShipper = ({ navigation, route }) => {
   const [shipper, setShipper] = useState('')
   const [progress, setProgress] = useState()
   const [shipperInfo, setShipperInfo] = useState()
-
-  console.log('shippers', shippers)
+  const [status, setStatus] = useState(0)
 
   useEffect(() => {
     if (orderStatus !== undefined) {
@@ -58,8 +59,15 @@ const FindShipper = ({ navigation, route }) => {
 
   // Cancel Order
   const cancelOrder = async () => {
-    
     const cancel = doc(db, 'orders', orderId)
+
+    if (shipper !== '') {
+      const washingtonRef = doc(db, 'shippers', shipper.id)
+      await updateDoc(washingtonRef, {
+        lastestOrderID: ''
+      })
+    }
+
     await updateDoc(cancel, {
       status: 9
     }).then(() => {
@@ -105,7 +113,10 @@ const FindShipper = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    getShippers()
+    if (orderStatus !== undefined) {
+      getShippers()
+      setStatus(orderStatus.status)
+    }
   }, [orderStatus])
 
   useEffect(() => {
@@ -136,12 +147,12 @@ const FindShipper = ({ navigation, route }) => {
           removeShipper()
           removeShipperIsOrder()
         }
-      }, 5000)
+      }, 10000)
       return () => clearTimeout(timer)
     }
   }, [orderStatus])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const unsub = onSnapshot(doc(db, 'orders', orderId + ''), doc => {
       const sum = doc.data().ordered_food.reduce((accumulator, object) => {
         return accumulator + object.quantity
@@ -194,6 +205,7 @@ const FindShipper = ({ navigation, route }) => {
             <Text className="my-1" numberOfLines={1}>
               Loại xe : {loaixe}{' '}
             </Text>
+
             <View className="flex-row mt-1">
               <TouchableOpacity
                 onPress={() =>
@@ -212,68 +224,87 @@ const FindShipper = ({ navigation, route }) => {
                 <Text className="font-bold ml-1">Xem trên bản đồ</Text>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl justify-center py-1 px-2 mt-3">
+              <Ionicons
+                name="ios-chatbox-ellipses-outline"
+                size={24}
+                color="black"
+              />
+              <Text className="font-bold ml-1"> Nhắn với tài xế</Text>
+            </TouchableOpacity>
           </View>
 
-          <View className="relative w-14 h-18 flex items-center mr-5 ">
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ShipperInfo', {
+                name: name,
+                avatar: avatar,
+                loaixe: loaixe,
+                phone: phone
+              })
+            }
+            className=" w-14 flex items-center mr-5 "
+          >
             <Image
-              className="absolute rounded-full w-14 h-14"
+              className=" rounded-full w-14 h-14"
               source={{
                 uri: avatar,
                 width: 90,
                 height: 90
               }}
             />
-            <View className="border border-gray-500 flex-row absolute  bottom-5 bg-white items-center px-1 rounded-xl">
+            <View className="border border-gray-500 flex-row bg-white items-center px-1 rounded-xl">
               <Entypo name="emoji-flirt" size={15} color="orange" />
               <Text className="font-bold ml-2">100%</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View className="border-b border-yellow-600 my-3"></View>
       </View>
     )
   }
 
-  const ProGressBar = ({ title, progress1, progress2, progress3, gif }) => {
+  const ProGressBar = () => {
     return (
       <View>
         <View className="flex justify-center items-center p-6">
-          <Image className="w-[100px] h-[100px] " source={gif} />
+          <Image className="w-[100px] h-[100px] " source={progress.gif} />
         </View>
 
-        <Text className="uppercase text-[18px] font-bold">{title}</Text>
+        <Text className="uppercase text-[18px] font-bold">{progress.title}</Text>
         <View className="flex-row pt-3">
           <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
             <View
               className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-              style={{ width: progress1 }}
+              style={{ width: progress.progress1 }}
             ></View>
           </View>
           <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
             <View
               className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-              style={{ width: progress2 }}
+              style={{ width: progress.progress2 }}
             ></View>
           </View>
           <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
             <View
               className=" h-1 bg-red-500 rounded-full dark:bg-red-500"
-              style={{ width: progress3 }}
+              style={{ width: progress.progress3 }}
             ></View>
           </View>
         </View>
 
         <Text>
-          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
-          hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
+          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ
+          giao hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
         </Text>
       </View>
     )
   }
+  
 
   useEffect(() => {
     if (orderStatus !== undefined) {
-      switch (orderStatus.status) {
+      switch (status) {
         case 2:
           setProgress({
             title: 'tìm tài xế cho bạn',
@@ -315,18 +346,12 @@ const FindShipper = ({ navigation, route }) => {
           break
       }
     }
-  }, [orderStatus])
+  }, [status])
 
   return (
     <ScrollView className="flex-1 text-white m-5">
       {progress !== undefined && (
-        <ProGressBar
-          title={progress.title}
-          progress1={progress.progress1}
-          progress2={progress.progress2}
-          progress3={progress.progress3}
-          gif={progress.gif}
-        />
+        <ProGressBar/>
       )}
 
       {/* Shipper info */}
@@ -385,8 +410,11 @@ const FindShipper = ({ navigation, route }) => {
               </Text>
 
               <View>
-                {orderStatus.ordered_food.map(e => (
-                  <View className="flex-row items-center justify-between">
+                {orderStatus.ordered_food.map((e, index) => (
+                  <View
+                    key={index}
+                    className="flex-row items-center justify-between"
+                  >
                     <Text className="text-base">{e.food_name} </Text>
                     <Text>(x{e.quantity})</Text>
                   </View>
@@ -397,7 +425,7 @@ const FindShipper = ({ navigation, route }) => {
             <View className="flex-row justify-between">
               <Text className="font-bold text-base">Tổng</Text>
               <Text className="font-bold text-base">
-                {orderStatus.totalPrice}
+                {formatCash(orderStatus.totalPrice + "" )} đ
               </Text>
             </View>
           </View>

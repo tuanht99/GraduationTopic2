@@ -7,14 +7,11 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useState } from 'react'
 
 import { db } from '../../services/firebase'
-import {
-  collection,
-  addDoc,
-  Timestamp,
-} from 'firebase/firestore'
+import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addToCart } from '../../redux/cartItems'
 
 const DATA = {
   id: 1,
@@ -47,11 +44,14 @@ export default function OrderView({ navigation, route }) {
   const [Total, setTotal] = useState(0)
   const [dataFood, setDataFood] = useState([])
   const carts = useSelector(state => state.carts)
+  const dispatch = useDispatch()
 
   const user_id = 'kxzmOQS3sVUr2pm9AbLI'
   const location = useSelector(state => state.locUser)
 
   // tăng giảm số lượng
+
+  console.log('cartsssssssss' , carts);
 
   const PhiShip = 15000
 
@@ -65,11 +65,17 @@ export default function OrderView({ navigation, route }) {
     ship_fee: PhiShip,
     total_food: Total - PhiShip,
     shipper_id: '',
-    shipper_cancel_orders : [],
+    shipper_cancel_orders: [],
     status: 2,
     totalPrice: Total,
     user_id: user_id
   }
+
+  // function handleAddMemo() {
+  //   const meno = 'dsadasdsad'
+  //   dispatch(addToCart(meno))
+  // }
+
 
   const orderTheOrder = () => {
     addDoc(collection(db, 'orders'), docData)
@@ -425,6 +431,11 @@ export default function OrderView({ navigation, route }) {
             </View>
           </View>
         </View>
+        {/* <View>
+          <TouchableOpacity onPress={handleAddMemo} className="flex justify-center items-center">
+            <Text>ghi chu</Text>
+          </TouchableOpacity>
+        </View> */}
         <View style={{ paddingBottom: 10 }}></View>
 
         {/* phương thức thanh toán */}

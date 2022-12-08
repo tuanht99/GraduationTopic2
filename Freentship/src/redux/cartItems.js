@@ -7,7 +7,8 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action) {
-      const { idFood,
+      const { 
+        idFood,
         title,
         description,
         image,
