@@ -1,5 +1,12 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import React, { useEffect, useState, useLayoutEffect } from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Alert
+} from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
@@ -195,6 +202,32 @@ const FindShipper = ({ navigation, route }) => {
     }
   }, [shipper])
 
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', e => {
+        const action = e.data.action
+        if (orderStatus.status !== 2) {
+          return
+        }
+
+        e.preventDefault()
+
+        Alert.alert(
+          'Bạn muốn thoát ?',
+          'Hiện đang trong quá trình tìm tài xế , bạn vui lòng chờ đến khi có tài xế nhận đơn . Nếu thoát thì sẽ hủy đơn hàng !',
+          [
+            { text: 'Ở lại', style: 'cancel', onPress: () => {} },
+            {
+              text: 'Thoát',
+              style: 'destructive',
+              onPress: () => navigation.dispatch(action)
+            }
+          ]
+        )
+      }),
+    [orderStatus, navigation]
+  )
+
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
       <View>
@@ -270,8 +303,10 @@ const FindShipper = ({ navigation, route }) => {
         <View className="flex justify-center items-center p-6">
           <Image className="w-[100px] h-[100px] " source={progress.gif} />
         </View>
-
-        <Text className="uppercase text-[18px] font-bold">{progress.title}</Text>
+d
+        <Text className="uppercase text-[18px] font-bold">
+          {progress.title}
+        </Text>
         <View className="flex-row pt-3">
           <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
             <View
@@ -294,16 +329,17 @@ const FindShipper = ({ navigation, route }) => {
         </View>
 
         <Text>
-          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ
-          giao hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
+          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
+          hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
         </Text>
       </View>
     )
   }
-  
 
   useEffect(() => {
     if (orderStatus !== undefined) {
+      console.log('sadsadsa')
+
       switch (status) {
         case 2:
           setProgress({
@@ -350,9 +386,7 @@ const FindShipper = ({ navigation, route }) => {
 
   return (
     <ScrollView className="flex-1 text-white m-5">
-      {progress !== undefined && (
-        <ProGressBar/>
-      )}
+      {progress !== undefined && <ProGressBar />}
 
       {/* Shipper info */}
       {orderStatus !== undefined &&
@@ -425,7 +459,7 @@ const FindShipper = ({ navigation, route }) => {
             <View className="flex-row justify-between">
               <Text className="font-bold text-base">Tổng</Text>
               <Text className="font-bold text-base">
-                {formatCash(orderStatus.totalPrice + "" )} đ
+                {formatCash(orderStatus.totalPrice + '')} đ
               </Text>
             </View>
           </View>

@@ -8,7 +8,7 @@ import { useState } from 'react'
 
 import { db } from '../../services/firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
-
+import { Foundation } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useSelector, useDispatch } from 'react-redux'
 import { addToCart } from '../../redux/cartItems'
@@ -71,12 +71,6 @@ export default function OrderView({ navigation, route }) {
     user_id: user_id
   }
 
-  // function handleAddMemo() {
-  //   const meno = 'dsadasdsad'
-  //   dispatch(addToCart(meno))
-  // }
-
-
   const orderTheOrder = () => {
     addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
@@ -94,9 +88,7 @@ export default function OrderView({ navigation, route }) {
       })
   }
 
-  function ship() {
-    // tính theo khoản cách từ cửa hàng với khách hàng
-  }
+
 
   // tính tổng tiền
   useEffect(() => {
@@ -197,8 +189,14 @@ export default function OrderView({ navigation, route }) {
               </View>
             </View>
           </View>
+
+          <TouchableOpacity className = 'flex-row bg-white mt-6 mx-2 px-2 '>
+          <Foundation  name="clipboard-notes" size={24} color="#808080" />
+          <Text className = 'text-[#808080] border-b border-[#808080] ml-2'>Ghi chú thêm cho tài xế (nếu có)</Text>
+        </TouchableOpacity>
         </View>
 
+        
         <View style={{ paddingBottom: 10 }}></View>
 
         {/*chi tiết đơn hàng in4 name */}

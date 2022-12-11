@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 
 const ShipperInfor = ({ route }) => {
