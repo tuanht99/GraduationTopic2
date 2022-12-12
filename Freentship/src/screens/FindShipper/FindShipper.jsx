@@ -202,7 +202,7 @@ const FindShipper = ({ navigation, route }) => {
     }
   }, [shipper])
 
-  React.useEffect(
+  useEffect(
     () =>
       navigation.addListener('beforeRemove', e => {
         const action = e.data.action
@@ -236,7 +236,7 @@ const FindShipper = ({ navigation, route }) => {
           <View>
             <Text className="my-1 font-bold">{name}</Text>
             <Text className="my-1" numberOfLines={1}>
-              Loại xe : {loaixe}{' '}
+              Loại xe : {loaixe}
             </Text>
 
             <View className="flex-row mt-1">
@@ -303,7 +303,7 @@ const FindShipper = ({ navigation, route }) => {
         <View className="flex justify-center items-center p-6">
           <Image className="w-[100px] h-[100px] " source={progress.gif} />
         </View>
-d
+
         <Text className="uppercase text-[18px] font-bold">
           {progress.title}
         </Text>
@@ -338,8 +338,6 @@ d
 
   useEffect(() => {
     if (orderStatus !== undefined) {
-      console.log('sadsadsa')
-
       switch (status) {
         case 2:
           setProgress({

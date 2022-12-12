@@ -1,17 +1,25 @@
 import React, { useEffect } from 'react'
-import { View, Image, Text, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput
+} from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { ScrollView } from 'react-native-gesture-handler'
+
 import { useState } from 'react'
 
 import { db } from '../../services/firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
-import { Foundation } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useSelector, useDispatch } from 'react-redux'
-import { addToCart } from '../../redux/cartItems'
+import { addNote } from '../../redux/cartItems'
+import Modal from 'react-native-modal'
 
 const DATA = {
   id: 1,
@@ -43,6 +51,7 @@ export default function OrderView({ navigation, route }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
   const [dataFood, setDataFood] = useState([])
+  const [isNote, setIsNote] = useState('')
   const carts = useSelector(state => state.carts)
   const dispatch = useDispatch()
 
@@ -50,15 +59,12 @@ export default function OrderView({ navigation, route }) {
   const location = useSelector(state => state.locUser)
 
   // tăng giảm số lượng
-
-  console.log('cartsssssssss' , carts);
-
   const PhiShip = 15000
 
   const docData = {
     deposit: 0,
     distance: 0,
-    meno: '1 ly sieu to khong lo',
+    meno:carts[0].note,
     food_store_id: carts[0].storeId,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
@@ -87,9 +93,6 @@ export default function OrderView({ navigation, route }) {
         console.log(error)
       })
   }
-
-
-
   // tính tổng tiền
   useEffect(() => {
     const data = []
@@ -112,6 +115,12 @@ export default function OrderView({ navigation, route }) {
     setDataFood(data)
   }, [carts])
 
+  const note = () => {
+    setModalVisible(false)
+    dispatch(addNote({ note: isNote }))
+  }
+
+  console.log('carts' , carts[0].note);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -127,8 +136,52 @@ export default function OrderView({ navigation, route }) {
       }
     })
   }, [navigation])
+
+  const [isModalVisible, setModalVisible] = useState(false)
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible)
+  }
+
   return (
-    <View style={{ flex: 1 }}>
+    <View className=" flex-1 relative">
+      <Modal
+        isVisible={isModalVisible}
+        animationIn="slideInUp"
+        animationInTiming={400}
+        animationOut="slideOutDown"
+        onSwipeComplete={() => setModalVisible(false)}
+        swipeDirection="down"
+      >
+        <View className="bg-white w-full h-[30%] absolute bottom-0 rounded-xl">
+          <View className="m-3 flex-row justify-center relative">
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              className="absolute left-2"
+            >
+              <AntDesign name="closecircleo" size={20} color="black" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={note} className="absolute right-2">
+              <Text className="font-bold text-[#00C2FF]">Xong</Text>
+            </TouchableOpacity>
+
+            <Text className="text-center">Ghi chú cho tài xế</Text>
+          </View>
+          <View className="w-full h-[1px] bg-gray-400"></View>
+
+          <View className=" m-3 ">
+            <TextInput
+              maxLength={200}
+              multiline
+              value= {isNote}
+              placeholder="VD : Đường khó đi hãy dướng dẫn cho tài xế ... (tối đa 200 kí tự)"
+              onChangeText={setIsNote}
+            ></TextInput>
+          </View>
+        </View>
+      </Modal>
+
       <ScrollView style={{ flex: 0.8 }}>
         <View style={{ paddingBottom: 10 }}></View>
 
@@ -190,13 +243,18 @@ export default function OrderView({ navigation, route }) {
             </View>
           </View>
 
-          <TouchableOpacity className = 'flex-row bg-white mt-6 mx-2 px-2 '>
-          <Foundation  name="clipboard-notes" size={24} color="#808080" />
-          <Text className = 'text-[#808080] border-b border-[#808080] ml-2'>Ghi chú thêm cho tài xế (nếu có)</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={toggleModal}
+            className="flex-row bg-white mt-6 mx-2 px-2 "
+          >
+            <Foundation name="clipboard-notes" size={24} color="#808080" />
+            <Text className="text-[#808080] border-b border-[#808080] ml-2">
+              {carts[0].note !== '' ? 'ghi chú : ' + carts[0].note : 'Ghi chú thêm cho tài xế (nếu có)'} 
+              
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        
         <View style={{ paddingBottom: 10 }}></View>
 
         {/*chi tiết đơn hàng in4 name */}

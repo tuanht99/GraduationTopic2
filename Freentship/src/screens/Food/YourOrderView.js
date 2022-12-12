@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  SafeAreaView,
-  Image,
   Text,
   TouchableOpacity,
 } from "react-native";
 
 import {
   doc,
-  setDoc,
+
   collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  getDoc,
+
   getDocs,
-  where,
+
   query,
-  QuerySnapshot,
-  editDoc,
+
   onSnapshot,
 } from "firebase/firestore";
 
 import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 
