@@ -36,6 +36,7 @@ import NotifyOrder from '../screens/Notify/NotifyOrder'
 // // tim kiem 
 // import { SearchScreen } from '../screens/SearchScreen'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
+import Vourcher from '../screens/Coupon/Vourcher'
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -98,6 +99,7 @@ function Router() {
         {/*  thông báo đơn hàng */}
         <Stack.Screen name="NotifyOrder" component={NotifyOrder} />
         <Stack.Screen name="CCCD" component={XacMinhCCCD} />
+        <Stack.Screen name="Vourcher" component={Vourcher} />
         {/* địa chỉ */}
         {/* <Stack.Screen name="LocationScreen" component={LocationScreen} />
           <Stack.Screen name="HomeTab" component={HomeNavigator} options={{

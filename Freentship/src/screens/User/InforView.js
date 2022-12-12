@@ -236,7 +236,14 @@ const [UserID, setUserID] = useState("")
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
           {/* Vourcher */}
-          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+          <TouchableOpacity
+          onPress={() =>
+                    navigation.navigate('Vourcher',{
+                     User,
+                     id
+                    })}
+          
+           style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
             <Image style={{height:30,width:30,marginRight:10, marginLeft:20}} source={require("../../../assets/coupon.png")}></Image>
             </View>
