@@ -47,7 +47,7 @@ const DATA = {
 }
 
 // Navigation
-export default function OrderView({ navigation, route }) {
+export default function OrderView({ navigation }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
   const [dataFood, setDataFood] = useState([])
@@ -64,7 +64,7 @@ export default function OrderView({ navigation, route }) {
   const docData = {
     deposit: 0,
     distance: 0,
-    meno:carts[0].note,
+    meno: carts[0].note,
     food_store_id: carts[0].storeId,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
@@ -115,27 +115,18 @@ export default function OrderView({ navigation, route }) {
     setDataFood(data)
   }, [carts])
 
+  useEffect(() => {
+    if (carts[0].note === undefined || carts[0].note === '') {
+      dispatch(addNote({ note: '' }))
+    }
+  }, [carts])
+
   const note = () => {
     setModalVisible(false)
     dispatch(addNote({ note: isNote }))
   }
 
-  console.log('carts' , carts[0].note);
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={navigation.goBack}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
-      ),
-
-      title: 'Đơn hàng của bạn',
-      headerTitleAlign: 'center',
-      headerTitleStyle: {
-        fontSize: 15
-      }
-    })
-  }, [navigation])
+  console.log('cartssss', carts[0].note)
 
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -174,7 +165,7 @@ export default function OrderView({ navigation, route }) {
             <TextInput
               maxLength={200}
               multiline
-              value= {isNote}
+              value={isNote}
               placeholder="VD : Đường khó đi hãy dướng dẫn cho tài xế ... (tối đa 200 kí tự)"
               onChangeText={setIsNote}
             ></TextInput>
@@ -245,29 +236,40 @@ export default function OrderView({ navigation, route }) {
 
           <TouchableOpacity
             onPress={toggleModal}
-            className="flex-row bg-white mt-6 mx-2 px-2 "
+            className="flex-row bg-white mt-6 mx-2 px-2  "
           >
             <Foundation name="clipboard-notes" size={24} color="#808080" />
-            <Text className="text-[#808080] border-b border-[#808080] ml-2">
-              {carts[0].note !== '' ? 'ghi chú : ' + carts[0].note : 'Ghi chú thêm cho tài xế (nếu có)'} 
-              
+            <Text
+              numberOfLines={1}
+              className="text-[#808080] border-b border-[#808080] ml-2 w-[90%]"
+            >
+              {carts[0].note !== ''
+                ? 'ghi chú : ' + carts[0].note
+                : 'Ghi chú thêm cho tài xế (nếu có)'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{ paddingBottom: 10 }}></View>
 
         {/*chi tiết đơn hàng in4 name */}
         <View
           style={{
             flex: 1,
             backgroundColor: '#fff',
-            paddingTop: 20,
+            paddingTop: 10,
             paddingBottom: 20,
             borderBottomWidth: 0.3,
             borderBottomColor: '#808080'
           }}
         >
+          <View className="w-full h-auto p-3 bg-[#FFFFCC] mb-[10px]">
+            <Text className="text-red-500 font-medium">
+              Vì để hạn chế rủi ro cho cửa hàng. Quý khách vui lòng thanh toán
+              30% tiền đơn hàng cho cửa hàng và sau khi tài xế đến giao hàng quý
+              khách sẽ thanh toán 70% còn lại. Để biết chi tiết phương thức thanh
+              toán quý khách vui lòng chờ sau khi cửa hàng đã xác nhận.
+            </Text>
+          </View>
           <View style={{ marginLeft: 10 }}>
             <View
               style={{
@@ -290,7 +292,11 @@ export default function OrderView({ navigation, route }) {
               </View>
 
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('StoreScreen', { id: carts[0].storeId })
+                  }
+                >
                   <Text
                     style={{
                       fontWeight: 'bold',
