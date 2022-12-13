@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, StatusBar, Platform , Button } from 'react-native'
+import { StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native'
 import { Colors, Spacing } from './src/styles'
 import { HomeNavigator } from './src/routes/HomeNavigator'
 import { NavigationContainer } from '@react-navigation/native'
@@ -11,6 +11,7 @@ import OrderView from './src/screens/Food/OrderView'
 import YourOrderView from './src/screens/Food/YourOrderView'
 import FindShipper from './src/screens/FindShipper/FindShipper'
 import ShipperInfo from './src/screens/FindShipper/ShipperInfor'
+import OrderStatus from './src/screens/OrderStatus'
 import { LocationScreen } from './src/screens/LocationScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Provider } from 'react-redux'
@@ -53,6 +54,8 @@ export default function App() {
               name="DetailsScreenView"
               component={DetailsScreenView}
             />
+
+            <Stack.Screen name="OrderStatus" component={OrderStatus} />
             <Stack.Screen name="CartView" component={CardView} />
             <Stack.Screen name="OrderView" component={OrderView} />
             <Stack.Screen name="YourOrderView" component={YourOrderView} />
@@ -64,7 +67,6 @@ export default function App() {
                 title: 'Thông tin tài xế '
               })}
             />
-
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

@@ -62,7 +62,7 @@ export default function OrderView({ navigation }) {
   const PhiShip = 15000
 
   const docData = {
-    deposit: 0,
+    deposit: (Total * 30) / 100,
     distance: 0,
     meno: carts[0].note,
     food_store_id: carts[0].storeId,
@@ -250,7 +250,6 @@ export default function OrderView({ navigation }) {
           </TouchableOpacity>
         </View>
 
-
         {/*chi tiết đơn hàng in4 name */}
         <View
           style={{
@@ -266,8 +265,8 @@ export default function OrderView({ navigation }) {
             <Text className="text-red-500 font-medium">
               Vì để hạn chế rủi ro cho cửa hàng. Quý khách vui lòng thanh toán
               30% tiền đơn hàng cho cửa hàng và sau khi tài xế đến giao hàng quý
-              khách sẽ thanh toán 70% còn lại. Để biết chi tiết phương thức thanh
-              toán quý khách vui lòng chờ sau khi cửa hàng đã xác nhận.
+              khách sẽ thanh toán 70% còn lại. Để biết chi tiết phương thức
+              thanh toán quý khách vui lòng chờ sau khi cửa hàng đã xác nhận.
             </Text>
           </View>
           <View style={{ marginLeft: 10 }}>

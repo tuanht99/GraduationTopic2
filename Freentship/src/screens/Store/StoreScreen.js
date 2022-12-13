@@ -36,7 +36,7 @@ function StoreScreen({ navigation, route }) {
   const [isLove, setLove] = useState(false)
   const [favorites, setFavorites] = useState()
 
-  // console.log('favorites', favorites)
+  console.log('categories', categories)
   const storeId = id
 
   useEffect(() => {
@@ -67,7 +67,7 @@ function StoreScreen({ navigation, route }) {
       }
     })
 
-    retunr = () => {
+    return () => {
       unsub
     }
   }, [])
@@ -112,7 +112,7 @@ function StoreScreen({ navigation, route }) {
     if (stores.food_categories !== undefined) {
       const cate = []
       stores.food_categories.forEach(element => {
-        getDoc(doc(db, 'categories', `${element}`)).then(doc => {
+        getDoc(doc(db, 'categories', element)).then(doc => {
           cate.push({
             ...doc.data(),
             id: doc.id

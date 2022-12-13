@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Alert
-} from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -19,29 +12,17 @@ import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
 import formatCash from '../../components/formatCash'
 import call from 'react-native-phone-call'
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  updateDoc,
-  onSnapshot
-} from 'firebase/firestore'
+import { doc, onSnapshot } from 'firebase/firestore'
 
-import { getPreciseDistance } from 'geolib'
-
-const FindShipper = ({ navigation, route }) => {
-  const { orderId, locationStore } = route.params
+const OrderStatus = ({ navigation, route }) => {
+  const { orderId } = route.params
 
   const [orderStatus, setOrderStatus] = useState()
-  const [shippers, setShippers] = useState([])
-  const [shipper, setShipper] = useState('')
+
   const [progress, setProgress] = useState()
   const [shipperInfo, setShipperInfo] = useState()
   const [status, setStatus] = useState(0)
 
-  // console.log('orderStatus' , orderStatus);
   useEffect(() => {
     if (orderStatus !== undefined) {
       if (orderStatus.shipperId !== '') {
@@ -51,112 +32,10 @@ const FindShipper = ({ navigation, route }) => {
       }
     }
   }, [orderStatus])
-  const getShipper = async () => {
-    // Set the order's ID for shipper
-    const washingtonRef = doc(db, 'shippers', shipper.id)
-    await updateDoc(washingtonRef, {
-      lastestOrderID: orderId
-    })
-
-    // Set the shipper's ID for the order
-    const setShipperInOrder = doc(db, 'orders', orderId)
-    await updateDoc(setShipperInOrder, {
-      shipper_id: shipper.id
-    })
-  }
-
-  // Cancel Order
-  const cancelOrder = async () => {
-    const cancel = doc(db, 'orders', orderId)
-
-    if (shipper !== '') {
-      const washingtonRef = doc(db, 'shippers', shipper.id)
-      await updateDoc(washingtonRef, {
-        lastestOrderID: ''
-      })
-    }
-
-    await updateDoc(cancel, {
-      status: 9
-    }).then(() => {
-      navigation.goBack()
-    })
-  }
-
-  const getShippers = async () => {
-    if (orderStatus.status === 2 && orderStatus.shipperId == '') {
-      let manyShippers = []
-
-      const q = query(
-        collection(db, 'shippers'),
-        where('isActive', '==', true),
-        where('lastestOrderID', '==', '')
-      )
-
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach(doc => {
-        manyShippers.push({
-          id: doc.id,
-          ...doc.data(),
-          distance:
-            getPreciseDistance(
-              {
-                latitude: locationStore.latitude,
-                longitude: locationStore.longitude
-              },
-              {
-                latitude: doc.data().location.latitude,
-                longitude: doc.data().location.longitude
-              }
-            ) * 1
-        })
-      })
-
-      const results = manyShippers.filter(
-        ({ id: id1 }) =>
-          !orderStatus.shipper_cancel_orders.some(({ id: id2 }) => id2 === id1)
-      )
-      setShippers(results)
-    }
-  }
 
   useEffect(() => {
     if (orderStatus !== undefined) {
-      getShippers()
       setStatus(orderStatus.status)
-    }
-  }, [orderStatus])
-
-  useEffect(() => {
-    if (orderStatus !== undefined) {
-      const timer = setTimeout(() => {
-        if (orderStatus.status === 2) {
-          const removeShipper = async () => {
-            const ordersRef = doc(db, 'orders', orderId)
-            if (orderStatus.shipper_id !== '') {
-              await updateDoc(ordersRef, {
-                shipper_id: '',
-                shipper_cancel_orders: [
-                  ...orderStatus.shipper_cancel_orders,
-                  { id: orderStatus.shipper_id }
-                ]
-              })
-            }
-          }
-
-          const removeShipperIsOrder = async () => {
-            // Set the order's ID for shipper
-            const washingtonRef = doc(db, 'shippers', shipper.id)
-            await updateDoc(washingtonRef, {
-              lastestOrderID: ''
-            })
-          }
-
-          removeShipper()
-          removeShipperIsOrder()
-        }
-      }, 10000)
-      return () => clearTimeout(timer)
     }
   }, [orderStatus])
 
@@ -185,49 +64,6 @@ const FindShipper = ({ navigation, route }) => {
       unsub
     }
   }, [])
-
-  useEffect(() => {
-    if (shippers.length > 0 && orderStatus != 9) {
-      const shipper = shippers.reduce((prev, curr) =>
-        prev.distance < curr.distance ? prev : curr
-      )
-      if (shipper.distance < 5000) {
-        setShipper(shipper)
-      }
-    }
-  }, [shippers])
-
-  useEffect(() => {
-    if (shipper != '') {
-      getShipper()
-    }
-  }, [shipper])
-
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', e => {
-        const action = e.data.action
-        if (orderStatus.status !== 2) {
-          return
-        }
-
-        e.preventDefault()
-
-        Alert.alert(
-          'Bạn muốn thoát ?',
-          'Hiện đang trong quá trình tìm tài xế , bạn vui lòng chờ đến khi có tài xế nhận đơn . Nếu thoát thì sẽ hủy đơn hàng !',
-          [
-            { text: 'Ở lại', style: 'cancel', onPress: () => {} },
-            {
-              text: 'Thoát',
-              style: 'destructive',
-              onPress: () => navigation.dispatch(action)
-            }
-          ]
-        )
-      }),
-    [orderStatus, navigation]
-  )
 
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
@@ -454,9 +290,11 @@ const FindShipper = ({ navigation, route }) => {
                 ))}
               </View>
             </View>
-            
+
             <View className="flex-row justify-between mt-2">
-              <Text className="font-bold text-base">Tiền cọc cần thanh toán </Text>
+              <Text className="font-bold text-base">
+                Tiền cọc cần thanh toán{' '}
+              </Text>
               <Text className="font-bold text-base text-red-500">
                 {formatCash(orderStatus.deposit + '')} đ
               </Text>
@@ -472,42 +310,22 @@ const FindShipper = ({ navigation, route }) => {
         </View>
       )}
 
-      {orderStatus !== undefined &&
-      orderStatus.shipperId !== '' &&
-      orderStatus.status >= 3 &&
-      orderStatus.status <= 6 ? (
-        <TouchableOpacity
-          disabled
-          className="mt-8"
-          style={{
-            backgroundColor: '#C0C0C0',
-            borderRadius: 15,
-            width: '97%',
-            height: 40,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{ color: '#fff' }}>Hủy đơn</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          onPress={() => cancelOrder()}
-          className="mt-8"
-          style={{
-            backgroundColor: '#E94730',
-            borderRadius: 15,
-            width: '97%',
-            height: 40,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <Text style={{ color: '#fff' }}>Hủy đơn</Text>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        disabled
+        className="mt-8"
+        style={{
+          backgroundColor: '#C0C0C0',
+          borderRadius: 15,
+          width: '97%',
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Text style={{ color: '#fff' }}>Hủy đơn</Text>
+      </TouchableOpacity>
     </ScrollView>
   )
 }
 
-export default FindShipper
+export default OrderStatus
