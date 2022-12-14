@@ -1,12 +1,12 @@
 import React from "react";
-import {View, Text, Button, Alert } from "react-native";
+import { View, Text, Button, Alert } from "react-native";
 import styles from "./LocationScreen.style";
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from "react-redux";
-import {setLocations} from "../redux/location";
+import { useDispatch } from "react-redux";
+import { setLocations } from "../redux/location";
 
-export const LocationScreen = ({navigation}) => {
+export const LocationScreen = ({ navigation }) => {
   const [location, setLocation] = React.useState(null);
   const [errorMsg, setErrorMsg] = React.useState(null);
   const [isCheckedLocation, setIsCheckedLocation] = React.useState(false);
@@ -18,8 +18,8 @@ export const LocationScreen = ({navigation}) => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
-      }else{
-        try{
+      } else {
+        try {
           let locationTemp = await Location.getCurrentPositionAsync({});
           const locationAddress = await Location.reverseGeocodeAsync({
             latitude: locationTemp.coords.latitude,
@@ -30,7 +30,7 @@ export const LocationScreen = ({navigation}) => {
             longitude: locationTemp.coords.longitude,
             address: `${locationAddress[0].streetNumber}, ${locationAddress[0].street}, ${locationAddress[0].subregion}, ${locationAddress[0].region}, ${locationAddress[0].country}`
           })
-        }catch(e){
+        } catch (e) {
           if (!location) {
             Alert.alert('Thông báo', 'Bạn vui lòng cho phép truy cập vị trí của bạn để sài ứng dụng', [
               {
@@ -40,22 +40,23 @@ export const LocationScreen = ({navigation}) => {
             ]);
           }
         }
-      }})();
+      }
+    })();
   }, [isCheckedLocation]);
 
   React.useEffect(() => {
-    if(location != null){
+    if (location != null) {
       const storeData = async (location) => {
         try {
           const jsonValue = JSON.stringify(location)
-          console.log("recentnenenenen",location);
+          console.log("recentnenenenen", location);
           await AsyncStorage.setItem('@recent_location', jsonValue)
         } catch (e) {
           // saving error
         }
       }
       storeData()
-      dispatch(setLocations({location}))
+      dispatch(setLocations({ location }))
       navigation.navigate('HomeTab');
     }
   }, [location])

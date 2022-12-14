@@ -14,5 +14,4 @@ export {
   DeleteLoveStore,
   getInfoUser, ShipperInFo
 } from './user'
-export { ReadCategories } from './Categories'
 export { GetVourcher, UpdateVourcher } from "./Vourchers"

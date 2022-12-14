@@ -52,7 +52,11 @@ function Router() {
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="HomeNavigator" component={HomeNavigator} />
+        <Stack.Screen name="HomeTab" component={HomeNavigator}
+          options={{
+            // hidden navbar
+            headerShown: false
+          }} />
         <Stack.Screen name="OrderView" component={OrderView} />
         {/* đơn hàng của tôi */}
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
