@@ -75,33 +75,6 @@ export const OrderItemDetail = ({ navigation, route }) => {
             <Text className="my-1" numberOfLines={1}>
               Loại xe : {loaixe}
             </Text>
-
-            <View className="flex-row mt-1">
-              <TouchableOpacity
-                onPress={() =>
-                  call({
-                    number: phone + '',
-                    prompt: false
-                  }).catch(console.error)
-                }
-                className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2"
-              >
-                <Feather name="phone" size={20} color="black" />
-                <Text className="font-bold ml-1"> Gọi</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
-                <FontAwesome5 name="search-location" size={20} color="black" />
-                <Text className="font-bold ml-1">Xem trên bản đồ</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl justify-center py-1 px-2 mt-3">
-              <Ionicons
-                name="ios-chatbox-ellipses-outline"
-                size={24}
-                color="black"
-              />
-              <Text className="font-bold ml-1"> Nhắn với tài xế</Text>
-            </TouchableOpacity>
           </View>
 
           <TouchableOpacity
@@ -221,8 +194,6 @@ export const OrderItemDetail = ({ navigation, route }) => {
 
   return (
     <ScrollView className="flex-1 text-white m-5">
-      {progress !== undefined && <ProGressBar />}
-
       {/* Shipper info */}
       {orderStatus !== undefined &&
       shipperInfo !== undefined &&
@@ -311,10 +282,9 @@ export const OrderItemDetail = ({ navigation, route }) => {
       )}
 
       <TouchableOpacity
-        disabled
         className="mt-8"
         style={{
-          backgroundColor: '#C0C0C0',
+          backgroundColor: '#E94730',
           borderRadius: 15,
           width: '97%',
           height: 40,
@@ -322,7 +292,7 @@ export const OrderItemDetail = ({ navigation, route }) => {
           justifyContent: 'center'
         }}
       >
-        <Text style={{ color: '#fff' }}>Hủy đơn</Text>
+        <Text style={{ color: '#fff' }}>Đánh giá</Text>
       </TouchableOpacity>
     </ScrollView>
   )
