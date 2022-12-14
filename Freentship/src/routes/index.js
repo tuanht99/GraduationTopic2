@@ -20,6 +20,8 @@ import { SignupPending } from '../screens/SignupPending'
 import { LocationScreen } from '../screens/LocationScreen'
 import { SearchScreen } from '../screens/SearchScreen'
 import StoreScreen from '../screens/Store/StoreScreen'
+import { RatingView } from "../screens/RatingView";
+import { CommentsView } from '../screens/CommentsView'
 
 // notify Order
 import NotifyOrder from '../screens/Notify/NotifyOrder'
@@ -43,7 +45,17 @@ function Router() {
           // hidden navbar
           headerShown: false
         }} />
-        <Stack.Screen name="StoreScreen" component={StoreScreen} />
+        <Stack.Screen name="StoreScreen" component={StoreScreen}
+          options={{
+            // hidden navbar
+            headerShown: false
+          }}
+        />
+        <Stack.Screen name="RatingView" component={RatingView}
+
+        />
+        <Stack.Screen name="CommentsView" component={CommentsView}
+        />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />

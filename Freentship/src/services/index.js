@@ -15,3 +15,6 @@ export {
   getInfoUser, ShipperInFo
 } from './user'
 export { GetVourcher, UpdateVourcher } from "./Vourchers"
+export {
+  AddComment, AddHeart, ReadComments, ReadCommentsByStoreId, ReadHearts, ReadHeartsByUserId, UpdateHeart
+} from './Comments'
