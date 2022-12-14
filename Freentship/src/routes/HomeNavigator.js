@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
+import { View, Text, TouchableOpacity, Animated } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
@@ -45,18 +45,22 @@ export const HomeNavigator = ({ navigation }) => {
   const [totals, setTotals] = useState(0)
   const [orders, setOrders] = useState([])
   const [ordersAc, setOrdersAc] = useState([])
+  const [collapsed, setCollapsed] = useState(true)
+  const [maxLines, setMaxLines] = useState(2)
+  const animationHeight = useRef(new Animated.Value(0)).current
 
   console.log('orders: ', orders)
   console.log('ordersAc: ', ordersAc)
   useEffect(() => {
+    // setOrders([])
     getInfoUser('kxzmOQS3sVUr2pm9AbLI').then(user => {
       const orders = []
       user.a.forEach(element => {
-        setOrders([])
         onSnapshot(doc(db, 'orders', element), doc => {
           orders.push({
             status: doc.data().status,
             id: doc.id
+            // name: doc.data().name,
           })
           setOrders(orders)
         })
@@ -65,14 +69,23 @@ export const HomeNavigator = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    const arr = orders.filter(a)
-    console.log('arr', arr)
-    setOrdersAc(arr)
+    // const arr = orders.filter(getOrders)
+    // console.log('arr', arr)
+    // setOrdersAc(arr)
+    if (orders.length > 0) {
+      setOrdersAc([])
+      orders.forEach(elements => {
+        console.log('elements.status', elements.status)
+        if (elements.status === 6 || elements.status === 2) {
+          setOrdersAc(prev => [...prev, elements])
+        }
+      })
+    }
   }, [orders])
 
-  const a = orders => {
-    return orders.status === 6 || orders.status === 3 || orders.status === 2
-  }
+  // const getOrders = orders => {
+  //   return orders.status === 6 || orders.status === 3 || orders.status === 2
+  // }
 
   React.useEffect(() => {
     let total = 0
@@ -84,6 +97,35 @@ export const HomeNavigator = ({ navigation }) => {
       })
     setTotals(total)
   }, [carts])
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed)
+  }
+
+  const collapseView = () => {
+    Animated.timing(animationHeight, {
+      duration: 1000,
+      useNativeDriver: false,
+      toValue: 0
+    }).start()
+  }
+
+  const expandView = () => {
+    setMaxLines(null)
+    Animated.timing(animationHeight, {
+      duration: 1000,
+      useNativeDriver: false,
+      toValue: 5000
+    }).start()
+  }
+
+  useEffect(() => {
+    if (collapsed) {
+      collapseView()
+    } else {
+      expandView()
+    }
+  }, [collapsed])
 
   return (
     <View style={{ flex: 1 }}>
@@ -121,14 +163,43 @@ export const HomeNavigator = ({ navigation }) => {
           }}
         />
       </Tab.Navigator>
-      {ordersAc !== [] ? (
-        <View className="w-full h-10 bg-[#99FFFF] flex-row items-center absolute z-10 bottom-[47px] border-b border-gray-300">
-          <View className="ml-2">
-            <MaterialIcons name="library-books" size={24} color="black" />
-          </View>
-          <Text className="font-bold"> 1 đơn hàng đang được xử lý</Text>
+
+      {ordersAc.length > 0 ? (
+        <View className="overflow-hidden absolute z-10 bottom-[47px] w-full">
+          <TouchableOpacity
+            onPress={toggleCollapsed}
+            className="w-full h-10 bg-[#99FFFF] flex-row items-center  border-b border-gray-300"
+          >
+            <View className="ml-2">
+              <MaterialIcons name="library-books" size={24} color="black" />
+            </View>
+            <Text className="font-bold ">
+              {ordersAc.length} đơn hàng đang được xử lý
+            </Text>
+          </TouchableOpacity>
+
+          <Animated.View
+            className="w-full bg-white border-b"
+            style={{ maxHeight: animationHeight }}
+          >
+            {ordersAc.map(e => {
+              return (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('OrderStatus', { orderId: e.id })
+                  }
+                  className="flex-row justify-between items-center mx-4"
+                >
+                  <Text className="p-2" numberOfLines={maxLines}>{e.id}</Text>
+                  <Text className="font-bold text-blue-500">Xem</Text>
+                </TouchableOpacity>
+              )
+            })}
+          </Animated.View>
         </View>
-      ) : '' }
+      ) : (
+        ''
+      )}
 
       {totals > 0 && (
         <View
