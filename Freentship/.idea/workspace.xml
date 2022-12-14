@@ -5,23 +5,73 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d61d6624-c40a-4804-9163-a5915e9293e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ListFood/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ListFood/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Food/OrderView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Food/OrderView.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/4001465.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Organisms/InputTag/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Organisms/InputTag/input-tag.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/Card/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/CommentsView.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/RatingView.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/Comments.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/HomeScreen/home.screen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/HomeScreen/home.screen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/SearchScreen/search-screen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/SearchScreen/search-screen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Store/StoreScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Store/StoreScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="2-Khanh/Comments" />
+                    <option name="lastUsedInstant" value="1669618211" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="1-Huy/orders" />
+                    <option name="lastUsedInstant" value="1669398695" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$/.." />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectId" id="2HZZg6O61kRB1EOtMYOyDyJpBja" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -29,18 +79,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/dzero/Workspace/lerning/react-native/t1/Freentship",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dzero/Workspace/lerning/react-native/t1/Freentship/assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.2.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dzero\Workspace\lerning\react-native\t1\Freentship\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dzero\Workspace\lerning\react-native\t1\Freentship\src\assets" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -61,7 +124,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668494675066</updated>
-      <workItem from="1669394052471" duration="4307000" />
+      <workItem from="1669394052471" duration="4578000" />
+      <workItem from="1669618030933" duration="8186000" />
+      <workItem from="1669722145141" duration="8000" />
+      <workItem from="1670221413702" duration="154000" />
+      <workItem from="1670221658063" duration="6587000" />
+      <workItem from="1670297739873" duration="13312000" />
+      <workItem from="1670373151505" duration="126000" />
+      <workItem from="1670373316864" duration="7585000" />
+      <workItem from="1670392142237" duration="10705000" />
+      <workItem from="1670464115799" duration="35000" />
+      <workItem from="1670824268500" duration="10743000" />
+      <workItem from="1670921884839" duration="10196000" />
+      <workItem from="1670996990794" duration="356000" />
     </task>
     <servers />
   </component>

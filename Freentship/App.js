@@ -18,8 +18,10 @@ import FindShipper from './src/screens/FindShipper/FindShipper'
 import {LocationScreen} from './src/screens/LocationScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ShipperInfor from './src/screens/FindShipper/ShipperInfor'
+import {CommentsView} from "./src/screens/CommentsView";
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
+import {RatingView} from "./src/screens/RatingView";
 
 const Stack = createNativeStackNavigator()
 
@@ -43,6 +45,8 @@ export default function App() {
                 // hidden navbar
                 headerShown: false,
               }} />
+              <Stack.Screen name="CommentsView" component={CommentsView} />
+              <Stack.Screen name="RatingView" component={RatingView} />
               <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
               <Stack.Screen name="CartView" component={CardView} />
               <Stack.Screen name="OrderView" component={OrderView} />
