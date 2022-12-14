@@ -30,6 +30,7 @@
     "expo-location": "^14.3.0",
     "expo-notifications": "~0.16.1",
     "expo-status-bar": "~1.4.0",
+    "expo-updates": "~0.14.7",
     "firebase": "^9.10.0",
     "geolib": "^3.3.3",
     "moment": "^2.29.4",

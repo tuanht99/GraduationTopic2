@@ -12,6 +12,6 @@ export {
   UpdateFavoriteStore,
   getFavoriteStore,
   DeleteLoveStore,
-  getInfoUser, ShipperInFo
+  getInfoUser, ShipperInFo,GetVourcherUser
 } from './user'
-export { GetVourcher, UpdateVourcher } from "./Vourchers"
+export { GetVourcher, UpdateVourcher,VourcherId,GetListVourcherUser } from "./Vourchers"

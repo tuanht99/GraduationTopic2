@@ -25,6 +25,7 @@ import StoreScreen from '../screens/Store/StoreScreen'
 import NotifyOrder from '../screens/Notify/NotifyOrder'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
 import Vourcher from '../screens/Coupon/Vourcher'
+import ModalVourcher from '../Components/ModalVourcher'
 const Stack = createNativeStackNavigator()
 
 function Router() {

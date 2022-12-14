@@ -14,7 +14,7 @@
     "slug": "Freentship",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/images/67e3f486110bd3558a1a.jpg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

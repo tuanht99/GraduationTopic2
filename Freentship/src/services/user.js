@@ -47,3 +47,13 @@ export async function DeleteLoveStore(storeId) {
     loveStore: arrayRemove(`${storeId}`)
   })
 }
+
+export async function GetVourcherUser(idUser) {
+  const ref = doc(db, 'users', `${idUser}`)
+  const docSnap = await getDoc(ref)
+  if (docSnap.exists()) {
+    return docSnap.data().vouchers
+  } else {
+    console.log('No such document!')
+  }
+}

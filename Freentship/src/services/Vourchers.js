@@ -13,6 +13,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { async } from "@firebase/util";
+// all tất cả vourcher
 export async function GetVourcher() {
   const ListUser = [];
   const querySnapshot = await getDocs(collection(db, "vouchers"));
@@ -23,6 +24,7 @@ export async function GetVourcher() {
 
   return ListUser;
 }
+// lưu vouchers vào user
 export async function UpdateVourcher(VourcherId,UserID) {
   const washingtonRef = doc(db, 'users', UserID)
   const docSnap = await getDoc(washingtonRef)
@@ -51,4 +53,19 @@ export async function UpdateVourcher(VourcherId,UserID) {
     )
     console.log('No such document!')
   }
+}
+// lấy vouchers theo mã
+
+export  async function GetListVourcherUser(id) {
+  const allUser = [];
+  const q = query(collection(db, "vouchers"),id);
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    allUser.push({id: doc.id, ...doc.data() });
+    console.log(doc.id, " => ", doc.data());
+  });
+  
+  return allUser;
 }
