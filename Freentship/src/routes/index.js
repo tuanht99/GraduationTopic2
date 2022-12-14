@@ -22,11 +22,14 @@ import { SearchScreen } from '../screens/SearchScreen'
 import StoreScreen from '../screens/Store/StoreScreen'
 import { RatingView } from "../screens/RatingView";
 import { CommentsView } from '../screens/CommentsView'
-
 // notify Order
 import NotifyOrder from '../screens/Notify/NotifyOrder'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
 import Vourcher from '../screens/Coupon/Vourcher'
+import OrdersManagement from '../screens/Order/OrdersManagement'
+import OrderItem from '../Components/Order/OrderItem'
+import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
+
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -34,7 +37,7 @@ function Router() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
-          name="InforView"
+          name="InfoView"
           options={{
             // hidden navbar
             headerShown: false
@@ -45,17 +48,22 @@ function Router() {
           // hidden navbar
           headerShown: false
         }} />
+        <Stack.Screen name="OrdersManagement" component={OrdersManagement} />
         <Stack.Screen name="StoreScreen" component={StoreScreen}
           options={{
             // hidden navbar
             headerShown: false
           }}
         />
+        <Stack.Screen name="OrderItemDetail" component={OrderItemDetail}
+        />
         <Stack.Screen name="RatingView" component={RatingView}
-
         />
         <Stack.Screen name="CommentsView" component={CommentsView}
         />
+        <Stack.Screen name="OrderItem" component={OrderItem}
+        />
+
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />
