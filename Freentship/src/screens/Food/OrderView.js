@@ -1,26 +1,25 @@
 import React, { useEffect } from 'react'
-import { View, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput
+} from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { ScrollView } from 'react-native-gesture-handler'
+
 import { useState } from 'react'
 
 import { db } from '../../services/firebase'
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  Timestamp,
-  doc,
-  updateDoc
-} from 'firebase/firestore'
-import { getDistance, getPreciseDistance } from 'geolib'
-import { createErrorHandler } from 'expo/build/errors/ExpoErrorManager'
+import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { Foundation } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {useSelector} from "react-redux";
+import { useSelector, useDispatch } from 'react-redux'
+import { addNote } from '../../redux/cartItems'
+import Modal from 'react-native-modal'
 
 const DATA = {
   id: 1,
@@ -48,137 +47,132 @@ const DATA = {
 }
 
 // Navigation
-export default function OrderView({ navigation, route }) {
+export default function OrderView({ navigation }) {
   // tổng tiền
   const [Total, setTotal] = useState(0)
-    const [dataFood, setDataFood] = useState([])
-    const carts = useSelector(state => state.carts)
+  const [dataFood, setDataFood] = useState([])
+  const [isNote, setIsNote] = useState('')
+  const carts = useSelector(state => state.carts)
+  const dispatch = useDispatch()
 
-    const user_id = "kxzmOQS3sVUr2pm9AbLI"
-    const location = useSelector(state => state.locUser)
+  const user_id = 'kxzmOQS3sVUr2pm9AbLI'
+  const location = useSelector(state => state.locUser)
 
-
-    // tăng giảm số lượng
-
+  // tăng giảm số lượng
   const PhiShip = 15000
 
-  const [shippers, setShippers] = useState([])
-  const [shipper, setShipper] = useState([])
-  // console.log('shippers', shippers)
-  // console.log('shipper', shipper)
-  const [isCreateOrder, setIsCreateOrder] = useState(false)
-
-  const getShippers = async () => {
-      let manyShippers = []
-    const q = query(
-      collection(db, 'shippers'),
-      where('isActive', '==', true),
-      where('lastest_order_id', '==', '')
-    )
-    const querySnapshot = await getDocs(q)
-    querySnapshot.forEach(doc => {
-      manyShippers.push({
-        id: doc.id,
-        ...doc.data(),
-        distance:
-          getPreciseDistance(
-              {
-                  latitude: location.latitude,
-                  longitude: location.longitude
-              },
-              {
-                  latitude: doc.data().location._lat,
-                  longitude: doc.data().location._long
-              }
-          )
-      })
-    })
-    setShippers(manyShippers)
-  }
-
-  useEffect(() => {
-    getShippers()
-  }, [isCreateOrder])
-
-  useEffect(() => {
-    if (shippers.length > 0) {
-      const shipper = shippers.reduce((prev, curr) =>
-        prev.distance < curr.distance ? prev : curr
-      )
-      if (shipper.distance < 5000) {
-        setShipper(shipper)
-      }
-
-      setShipper('')
-    }
-  }, [shippers])
-
   const docData = {
-    deposit: 0,
+    deposit: (Total * 30) / 100,
     distance: 0,
-    // food_price: priceOrder,
+    meno: carts[0].note,
     food_store_id: carts[0].storeId,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
     ship_fee: PhiShip,
-    total_food : Total - PhiShip,
+    total_food: Total - PhiShip,
     shipper_id: '',
+    shipper_cancel_orders: [],
     status: 2,
     totalPrice: Total,
     user_id: user_id
   }
-    console.log('docData', docData)
 
   const orderTheOrder = () => {
-    const { id } = addDoc(collection(db, 'orders'), docData)
+    addDoc(collection(db, 'orders'), docData)
       .then(async docRef => {
-        console.log('docRef',docRef.id);
-        navigation.navigate('FindShipper',{ orderId: docRef.id , shipperId : docRef.shipper_id , locationStore: {latitude: 10.851426882303631, longitude: 106.75808940590774} });
+        navigation.navigate('FindShipper', {
+          orderId: docRef.id,
+          locationStore: {
+            latitude: 10.851426882303631,
+            longitude: 106.75808940590774
+          }
+        })
       })
       .catch(error => {
         // The write failed...
         console.log(error)
       })
   }
+  // tính tổng tiền
+  useEffect(() => {
+    const data = []
+    if (carts.length === 0) {
+      navigation.goBack()
+    }
+    let total = 0
+    carts.forEach(item => {
+      item.items.forEach(item => {
+        total += item.Quantity * item.price
+        data.push({
+          food_id: item.idFood,
+          food_name: item.title,
+          quantity: item.Quantity,
+          food_price: item.price
+        })
+      })
+    })
+    setTotal(total + PhiShip)
+    setDataFood(data)
+  }, [carts])
 
-  function ship() {
-    // tính theo khoản cách từ cửa hàng với khách hàng
+  useEffect(() => {
+    if (carts[0].note === undefined || carts[0].note === '') {
+      dispatch(addNote({ note: '' }))
+    }
+  }, [carts])
+
+  const note = () => {
+    setModalVisible(false)
+    dispatch(addNote({ note: isNote }))
   }
 
-  // tính tổng tiền
-    useEffect(() => {
-        const data = []
-        if (carts.length === 0) {
-            navigation.goBack()
-        }
-        let total = 0;
-        carts.forEach((item) => {
-            item.items.forEach(item => {
-                total += item.Quantity * item.price;
-                data.push({food_id: item.idFood, quantity: item.Quantity, food_price: item.price})
-            } )
-        })
-        setTotal(total + PhiShip);
-        setDataFood(data)
-    }, [carts])
+  console.log('cartssss', carts[0].note)
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={navigation.goBack}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
-      ),
+  const [isModalVisible, setModalVisible] = useState(false)
 
-      title: 'Đơn hàng của bạn',
-      headerTitleAlign: 'center',
-      headerTitleStyle: {
-        fontSize: 15
-      }
-    })
-  }, [navigation])
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible)
+  }
+
   return (
-    <View style={{ flex: 1 }}>
+    <View className=" flex-1 relative">
+      <Modal
+        isVisible={isModalVisible}
+        animationIn="slideInUp"
+        animationInTiming={400}
+        animationOut="slideOutDown"
+        onSwipeComplete={() => setModalVisible(false)}
+        swipeDirection="down"
+      >
+        <View className="bg-white w-full h-[30%] absolute bottom-0 rounded-xl">
+          <View className="m-3 flex-row justify-center relative">
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              className="absolute left-2"
+            >
+              <AntDesign name="closecircleo" size={20} color="black" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={note} className="absolute right-2">
+              <Text className="font-bold text-[#00C2FF]">Xong</Text>
+            </TouchableOpacity>
+
+            <Text className="text-center">Ghi chú cho tài xế</Text>
+          </View>
+          <View className="w-full h-[1px] bg-gray-400"></View>
+
+          <View className=" m-3 ">
+            <TextInput
+              maxLength={200}
+              multiline
+              value={isNote}
+              placeholder="VD : Đường khó đi hãy dướng dẫn cho tài xế ... (tối đa 200 kí tự)"
+              onChangeText={setIsNote}
+            ></TextInput>
+          </View>
+        </View>
+      </Modal>
+
       <ScrollView style={{ flex: 0.8 }}>
         <View style={{ paddingBottom: 10 }}></View>
 
@@ -233,25 +227,48 @@ export default function OrderView({ navigation, route }) {
               </View>
 
               <View style={{ alignItems: 'center' }}>
-                <Text style={{flex: 1}} numberOfLines={2}>{location.address}</Text>
+                <Text style={{ flex: 1 }} numberOfLines={2}>
+                  {location.address}
+                </Text>
               </View>
             </View>
           </View>
-        </View>
 
-        <View style={{ paddingBottom: 10 }}></View>
+          <TouchableOpacity
+            onPress={toggleModal}
+            className="flex-row bg-white mt-6 mx-2 px-2  "
+          >
+            <Foundation name="clipboard-notes" size={24} color="#808080" />
+            <Text
+              numberOfLines={1}
+              className="text-[#808080] border-b border-[#808080] ml-2 w-[90%]"
+            >
+              {carts[0].note !== ''
+                ? 'ghi chú : ' + carts[0].note
+                : 'Ghi chú thêm cho tài xế (nếu có)'}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/*chi tiết đơn hàng in4 name */}
         <View
           style={{
             flex: 1,
             backgroundColor: '#fff',
-            paddingTop: 20,
+            paddingTop: 10,
             paddingBottom: 20,
             borderBottomWidth: 0.3,
             borderBottomColor: '#808080'
           }}
         >
+          <View className="w-full h-auto p-3 bg-[#FFFFCC] mb-[10px]">
+            <Text className="text-red-500 font-medium">
+              Vì để hạn chế rủi ro cho cửa hàng. Quý khách vui lòng thanh toán
+              30% tiền đơn hàng cho cửa hàng và sau khi tài xế đến giao hàng quý
+              khách sẽ thanh toán 70% còn lại. Để biết chi tiết phương thức
+              thanh toán quý khách vui lòng chờ sau khi cửa hàng đã xác nhận.
+            </Text>
+          </View>
           <View style={{ marginLeft: 10 }}>
             <View
               style={{
@@ -274,7 +291,11 @@ export default function OrderView({ navigation, route }) {
               </View>
 
               <View>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('StoreScreen', { id: carts[0].storeId })
+                  }
+                >
                   <Text
                     style={{
                       fontWeight: 'bold',
@@ -327,67 +348,67 @@ export default function OrderView({ navigation, route }) {
               paddingBottom: 20
             }}
           >
-              {carts.map((item) => (
-                  item.items.map((item, index) => (
-                          <View key={index} style={{ marginLeft: 10 }}>
-                              <View
-                                  style={{
-                                      flexDirection: 'row',
-                                      justifyContent: 'space-between',
-                                      paddingBottom: 50
-                                  }}
-                              >
-                                  <View>
-                                      <Text numberOfLines={1} style={{ fontSize: 20 }}>
-                                          {item.title}
-                                      </Text>
-                                      <View
-                                          style={{
-                                              marginTop: 20,
-                                              marginBottom: -75
-                                          }}
-                                      >
-                                          <Image
-                                              source={{ uri: item.image }}
-                                              style={{ width: 80, height: 80 }}
-                                          />
-                                      </View>
-                                  </View>
-                                  <View>
-                                      <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
-                                          {item.price * item.Quantity} đ
-                                      </Text>
-                                  </View>
-                              </View>
+            {carts.map(item =>
+              item.items.map((item, index) => (
+                <View key={index} style={{ marginLeft: 10 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      paddingBottom: 50
+                    }}
+                  >
+                    <View>
+                      <Text numberOfLines={1} style={{ fontSize: 20 }}>
+                        {item.title}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 20,
+                          marginBottom: -75
+                        }}
+                      >
+                        <Image
+                          source={{ uri: item.image }}
+                          style={{ width: 80, height: 80 }}
+                        />
+                      </View>
+                    </View>
+                    <View>
+                      <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
+                        {item.price * item.Quantity} đ
+                      </Text>
+                    </View>
+                  </View>
 
-                              <View
-                                  style={{
-                                      flexDirection: 'row',
-                                      justifyContent: 'space-between',
-                                      alignItems: 'center'
-                                  }}
-                              >
-                                  <View></View>
-                                  {/*  */}
-                                  <View
-                                      style={{
-                                          flexDirection: 'row',
-                                          justifyContent: 'space-between',
-                                          flex: 0.4,
-                                          paddingRight: 10
-                                      }}
-                                  >
-                                      <View></View>
-                                      <View>
-                                          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                              Số Lượng: {item.Quantity}
-                                          </Text>
-                                      </View>
-                                  </View>
-                              </View>
-                          </View>
-                      ) )
-              ))}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <View></View>
+                    {/*  */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        flex: 0.4,
+                        paddingRight: 10
+                      }}
+                    >
+                      <View></View>
+                      <View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                          Số Lượng: {item.Quantity}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              ))
+            )}
           </View>
         </View>
 
@@ -471,6 +492,11 @@ export default function OrderView({ navigation, route }) {
             </View>
           </View>
         </View>
+        {/* <View>
+          <TouchableOpacity onPress={handleAddMemo} className="flex justify-center items-center">
+            <Text>ghi chu</Text>
+          </TouchableOpacity>
+        </View> */}
         <View style={{ paddingBottom: 10 }}></View>
 
         {/* phương thức thanh toán */}

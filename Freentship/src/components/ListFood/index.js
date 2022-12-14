@@ -67,6 +67,7 @@ const ListFood = ({
         isVisible={modalVisible}
         animationIn={'slideInLeft'}
         animationOut={'slideOutRight'}
+        
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>

@@ -1,12 +1,16 @@
-export {db, storage} from './firebase'
+export { db, storage } from './firebase'
 export {
-    dataFood,
-    WriteDataFoodInFoodStores,
-    WriteDataFood_StoresByCategory,
-    ReadDataFoodStores
+  dataFood,
+  WriteDataFoodInFoodStores,
+  WriteDataFood_StoresByCategory,
+  ReadDataFoodStores,
+  getStoreinfo
 } from './FoodStores'
-export {ReadDataFoods, ReadDataFoodStoresByFood} from './Foods'
-export {ReadCategories} from './Categories'
+export { ReadDataFoods, ReadDataFoodStoresByFood } from './Foods'
+export { ReadCategories } from '../screens/Categories'
 export {
-    AddComment, AddHeart, ReadComments, ReadCommentsByStoreId, ReadHearts, ReadHeartsByUserId, UpdateHeart
-} from './Comments'
+  UpdateFavoriteStore,
+  getFavoriteStore,
+  DeleteLoveStore,
+  getInfoUser , ShipperInFo
+} from './user'

@@ -6,7 +6,9 @@ import {
   where,
   collectionGroup,
   serverTimestamp,
-  GeoPoint
+  GeoPoint,
+  getDoc,
+  doc
 } from 'firebase/firestore'
 import { db } from './firebase'
 
@@ -103,4 +105,14 @@ export const ReadDataFoodStores = async (query, group = false, name = FOOD) => {
     data.push({ id: doc.id, ...doc.data() })
   })
   return data
+}
+
+export async function getStoreinfo(idStore) {
+  const ref = doc(db, 'food_stores', `${idStore}`)
+  const docSnap = await getDoc(ref)
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    console.log('No such document!')
+  }
 }

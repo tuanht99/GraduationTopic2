@@ -3,7 +3,6 @@ import {
   Alert,
   Modal,
   View,
-  SafeAreaView,
   Image,
   Text,
   TouchableOpacity
@@ -110,21 +109,7 @@ export default function DetailsScreenView({ route, navigation }) {
     setQuantity(1)
   }
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableOpacity>
-      ),
 
-      title: titleParams,
-      headerTitleAlign: 'center',
-      headerTitleStyle: {
-        fontSize: 15
-      }
-    })
-  }, [navigation])
     React.useEffect(() => {
         let total = 0
         let totalQuantity = 0
