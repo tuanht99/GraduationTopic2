@@ -107,45 +107,6 @@ export const OrderItemDetail = ({ navigation, route }) => {
     )
   }
 
-  const ProGressBar = () => {
-    return (
-      <View>
-        <View className="flex justify-center items-center p-6">
-          <Image className="w-[100px] h-[100px] " source={progress.gif} />
-        </View>
-
-        <Text className="uppercase text-[18px] font-bold">
-          {progress.title}
-        </Text>
-        <View className="flex-row pt-3">
-          <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-            <View
-              className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-              style={{ width: progress.progress1 }}
-            ></View>
-          </View>
-          <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-            <View
-              className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-              style={{ width: progress.progress2 }}
-            ></View>
-          </View>
-          <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-            <View
-              className=" h-1 bg-red-500 rounded-full dark:bg-red-500"
-              style={{ width: progress.progress3 }}
-            ></View>
-          </View>
-        </View>
-
-        <Text>
-          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
-          hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
-        </Text>
-      </View>
-    )
-  }
-
   useEffect(() => {
     if (orderStatus !== undefined) {
       switch (status) {
@@ -281,19 +242,21 @@ export const OrderItemDetail = ({ navigation, route }) => {
         </View>
       )}
 
-      <TouchableOpacity
-        className="mt-8"
-        style={{
-          backgroundColor: '#E94730',
-          borderRadius: 15,
-          width: '97%',
-          height: 40,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Text style={{ color: '#fff' }}>Đánh giá</Text>
-      </TouchableOpacity>
+      {orderStatus && orderStatus.status === 5 && (
+        <TouchableOpacity
+          className="mt-8"
+          style={{
+            backgroundColor: '#E94730',
+            borderRadius: 15,
+            width: '97%',
+            height: 40,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text style={{ color: '#fff' }}>Đánh giá</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   )
 }

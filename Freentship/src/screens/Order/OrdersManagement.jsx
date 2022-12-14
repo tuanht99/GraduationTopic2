@@ -22,7 +22,8 @@ export default function OrdersManagement({ navigation }) {
   const getOrders = () => {
     const q = query(
       collection(db, 'orders'),
-      where('user_id', '==', userID + '')
+      where('user_id', '==', userID + ''),
+      where('status', 'in', [5, 9])
     )
     const unsubscribe = onSnapshot(q, querySnapshot => {
       const orders = []

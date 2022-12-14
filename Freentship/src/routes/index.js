@@ -35,7 +35,7 @@ const Stack = createNativeStackNavigator()
 function Router() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="OrdersManagement">
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
           name="InfoView"
           options={{
@@ -48,10 +48,7 @@ function Router() {
           // hidden navbar
           headerShown: false
         }} />
-        <Stack.Screen name="OrdersManagement" component={OrdersManagement} options={{
-          // hidden navbar
-          headerShown: false
-        }} />
+        <Stack.Screen name="OrdersManagement" component={OrdersManagement} />
         <Stack.Screen name="StoreScreen" component={StoreScreen}
           options={{
             // hidden navbar
