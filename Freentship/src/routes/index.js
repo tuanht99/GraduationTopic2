@@ -21,6 +21,10 @@ import { LocationScreen } from '../screens/LocationScreen'
 import { SearchScreen } from '../screens/SearchScreen'
 import StoreScreen from '../screens/Store/StoreScreen'
 
+// notify Order
+import NotifyOrder from '../screens/Notify/NotifyOrder'
+import XacMinhCCCD from '../screens/User/XacMinhCCCD'
+import Vourcher from '../screens/Coupon/Vourcher'
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -45,16 +49,26 @@ function Router() {
         <Stack.Screen name="SignupPending" component={SignupPending} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+        {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="HomeNavigator" component={HomeNavigator} />
         <Stack.Screen name="OrderView" component={OrderView} />
+        {/* đơn hàng của tôi */}
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
         <Stack.Screen name="InforSettingView" component={InforSettingView} />
+        {/* chỉnh sửa thông tin */}
         <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
+        {/* OTP Thay đổi sdt */}
         <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
+        {/* xác nhận thay đổi số điện thoại */}
         <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
+        {/* thay đổi số điện thoại */}
         <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
+        {/*  thông báo đơn hàng */}
+        <Stack.Screen name="NotifyOrder" component={NotifyOrder} />
+        <Stack.Screen name="CCCD" component={XacMinhCCCD} />
+        <Stack.Screen name="Vourcher" component={Vourcher} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -221,6 +221,37 @@ const [UserID, setUserID] = useState("")
               AppStyle.InforUserTheme.horizonline
             ]}
           />
+           {/* xác nhận căn cước công dân */}
+           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip} onPress={() =>
+                    navigation.navigate('CCCD',{
+                     User,
+                     id
+                    })}>
+            <View>
+            <AntDesign style={AppStyle.InforUserTheme.icon} name="idcard" size={24} color="black" />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Xác Nhận Căn Cước Công Dân</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Vourcher */}
+          <TouchableOpacity
+          onPress={() =>
+                    navigation.navigate('Vourcher',{
+                     User,
+                     id
+                    })}
+          
+           style={AppStyle.InforUserTheme.supportLoShip}>
+            <View>
+            <Image style={{height:30,width:30,marginRight:10, marginLeft:20}} source={require("../../../assets/coupon.png")}></Image>
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Mã Khuyến Mãi</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
           {/* cộng đồng loship */}
           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
             <View>

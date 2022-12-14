@@ -46,7 +46,7 @@ export function ConfirmOTPView({ navigation, route }) {
       )
       setVerificationId(verificationId)
       showMessage({
-        text: 'Verification code has been sent to your phone.'
+         text: 'Mã xác nhận đã được gửi.'
       })
     } catch (err) {
       showMessage({ text: `Error: ${err.message}`, color: 'red' })
@@ -68,7 +68,7 @@ export function ConfirmOTPView({ navigation, route }) {
       <TextInput
         style={{ marginVertical: 10, fontSize: 17 }}
         editable={!!verificationId}
-        placeholder="123456"
+        placeholder="Nhập mã OTP ở đây..."
         onChangeText={setVerificationCode}
       />
       <Button
@@ -81,7 +81,7 @@ export function ConfirmOTPView({ navigation, route }) {
               verificationCode
             )
             await signInWithCredential(auth, credential)
-            showMessage({ text: 'Phone authentication successful 👍' })
+            showMessage({ text: 'Phone xác nhận thành công 👍' })
             navigation.navigate(
               'ChangePhoneView',
               {

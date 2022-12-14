@@ -32,13 +32,8 @@ const NotificationScreen = () => {
     </View>
   )
 }
-const SettingScreen = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>Setting Screen</Text>
-    </View>
-  )
-}
+
+
 
 export const HomeNavigator = ({ navigation }) => {
   const carts = useSelector(state => state.carts)
@@ -49,201 +44,190 @@ export const HomeNavigator = ({ navigation }) => {
   const [maxLines, setMaxLines] = useState(2)
   const animationHeight = useRef(new Animated.Value(0)).current
 
-  console.log('orders: ', orders)
-  console.log('ordersAc: ', ordersAc)
-  useEffect(() => {
-    // setOrders([])
-    getInfoUser('kxzmOQS3sVUr2pm9AbLI').then(user => {
-      const orders = []
-      user.a.forEach(element => {
-        onSnapshot(doc(db, 'orders', element), doc => {
-          orders.push({
-            status: doc.data().status,
-            id: doc.id
-            // name: doc.data().name,
+  export const HomeNavigator = ({ navigation, route }) => {
+    const { location } = route.params
+    React.useEffect(() => {
+      if (location) {
+        navigation.navigate('Home', { location: locatiogcvn });
+      }
+    }, [])
+
+    useEffect(() => {
+      // const arr = orders.filter(getOrders)
+      // console.log('arr', arr)
+      // setOrdersAc(arr)
+      if (orders.length > 0) {
+        setOrdersAc([])
+        orders.forEach(elements => {
+          console.log('elements.status', elements.status)
+          if (elements.status === 6 || elements.status === 2) {
+            setOrdersAc(prev => [...prev, elements])
+          }
+        })
+      }
+    }, [orders])
+
+    // const getOrders = orders => {
+    //   return orders.status === 6 || orders.status === 3 || orders.status === 2
+    // }
+
+    React.useEffect(() => {
+      let total = 0
+      if (carts.length > 0)
+        carts.forEach(item => {
+          item.items.forEach(item => {
+            total += item.Quantity
           })
-          setOrders(orders)
         })
-      })
-    })
-  }, [])
+      setTotals(total)
+    }, [carts])
 
-  useEffect(() => {
-    // const arr = orders.filter(getOrders)
-    // console.log('arr', arr)
-    // setOrdersAc(arr)
-    if (orders.length > 0) {
-      setOrdersAc([])
-      orders.forEach(elements => {
-        console.log('elements.status', elements.status)
-        if (elements.status === 6 || elements.status === 2) {
-          setOrdersAc(prev => [...prev, elements])
-        }
-      })
+    const toggleCollapsed = () => {
+      setCollapsed(!collapsed)
     }
-  }, [orders])
 
-  // const getOrders = orders => {
-  //   return orders.status === 6 || orders.status === 3 || orders.status === 2
-  // }
-
-  React.useEffect(() => {
-    let total = 0
-    if (carts.length > 0)
-      carts.forEach(item => {
-        item.items.forEach(item => {
-          total += item.Quantity
-        })
-      })
-    setTotals(total)
-  }, [carts])
-
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed)
-  }
-
-  const collapseView = () => {
-    Animated.timing(animationHeight, {
-      duration: 1000,
-      useNativeDriver: false,
-      toValue: 0
-    }).start()
-  }
-
-  const expandView = () => {
-    setMaxLines(null)
-    Animated.timing(animationHeight, {
-      duration: 1000,
-      useNativeDriver: false,
-      toValue: 5000
-    }).start()
-  }
-
-  useEffect(() => {
-    if (collapsed) {
-      collapseView()
-    } else {
-      expandView()
+    const collapseView = () => {
+      Animated.timing(animationHeight, {
+        duration: 1000,
+        useNativeDriver: false,
+        toValue: 0
+      }).start()
     }
-  }, [collapsed])
 
-  return (
-    <View style={{ flex: 1 }}>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarShowLabel: false,
-          headerShown: false
-        }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" color={color} size={size} />
-            )
+    const expandView = () => {
+      setMaxLines(null)
+      Animated.timing(animationHeight, {
+        duration: 1000,
+        useNativeDriver: false,
+        toValue: 5000
+      }).start()
+    }
+
+    useEffect(() => {
+      if (collapsed) {
+        collapseView()
+      } else {
+        expandView()
+      }
+    }, [collapsed])
+
+    return (
+      <View style={{ flex: 1 }}>
+        <Tab.Navigator
+          screenOptions={{
+            tabBarShowLabel: false,
+            headerShown: false
           }}
-        />
-        <Tab.Screen
-          name="Notify"
-          component={NotificationScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="notifications" color={color} size={size} />
-            )
-          }}
-        />
-        <Tab.Screen
-          name="Setting"
-          component={SettingScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person" color={color} size={size} />
-            )
-          }}
-        />
-      </Tab.Navigator>
-
-      {ordersAc.length > 0 ? (
-        <View className="overflow-hidden absolute z-10 bottom-[47px] w-full">
-          <TouchableOpacity
-            onPress={toggleCollapsed}
-            className="w-full h-10 bg-[#99FFFF] flex-row items-center  border-b border-gray-300"
-          >
-            <View className="ml-2">
-              <MaterialIcons name="library-books" size={24} color="black" />
-            </View>
-            <Text className="font-bold ">
-              {ordersAc.length} đơn hàng đang được xử lý
-            </Text>
-          </TouchableOpacity>
-
-          <Animated.View
-            className="w-full bg-white border-b"
-            style={{ maxHeight: animationHeight }}
-          >
-            {ordersAc.map(e => {
-              return (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('OrderStatus', { orderId: e.id })
-                  }
-                  className="flex-row justify-between items-center mx-4"
-                >
-                  <Text className="p-2" numberOfLines={maxLines}>{e.id}</Text>
-                  <Text className="font-bold text-blue-500">Xem</Text>
-                </TouchableOpacity>
-              )
-            })}
-          </Animated.View>
-        </View>
-      ) : (
-        ''
-      )}
-
-      {totals > 0 && (
-        <View
-          style={{ position: 'absolute', zIndex: 1, bottom: 80, right: 30 }}
         >
-          <TouchableOpacity onPress={() => navigation.navigate('CartView')}>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: '#fff',
-                padding: 10,
-                borderRadius: 15,
-                borderWidth: 0.3,
-                borderColor: '#808080'
-              }}
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" color={color} size={size} />
+              )
+            }}
+          />
+          <Tab.Screen
+            name="Notify"
+            component={NotificationScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="notifications" color={color} size={size} />
+              )
+            }}
+          />
+          <Tab.Screen
+            name="Setting"
+            component={SettingScreen}
+            options={{
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="person" color={color} size={size} />
+              )
+            }}
+          />
+        </Tab.Navigator>
+
+        {ordersAc.length > 0 ? (
+          <View className="overflow-hidden absolute z-10 bottom-[47px] w-full">
+            <TouchableOpacity
+              onPress={toggleCollapsed}
+              className="w-full h-10 bg-[#99FFFF] flex-row items-center  border-b border-gray-300"
             >
-              <View>
-                <AntDesign name="shoppingcart" size={24} color="black" />
+              <View className="ml-2">
+                <MaterialIcons name="library-books" size={24} color="black" />
               </View>
+              <Text className="font-bold ">
+                {ordersAc.length} đơn hàng đang được xử lý
+              </Text>
+            </TouchableOpacity>
+
+            <Animated.View
+              className="w-full bg-white border-b"
+              style={{ maxHeight: animationHeight }}
+            >
+              {ordersAc.map(e => {
+                return (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('OrderStatus', { orderId: e.id })
+                    }
+                    className="flex-row justify-between items-center mx-4"
+                  >
+                    <Text className="p-2" numberOfLines={maxLines}>{e.id}</Text>
+                    <Text className="font-bold text-blue-500">Xem</Text>
+                  </TouchableOpacity>
+                )
+              })}
+            </Animated.View>
+          </View>
+        ) : (
+          ''
+        )}
+
+        {totals > 0 && (
+          <View
+            style={{ position: 'absolute', zIndex: 1, bottom: 80, right: 30 }}
+          >
+            <TouchableOpacity onPress={() => navigation.navigate('CartView')}>
               <View
                 style={{
-                  position: 'absolute',
-                  zIndex: 1,
-                  bottom: 30,
-                  right: 0
+                  flex: 1,
+                  backgroundColor: '#fff',
+                  padding: 10,
+                  borderRadius: 15,
+                  borderWidth: 0.3,
+                  borderColor: '#808080'
                 }}
               >
+                <View>
+                  <AntDesign name="shoppingcart" size={24} color="black" />
+                </View>
                 <View
                   style={{
-                    backgroundColor: 'red',
-                    borderRadius: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 20,
-                    height: 18
+                    position: 'absolute',
+                    zIndex: 1,
+                    bottom: 30,
+                    right: 0
                   }}
                 >
-                  <Text style={{ color: '#fff' }}>{totals}</Text>
+                  <View
+                    style={{
+                      backgroundColor: 'red',
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: 20,
+                      height: 18
+                    }}
+                  >
+                    <Text style={{ color: '#fff' }}>{totals}</Text>
+                  </View>
                 </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
-  )
-}
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    )
+

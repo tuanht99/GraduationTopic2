@@ -1,76 +1,32 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView, StatusBar, Platform } from 'react-native'
+import {
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  Platform,
+  Text
+} from 'react-native'
 import { Colors, Spacing } from './src/styles'
 import { HomeNavigator } from './src/routes/HomeNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 import StoreScreen from './src/screens/Store/StoreScreen'
 import { SearchScreen } from './src/screens/SearchScreen'
-import DetailsScreenView from './src/screens/Food/DetailsScreenView'
-import CardView from './src/screens/Cart/CartView'
-import OrderView from './src/screens/Food/OrderView'
-import YourOrderView from './src/screens/Food/YourOrderView'
-import FindShipper from './src/screens/FindShipper/FindShipper'
-import ShipperInfo from './src/screens/FindShipper/ShipperInfor'
-import OrderStatus from './src/screens/OrderStatus'
-import { LocationScreen } from './src/screens/LocationScreen'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Provider } from 'react-redux'
-import { store } from './src/redux/store'
-
-const Stack = createNativeStackNavigator()
+import { Location1 } from './src/screens/__test__/location'
+import { MapScreen } from './src/screens/MapScreen'
+import { MapScreenTest } from './src/screens/__test__/map'
+import { WriteDataFood_StoresByCategory } from './src/services'
+import InforSettingView from './src/screens/User/InforView'
+import Routes from './src/routes'
 
 export default function App() {
+
   return (
     <SafeAreaView style={styles.container}>
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="LocationScreen" component={LocationScreen} />
-            <Stack.Screen
-              name="HomeTab"
-              component={HomeNavigator}
-              options={{
-                // hidden navbar
-                headerShown: false
-              }}
-            />
-            <Stack.Screen
-              name="SearchScreen"
-              component={SearchScreen}
-              options={{
-                // hidden navbar
-                headerShown: false
-              }}
-            />
-            <Stack.Screen
-              name="StoreScreen"
-              component={StoreScreen}
-              options={{
-                // hidden navbar
-                headerShown: false
-              }}
-            />
-            <Stack.Screen
-              name="DetailsScreenView"
-              component={DetailsScreenView}
-            />
 
-            <Stack.Screen name="OrderStatus" component={OrderStatus} />
-            <Stack.Screen name="CartView" component={CardView} />
-            <Stack.Screen name="OrderView" component={OrderView} />
-            <Stack.Screen name="YourOrderView" component={YourOrderView} />
-            <Stack.Screen name="FindShipper" component={FindShipper} />
-            <Stack.Screen
-              name="ShipperInfo"
-              component={ShipperInfo}
-              options={() => ({
-                title: 'Thông tin tài xế '
-              })}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>
+      <Routes/>
+
     </SafeAreaView>
+  
   )
 }
 

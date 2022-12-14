@@ -27,6 +27,7 @@ export function SignupScreen({ navigation }) {
   }
 
   const signUp = async () => {
+    console.log('thanhga', userID)
     await setDoc(doc(db, 'users', userID + ''), {
       name: name,
       phone: phone,

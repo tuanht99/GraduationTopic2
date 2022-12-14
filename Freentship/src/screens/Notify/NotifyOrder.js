@@ -2,7 +2,16 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
-
+import { db } from "../../services/config";
+import {
+  doc,
+  onSnapshot,
+  collection,
+  query,
+  where,
+  updateDoc,
+  getDocs,
+} from "firebase/firestore";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -11,10 +20,12 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function NotifyOrder() {
+export default function NotifyOrder({navìgation}) {
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
+  const [lastestOrders, setLastestOrders] = useState([]);
+  const idFoodStore = "4dpAvRWJVrvdbml9vKDL";
   const responseListener = useRef();
 // sử lí token
   useEffect(() => {
@@ -33,8 +44,30 @@ export default function NotifyOrder() {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+  
 
+  // Get lastest order
+  useEffect(() => {
+    const orders = async () => {
+      const q = query(
+        collection(db, "orders"),
+        // trạng thái
+        where("status", "==", 3)
+      );
+      let lastestOrders = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        lastestOrders.push({ id: doc.id, ...doc.data() });
+      });
+      setLastestOrders(lastestOrders);
+    };
+    orders();
+  }, []);
+
+  console.log(lastestOrders);
   return (
+    // view tổng
     <View
       style={{
         flex: 1,

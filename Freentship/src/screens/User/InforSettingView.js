@@ -59,7 +59,7 @@ export default function InforSettingView({ navigation, route }) {
 
   function editImage() {
     updateDoc(doc(db, 'users', id), {
-      guestName: guestname,
+      name: guestname,
       avatar: image,
       sex: sex,
       email: gmail,

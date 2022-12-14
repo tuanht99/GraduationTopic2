@@ -71,7 +71,7 @@ console.log(selectedLanguage);
 // update Firebase
 function editProfile() {
   updateDoc(doc(db, 'users', id), {
-    guestName: username,
+    name: username,
     dateOfBirth: ChooseData,
     avatar: avatar,
     sex: selectedLanguage,
