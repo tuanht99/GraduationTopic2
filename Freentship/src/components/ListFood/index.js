@@ -11,7 +11,7 @@ import {
   Pressable
 } from 'react-native'
 import Styles from '../../screens/Store/StoreStyle'
-import { db } from '../../services/firebase'
+import { db } from '../../services'
 import Modal from 'react-native-modal'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
@@ -128,7 +128,6 @@ const ListFood = ({
       renderItem={({ item }) => {
         return (
           <TouchableOpacity
-         
             // [Styles.htrOrder, Styles.disabledButton]
             style={
               item.status === 1
@@ -138,7 +137,7 @@ const ListFood = ({
             onPress={() => {
               openTime === true
                 ? navigation.navigate('DetailsScreenView', {
-                    idFood :item.id ,
+                    idFood: item.id,
                     title: item.name,
                     image: item.image,
                     description: item.description,
@@ -147,10 +146,10 @@ const ListFood = ({
                     storeName: storeName,
                     storeAddress: storeAddress,
                     storeImage: storeImage,
-                    storeId: storeId ,
-                    locationStore : locationStore
-                  }) :
-              setModalVisible(true)
+                    storeId: storeId,
+                    locationStore: locationStore
+                  })
+                : setModalVisible(true)
             }}
           >
             <View

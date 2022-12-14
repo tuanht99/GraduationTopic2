@@ -21,7 +21,7 @@ import {
 
 import { getDistance, getPreciseDistance } from 'geolib'
 import BouncingPreloader from 'react-native-bouncing-preloader'
-const windowWidth = Dimensions.get('window').width
+
 
 const FindShipper = ({ navigation, route }) => {
   const icons = [
@@ -33,31 +33,19 @@ const FindShipper = ({ navigation, route }) => {
     'https://www.shareicon.net/data/256x256/2016/05/04/759921_food_512x512.png'
   ]
 
-  const { orderId, shipperId, locationStore } = route.params
-  console.log('shipperId', shipperId)
+  const { orderId, locationStore } = route.params
+
   const [orderStatus, setOrderStatus] = useState([])
-  console.log('orderStatus', orderStatus)
-  const updateOrderStatus = async () => {
-    const washingtonRef = doc(db, 'orders', orderId + '')
 
-    await updateDoc(washingtonRef, {
-      status: 3
-    })
-  }
+  const [shippers, setShippers] = useState([])
+  const [shipper, setShipper] = useState('')
 
-  const getOrderStatus = () => {
-    const unsub = onSnapshot(doc(db, 'orders', orderId + ''), doc => {
-      setOrderStatus({
-        status: doc.data().status,
-        shipperId: doc.data().shipper_id
-      })
-    })
-  }
+ 
   const getShipper = async () => {
     // Set the order's ID for shipper
     const washingtonRef = doc(db, 'shippers', shipper.id)
     await updateDoc(washingtonRef, {
-      lastest_order_id: orderId
+      lastestOrderID: orderId
     })
 
     // Set the shipper's ID for the order
@@ -77,49 +65,56 @@ const FindShipper = ({ navigation, route }) => {
     })
   }
 
-  const [shippers, setShippers] = useState([])
-  const [shipper, setShipper] = useState('')
-
   const getShippers = async () => {
     if (orderStatus.status == 2) {
       let manyShippers = []
       const q = query(
         collection(db, 'shippers'),
         where('isActive', '==', true),
-        where('lastest_order_id', '==', '')
+        where('lastestOrderID', '==', '')
       )
 
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach(doc => {
+        console.log('loggggg', doc.data())
         manyShippers.push({
           id: doc.id,
           ...doc.data(),
           distance:
             getPreciseDistance(
               {
-                latitude: locationStore._lat,
-                longitude: locationStore._long
+                latitude: locationStore.latitude,
+                longitude: locationStore.longitude
               },
               {
-                latitude: doc.data().location._lat,
-                longitude: doc.data().location._long
+                latitude: doc.data().location.latitude,
+                longitude: doc.data().location.longitude
               }
             ) * 1
         })
       })
+
       setShippers(manyShippers)
     }
   }
 
   useEffect(() => {
-    getOrderStatus()
+    const unsub = onSnapshot(doc(db, 'orders', orderId + ''), doc => {
+      setOrderStatus({
+        status: doc.data().status,
+        shipperId: doc.data().shipper_id
+      })
+    })
+
+    return () => {
+      unsub
+    }
   }, [])
 
   useEffect(() => {
     const myTimeout = setTimeout(() => {
       getShippers()
     }, 3000)
-
     return () => clearTimeout(myTimeout)
   }, [orderStatus])
 
@@ -129,8 +124,8 @@ const FindShipper = ({ navigation, route }) => {
         prev.distance < curr.distance ? prev : curr
       )
       if (shipper.distance < 5000) {
-      setShipper(shipper)
-      updateOrderStatus()
+        setShipper(shipper)
+        // updateOrderStatus()
       }
     }
   }, [shippers])
@@ -141,7 +136,13 @@ const FindShipper = ({ navigation, route }) => {
     }
   }, [shipper])
 
-  return orderStatus.shipperId == '' ? (
+  return orderStatus.shipperId !== '' && orderStatus.status == 3 ? (
+    <View>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
+        Yế đã có tài xế cho đơn hàng của bạn
+      </Text>
+    </View>
+  ) : (
     <View style={styles.container}>
       <BouncingPreloader
         icons={icons}
@@ -167,12 +168,6 @@ const FindShipper = ({ navigation, route }) => {
       >
         <Text style={{ color: '#fff' }}>Hủy đơn</Text>
       </TouchableOpacity>
-    </View>
-  ) : (
-    <View>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'blue' }}>
-        Yế đã có tài xế cho đơn hàng của bạn
-      </Text>
     </View>
   )
 }
