@@ -3,7 +3,6 @@ import { ScrollView } from 'react-native'
 import styles from './search-screen.style'
 import { ComeBack } from '../../Components/Organisms/ComeBack'
 import { LocationSearch } from '../../Components/Organisms/LocationSearch'
-import logo from '../../assets/images/logos/app-user-red.png'
 import { CategoryFood } from '../../Components/Organisms/CategoryFood'
 import { limit, orderBy, where, startAt, endAt } from 'firebase/firestore'
 import {
@@ -41,7 +40,7 @@ export const SearchScreen = ({ route, navigation }) => {
     ReadDataFoodStoresByFood
   ]
   React.useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const data = id
         ? await firestore[1](q[3])
         : await firestore[index](q[index])

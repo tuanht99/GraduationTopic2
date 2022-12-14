@@ -1,71 +1,36 @@
-
+import DetailsScreenView from '../screens/Food/DetailsScreenView'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-// thông tin Food
-import DetailsScreenView from '../screens/Food/DetailsScreenView'
-// cửa hàng
-// giỏ hàng
 import CardView from '../screens/Cart/CartView'
-// trang chính
 import { HomeScreen } from '../screens/HomeScreen/home.screen'
-// đơn hàng
 import OrderView from '../screens/Food/OrderView'
-// đơn hàng của bạn
 import YourOrderView from '../screens/Food/YourOrderView'
-// thônng tin tài khoản
 import InforView from '../screens/User/InforView'
-// sửa thông tin tài khoản
 import InforSettingView from '../screens/User/InforSettingView'
-// thay đổi thông tin tài khoản
 import ChangeProfileView from '../screens/User/ChangeProfileView'
-// OTP thay đổi tài khoản
 import OTPChangeView from '../screens/User/OTPChangeView'
-// confirm
-import { ConfirmOTP } from '../screens/User/ConfirmOTPView'
-// ChangePhone
+import { ConfirmOTPView } from '../screens/User/ConfirmOTPView'
+import { ConfirmOTP } from '../screens/ConfirmOTP'
 import InputPhoneNumScreen from '../screens/User/ChangePhoneNumber'
+import { HomeNavigator } from './HomeNavigator'
+import { LoginScreen } from '../screens/LoginScreen'
+import { SignupScreen } from '../screens/SignupScreen'
+import { SignupPending } from '../screens/SignupPending'
+import { LocationScreen } from '../screens/LocationScreen'
+import { SearchScreen } from '../screens/SearchScreen'
+import StoreScreen from '../screens/Store/StoreScreen'
+
 // notify Order
 import NotifyOrder from '../screens/Notify/NotifyOrder'
-// import StoreScreen from '../screens/Store/StoreScreen.js'
-// import { LocationScreen } from '../screens/LocationScreen'
-// // tab home
-// import { HomeNavigator } from './HomeNavigator'
-// // tìm kiem user
-// import FindShipper from '../screens/FindShipper/FindShipper'
-// // tim kiem 
-// import { SearchScreen } from '../screens/SearchScreen'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
 import Vourcher from '../screens/Coupon/Vourcher'
 const Stack = createNativeStackNavigator()
 
 function Router() {
   return (
-   
-    //  <NavigationContainer>
-    //     <Stack.Navigator initialRouteName="Store">
-    //       <Stack.Screen name="Store" options={{
-    //         // hidden navbar
-    //         headerShown: false,
-    //       }} component={StoreScreen} />
-    // {/* <Stack.Screen name="Store" component={StoreScreen} /> */}
-    //       <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
-    //       <Stack.Screen name="CartView" component={CardView} />
-    //       <Stack.Screen name="Home" component={HomeScreen} />
-    //       <Stack.Screen name="OrderView" component={OrderView} />
-    //       <Stack.Screen name="YourOrderView" component={YourOrderView} />
-    //       <Stack.Screen name="InforView" component={InforView} />
-    //       <Stack.Screen name="InforSettingView" component={InforSettingView} />
-    // <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
-    // <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
-    // <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
-    // <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
-
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="InforView">
-      {/* chạy dầu */}
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
           name="InforView"
           options={{
@@ -74,19 +39,27 @@ function Router() {
           }}
           component={InforView}
         />
-        {/* cửa hàng */}
-     {/* <Stack.Screen name="Store" component={StoreScreen} /> */}
-        {/* thôn tin food */}
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{
+          // hidden navbar
+          headerShown: false
+        }} />
+        <Stack.Screen name="StoreScreen" component={StoreScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="LocationScreen" component={LocationScreen} />
+        <Stack.Screen name="SignupPending" component={SignupPending} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        {/*  màn hình chính */}
-        {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-        {/* đơn hàng */}
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="HomeTab" component={HomeNavigator}
+          options={{
+            // hidden navbar
+            headerShown: false
+          }} />
         <Stack.Screen name="OrderView" component={OrderView} />
         {/* đơn hàng của tôi */}
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
-        {/* chỉnh sửa hình ảnh */}
         <Stack.Screen name="InforSettingView" component={InforSettingView} />
         {/* chỉnh sửa thông tin */}
         <Stack.Screen name="ChangeProfile" component={ChangeProfileView} />
@@ -100,16 +73,6 @@ function Router() {
         <Stack.Screen name="NotifyOrder" component={NotifyOrder} />
         <Stack.Screen name="CCCD" component={XacMinhCCCD} />
         <Stack.Screen name="Vourcher" component={Vourcher} />
-        {/* địa chỉ */}
-        {/* <Stack.Screen name="LocationScreen" component={LocationScreen} />
-          <Stack.Screen name="HomeTab" component={HomeNavigator} options={{
-            // hidden navbar
-            headerShown: false,
-          }} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} options={{
-            // hidden navbar
-            headerShown: false,
-          }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )
