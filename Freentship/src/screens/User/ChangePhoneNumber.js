@@ -42,11 +42,7 @@ export default function InputPhoneNumScreen({ navigation, route }) {
   console.log("sex : " +sex);
   function editphone() {
     updateDoc(doc(db, 'users', id), {
-      name: guestname,
-      dateOfBirth: date,
-      avatar: avatar,
-      sex: sex,
-      email: gmail,
+     
       phone: number, 
     })
     Alert.alert(
