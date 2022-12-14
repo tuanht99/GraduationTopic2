@@ -221,13 +221,18 @@ const FindShipper = ({ navigation, route }) => {
             {
               text: 'Thoát',
               style: 'destructive',
-              onPress: () => navigation.dispatch(action)
+              onPress: () => exitOrder(action)
             }
           ]
         )
       }),
     [orderStatus, navigation]
   )
+
+const exitOrder = (action) => {
+  navigation.dispatch(action)
+  cancelOrder()
+}
 
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
@@ -359,6 +364,18 @@ const FindShipper = ({ navigation, route }) => {
             gif: pigshipperunscreen
           })
           break
+
+        case 4:
+          // code block tài xế đang đến cửa hàng
+          setProgress({
+            title: 'đã tìm thấy tài xế',
+            progress1: '100%',
+            progress2: '50%',
+            progress3: '0%',
+            gif: pigshipperunscreen
+          })
+          break
+
         case 6:
           // code block tài xế đã lấy hàng thành công
           setProgress({
@@ -384,7 +401,7 @@ const FindShipper = ({ navigation, route }) => {
   }, [status])
 
   return (
-    <ScrollView className="flex-1 text-white m-5">
+    <ScrollView   showsVerticalScrollIndicator ={false} className="flex-1 text-white m-5">
       {progress !== undefined && <ProGressBar />}
 
       {/* Shipper info */}
@@ -454,9 +471,11 @@ const FindShipper = ({ navigation, route }) => {
                 ))}
               </View>
             </View>
-            
+
             <View className="flex-row justify-between mt-2">
-              <Text className="font-bold text-base">Tiền cọc cần thanh toán </Text>
+              <Text className="font-bold text-base">
+                Tiền cọc cần thanh toán{' '}
+              </Text>
               <Text className="font-bold text-base text-red-500">
                 {formatCash(orderStatus.deposit + '')} đ
               </Text>
