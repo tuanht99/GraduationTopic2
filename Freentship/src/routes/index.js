@@ -71,7 +71,6 @@ function Router() {
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="HomeTab" component={HomeNavigator}
           options={{
             // hidden navbar
