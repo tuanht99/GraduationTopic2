@@ -28,6 +28,7 @@ import XacMinhCCCD from '../screens/User/XacMinhCCCD'
 import Vourcher from '../screens/Coupon/Vourcher'
 import OrdersManagement from '../screens/Order/OrdersManagement'
 import OrderItem from '../Components/Order/OrderItem'
+import OrderStatus from '../screens/OrderStatus/index'
 import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
 
 const Stack = createNativeStackNavigator()
@@ -58,6 +59,8 @@ function Router() {
         <Stack.Screen name="OrderItemDetail" component={OrderItemDetail}
         />
         <Stack.Screen name="RatingView" component={RatingView}
+        />
+        <Stack.Screen name="OrderStatus" component={OrderStatus}
         />
         <Stack.Screen name="CommentsView" component={CommentsView}
         />
