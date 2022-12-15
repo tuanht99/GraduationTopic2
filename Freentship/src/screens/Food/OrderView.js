@@ -76,6 +76,7 @@ export default function OrderView({ navigation }) {
     distance: 0,
     meno: carts[0].note,
     food_store_id: carts[0].storeId,
+    store_name : carts[0].storeName,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
     ship_fee: phi,
@@ -97,12 +98,16 @@ export default function OrderView({ navigation }) {
             longitude: 106.75808940590774
           }
         })
+
+        UpdateOrderHistory(docRef.id)
       })
       .catch(error => {
-        // The write failed...
         console.log(error)
       })
+
+      
   }
+
   // tính tổng tiền
   useEffect(() => {
     const data = []
@@ -135,7 +140,6 @@ export default function OrderView({ navigation }) {
     setModalVisible(false)
     dispatch(addNote({ note: isNote }))
   }
-
 
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -512,11 +516,7 @@ export default function OrderView({ navigation }) {
             </View>
           </View>
         </View>
-        {/* <View>
-          <TouchableOpacity onPress={handleAddMemo} className="flex justify-center items-center">
-            <Text>ghi chu</Text>
-          </TouchableOpacity>
-        </View> */}
+       
         <View style={{ paddingBottom: 10 }}></View>
 
         {/* phương thức thanh toán */}
@@ -615,7 +615,6 @@ export default function OrderView({ navigation }) {
             {/* () => navigation.navigate('YourOrderView') */}
             {/*order */}
             <TouchableOpacity
-              // onPress={() => orderTheOrder()}
               onPress={() => orderTheOrder()}
               style={{
                 backgroundColor: '#E94730',

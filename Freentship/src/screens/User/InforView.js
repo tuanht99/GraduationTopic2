@@ -8,7 +8,7 @@ import {
   StatusBar,
   TouchableOpacity,
   FlatList,
- 
+
 } from 'react-native'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -21,57 +21,39 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 // firebase import
 import { db } from '../../services/config'
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
+import OrdersManagement from '../../screens/Order/OrdersManagement'
+import { Pressable } from 'react-native'
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('userID1')
+    if (value !== null) {
+      setIdUser(value)
+    }
+  } catch (e) {
+    console.log('Không có user id này!')
+  }
+}
 // end
 export default function InforView({ navigation }) {
- 
-const [UserID, setUserID] = useState("")
   // firebase
-  const idUser = 'kxzmOQS3sVUr2pm9AbLI'
-
-
- //  lấy id user
-//  const getData = async () => {
-//   try {
-//     const value = await AsyncStorage.getItem('userID1')
-//     if (value !== null) {
-//       setUserID(value)
-    
-//     }
-//   } catch (e) {
-//     console.log(12444)
-//   }
-// }
-
-// console.log(UserID);
-// getData();
-
-
-
+  const [idUser, setIdUser] = useState()
   const [User, setUser] = useState([])
+
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
-      console.log("Current data: ", doc.data())
-      setUser(doc.data())
-      // đợi trợ giúp
-      // console.log('ngày giờ fire base  : '+ User.dateOfBirth.seconds)
-      // console.log('ngày giờ fire base  : '+ User.dateOfBirth.nanoseconds)
-    })
- 
-
+    getData()
+  }, [])
+  useEffect(() => {
+    if (idUser != undefined) {
+      const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
+        console.log("Current data: ", doc.data())
+        setUser(doc.data())
+        // đợi trợ giúp
+        // console.log('ngày giờ fire base  : '+ User.dateOfBirth.seconds)
+        // console.log('ngày giờ fire base  : '+ User.dateOfBirth.nanoseconds)
+      })
+    }
   }, [idUser])
-
-  // lưu ý cần fixed
-
-
-  // const nano = User.dateOfBirth.nanoseconds
-  // const secon = User.dateOfBirth.seconds
-  // const timestemp = new Date(nano)
-  // const formatted = timestemp.format('dd/mm/yyyy')
-  // console.log(formatted);
-  // console.log(userDocument)
-  // end
-
-
+  console.log("cc", User);
   // dữ liệu
   const guestname = User.name
   const avatar = User.avatar
@@ -84,61 +66,11 @@ const [UserID, setUserID] = useState("")
   const phone = User.phone
   // end
   const footerComponent = () => (
-    // <FlatList
-    //   data={DATA}
-    //   keyExtractor={item => item.id}
-    //   renderItem={({ item }) => (
-    //     <TouchableOpacity
-    //       style={AppStyle.InforUserTheme.htrOrder}
-    //       onPress={() => navigation.navigate('InforSettingView')}
-    //     >
-    //       <View
-    //         style={{
-    //           flex: 2,
-    //           justifyContent: 'center',
-    //           alignItems: 'center'
-    //         }}
-    //       >
-    //         <Image
-    //           style={{
-    //             height: 90,
-    //             width: 90,
-    //             borderRadius: 15,
-    //             overflow: 'hidden',
-    //             resizeMode: 'contain'
-    //           }}
-    //           source={item.image}
-    //         />
-    //       </View>
-    //       <View style={{ flexDirection: 'column', flex: 4 }}>
-    //         <Text
-    //           style={[
-    //             AppStyle.InforUserTheme.bold,
-    //             AppStyle.InforUserTheme.textSize17
-    //           ]}
-    //         >
-    //           {item.name}
-    //         </Text>
-    //         <Text style={AppStyle.InforUserTheme.textGif}>
-    //           {item.discription}
-    //         </Text>
-    //         <Text style={{ fontSize: 13 }}>{item.price}</Text>
-    //         <Text style={AppStyle.InforUserTheme.orderStatusTrue}>
-    //           {item.status}
-    //         </Text>
-    //       </View>
-    //     </TouchableOpacity>
-    //   )}
-    // ></FlatList>
-    <View></View>
+    <OrdersManagement />
   )
   return (
     <SafeAreaView style={AppStyle.InforUserTheme.container}>
       <View>
-        {/* <FlatList
-          ListFooterComponent={footerComponent}
-        /> */}
-
         {/* } */}
         <View>
           <View style={AppStyle.InforUserTheme.fdRow}>
@@ -221,14 +153,14 @@ const [UserID, setUserID] = useState("")
               AppStyle.InforUserTheme.horizonline
             ]}
           />
-           {/* xác nhận căn cước công dân */}
-           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip} onPress={() =>
-                    navigation.navigate('CCCD',{
-                     User,
-                     id
-                    })}>
+          {/* xác nhận căn cước công dân */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip} onPress={() =>
+            navigation.navigate('CCCD', {
+              User,
+              id
+            })}>
             <View>
-            <AntDesign style={AppStyle.InforUserTheme.icon} name="idcard" size={24} color="black" />
+              <AntDesign style={AppStyle.InforUserTheme.icon} name="idcard" size={24} color="black" />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
               <Text style={{ fontSize: 15 }}>Xác Nhận Căn Cước Công Dân</Text>
@@ -237,15 +169,15 @@ const [UserID, setUserID] = useState("")
           </TouchableOpacity>
           {/* Vourcher */}
           <TouchableOpacity
-          onPress={() =>
-                    navigation.navigate('Vourcher',{
-                     User,
-                     id
-                    })}
-          
-           style={AppStyle.InforUserTheme.supportLoShip}>
+            onPress={() =>
+              navigation.navigate('Vourcher', {
+                User,
+                id
+              })}
+
+            style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
-            <Image style={{height:30,width:30,marginRight:10, marginLeft:20}} source={require("../../../assets/coupon.png")}></Image>
+              <Image style={{ height: 30, width: 30, marginRight: 10, marginLeft: 20 }} source={require("../../../assets/coupon.png")}></Image>
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
               <Text style={{ fontSize: 15 }}>Mã Khuyến Mãi</Text>
@@ -360,11 +292,14 @@ const [UserID, setUserID] = useState("")
             ]}
           />
 
-          <Text style={AppStyle.InforUserTheme.htrOrderText}>
-            Lịch sử đơn hàng
-          </Text>
+          <Pressable onPress={() => { navigation.navigate('OrdersManagement') }}>
+            <Text>
+              Lịch sử đơn hàng
+            </Text>
+          </Pressable>
         </View>
       </View>
+
     </SafeAreaView>
   )
 }

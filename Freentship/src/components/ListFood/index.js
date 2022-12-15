@@ -103,6 +103,7 @@ const ListFood = ({
       <FlatList
         horizontal={true}
         data={categoriesData}
+      
         renderItem={({ item }) => (
           <TouchableOpacity
             key={item.id}

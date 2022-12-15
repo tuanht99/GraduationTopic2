@@ -26,6 +26,20 @@ export async function ShipperInFo(idShipper) {
   }
 }
 
+export async function UpdateOrderHistory(orderId) {
+  const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+  const docSnap = await getDoc(washingtonRef)
+  // Set the "capital" field of the city 'DC'
+  if (docSnap.exists()) {
+    await updateDoc(washingtonRef, {
+      orders_history: [...docSnap.data().orders_history, `${orderId}`]
+    })
+  } else {
+    // doc.data() will be undefined in this case
+    console.log('No such document!')
+  }
+}
+
 export async function UpdateFavoriteStore(storeId) {
   const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
   const docSnap = await getDoc(washingtonRef)

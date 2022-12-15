@@ -20,12 +20,18 @@ import { SignupPending } from '../screens/SignupPending'
 import { LocationScreen } from '../screens/LocationScreen'
 import { SearchScreen } from '../screens/SearchScreen'
 import StoreScreen from '../screens/Store/StoreScreen'
-
+import { RatingView } from "../screens/RatingView";
+import { CommentsView } from '../screens/CommentsView'
 // notify Order
 import NotifyOrder from '../screens/Notify/NotifyOrder'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
 import Vourcher from '../screens/Coupon/Vourcher'
 import ModalVourcher from '../Components/ModalVourcher'
+import OrdersManagement from '../screens/Order/OrdersManagement'
+import OrderItem from '../Components/Order/OrderItem'
+import OrderStatus from '../screens/OrderStatus/index'
+import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
+
 const Stack = createNativeStackNavigator()
 
 function Router() {
@@ -33,7 +39,7 @@ function Router() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
-          name="InforView"
+          name="InfoView"
           options={{
             // hidden navbar
             headerShown: false
@@ -44,15 +50,36 @@ function Router() {
           // hidden navbar
           headerShown: false
         }} />
-        <Stack.Screen name="StoreScreen" component={StoreScreen} />
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="OrdersManagement" component={OrdersManagement} />
+        <Stack.Screen name="StoreScreen" component={StoreScreen}
+          options={{
+            // hidden navbar
+            headerShown: false
+          }}
+        />
+        <Stack.Screen name="OrderItemDetail" component={OrderItemDetail}
+        />
+        <Stack.Screen name="RatingView" component={RatingView}
+        />
+        <Stack.Screen name="OrderStatus" component={OrderStatus}
+        />
+        <Stack.Screen name="CommentsView" component={CommentsView}
+        />
+        <Stack.Screen name="OrderItem" component={OrderItem}
+        />
+
+        <Stack.Screen name="SearchScreen" component={SearchScreen}
+          options={{
+            // hidden navbar
+            headerShown: false
+          }}
+        />
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="HomeTab" component={HomeNavigator}
           options={{
             // hidden navbar

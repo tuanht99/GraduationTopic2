@@ -263,7 +263,7 @@ function StoreScreen({ navigation, route }) {
             {' '}
             4.1 <Text style={{ color: '#666666', fontSize: 15 }}>(15+)</Text>
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('CommentsView', { storeId: storeId, storeName: stores.name, rating: 100, data: [] })}>
             <Text style={{ color: '#0099FF', minWidth: 100 }}>Xem thêm</Text>
           </TouchableOpacity>
         </View>

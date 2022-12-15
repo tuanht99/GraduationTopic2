@@ -4,7 +4,7 @@ import {
   SafeAreaView,
   Image,
   Text,
-  
+
   TouchableOpacity,
 } from "react-native";
 
@@ -30,36 +30,6 @@ import {
 } from "firebase/firestore";
 import { Fontisto } from "@expo/vector-icons";
 
-const DATA = {
-  id: 1,
-  name: "Nước ngọt c2",
-  namesp: "Gì cũng đc miễn là cùng cửa hàng",
-  namesp2: "Khi thêm món khác cửa hàng thì làm mới giỏ hàng",
-  discription: "Thơm ngon mời bạn ăn nha, getgo, getgo,...",
-  location: "",
-  relationship: "Đối tác lo ship",
-  price: "20.000",
-  status: "",
-  shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
-  shopSl: "14 sản phẩm",
-  shopname: "Tea 1998",
-  shopimage: require("../../../assets/Food/nuoc_c2.png"),
-  monAn1: require("../../../assets/Food/nuoc_c2.png"),
-  avt: require("../../../assets/Food/longxaodua.png"),
-  userName: "Phú",
-  txtyour: "bạn",
-  txtDatDon: "Đặt đơn",
-  txtsplq: "Sản phẩm cùng cửa hàng",
-  txtXemCuaHang: "Xem cửa hàng",
-  txtDis: "Thông tin sản phẩm",
-  txtThayDoi: "Thay đổi",
-  txtTong: "60.000",
-  txtPttt: "Trả tiền mặt khi nhận hàng",
-  txtcamon: "Cảm ơn bạn Phú đã cho Freentship đc phục vụ",
-  txtmadon: "#2TAXKH6",
-  txtShip: "2.000",
-};
-
 // Navigation
 export default function DetailOrderView({ navigation }) {
   React.useLayoutEffect(() => {
@@ -69,7 +39,7 @@ export default function DetailOrderView({ navigation }) {
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
-      
+
       title: "Chi tiết đơn hàng " + DATA.txtmadon,
       headerTitleAlign: "center",
       headerTitleStyle: {
@@ -95,7 +65,6 @@ export default function DetailOrderView({ navigation }) {
   const [Order, setOrder] = useState([])
   useEffect(() => {
     const odr = onSnapshot(doc(db, 'orders', idOrder), doc => {
-      console.log('ordero: ', doc.data())
       setOrder(doc.data())
     })
   }, [idOrder])
@@ -105,8 +74,7 @@ export default function DetailOrderView({ navigation }) {
   const idOrderStatus = '9'
   const [orderStatus, setOrderStatus] = useState([])
   useEffect(() => {
-    const odr = onSnapshot(doc(db, 'order_status',idOrderStatus), doc => {
-      console.log('ordestatus: ', doc.data())
+    const odr = onSnapshot(doc(db, 'order_status', idOrderStatus), doc => {
       setOrderStatus(doc.data())
     })
   }, [idOrder])
@@ -128,7 +96,7 @@ export default function DetailOrderView({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 0.8 }}>
-        <View style={{paddingBottom: 10}}></View>
+        <View style={{ paddingBottom: 10 }}></View>
 
         {/* mã đơns\ */}
         <View
@@ -141,7 +109,7 @@ export default function DetailOrderView({ navigation }) {
             borderBottomColor: "#808080",
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View style={{ flexDirection: "row", paddingBottom: 20 }}>
               <View style={{ justifyContent: "center", paddingRight: 10 }}>
                 <MaterialCommunityIcons
@@ -182,7 +150,7 @@ export default function DetailOrderView({ navigation }) {
           }}
         ></View>
 
-        <View style={{paddingBottom: 10}}></View>
+        <View style={{ paddingBottom: 10 }}></View>
 
         {/* x món */}
 
@@ -197,7 +165,7 @@ export default function DetailOrderView({ navigation }) {
               borderBottomColor: "#808080",
             }}
           >
-            <View style={{marginLeft: 10}}>
+            <View style={{ marginLeft: 10 }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -242,7 +210,7 @@ export default function DetailOrderView({ navigation }) {
             </View>
           </View>
 
-          
+
         </View>
 
         {/* Phí ship */}
@@ -256,7 +224,7 @@ export default function DetailOrderView({ navigation }) {
             borderTopColor: "#808080",
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -280,7 +248,7 @@ export default function DetailOrderView({ navigation }) {
           </View>
         </View>
 
-        <View style={{paddingBottom: 10}}></View>
+        <View style={{ paddingBottom: 10 }}></View>
 
         {/* phương thức thanh toán */}
         <View
@@ -291,7 +259,7 @@ export default function DetailOrderView({ navigation }) {
             paddingBottom: 10,
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -354,7 +322,7 @@ export default function DetailOrderView({ navigation }) {
             bottom: 0,
           }}
         >
-          <View style={{marginLeft: 10}}>
+          <View style={{ marginLeft: 10 }}>
             <View
               style={{
                 flexDirection: "row",
@@ -384,18 +352,18 @@ export default function DetailOrderView({ navigation }) {
                 height: 40,
               }}
             >
-              <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center'}}>
-                <View style={{paddingRight: 10}}>
-                    <Fontisto
-                  name="spinner-rotate-forward"
-                  size={15}
-                  color="white"
-                />
+              <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ paddingRight: 10 }}>
+                  <Fontisto
+                    name="spinner-rotate-forward"
+                    size={15}
+                    color="white"
+                  />
                 </View>
                 <View >
-                    <Text style={{ color: "#fff" }}>Đặc lại</Text>
+                  <Text style={{ color: "#fff" }}>Đặc lại</Text>
                 </View>
-                
+
               </View>
             </TouchableOpacity>
           </View>

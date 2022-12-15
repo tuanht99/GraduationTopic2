@@ -14,7 +14,7 @@ import formatCash from '../../Components/formatCash'
 import call from 'react-native-phone-call'
 import { doc, onSnapshot } from 'firebase/firestore'
 
-const OrderStatus = ({ navigation, route }) => {
+export const OrderItemDetail = ({ navigation, route }) => {
   const { orderId } = route.params
 
   const [orderStatus, setOrderStatus] = useState()
@@ -75,33 +75,6 @@ const OrderStatus = ({ navigation, route }) => {
             <Text className="my-1" numberOfLines={1}>
               Loại xe : {loaixe}
             </Text>
-
-            <View className="flex-row mt-1">
-              <TouchableOpacity
-                onPress={() =>
-                  call({
-                    number: phone + '',
-                    prompt: false
-                  }).catch(console.error)
-                }
-                className="flex-row bg-zinc-200 rounded-xl py-1 px-2 mr-2"
-              >
-                <Feather name="phone" size={20} color="black" />
-                <Text className="font-bold ml-1"> Gọi</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
-                <FontAwesome5 name="search-location" size={20} color="black" />
-                <Text className="font-bold ml-1">Xem trên bản đồ</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl justify-center py-1 px-2 mt-3">
-              <Ionicons
-                name="ios-chatbox-ellipses-outline"
-                size={24}
-                color="black"
-              />
-              <Text className="font-bold ml-1"> Nhắn với tài xế</Text>
-            </TouchableOpacity>
           </View>
 
           <TouchableOpacity
@@ -134,45 +107,6 @@ const OrderStatus = ({ navigation, route }) => {
     )
   }
 
-  const ProGressBar = () => {
-    return (
-      <View>
-        <View className="flex justify-center items-center p-6">
-          <Image className="w-[100px] h-[100px] " source={progress.gif} />
-        </View>
-
-        <Text className="uppercase text-[18px] font-bold">
-          {progress.title}
-        </Text>
-        <View className="flex-row pt-3">
-          <View className="w-[15%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-            <View
-              className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-              style={{ width: progress.progress1 }}
-            ></View>
-          </View>
-          <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-            <View
-              className="bg-red-600 h-1 rounded-full dark:bg-red-500"
-              style={{ width: progress.progress2 }}
-            ></View>
-          </View>
-          <View className="w-[40%] bg-gray-400 mx-1 rounded-full h-1 mb-4 dark:bg-gray-700">
-            <View
-              className=" h-1 bg-red-500 rounded-full dark:bg-red-500"
-              style={{ width: progress.progress3 }}
-            ></View>
-          </View>
-        </View>
-
-        <Text>
-          Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
-          hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
-        </Text>
-      </View>
-    )
-  }
-
   useEffect(() => {
     if (orderStatus !== undefined) {
       switch (status) {
@@ -195,17 +129,6 @@ const OrderStatus = ({ navigation, route }) => {
             gif: pigshipperunscreen
           })
           break
-        case 4:
-          // code block tài xế đang đến cửa hàng
-          setProgress({
-            title: 'đã tìm thấy tài xế',
-            progress1: '100%',
-            progress2: '50%',
-            progress3: '0%',
-            gif: pigshipperunscreen
-          })
-          break
-
         case 6:
           // code block tài xế đã lấy hàng thành công
           setProgress({
@@ -231,12 +154,7 @@ const OrderStatus = ({ navigation, route }) => {
   }, [status])
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      className="flex-1 text-white m-5"
-    >
-      {progress !== undefined && <ProGressBar />}
-
+    <ScrollView className="flex-1 text-white m-5">
       {/* Shipper info */}
       {orderStatus !== undefined &&
       shipperInfo !== undefined &&
@@ -324,22 +242,21 @@ const OrderStatus = ({ navigation, route }) => {
         </View>
       )}
 
-      <TouchableOpacity
-        disabled
-        className="mt-8"
-        style={{
-          backgroundColor: '#C0C0C0',
-          borderRadius: 15,
-          width: '97%',
-          height: 40,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Text style={{ color: '#fff' }}>Hủy đơn</Text>
-      </TouchableOpacity>
+      {orderStatus && orderStatus.status === 5 && (
+        <TouchableOpacity
+          className="mt-8"
+          style={{
+            backgroundColor: '#E94730',
+            borderRadius: 15,
+            width: '97%',
+            height: 40,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text style={{ color: '#fff' }}>Đánh giá</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   )
 }
-
-export default OrderStatus
