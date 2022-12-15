@@ -195,6 +195,17 @@ const OrderStatus = ({ navigation, route }) => {
             gif: pigshipperunscreen
           })
           break
+        case 4:
+          // code block tài xế đang đến cửa hàng
+          setProgress({
+            title: 'đã tìm thấy tài xế',
+            progress1: '100%',
+            progress2: '50%',
+            progress3: '0%',
+            gif: pigshipperunscreen
+          })
+          break
+
         case 6:
           // code block tài xế đã lấy hàng thành công
           setProgress({
@@ -220,7 +231,10 @@ const OrderStatus = ({ navigation, route }) => {
   }, [status])
 
   return (
-    <ScrollView className="flex-1 text-white m-5">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="flex-1 text-white m-5"
+    >
       {progress !== undefined && <ProGressBar />}
 
       {/* Shipper info */}

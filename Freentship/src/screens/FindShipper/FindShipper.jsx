@@ -79,7 +79,7 @@ const FindShipper = ({ navigation, route }) => {
     await updateDoc(cancel, {
       status: 9
     }).then(() => {
-      navigation.goBack()
+      navigation.navigate('HomeTab')
     })
   }
 
@@ -213,6 +213,7 @@ const FindShipper = ({ navigation, route }) => {
         }
 
         e.preventDefault()
+        console.log(e.preventDefault())
 
         Alert.alert(
           'Bạn muốn thoát ?',
@@ -222,13 +223,27 @@ const FindShipper = ({ navigation, route }) => {
             {
               text: 'Thoát',
               style: 'destructive',
-              onPress: () => navigation.dispatch(action)
+              onPress: () => exitOrder(action)
             }
           ]
         )
       }),
     [orderStatus, navigation]
   )
+
+  // React.useEffect(() => {
+  //   // Use `setOptions` to update the button that we previously specified
+  //   // Now the button includes an `onPress` handler to update the count
+  //   navigation.setOptions({
+  //     headerLeft: () => navigation.navigate('HomeTab')
+  //   })
+  // }, [navigation])
+
+  const exitOrder = action => {
+    navigation.dispatch(action)
+    // navigation.navigate('HomeTab')
+    cancelOrder()
+  }
 
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
@@ -360,6 +375,18 @@ const FindShipper = ({ navigation, route }) => {
             gif: pigshipperunscreen
           })
           break
+
+        case 4:
+          // code block tài xế đang đến cửa hàng
+          setProgress({
+            title: 'đã tìm thấy tài xế',
+            progress1: '100%',
+            progress2: '50%',
+            progress3: '0%',
+            gif: pigshipperunscreen
+          })
+          break
+
         case 6:
           // code block tài xế đã lấy hàng thành công
           setProgress({
@@ -385,7 +412,10 @@ const FindShipper = ({ navigation, route }) => {
   }, [status])
 
   return (
-    <ScrollView className="flex-1 text-white m-5">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="flex-1 text-white m-5"
+    >
       {progress !== undefined && <ProGressBar />}
 
       {/* Shipper info */}

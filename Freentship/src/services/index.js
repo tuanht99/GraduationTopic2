@@ -12,11 +12,13 @@ export {
   UpdateFavoriteStore,
   getFavoriteStore,
   DeleteLoveStore,
-  getInfoUser, ShipperInFo
+  getInfoUser,
+  ShipperInFo,
+  UpdateOrderHistory
 } from './user'
 export { GetVourcher, UpdateVourcher } from "./Vourchers"
 export {
   AddComment, AddHeart, ReadComments, ReadCommentsByStoreId, ReadHearts, ReadHeartsByUserId, UpdateHeart
 } from './Comments'
 
-export {getUser} from './Users'
+export { getUser } from './Users'

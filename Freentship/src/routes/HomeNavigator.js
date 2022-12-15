@@ -5,9 +5,8 @@ import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
-import { getInfoUser } from '../services/index'
 import { useNavigation } from '@react-navigation/native'
-import { doc, onSnapshot, getDoc } from 'firebase/firestore'
+import { doc, onSnapshot, getDoc, query } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import InforView from '../screens/User/InforView'
 
@@ -21,9 +20,7 @@ const NotificationScreen = () => {
       <View>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('OrderStatus', {
-              orderId: 'YIyxn0rxG96xuyDsquKb'
-            })
+            navigation.navigate('HomeTab')
           }
           className="bg-red-500 w-[100px] h-[100px]"
         >
@@ -43,44 +40,40 @@ export const HomeNavigator = ({ navigation }) => {
   const [collapsed, setCollapsed] = useState(true)
   const [maxLines, setMaxLines] = useState(2)
   const animationHeight = useRef(new Animated.Value(0)).current
-
-  console.log('orders: ', orders)
-  console.log('ordersAc: ', ordersAc)
+  
+  console.log('orders' , orders);
+  console.log('ordersAc' , ordersAc);
   useEffect(() => {
-    // setOrders([])
-    getInfoUser('kxzmOQS3sVUr2pm9AbLI').then(user => {
-      const orders = []
-      user.a.forEach(element => {
-        onSnapshot(doc(db, 'orders', element), doc => {
-          orders.push({
-            status: doc.data().status,
-            id: doc.id
-            // name: doc.data().name,
-          })
-          setOrders(orders)
+  
+    const q = query(doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI'))
+    const unsubscribe = onSnapshot(q, querySnapshot => {
+      setOrders([])
+      querySnapshot.data().orders_history.forEach(element => {
+        getDoc(doc(db, 'orders', element)).then(doc => {
+          setOrders(prev => [...prev, { ...doc.data(), id: doc.id }])
         })
       })
     })
+
+    return () => {
+      unsubscribe
+    }
   }, [])
 
   useEffect(() => {
-    // const arr = orders.filter(getOrders)
-    // console.log('arr', arr)
-    // setOrdersAc(arr)
     if (orders.length > 0) {
-      setOrdersAc([])
-      orders.forEach(elements => {
-        console.log('elements.status', elements.status)
-        if (elements.status === 6 || elements.status === 2) {
-          setOrdersAc(prev => [...prev, elements])
-        }
-      })
+      const arr = orders.filter(getOrders)
+      setOrdersAc(arr)
     }
   }, [orders])
 
-  // const getOrders = orders => {
-  //   return orders.status === 6 || orders.status === 3 || orders.status === 2
-  // }
+  const getOrders = orders => {
+    return (
+      orders.status === 6 ||
+      orders.status === 3 ||
+      orders.status === 4
+    )
+  }
 
   React.useEffect(() => {
     let total = 0
@@ -168,7 +161,7 @@ export const HomeNavigator = ({ navigation }) => {
             <View className="ml-2">
               <MaterialIcons name="library-books" size={24} color="black" />
             </View>
-            <Text className="font-bold ">
+            <Text className="font-bold ml-2">
               {ordersAc.length} đơn hàng đang được xử lý
             </Text>
           </TouchableOpacity>
@@ -177,15 +170,18 @@ export const HomeNavigator = ({ navigation }) => {
             className="w-full bg-white border-b"
             style={{ maxHeight: animationHeight }}
           >
-            {ordersAc.map(e => {
+            {ordersAc.map((e, index) => {
               return (
                 <TouchableOpacity
+                  key={index}
                   onPress={() =>
                     navigation.navigate('OrderStatus', { orderId: e.id })
                   }
                   className="flex-row justify-between items-center mx-4"
                 >
-                  <Text className="p-2" numberOfLines={maxLines}>{e.id}</Text>
+                  <Text className="p-2" numberOfLines={maxLines}>
+                    {e.store_name}
+                  </Text>
                   <Text className="font-bold text-blue-500">Xem</Text>
                 </TouchableOpacity>
               )
