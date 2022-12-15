@@ -19,6 +19,8 @@ import {
   PhoneAuthProvider
 } from 'firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useDispatch } from "react-redux";
+import { addUser } from "../redux/user";
 
 export function LoginScreen({ navigation }) {
   const [value, setValue] = useState('')
@@ -26,14 +28,16 @@ export function LoginScreen({ navigation }) {
   const [valid, setValid] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const phoneInput = useRef(null)
+  const dispatch = useDispatch();
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('userID1')
       if (value !== null) {
         const docRef = doc(db, 'users', value + '')
         const docSnap = await getDoc(docRef)
-        console.log(docSnap.data())
+        console.log({ anime: docSnap.data() })
         if (docSnap.exists()) {
+          dispatch(addUser({ id: docSnap.id, name: docSnap.data().name, avatar: docSnap.data().avatar, type: "LOGIN" }))
           navigation.navigate('LocationScreen')
         }
       }

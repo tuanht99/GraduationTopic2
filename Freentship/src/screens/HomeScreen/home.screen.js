@@ -11,8 +11,7 @@ import { CategoryHeader } from '../../Components/molecules/CategoryHeader'
 import { useSelector } from "react-redux";
 
 
-export const HomeScreen = ({ navigation, route }) => {
-
+export const HomeScreen = ({ navigation }) => {
   const location = useSelector(state => state.locUser)
   const LIMIT = 10
   const categories = [
