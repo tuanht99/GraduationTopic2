@@ -4,58 +4,36 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar,
   Alert
 } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import AppStyle from '../../themes/InforUserSettingTheme'
 import { Ionicons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
-import NumberFormat from 'react-number-format'
 // list dữ liệu
 import * as ImagePicker from 'expo-image-picker'
 import { db } from '../../services/config'
 
 import {
   doc,
-  setDoc,
   collection,
   addDoc,
   updateDoc,
-  deleteDoc,
-  getDoc,
-  getDocs,
-  where,
-  query,
-  QuerySnapshot,
-  editDoc,
-  onSnapshot
 } from 'firebase/firestore'
 import {
   getStorage,
   ref,
   uploadBytes,
   getDownloadURL,
-  getBlob
 } from 'firebase/storage'
 
 // list
 
 export default function InforSettingView({ navigation, route }) {
   const { guestname, avatar, date, sex, id, gmail, phone } = route.params
-  // console.log('name: ' + guestname)
-  // console.log('avatar: ' + avatar)
   const avatarlocal = avatar
-  // console.log('sex: ' + sex)
-  // console.log('id: ' + id)
-  // console.log('gmail: ' + gmail)
-  // console.log('phone: ' + phone)
-  // update Firebase Image *************** CN xong
   const [image, setImage] = useState('')
   const [namePathImage, setNamePathImage] = React.useState(null)
-
-
- 
 
   function editImage() {
     updateDoc(doc(db, 'users', id), {
@@ -68,11 +46,7 @@ export default function InforSettingView({ navigation, route }) {
       console.log(error)
     })
     Alert.alert('Thông báo', 'Thay đổi hình ảnh thành công', [{ text: 'OK' }])
-
-    // 7T5uG3Si5NHioADgam1Z
   }
-
-
 
   // image picker
   const [ChangeImage, setChangeImage] = useState(null)
@@ -87,13 +61,7 @@ export default function InforSettingView({ navigation, route }) {
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync()
     setChangeImage(pickerResult.uri)
-    console.log('địa chỉ Local :' + pickerResult.uri)
-    
-    // test 12:29
-     // TODO: Fix
     const storage = getStorage()
-    // const id = Math.random().toString(36).substring(7);
-    // const id = React.useId()
     const bytes = new Uint8Array(pickerResult.uri)
     const metadata = {
       contentType: 'image/jpeg'
@@ -289,7 +257,7 @@ export default function InforSettingView({ navigation, route }) {
                   color: 'black'
                 }}
               >
-                0{phone}
+                {phone}
               </Text>
             </View>
           </View>
