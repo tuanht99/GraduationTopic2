@@ -23,26 +23,37 @@ import { db } from '../../services/config'
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
 import OrdersManagement from '../../screens/Order/OrdersManagement'
 import { Pressable } from 'react-native'
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('userID1')
+    if (value !== null) {
+      setIdUser(value)
+    }
+  } catch (e) {
+    console.log('Không có user id này!')
+  }
+}
 // end
 export default function InforView({ navigation }) {
-
-  const [UserID, setUserID] = useState("")
   // firebase
-  const idUser = 'kxzmOQS3sVUr2pm9AbLI'
-
+  const [idUser, setIdUser] = useState()
   const [User, setUser] = useState([])
+
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
-      console.log("Current data: ", doc.data())
-      setUser(doc.data())
-      // đợi trợ giúp
-      // console.log('ngày giờ fire base  : '+ User.dateOfBirth.seconds)
-      // console.log('ngày giờ fire base  : '+ User.dateOfBirth.nanoseconds)
-    })
-
-
+    getData()
+  }, [])
+  useEffect(() => {
+    if (idUser != undefined) {
+      const unsub = onSnapshot(doc(db, 'users', idUser), doc => {
+        console.log("Current data: ", doc.data())
+        setUser(doc.data())
+        // đợi trợ giúp
+        // console.log('ngày giờ fire base  : '+ User.dateOfBirth.seconds)
+        // console.log('ngày giờ fire base  : '+ User.dateOfBirth.nanoseconds)
+      })
+    }
   }, [idUser])
-
+  console.log("cc", User);
   // dữ liệu
   const guestname = User.name
   const avatar = User.avatar

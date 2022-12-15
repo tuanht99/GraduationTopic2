@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { TouchableRipple } from 'react-native-paper'
 import { AntDesign } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
 
 export default function OrderItem({ value, navigation }) {
-  console.log('value', value)
+  const [foods, setFoods] = useState()
+
   return (
     <View
       style={styles.item}
