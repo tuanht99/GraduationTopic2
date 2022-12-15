@@ -79,7 +79,7 @@ const FindShipper = ({ navigation, route }) => {
     await updateDoc(cancel, {
       status: 9
     }).then(() => {
-      navigation.goBack()
+      navigation.navigate('HomeTab')
     })
   }
 
@@ -212,6 +212,7 @@ const FindShipper = ({ navigation, route }) => {
         }
 
         e.preventDefault()
+        console.log(e.preventDefault())
 
         Alert.alert(
           'Bạn muốn thoát ?',
@@ -229,10 +230,19 @@ const FindShipper = ({ navigation, route }) => {
     [orderStatus, navigation]
   )
 
-const exitOrder = (action) => {
-  navigation.dispatch(action)
-  cancelOrder()
-}
+  // React.useEffect(() => {
+  //   // Use `setOptions` to update the button that we previously specified
+  //   // Now the button includes an `onPress` handler to update the count
+  //   navigation.setOptions({
+  //     headerLeft: () => navigation.navigate('HomeTab')
+  //   })
+  // }, [navigation])
+
+  const exitOrder = action => {
+    navigation.dispatch(action)
+    // navigation.navigate('HomeTab')
+    cancelOrder()
+  }
 
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
@@ -401,7 +411,10 @@ const exitOrder = (action) => {
   }, [status])
 
   return (
-    <ScrollView   showsVerticalScrollIndicator ={false} className="flex-1 text-white m-5">
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="flex-1 text-white m-5"
+    >
       {progress !== undefined && <ProGressBar />}
 
       {/* Shipper info */}

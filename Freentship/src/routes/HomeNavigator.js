@@ -19,9 +19,7 @@ const NotificationScreen = () => {
       <View>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('OrderStatus', {
-              orderId: 'YIyxn0rxG96xuyDsquKb'
-            })
+            navigation.navigate('HomeTab')
           }
           className="bg-red-500 w-[100px] h-[100px]"
         >
@@ -187,7 +185,7 @@ export const HomeNavigator = ({ navigation }) => {
                   className="flex-row justify-between items-center mx-4"
                 >
                   <Text className="p-2" numberOfLines={maxLines}>
-                    {e.id}
+                    {e.store_name}
                   </Text>
                   <Text className="font-bold text-blue-500">Xem</Text>
                 </TouchableOpacity>

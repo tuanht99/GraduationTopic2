@@ -16,7 +16,7 @@ import { LocationScreen } from './src/screens/LocationScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Provider } from 'react-redux'
 import { store } from './src/redux/store'
-
+import { HeaderBackButton } from '@react-navigation/stack'
 const Stack = createNativeStackNavigator()
 
 export default function App() {
@@ -59,7 +59,15 @@ export default function App() {
             <Stack.Screen name="CartView" component={CardView} />
             <Stack.Screen name="OrderView" component={OrderView} />
             <Stack.Screen name="YourOrderView" component={YourOrderView} />
-            <Stack.Screen name="FindShipper" component={FindShipper} />
+            <Stack.Screen
+              name="FindShipper"
+              component={FindShipper}
+              options={({ navigation }) => ({
+                // headerLeft: props => ({ ...props }),
+
+                title: 'Tìm xử trạng thái đơn hàng'
+              })}
+            />
             <Stack.Screen
               name="ShipperInfo"
               component={ShipperInfo}

@@ -68,6 +68,7 @@ export default function OrderView({ navigation }) {
     distance: 0,
     meno: carts[0].note,
     food_store_id: carts[0].storeId,
+    store_name : carts[0].storeName,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
     ship_fee: PhiShip,
