@@ -12,7 +12,7 @@ import {
 import { Picker } from '@react-native-picker/picker'
 import AppStyle from '../../themes/ChangeProfileTheme'
 import { Ionicons } from '@expo/vector-icons'
-import ModalSimple from '../../Components/ModalCalendar'
+import ModalSimple from '../../components/ModalCalendar'
 import React, { useState, useEffect, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { db } from '../../services/config'

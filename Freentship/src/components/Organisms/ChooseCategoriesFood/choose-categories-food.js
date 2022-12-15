@@ -19,6 +19,7 @@ export const ChooseCategoriesFood = ({ navigation, location }) => {
   const [minutes, setMinutes] = React.useState(60 - new Date().getMinutes())
   const [data, setData] = React.useState(null)
 
+  
   React.useEffect(() => {
     const time = setInterval(() => {
       setMinutes(60 - new Date().getMinutes())

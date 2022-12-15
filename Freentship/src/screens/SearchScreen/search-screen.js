@@ -1,9 +1,9 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import styles from './search-screen.style'
-import { ComeBack } from '../../Components/Organisms/ComeBack'
-import { LocationSearch } from '../../Components/Organisms/LocationSearch'
-import { CategoryFood } from '../../Components/Organisms/CategoryFood'
+import { ComeBack } from '../../components/Organisms/ComeBack'
+import { LocationSearch } from '../../components/Organisms/LocationSearch'
+import { CategoryFood } from '../../components/Organisms/CategoryFood'
 import { limit, orderBy, where, startAt, endAt } from 'firebase/firestore'
 import {
   ReadCategories,

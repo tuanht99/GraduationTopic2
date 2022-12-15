@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import { ScrollView, View, TouchableOpacity, Text } from 'react-native'
 import styles from './home.style'
-import { TopBanner } from '../../Components/Organisms/TopBanner'
-import { SearchHome } from '../../Components/Organisms/SearchHome/search-home'
-import { ChooseCategoriesFood } from '../../Components/Organisms/ChooseCategoriesFood/'
-import { CategoryFood } from '../../Components/Organisms/CategoryFood'
+import { TopBanner } from '../../components/Organisms/TopBanner'
+import { SearchHome } from '../../components/Organisms/SearchHome/search-home'
+import { ChooseCategoriesFood } from '../../components/Organisms/ChooseCategoriesFood/'
+import { CategoryFood } from '../../components/Organisms/CategoryFood'
 import { ReadDataFoodStores, ReadDataFoodStoresByFood } from '../../services'
 import { orderBy, where, limit } from 'firebase/firestore'
-import { CategoryHeader } from '../../Components/molecules/CategoryHeader'
+import { CategoryHeader } from '../../components/molecules/CategoryHeader'
 import { useSelector } from "react-redux";
 
 
 export const HomeScreen = ({ navigation }) => {
   const location = useSelector(state => state.locUser)
+  
   const LIMIT = 10
   const categories = [
     'Thử quán mới',
@@ -26,6 +27,8 @@ export const HomeScreen = ({ navigation }) => {
     [where('discount', '>', 0), orderBy('discount', 'desc'), limit(LIMIT)]
   ]
   const firestore = [ReadDataFoodStores, ReadDataFoodStoresByFood]
+
+
 
   React.useEffect(() => {
     ; (async () => {

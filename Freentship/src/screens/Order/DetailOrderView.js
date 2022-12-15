@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  SafeAreaView,
-  Image,
   Text,
-
   TouchableOpacity,
 } from "react-native";
 
@@ -15,17 +12,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { db } from "../../services/firebase";
 import {
   doc,
-  setDoc,
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  getDoc,
-  getDocs,
-  where,
-  query,
-  QuerySnapshot,
-  editDoc,
   onSnapshot,
 } from "firebase/firestore";
 import { Fontisto } from "@expo/vector-icons";

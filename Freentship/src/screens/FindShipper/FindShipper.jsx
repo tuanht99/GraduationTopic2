@@ -17,7 +17,7 @@ import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
-import formatCash from '../../Components/formatCash'
+import formatCash from '../../components/formatCash'
 import call from 'react-native-phone-call'
 import {
   collection,
@@ -41,7 +41,6 @@ const FindShipper = ({ navigation, route }) => {
   const [shipperInfo, setShipperInfo] = useState()
   const [status, setStatus] = useState(0)
 
-  // console.log('orderStatus' , orderStatus);
   useEffect(() => {
     if (orderStatus !== undefined) {
       if (orderStatus.shipperId !== '') {
@@ -95,7 +94,6 @@ const FindShipper = ({ navigation, route }) => {
 
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach(doc => {
-        console.log('loggggg', doc.data())
         manyShippers.push({
           id: doc.id,
           ...doc.data(),

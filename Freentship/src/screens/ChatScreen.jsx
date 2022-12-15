@@ -2,7 +2,7 @@ import { View, Text, FlatList, Keyboard } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput } from 'react-native-paper'
-import ChatSample from '../Components/ChatSample'
+import ChatSample from '../components/ChatSample'
 import {
   arrayUnion,
   doc,

@@ -11,13 +11,12 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
-import Longxaodua from '../../../assets/Food/longxaodua.png'
 import Gif from '../../../assets/gift.jpg'
 import AppStyle from '../../themes/IndexTheme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 // firebase import
 import { db } from '../../services/config'
-import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
+import { onSnapshot, doc } from 'firebase/firestore'
 import OrdersManagement from '../../screens/Order/OrdersManagement'
 import { Pressable } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -195,7 +194,7 @@ export default function InforView({ navigation }) {
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
           {/* cửa hàng yêu thích */}
-          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+          <TouchableOpacity onPress={()=> navigation.navigate('FavoriteStoreView')} style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
               <FontAwesome5 name="heart" style={AppStyle.InforUserTheme.icon} />
             </View>
