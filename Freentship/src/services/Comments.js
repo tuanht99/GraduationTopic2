@@ -3,7 +3,7 @@ import {
     collection,
     collectionGroup,
     doc,
-    getDocs,
+    getDocs, orderBy,
     query,
     serverTimestamp,
     updateDoc,
@@ -33,7 +33,7 @@ export const ReadComments = async (q = [], group = false) => {
 
 export const ReadCommentsByStoreId = async (storeId) => {
     const data = []
-    const q = [where("storeId", "==", storeId)]
+    const q = [where("storeId", "==", storeId), orderBy('created_at', 'desc')]
     await ReadComments(q).then((res) => {
         data.push(...res)
     }).catch((err) => {
