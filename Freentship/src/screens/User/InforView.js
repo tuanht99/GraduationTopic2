@@ -3,9 +3,6 @@ import {
   Text,
   View,
   Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   TouchableOpacity,
   FlatList,
 
@@ -23,18 +20,21 @@ import { db } from '../../services/config'
 import { collection, query, where, onSnapshot, doc } from 'firebase/firestore'
 import OrdersManagement from '../../screens/Order/OrdersManagement'
 import { Pressable } from 'react-native'
-const getData = async () => {
-  try {
-    const value = await AsyncStorage.getItem('userID1')
-    if (value !== null) {
-      setIdUser(value)
-    }
-  } catch (e) {
-    console.log('Không có user id này!')
-  }
-}
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+
 // end
 export default function InforView({ navigation }) {
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userID1')
+      if (value !== null) {
+        setIdUser(value)
+      }
+    } catch (e) {
+      console.log('Không có user id này!')
+    }
+  }
   // firebase
   const [idUser, setIdUser] = useState()
   const [User, setUser] = useState([])
@@ -69,7 +69,7 @@ export default function InforView({ navigation }) {
     <OrdersManagement />
   )
   return (
-    <SafeAreaView style={AppStyle.InforUserTheme.container}>
+    <SafeAreaView>
       <View>
         {/* } */}
         <View>

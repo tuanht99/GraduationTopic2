@@ -30,6 +30,7 @@ import OrdersManagement from '../screens/Order/OrdersManagement'
 import OrderItem from '../Components/Order/OrderItem'
 import OrderStatus from '../screens/OrderStatus/index'
 import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
+import ChatScreen from '../screens/ChatScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -56,6 +57,7 @@ function Router() {
             headerShown: false
           }}
         />
+        <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="OrderItemDetail" component={OrderItemDetail}
         />
         <Stack.Screen name="RatingView" component={RatingView}
