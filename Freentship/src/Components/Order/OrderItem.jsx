@@ -1,12 +1,8 @@
-import { View, Text, StyleSheet, StatusBar } from 'react-native'
-import React, { useState } from 'react'
-import { TouchableRipple } from 'react-native-paper'
-import { AntDesign } from '@expo/vector-icons'
-import { MaterialIcons } from '@expo/vector-icons'
+import { View, Text, StyleSheet, StatusBar, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import formatCash from '../formatCash'
 
 export default function OrderItem({ value, navigation }) {
-  const [foods, setFoods] = useState()
-
   return (
     <View
       style={styles.item}
@@ -16,35 +12,45 @@ export default function OrderItem({ value, navigation }) {
         })
       }}
     >
-      {/* <AntDesign name="checkcircle" size={24} color="black" />
-       <AntDesign name="closecircle" size={24} color="black" /> */}
-      {value.data.status == 5 && (
-        <AntDesign name="checkcircle" size={24} color="green" />
-      )}
-      {value.data.status == 9 && (
-        <AntDesign name="closecircle" size={24} color="#E94730" />
-      )}
-      {(value.data.status == 3 || value.status == 2) && (
-        <MaterialIcons name="pending" size={24} color="#E94730" />
-      )}
-      <Text style={styles.title}>{value.id}</Text>
+      <View style={{ borderRadius: 50 }}>
+        <Image
+          style={{ width: 100, height: 100, borderRadius: 10 }}
+          source={{ uri: value.data.ordered_food[0].image + '' }}
+        />
+      </View>
+      <View style={{ paddingLeft: 10 }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: '800'
+          }}
+        >
+          {value.data.store_name}
+        </Text>
+        <Text style={{ fontSize: 18, color: 'grey' }}>
+          {value.data.ordered_food[0].food_name}
+        </Text>
+        <Text style={{ fontSize: 18 }}>
+          Tổng tiền: {formatCash(value.data.totalPrice + '')} VNĐ
+        </Text>
+        <Text>
+          {value.status == 5 ? (
+            <Text style={{ color: 'green' }}>Giao hàng thành công</Text>
+          ) : (
+            <Text style={{ color: 'red' }}>Đã huỷ</Text>
+          )}
+        </Text>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0
-  },
   item: {
     flexDirection: 'row',
     backgroundColor: 'white',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16
-  },
-  title: {
-    fontSize: 20
   }
 })

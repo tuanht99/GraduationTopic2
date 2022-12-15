@@ -64,7 +64,12 @@ function Router() {
         <Stack.Screen name="OrderItem" component={OrderItem}
         />
 
-        <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen}
+          options={{
+            // hidden navbar
+            headerShown: false
+          }}
+        />
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />

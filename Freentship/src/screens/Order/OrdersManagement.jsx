@@ -39,16 +39,18 @@ export default function OrdersManagement({ navigation }) {
   const [userID, setUserID] = useState()
   const [orders, setOrders] = useState([])
 
+  // Lấy user ID từ local storage
   useEffect(() => {
     getUserID()
-    console.log(userID)
   }, [])
 
+  // Nhờ vào userID ta lấy được các orders của user đó
   useEffect(() => {
     if (userID !== '') {
       getOrders()
     }
   }, [userID])
+
   return (
     <SafeAreaView>
       {orders.length > 0 ? (
