@@ -10,12 +10,14 @@ import { getDownloadURL, ref as refStorage, uploadBytesResumable } from "firebas
 import imageCamera from "../assets/4001465.png";
 import { BackgroundImage } from "react-native-elements/dist/config";
 import { AddComment, storage } from "../services";
+import { useSelector } from "react-redux";
 
 
 export const RatingView = ({ navigation, route }) => {
     const PATH_IMAGE = 'comments/';
     const avataStore = MonAnImg;
     const { storeId, nameStore } = route.params;
+    const user = useSelector(state => state.user)
     const [isEmotion, setIsEmotion] = React.useState(true);
     const [comment, setComment] = React.useState('');
     const [images, setImages] = React.useState([]);
@@ -40,7 +42,7 @@ export const RatingView = ({ navigation, route }) => {
 
         const path_image = await test(images);
 
-        AddComment({ storeId, comment, isEmotion, path_image }).then(() => {
+        AddComment({ storeId, comment, isEmotion, path_image, user }).then(() => {
             console.log('them comment thanh cong');
         }).catch(err => {
             console.log(err);

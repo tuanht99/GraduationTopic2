@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import avatarImage from '../assets/images/monAn1.png'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { Colors } from '../styles'
 import { Card } from '../Components/molecules/Card'
@@ -17,8 +16,10 @@ import {
   ReadHeartsByUserId,
   UpdateHeart
 } from '../services'
+import { useSelector } from "react-redux";
 
 const Comment = ({ data }) => {
+    const user = useSelector(state => state.user)
   const dataTime = data.created_at.toDate()
   const tags = [
     '#Hài lòng',
@@ -53,7 +54,7 @@ const Comment = ({ data }) => {
 
   function handleHeart() {
     if (!heart.hasOwnProperty('isHeart')) {
-      AddHeart(data.id, { userId: 'mzVAqynSkWk0KV0LZg0j', isHeart: true })
+      AddHeart(data.id, { userId: user.id, isHeart: true })
         .then(id => {
           setHeart({ id, isHeart: true })
         })
@@ -73,7 +74,7 @@ const Comment = ({ data }) => {
   }
 
   React.useEffect(() => {
-    ReadHeartsByUserId('mzVAqynSkWk0KV0LZg0j')
+    ReadHeartsByUserId(user.id)
       .then(res => {
         res.map(item => {
           if (item.commentId === data.id) {
@@ -92,11 +93,11 @@ const Comment = ({ data }) => {
     <Card styles={{ flexDirection: 'row', backgroundColor: Colors.white }}>
       <Image
         style={{ width: 35, height: 35, borderRadius: 25 }}
-        source={avatarImage}
+        source={{ uri: data.user.avatar }}
       />
       <View style={{ flex: 1, paddingStart: 6 }}>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ fontWeight: 'bold' }}>Username</Text>
+          <Text style={{ fontWeight: 'bold' }}>{data.user.name}</Text>
           <Text
             style={{
               paddingStart: 4,
@@ -131,26 +132,26 @@ const Comment = ({ data }) => {
             renderItem({ key: index, uri: image })
           )}
         </View>
-        <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
-          {tags.map((item, index) => {
-            return (
-              <Text
-                key={index}
-                style={{
-                  paddingHorizontal: 8,
-                  paddingVertical: 6,
-                  marginTop: 8,
-                  marginEnd: 8,
-                  backgroundColor: Colors.gray,
-                  color: Colors.black,
-                  borderRadius: 8
-                }}
-              >
-                {item}
-              </Text>
-            )
-          })}
-        </View>
+        {/*<View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>*/}
+        {/*  {tags.map((item, index) => {*/}
+        {/*    return (*/}
+        {/*      <Text*/}
+        {/*        key={index}*/}
+        {/*        style={{*/}
+        {/*          paddingHorizontal: 8,*/}
+        {/*          paddingVertical: 6,*/}
+        {/*          marginTop: 8,*/}
+        {/*          marginEnd: 8,*/}
+        {/*          backgroundColor: Colors.gray,*/}
+        {/*          color: Colors.black,*/}
+        {/*          borderRadius: 8*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        {item}*/}
+        {/*      </Text>*/}
+        {/*    )*/}
+        {/*  })}*/}
+        {/*</View>*/}
         <TouchableOpacity
           onPress={handleHeart}
           style={{
@@ -203,7 +204,7 @@ export const CommentsView = ({ navigation, route }) => {
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
-      title: 'Đánh giá về cửa hàng',
+      title: 'Xem đánh giá về cửa hàng',
       headerTitleAlign: 'center',
       headerTitleStyle: {
         fontSize: 15
