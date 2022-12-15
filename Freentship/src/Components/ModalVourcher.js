@@ -16,6 +16,12 @@ export default function ModalSimple(props) {
   const [listCoupon, setListCoupon] = useState()
   const IDU = 'kxzmOQS3sVUr2pm9AbLI'
 
+
+  const CloseModal = (bool ,data)=>{
+    props.changeModalVisible(bool);
+    props.setData(data);
+}
+
   useEffect(() => {
     GetVourcherUser(IDU)
       .then(data => {
@@ -29,9 +35,7 @@ export default function ModalSimple(props) {
     GetListVourcherUser('21LewmsZL2MjsNZ1ttz1').then(data => {
       setListCoupon(data)
     })
-    console.log(listCoupon)
   }, [])
-
   const Item = ({ item }) => (
     <View style={styles.item}>
       <View
@@ -45,8 +49,8 @@ export default function ModalSimple(props) {
         {/* <AntDesign style={{ marginRight:30}} name="fa-sharp" size={24} color="black" /> */}
         <TouchableOpacity
           onPress={() => {
-
-            console.log(item.price);
+              setChooseCoupon(item)
+          
           }}
           style={{ flexDirection: 'row' }}
         >
@@ -72,7 +76,7 @@ export default function ModalSimple(props) {
         <FlatList
           data={listCoupon}
           renderItem={renderItem}
-          keyExtractor={item => item.ten}
+          keyExtractor={item => item.id}
         />
         <View style={styles.Choose}>
           <View style={styles.buttionView}>
@@ -84,7 +88,7 @@ export default function ModalSimple(props) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.TouchableOpacity}
-              onPress={() => CloseModal(false, startDate)}
+              onPress={() => CloseModal(false, ChooseCoupon)}
             >
               <Text style={{ color: 'blue' }}> OK</Text>
             </TouchableOpacity>

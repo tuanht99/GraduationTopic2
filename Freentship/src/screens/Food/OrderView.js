@@ -20,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useSelector, useDispatch } from 'react-redux'
 import { addNote } from '../../redux/cartItems'
 import Modal from 'react-native-modal'
-
+import ModalCoupon from '../../Components/ModalVourcher'
 const DATA = {
   id: 1,
   name: 'Nước ngọt c2',
@@ -57,9 +57,19 @@ export default function OrderView({ navigation }) {
 
   const user_id = 'kxzmOQS3sVUr2pm9AbLI'
   const location = useSelector(state => state.locUser)
-
+  const [vourcher, setvourcher] = useState()
+  const [isModalVisibles, setisModalVisibleModal] = useState(false)
+  const [phi, setphi] = useState(0)
+  const changeModelVisible = bool => {
+    setisModalVisibleModal(bool)
+  }
+  const setData = data => {
+    setvourcher(data)
+    setphi(data.price)
+  }
   // tăng giảm số lượng
   const PhiShip = 15000
+  console.log(phi);
 
   const docData = {
     deposit: (Total * 30) / 100,
@@ -68,7 +78,7 @@ export default function OrderView({ navigation }) {
     food_store_id: carts[0].storeId,
     order_date: Timestamp.now(),
     ordered_food: dataFood,
-    ship_fee: PhiShip,
+    ship_fee: phi,
     total_food: Total - PhiShip,
     shipper_id: '',
     shipper_cancel_orders: [],
@@ -111,7 +121,7 @@ export default function OrderView({ navigation }) {
         })
       })
     })
-    setTotal(total + PhiShip)
+    setTotal((total + PhiShip)-phi)
     setDataFood(data)
   }, [carts])
 
@@ -126,7 +136,6 @@ export default function OrderView({ navigation }) {
     dispatch(addNote({ note: isNote }))
   }
 
-  console.log('cartssss', carts[0].note)
 
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -474,11 +483,22 @@ export default function OrderView({ navigation }) {
                     paddingRight: -75
                   }}
                 >
-                  {PhiShip}
+                  {phi}
                   {' Đ'}
                 </Text>
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => changeModelVisible(true)}>
+              <Modal
+                  transparent={true}
+                  animationType="fade"
+                  visible={isModalVisibles}
+                  nRequestClose={() => changeModelVisible(false)}
+                >
+                  <ModalCoupon
+                    changeModalVisible={changeModelVisible}
+                    setData={setData}
+                  ></ModalCoupon>
+                </Modal>
                 <Text
                   style={{
                     paddingRight: 30,
