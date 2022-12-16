@@ -88,25 +88,27 @@ const ListFood = ({
 
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
-      <TouchableOpacity
-        className="bg-white pr-4"
-
-        onPress={() => {
-          setCategoryId('')
-        }}
-      >
-        {categoryId === '' ? (
-          <Text style={styles.textT}>Tất cả</Text>
-        ) : (
-          <Text style={styles.textF}>Tất cả</Text>
-        )}
-      </TouchableOpacity>
-
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         data={categoriesData}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
+          <>
+          {index === 0 ? (
+            <TouchableOpacity
+            className="bg-white pr-4"
+
+            onPress={() => {
+              setCategoryId('')
+            }}
+          >
+            {categoryId === '' ? (
+              <Text style={styles.textT}>Tất cả</Text>
+            ) : (
+              <Text style={styles.textF}>Tất cả</Text>
+            )}
+          </TouchableOpacity>
+          ) : null}
           <TouchableOpacity
             key={item.id}
             onPress={() => {
@@ -119,6 +121,7 @@ const ListFood = ({
               <Text style={styles.textF}>{item.name}</Text>
             )}
           </TouchableOpacity>
+          </>
         )}
       />
     </View>

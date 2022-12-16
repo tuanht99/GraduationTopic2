@@ -85,7 +85,7 @@ export default function OrderView({ navigation }) {
           orderId: docRef.id,
           locationStore: {
             latitude: carts[0].latitude,
-            longitude: carts[0].longtitude
+            longitude: carts[0].longitude
           }
         })
       })
