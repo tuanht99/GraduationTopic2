@@ -9,7 +9,7 @@ export const MapScreenTest = () => {
   const [keyword, setKeyword] = useState('')
   const KEYMAP = 'AIzaSyAz79--n30yY9Q_e2q1dzDZRhVG7kIQTpM'
   const COMPONENTS = 'country:vn'
-  const apiMap = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&language=vi&components=${COMPONENTS}&key=${KEYMAP}`
+  const apiMap = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${keyword}&language=vi&Components=${COMPONENTS}&key=${KEYMAP}`
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0
@@ -63,7 +63,7 @@ export const MapScreenTest = () => {
         query={{
           key: KEYMAP,
           language: 'vi',
-          components: COMPONENTS
+          Components: COMPONENTS
         }}
         styles={styles.googleAPI}
       />

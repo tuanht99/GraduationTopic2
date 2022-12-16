@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
-import { ScrollView, View , TouchableOpacity , Text } from 'react-native'
+import { ScrollView, View, TouchableOpacity, Text } from 'react-native'
 import styles from './home.style'
-import { TopBanner } from '../../components/Organisms/TopBanner'
-import { SearchHome } from '../../components/Organisms/SearchHome/search-home'
-import { ChooseCategoriesFood } from '../../components/Organisms/ChooseCategoriesFood/'
-import { CategoryFood } from '../../components/Organisms/CategoryFood'
+import { TopBanner } from '../../Components/Organisms/TopBanner'
+import { SearchHome } from '../../Components/Organisms/SearchHome/search-home'
+import { ChooseCategoriesFood } from '../../Components/Organisms/ChooseCategoriesFood/'
+import { CategoryFood } from '../../Components/Organisms/CategoryFood'
 import { ReadDataFoodStores, ReadDataFoodStoresByFood } from '../../services'
 import { orderBy, where, limit } from 'firebase/firestore'
-import { CategoryHeader } from '../../components/molecules/CategoryHeader'
-import {useSelector} from "react-redux";
+import { CategoryHeader } from '../../Components/molecules/CategoryHeader'
+import { useSelector } from "react-redux";
 
 
-export const HomeScreen = ({ navigation, route }) => {
-
+export const HomeScreen = ({ navigation }) => {
   const location = useSelector(state => state.locUser)
-  const LIMIT = 10
+  
+  const LIMIT = 3
   const categories = [
     'Thử quán mới',
     'Đang khuyến mãi',
@@ -26,10 +26,12 @@ export const HomeScreen = ({ navigation, route }) => {
     [orderBy('created', 'desc'), limit(LIMIT)],
     [where('discount', '>', 0), orderBy('discount', 'desc'), limit(LIMIT)]
   ]
-  const firestore = [ReadDataFoodStores, ReadDataFoodStoresByFood]
+  const firestore = [ReadDataFoodStores, ReadDataFoodStores]
+
+
 
   React.useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       let data
       data = []
       await Promise.all(
@@ -41,6 +43,7 @@ export const HomeScreen = ({ navigation, route }) => {
       setData(data)
     })()
   }, [])
+  console.log('data', data)
 
   const handleScroll = event => {
     const scrollY = event.nativeEvent.contentOffset.y
@@ -82,7 +85,8 @@ export const HomeScreen = ({ navigation, route }) => {
     <>
       {isScrolling && (
         <SearchHome
-          style={styles.searchHomeAbs}
+            location={location}
+            style={styles.searchHomeAbs}
           styleImg={styles.searchHomeImgAbs}
           flexDirection={true}
         />
@@ -95,26 +99,26 @@ export const HomeScreen = ({ navigation, route }) => {
         onScroll={handleScroll}
       >
         <TopBanner location={location} />
-        <SearchHome style={styles.searchHome} />
+        <SearchHome location={location} style={styles.searchHome} />
         <ChooseCategoriesFood location={location} navigation={navigation} />
         {data !== null
           ? data.map((item, index) => {
-              return (
-                <View key={index}>
-                  <CategoryFood
-                    indexFirestore={index + 1}
-                    firestore={firestore[index]}
-                    location={location}
-                    title={categories[index]}
-                    data={item}
-                    navigation={navigation}
-                  />
-                </View>
-              )
-            })
+            return (
+              <View key={index}>
+                <CategoryFood
+                  indexFirestore={index + 1}
+                  firestore={firestore[index]}
+                  location={location}
+                  title={categories[index]}
+                  data={item}
+                  navigation={navigation}
+                />
+              </View>
+            )
+          })
           : firestore.map(Loader)}
 
-          
+
       </ScrollView>}
 
     </>

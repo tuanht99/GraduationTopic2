@@ -111,7 +111,7 @@ export async function getStoreinfo(idStore) {
   const ref = doc(db, 'food_stores', `${idStore}`)
   const docSnap = await getDoc(ref)
   if (docSnap.exists()) {
-    return docSnap.data()
+    return {data :docSnap.data() , id: docSnap.id}
   } else {
     console.log('No such document!')
   }

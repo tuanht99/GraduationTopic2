@@ -15,7 +15,7 @@ import { db } from '../../services'
 import Modal from 'react-native-modal'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
-const widthDis = Dimensions.get('window').width
+
 const ListFood = ({
   categoriesData,
   navigation,
@@ -24,7 +24,8 @@ const ListFood = ({
   storeImage,
   storeId,
   openTime,
-  locationStore
+  latitude,
+  longitude
 }) => {
   const [food, setFood] = useState([])
   // console.log('food', food)
@@ -67,7 +68,6 @@ const ListFood = ({
         isVisible={modalVisible}
         animationIn={'slideInLeft'}
         animationOut={'slideOutRight'}
-        
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -89,6 +89,8 @@ const ListFood = ({
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity
+        className="bg-white pr-4"
+
         onPress={() => {
           setCategoryId('')
         }}
@@ -102,8 +104,8 @@ const ListFood = ({
 
       <FlatList
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         data={categoriesData}
-      
         renderItem={({ item }) => (
           <TouchableOpacity
             key={item.id}
@@ -149,7 +151,8 @@ const ListFood = ({
                     storeAddress: storeAddress,
                     storeImage: storeImage,
                     storeId: storeId,
-                    locationStore: locationStore
+                    latitude: latitude,
+                    longitude: longitude
                   })
                 : setModalVisible(true)
             }}

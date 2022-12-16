@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled from "styled-Components/native";
 
 export const OTPInputContainer = styled.View`
   justify-content: center;

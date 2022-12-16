@@ -36,7 +36,7 @@ export function ConfirmOTP({ route, navigation }) {
   const firebaseConfig = app ? app.options : undefined
   const [message, showMessage] = useState()
   const attemptInvisibleVerification = false
-  const storeData = async value => {
+  const storeData = async () => {
     try {
       await AsyncStorage.setItem('userID1', auth.currentUser.uid)
     } catch (e) {
@@ -47,7 +47,7 @@ export function ConfirmOTP({ route, navigation }) {
     console.log('current', auth.currentUser.uid)
     storeData()
     const unsub = onSnapshot(
-      doc(db, 'user', auth.currentUser.uid + ''),
+      doc(db, 'users', auth.currentUser.uid + ''),
       doc => {
         console.log('test', doc.data())
         if (doc.data() != undefined) {
@@ -56,6 +56,7 @@ export function ConfirmOTP({ route, navigation }) {
       }
     )
   }
+  console.log('cc')
   const sendVerificationCode = async () => {
     // The FirebaseRecaptchaVerifierModal ref implements the
     // FirebaseAuthApplicationVerifier interface and can be

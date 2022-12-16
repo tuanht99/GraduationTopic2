@@ -17,6 +17,7 @@ export const Products = ({
   const numberOfColumns = type === 1 ? 2 : 1
   const alignItems = type === 0 ? styles.alignItemCenter : styles.alignItemStart
   const ItemView = (item, index) => {
+
     const handleOnPress = () => {
       isCategories
         ? navigation.navigate('SearchScreen', {

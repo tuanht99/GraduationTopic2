@@ -9,22 +9,19 @@ import {
   ActivityIndicator
 } from 'react-native'
 import Styles from './StoreStyle'
-import Modal from 'react-native-modal'
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { Octicons } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
-import ListFood from '../../components/ListFood/index'
+import ListFood from '../../Components/ListFood/index'
 import { db } from '../../services'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-  UpdateFavoriteStore,
-  getFavoriteStore,
-  DeleteLoveStore
-} from '../../services/index'
+import { UpdateFavoriteStore, DeleteLoveStore } from '../../services/index'
+import { useSelector } from 'react-redux'
+import { Distance } from '../../Components/molecules/Distance'
+
 function StoreScreen({ navigation, route }) {
   const { id } = route.params
+
   let hours = new Date().getHours() //Current Hours
   let min = new Date().getMinutes() //Current Minutes
 
@@ -36,7 +33,14 @@ function StoreScreen({ navigation, route }) {
   const [isLove, setLove] = useState(false)
   const [favorites, setFavorites] = useState()
 
-  console.log('categories', categories)
+  const user_id = useSelector(state => state.user)
+  // const location = useSelector(state => state.locUser)
+
+//  if(stores !== undefined){
+//   console.log('locationaaaa' , location.latitude);
+//   console.log('stores.location' , stores.locations.latitude);
+//  }
+  
   const storeId = id
 
   useEffect(() => {
@@ -45,24 +49,23 @@ function StoreScreen({ navigation, route }) {
       item => {
         setStores({
           id: item.id,
+          latitude: item.data().locations.latitude,
+          longitude: item.data().locations.longitude,
           ...item.data()
         })
         setLoading(true)
       }
     )
-    return unsubscribe
+    return () => unsubscribe
   }, [storeId])
 
   useEffect(() => {
-    // getFavoriteStore().then(doc => setFavorites(doc))
-    const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+    const washingtonRef = doc(db, 'users', user_id.id)
 
     const unsub = onSnapshot(washingtonRef, doc => {
       if (doc.exists()) {
-        console.log('Document data:', doc.data())
         setFavorites(doc.data().loveStore)
       } else {
-        // doc.data() will be undefined in this case
         console.log('No such document!')
       }
     })
@@ -91,22 +94,6 @@ function StoreScreen({ navigation, route }) {
   function checkAdult(id) {
     return id === storeId
   }
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const value = await AsyncStorage.getItem('userID1')
-  //       if (value !== null) {
-  //         // value previously stored
-  //         console.log('value', value)
-  //       }
-  //     } catch (e) {
-  //       // error reading value
-  //       console.log('value is not exists')
-  //     }
-  //   }
-
-  //   getData()
-  // }, [])
 
   useEffect(() => {
     if (stores.food_categories !== undefined) {
@@ -129,7 +116,6 @@ function StoreScreen({ navigation, route }) {
       min = new Date().getMinutes()
       // Convert hours to minutes
       setCurrentDate(hours * 60 + min)
-      // console.log('setTimeout', hours * 60 + min)
     }, 60000)
 
     if (stores.opentime) {
@@ -147,18 +133,6 @@ function StoreScreen({ navigation, route }) {
   }, [currentDate, stores.opentime])
 
   const Loading = () => <ActivityIndicator size="large" color="#E94730" />
-  // const HandleLove = () => {
-  //   setLove(!isLove)
-  // }
-
-  //Appears when added to favorites
-  const LoveModal = () => {
-    return (
-      <View className="absolute bg-red-400 w-full h-14 top-3">
-        <Text>dadsjdj</Text>
-      </View>
-    )
-  }
   const HeaderComponent = () => (
     <View>
       <View>
@@ -171,7 +145,9 @@ function StoreScreen({ navigation, route }) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              isLove ? DeleteLoveStore(storeId) : UpdateFavoriteStore(storeId)
+              isLove
+                ? DeleteLoveStore(user_id.id, storeId)
+                : UpdateFavoriteStore(user_id.id, storeId)
             }
             style={[Styles.iconCicle, Styles.heartIcon]}
           >
@@ -224,8 +200,11 @@ function StoreScreen({ navigation, route }) {
             alignItems: 'center'
           }}
         >
-          <Octicons name="location" style={Styles.loation} />
-          <Text style={{ minWidth: 100 }}>3Km</Text>
+          {/* <Distance
+            locationFrom={stores.locations}
+            locationTo={location}
+            advertisement={false}
+          /> */}
           {stores.status === 1 && openTime ? (
             <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
               Đang mở cửa
@@ -263,7 +242,16 @@ function StoreScreen({ navigation, route }) {
             {' '}
             4.1 <Text style={{ color: '#666666', fontSize: 15 }}>(15+)</Text>
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('CommentsView', {
+                storeId: storeId,
+                storeName: stores.name,
+                rating: 100,
+                data: []
+              })
+            }
+          >
             <Text style={{ color: '#0099FF', minWidth: 100 }}>Xem thêm</Text>
           </TouchableOpacity>
         </View>
@@ -296,11 +284,11 @@ function StoreScreen({ navigation, route }) {
             storeImager={stores.image}
             storeId={storeId}
             openTime={openTime}
-            locationStore={stores.locations}
+            latitude={stores.latitude}
+            longitude={stores.longitude}
           />
         }
       />
-      {/* {isLove && <LoveModal />} */}
     </SafeAreaView>
   )
 }

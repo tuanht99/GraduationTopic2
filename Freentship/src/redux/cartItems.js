@@ -18,7 +18,9 @@ const cartSlice = createSlice({
         storeImageParams,
         storeId,
         Quantity,
-        note
+        note,
+        latitude,
+        longitude
       } = action.payload
 
       const find = state.findIndex(item => item.storeId === storeId)
@@ -45,12 +47,14 @@ const cartSlice = createSlice({
           storeAddress,
           storeImageParams,
           note,
+          latitude,
+          longitude,
           items: [{ idFood, title, description, image, price, Quantity }]
         })
     },
 
     addNote(state, action) {
-      const {note} = action.payload
+      const { note } = action.payload
       state[0].note = note
     },
 
