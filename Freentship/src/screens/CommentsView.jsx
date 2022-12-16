@@ -12,7 +12,6 @@ import { Colors } from '../styles'
 import { Card } from '../components/molecules/Card'
 import {
   AddHeart,
-  ReadCommentsByStoreId,
   ReadHeartsByUserId,
   UpdateHeart
 } from '../services'
@@ -174,28 +173,8 @@ const Comment = ({ data }) => {
 }
 
 export const CommentsView = ({ navigation, route }) => {
-  const { storeId, storeName } = route.params
-  const [dataComments, setDataComments] = React.useState([])
-  const [rating, setRating] = React.useState(0)
-
-  React.useEffect(() => {
-    ReadCommentsByStoreId(storeId)
-      .then(res => {
-        setDataComments(res)
-        setRating(
-          +(
-            (res
-              .map(item => (item.isEmotion ? 1 : 0))
-              .reduce((a, b) => a + b, 0) /
-              res.length) *
-            100
-          ).toFixed(2)
-        )
-      })
-      .catch(err => {
-        console.log('err', err)
-      })
-  }, [])
+  const { storeId, storeName, dataComments, rating } = route.params
+  console.log({dataComments, rating});
 
   React.useLayoutEffect(() => {
     navigation.setOptions({

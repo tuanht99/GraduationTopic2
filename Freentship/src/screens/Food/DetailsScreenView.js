@@ -5,6 +5,8 @@ import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons'
 import { addToCart } from '../../redux/cartItems'
+import { getDistance } from 'geolib'
+
 
 const DATA = {
   txtChonMua: 'CHỌN MUA',
@@ -16,6 +18,7 @@ const DATA = {
 import { db } from '../../services/firebase'
 import { collection, getDocs, where, query } from 'firebase/firestore'
 import { useDispatch, useSelector } from 'react-redux'
+import { check } from 'prettier'
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
@@ -37,6 +40,7 @@ export default function DetailsScreenView({ route, navigation }) {
 
   console.log('latitude', latitude, 'longitude', longitude)
   const [foodOfStore, setFoodOfStore] = useState([])
+  
   useEffect(() => {
     const getFood = async () => {
       const foodOfStore = []
@@ -60,6 +64,7 @@ export default function DetailsScreenView({ route, navigation }) {
   const statusParmas = status
 
   const [modalVisible, setModalVisible] = useState(false)
+
   const [a, setA] = useState(false)
   const dispatch = useDispatch()
   const carts = useSelector(state => state.carts)
@@ -101,6 +106,23 @@ export default function DetailsScreenView({ route, navigation }) {
     setQuantity(1)
   }
 
+  const location = useSelector(state => state.locUser)
+
+  const [distance, setDistance] = React.useState(0)
+  console.log('distance' , distance);
+  React.useEffect(() => {
+    const value = getDistance(
+      {
+        latitude: latitude,
+        longitude: longitude
+      },
+      { latitude: location.latitude, longitude: location.longitude }
+    ) / 1000
+    setDistance(value)
+  
+    getDistance
+  }, [])
+  
   React.useEffect(() => {
     let total = 0
     let totalQuantity = 0
@@ -119,6 +141,15 @@ export default function DetailsScreenView({ route, navigation }) {
     setTotals(total)
     setTotalQuantity(totalQuantity)
   }, [carts])
+
+  const checkDistance = () => {
+    if(distance < 5000 ){
+      setModalVisible(true)
+    }
+    else {
+      alert('Cửa hàng quá xa để có thể đặt hàng. Bạn vui lòng chọn cửa hàng cách bạn dưới 5 km')
+    }
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -169,7 +200,7 @@ export default function DetailsScreenView({ route, navigation }) {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
-                onPress={() => setModalVisible(true)}
+                onPress={() => checkDistance()}
               >
                 <Text style={{ color: '#fff' }}>{DATA.txtChonMua}</Text>
               </TouchableOpacity>
