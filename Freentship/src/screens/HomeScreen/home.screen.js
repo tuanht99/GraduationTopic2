@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, View , TouchableOpacity , Text } from 'react-native'
+import { ScrollView, View, TouchableOpacity, Text } from 'react-native'
 import styles from './home.style'
 import { TopBanner } from '../../components/Organisms/TopBanner'
 import { SearchHome } from '../../components/Organisms/SearchHome/search-home'
@@ -8,12 +8,12 @@ import { CategoryFood } from '../../components/Organisms/CategoryFood'
 import { ReadDataFoodStores, ReadDataFoodStoresByFood } from '../../services'
 import { orderBy, where, limit } from 'firebase/firestore'
 import { CategoryHeader } from '../../components/molecules/CategoryHeader'
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 
-export const HomeScreen = ({ navigation, route }) => {
-
+export const HomeScreen = ({ navigation }) => {
   const location = useSelector(state => state.locUser)
+  
   const LIMIT = 10
   const categories = [
     'Thử quán mới',
@@ -28,8 +28,10 @@ export const HomeScreen = ({ navigation, route }) => {
   ]
   const firestore = [ReadDataFoodStores, ReadDataFoodStoresByFood]
 
+
+
   React.useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       let data
       data = []
       await Promise.all(
@@ -99,22 +101,22 @@ export const HomeScreen = ({ navigation, route }) => {
         <ChooseCategoriesFood location={location} navigation={navigation} />
         {data !== null
           ? data.map((item, index) => {
-              return (
-                <View key={index}>
-                  <CategoryFood
-                    indexFirestore={index + 1}
-                    firestore={firestore[index]}
-                    location={location}
-                    title={categories[index]}
-                    data={item}
-                    navigation={navigation}
-                  />
-                </View>
-              )
-            })
+            return (
+              <View key={index}>
+                <CategoryFood
+                  indexFirestore={index + 1}
+                  firestore={firestore[index]}
+                  location={location}
+                  title={categories[index]}
+                  data={item}
+                  navigation={navigation}
+                />
+              </View>
+            )
+          })
           : firestore.map(Loader)}
 
-          
+
       </ScrollView>}
 
     </>

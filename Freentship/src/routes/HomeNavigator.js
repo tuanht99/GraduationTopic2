@@ -4,10 +4,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HomeScreen } from '../screens/HomeScreen'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
-import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { doc, onSnapshot, getDoc, query } from 'firebase/firestore'
+import {
+  doc,
+  onSnapshot,
+  getDoc,
+  query,
+  getDocs,
+  collection,
+  where
+} from 'firebase/firestore'
 import { db } from '../services/firebase'
+import InforView from '../screens/User/InforView'
+import { useSelector } from 'react-redux'
 
 const Tab = createBottomTabNavigator()
 const NotificationScreen = () => {
@@ -18,9 +27,7 @@ const NotificationScreen = () => {
 
       <View>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('HomeTab')
-          }
+          onPress={() => navigation.navigate('HomeTab')}
           className="bg-red-500 w-[100px] h-[100px]"
         >
           <Text>dạhhfgdhgf</Text>
@@ -29,56 +36,37 @@ const NotificationScreen = () => {
     </View>
   )
 }
-const SettingScreen = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>Setting Screen</Text>
-    </View>
-  )
-}
 
 export const HomeNavigator = ({ navigation }) => {
   const carts = useSelector(state => state.carts)
   const [totals, setTotals] = useState(0)
-  const [orders, setOrders] = useState([])
   const [ordersAc, setOrdersAc] = useState([])
   const [collapsed, setCollapsed] = useState(true)
   const [maxLines, setMaxLines] = useState(2)
   const animationHeight = useRef(new Animated.Value(0)).current
-  
-  console.log('orders' , orders);
-  console.log('ordersAc' , ordersAc);
+  const user_id = useSelector(state => state.user)
+
   useEffect(() => {
-  
-    const q = query(doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI'))
+    const q = query(
+      collection(db, 'orders'),
+      where('user_id', '==', `${user_id.id}`),
+      where('status', 'in', [3, 6, 4])
+    )
+
     const unsubscribe = onSnapshot(q, querySnapshot => {
-      setOrders([])
-      querySnapshot.data().orders_history.forEach(element => {
-        getDoc(doc(db, 'orders', element)).then(doc => {
-          setOrders(prev => [...prev, { ...doc.data(), id: doc.id }])
-        })
+      const orders = []
+
+      querySnapshot.forEach(doc => {
+        orders.push({id:doc.id , name:doc.data().store_name})
       })
+      setOrdersAc(orders)
     })
 
     return () => {
+      
       unsubscribe
     }
   }, [])
-
-  useEffect(() => {
-    if (orders.length > 0) {
-      const arr = orders.filter(getOrders)
-      setOrdersAc(arr)
-    }
-  }, [orders])
-
-  const getOrders = orders => {
-    return (
-      orders.status === 6 ||
-      orders.status === 3 ||
-      orders.status === 4
-    )
-  }
 
   React.useEffect(() => {
     let total = 0
@@ -148,7 +136,7 @@ export const HomeNavigator = ({ navigation }) => {
         />
         <Tab.Screen
           name="Setting"
-          component={SettingScreen}
+          component={InforView}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="person" color={color} size={size} />
@@ -185,7 +173,7 @@ export const HomeNavigator = ({ navigation }) => {
                   className="flex-row justify-between items-center mx-4"
                 >
                   <Text className="p-2" numberOfLines={maxLines}>
-                    {e.store_name}
+                    {e.name}
                   </Text>
                   <Text className="font-bold text-blue-500">Xem</Text>
                 </TouchableOpacity>

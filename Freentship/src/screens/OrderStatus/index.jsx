@@ -94,7 +94,14 @@ const OrderStatus = ({ navigation, route }) => {
                 <Text className="font-bold ml-1">Xem trên bản đồ</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl justify-center py-1 px-2 mt-3">
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ChatScreen', {
+                  chatID: orderId + ''
+                })
+              }}
+              className="flex-row bg-zinc-200 rounded-xl justify-center py-1 px-2 mt-3"
+            >
               <Ionicons
                 name="ios-chatbox-ellipses-outline"
                 size={24}
@@ -248,6 +255,7 @@ const OrderStatus = ({ navigation, route }) => {
           name={shipperInfo.name}
           loaixe={shipperInfo.loaixe}
           phone={shipperInfo.phone}
+          chatID={orderId}
         />
       ) : (
         ''

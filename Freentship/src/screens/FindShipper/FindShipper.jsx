@@ -41,7 +41,6 @@ const FindShipper = ({ navigation, route }) => {
   const [shipperInfo, setShipperInfo] = useState()
   const [status, setStatus] = useState(0)
 
-  // console.log('orderStatus' , orderStatus);
   useEffect(() => {
     if (orderStatus !== undefined) {
       if (orderStatus.shipperId !== '') {

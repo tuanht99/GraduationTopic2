@@ -3,7 +3,6 @@ import { ScrollView } from 'react-native'
 import styles from './search-screen.style'
 import { ComeBack } from '../../components/Organisms/ComeBack'
 import { LocationSearch } from '../../components/Organisms/LocationSearch'
-import logo from '../../assets/images/logos/app-user-red.png'
 import { CategoryFood } from '../../components/Organisms/CategoryFood'
 import { limit, orderBy, where, startAt, endAt } from 'firebase/firestore'
 import {

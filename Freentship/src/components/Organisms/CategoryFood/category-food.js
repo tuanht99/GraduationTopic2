@@ -22,7 +22,8 @@ export const CategoryFood = ({
     })
   }
   const isCheck = data.length > 0
-
+ 
+  console.log('location' , location);
   return (
     <View style={styles.container}>
       <CategoryHeader

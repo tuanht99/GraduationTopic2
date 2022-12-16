@@ -26,8 +26,8 @@ export async function ShipperInFo(idShipper) {
   }
 }
 
-export async function UpdateOrderHistory(orderId) {
-  const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+export async function UpdateOrderHistory(orderId , userId) {
+  const washingtonRef = doc(db, 'users', `${userId}`)
   const docSnap = await getDoc(washingtonRef)
   // Set the "capital" field of the city 'DC'
   if (docSnap.exists()) {
@@ -40,13 +40,13 @@ export async function UpdateOrderHistory(orderId) {
   }
 }
 
-export async function UpdateFavoriteStore(storeId) {
-  const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+export async function UpdateFavoriteStore(user_id , store_id) {
+  const washingtonRef = doc(db, 'users', `${user_id}`)
   const docSnap = await getDoc(washingtonRef)
   // Set the "capital" field of the city 'DC'
   if (docSnap.exists()) {
     await updateDoc(washingtonRef, {
-      loveStore: [...docSnap.data().loveStore, `${storeId}`]
+      loveStore: [...docSnap.data().loveStore, `${store_id}`]
     })
   } else {
     // doc.data() will be undefined in this case
@@ -54,10 +54,10 @@ export async function UpdateFavoriteStore(storeId) {
   }
 }
 
-export async function DeleteLoveStore(storeId) {
-  const washingtonRef = doc(db, 'users', 'kxzmOQS3sVUr2pm9AbLI')
+export async function DeleteLoveStore(user_id , store_id) {
+  const washingtonRef = doc(db, 'users', `${user_id}`)
   // Set the "capital" field of the city 'DC'
   await updateDoc(washingtonRef, {
-    loveStore: arrayRemove(`${storeId}`)
+    loveStore: arrayRemove(`${store_id}`)
   })
 }

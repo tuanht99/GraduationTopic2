@@ -16,11 +16,9 @@ import { useState } from 'react'
 import { db } from '../../services/firebase'
 import { collection, addDoc, Timestamp } from 'firebase/firestore'
 import { Foundation } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useSelector, useDispatch } from 'react-redux'
 import { addNote } from '../../redux/cartItems'
 
-import {UpdateOrderHistory} from '../../services/index'
 import Modal from 'react-native-modal'
 
 const DATA = {
@@ -56,8 +54,8 @@ export default function OrderView({ navigation }) {
   const [isNote, setIsNote] = useState('')
   const carts = useSelector(state => state.carts)
   const dispatch = useDispatch()
-
-  const user_id = 'kxzmOQS3sVUr2pm9AbLI'
+  
+  const user_id = useSelector(state => state.user)
   const location = useSelector(state => state.locUser)
 
   // tăng giảm số lượng
@@ -77,7 +75,7 @@ export default function OrderView({ navigation }) {
     shipper_cancel_orders: [],
     status: 2,
     totalPrice: Total,
-    user_id: user_id
+    user_id: user_id.id,
   }
 
   const orderTheOrder = () => {
@@ -86,12 +84,10 @@ export default function OrderView({ navigation }) {
         navigation.navigate('FindShipper', {
           orderId: docRef.id,
           locationStore: {
-            latitude: 10.851426882303631,
-            longitude: 106.75808940590774
+            latitude: carts[0].latitude,
+            longitude: carts[0].longtitude
           }
         })
-
-        UpdateOrderHistory(docRef.id)
       })
       .catch(error => {
         console.log(error)
@@ -114,7 +110,8 @@ export default function OrderView({ navigation }) {
           food_id: item.idFood,
           food_name: item.title,
           quantity: item.Quantity,
-          food_price: item.price
+          food_price: item.price,
+          food_image: item.image
         })
       })
     })
@@ -321,13 +318,13 @@ export default function OrderView({ navigation }) {
               }}
             >
               <Image
-                source={DATA.avt}
+                source={{ uri : user_id.avatar}}
                 style={{ width: 40, height: 40, borderRadius: 25 }}
               />
 
               <View style={{ paddingLeft: 10 }}>
                 <Text numberOfLines={1} style={{ fontWeight: 'bold' }}>
-                  {DATA.userName}
+                  {user_id.name}
                 </Text>
               </View>
               <View style={{ paddingLeft: 10 }}>

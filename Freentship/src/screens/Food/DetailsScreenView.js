@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Alert,
-  Modal,
-  View,
-  Image,
-  Text,
-  TouchableOpacity
-} from 'react-native'
+import { Alert, Modal, View, Image, Text, TouchableOpacity } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { AntDesign } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Feather } from '@expo/vector-icons'
-import {addToCart} from '../../redux/cartItems'
+import { addToCart } from '../../redux/cartItems'
 
 const DATA = {
   txtChonMua: 'CHỌN MUA',
@@ -22,7 +15,7 @@ const DATA = {
 
 import { db } from '../../services/firebase'
 import { collection, getDocs, where, query } from 'firebase/firestore'
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from 'react-redux'
 
 // Navigation
 export default function DetailsScreenView({ route, navigation }) {
@@ -38,9 +31,11 @@ export default function DetailsScreenView({ route, navigation }) {
     storeAddress,
     storeImage,
     storeId,
-    locationStore
+    latitude,
+    longitude
   } = route.params
 
+  console.log('latitude', latitude, 'longitude', longitude)
   const [foodOfStore, setFoodOfStore] = useState([])
   useEffect(() => {
     const getFood = async () => {
@@ -63,71 +58,67 @@ export default function DetailsScreenView({ route, navigation }) {
   const priceParams = JSON.stringify(price)
   const prices = parseFloat(price)
   const statusParmas = status
-  const location = JSON.stringify(locationStore)
-    const [modalVisible, setModalVisible] = useState(false)
-    const [a, setA] = useState(false)
-    const dispatch = useDispatch()
-    const carts = useSelector(state => state.carts)
+
+  const [modalVisible, setModalVisible] = useState(false)
+  const [a, setA] = useState(false)
+  const dispatch = useDispatch()
+  const carts = useSelector(state => state.carts)
 
   // console.log(priceOrders);
   // giá trị số lượng
-  const [Quantity, setQuantity] = useState(1);
-    const [totalQuantity, setTotalQuantity] = useState(0)
-    const [totals, setTotals] = useState(0)
+  const [Quantity, setQuantity] = useState(1)
+  const [totalQuantity, setTotalQuantity] = useState(0)
+  const [totals, setTotals] = useState(0)
   // tăng giảm số lượng
   function IncreaseQuantity() {
     if (Quantity > 0) {
-
-      setQuantity(prevState => prevState - 1);
-
-    }
-    else {
-      setQuantity(0);
+      setQuantity(prevState => prevState - 1)
+    } else {
+      setQuantity(0)
     }
   }
   function DecreaseQuantity() {
-
-    setQuantity(prevState => prevState + 1);
-
+    setQuantity(prevState => prevState + 1)
   }
 
   function handleAddToCart() {
-      const item = {
-          idFood,
-          title,
-          description,
-          image,
-          price,
-          storeName,
-          storeAddress,
-          storeImageParams,
-          storeId,
-          Quantity
-      }
-      dispatch(addToCart(item));
+    const item = {
+      idFood,
+      title,
+      description,
+      image,
+      price,
+      storeName,
+      storeAddress,
+      storeImageParams,
+      storeId,
+      Quantity,
+      latitude,
+      longitude
+    }
+    dispatch(addToCart(item))
     setModalVisible(!modalVisible)
     setQuantity(1)
   }
 
-
-    React.useEffect(() => {
-        let total = 0
-        let totalQuantity = 0
-        if (carts.length > 0) {
-            console.log('carts:', carts)
-            carts.map((item) => {
-                item.items.forEach(e => {
-                    total += e.price * e.Quantity
-                    totalQuantity += e.Quantity
-                })
-            })
-            setA(true)
-        } else {
-            setA(false)
-        }
-        setTotals(total)
-        setTotalQuantity(totalQuantity)
-    },[carts])
+  React.useEffect(() => {
+    let total = 0
+    let totalQuantity = 0
+    if (carts.length > 0) {
+      console.log('carts:', carts)
+      carts.map(item => {
+        item.items.forEach(e => {
+          total += e.price * e.Quantity
+          totalQuantity += e.Quantity
+        })
+      })
+      setA(true)
+    } else {
+      setA(false)
+    }
+    setTotals(total)
+    setTotalQuantity(totalQuantity)
+  }, [carts])
 
   return (
     <View style={{ flex: 1 }}>
@@ -330,9 +321,7 @@ export default function DetailsScreenView({ route, navigation }) {
               ))}
             </ScrollView>
 
-            <View style={{margin: 20}}>
-
-            </View>
+            <View style={{ margin: 20 }}></View>
           </View>
         </View>
 
@@ -374,8 +363,8 @@ export default function DetailsScreenView({ route, navigation }) {
                   <View>
                     <TouchableOpacity
                       onPress={() => {
-                          setModalVisible(!modalVisible)
-                          setQuantity(1)
+                        setModalVisible(!modalVisible)
+                        setQuantity(1)
                       }}
                       numberOfLines={1}
                       style={{ color: '#808080' }}
@@ -427,9 +416,7 @@ export default function DetailsScreenView({ route, navigation }) {
                         </TouchableOpacity>
                       </View>
                       <View>
-                        <Text style={{ fontWeight: 'bold' }}>
-                          {Quantity}
-                        </Text>
+                        <Text style={{ fontWeight: 'bold' }}>{Quantity}</Text>
                       </View>
                       <View>
                         <TouchableOpacity
@@ -453,22 +440,6 @@ export default function DetailsScreenView({ route, navigation }) {
                     </View>
                   </View>
                   <TouchableOpacity
-                    // onPress={() =>
-                    //   navigation.navigate('CartView', {
-                    //     nameOrder: nameOrder,
-                    //     priceOrder: priceOrder,
-                    //     ImageOrder: imageParams,
-                    //     idFood: idFood,
-                    //     Totals: Total,
-                    //     Quantity: Quantity,
-                    //     storeOrder,
-                    //      storeN,
-                    //      storeAdr,
-                    //      storeIM,
-                    //      storeID,
-                    //      locationStore
-                    //   })
-                    // }
                     onPress={handleAddToCart}
                     style={{
                       backgroundColor: '#E94730',
@@ -505,8 +476,7 @@ export default function DetailsScreenView({ route, navigation }) {
               paddingBottom: 10,
               width: '100%',
               borderTopColor: '#808080',
-              borderTopWidth: 0.3,
-
+              borderTopWidth: 0.3
             }}
           >
             <View style={{ marginLeft: 10 }}>
@@ -521,13 +491,15 @@ export default function DetailsScreenView({ route, navigation }) {
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      
+
                       paddingRight: 10,
                       alignItems: 'center'
                     }}
                   >
                     <View style={{ flexDirection: 'row' }}>
-                      <TouchableOpacity onPress={() => navigation.navigate('CartView')}>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('CartView')}
+                      >
                         <View
                           style={{
                             flex: 1,
@@ -563,7 +535,9 @@ export default function DetailsScreenView({ route, navigation }) {
                                 height: 18
                               }}
                             >
-                              <Text style={{ color: '#fff' }}>{totalQuantity}</Text>
+                              <Text style={{ color: '#fff' }}>
+                                {totalQuantity}
+                              </Text>
                             </View>
                           </View>
                         </View>
@@ -576,7 +550,7 @@ export default function DetailsScreenView({ route, navigation }) {
                         }}
                       >
                         <View>
-                            <Text style={{ fontWeight: 'bold' }}>{totals}</Text>
+                          <Text style={{ fontWeight: 'bold' }}>{totals}</Text>
                         </View>
                         <View>
                           <Text>(tạm tính)</Text>
@@ -587,10 +561,11 @@ export default function DetailsScreenView({ route, navigation }) {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('OrderView', {
-                      carts: carts,
-
-                  })}
+                  onPress={() =>
+                    navigation.navigate('OrderView', {
+                      carts: carts
+                    })
+                  }
                   style={{
                     backgroundColor: '#E94730',
                     borderRadius: 15,
