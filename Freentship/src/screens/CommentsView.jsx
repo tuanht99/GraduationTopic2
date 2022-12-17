@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { Colors } from '../styles'
-import { Card } from '../components/molecules/Card'
+import { Card } from '../Components/molecules/Card'
 import {
   AddHeart,
   ReadCommentsByStoreId,

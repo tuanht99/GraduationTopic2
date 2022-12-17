@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-// import Ansync from "../../components/asyncStore/AsyncStorage"
+// import Ansync from "../../Components/asyncStore/AsyncStorage"
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";

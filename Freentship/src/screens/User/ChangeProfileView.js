@@ -12,7 +12,7 @@ import {
 import { Picker } from '@react-native-picker/picker'
 import AppStyle from '../../themes/ChangeProfileTheme'
 import { Ionicons } from '@expo/vector-icons'
-import ModalSimple from '../../components/ModalCalendar'
+import ModalSimple from '../../Components/ModalCalendar'
 import React, { useState, useEffect, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { db } from '../../services/config'
@@ -73,10 +73,8 @@ function editProfile() {
   updateDoc(doc(db, 'users', id), {
     name: username,
     dateOfBirth: ChooseData,
-    avatar: avatar,
     sex: selectedLanguage,
     email: email,
-    phone: phone,
   })
   Alert.alert(
     "Thông báo",
