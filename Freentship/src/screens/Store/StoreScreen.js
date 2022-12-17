@@ -306,7 +306,7 @@ function StoreScreen({ navigation, route }) {
             navigation={navigation}
             storeName={stores.name}
             storeAddress={stores.address}
-            storeImager={stores.image}
+            storeImage={stores.image}
             storeId={storeId}
             openTime={openTime}
             latitude={stores.latitude}

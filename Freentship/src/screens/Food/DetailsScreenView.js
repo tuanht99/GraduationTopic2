@@ -38,6 +38,8 @@ export default function DetailsScreenView({ route, navigation }) {
     longitude
   } = route.params
 
+  
+
   console.log('latitude', latitude, 'longitude', longitude)
   const [foodOfStore, setFoodOfStore] = useState([])
   
@@ -105,6 +107,8 @@ export default function DetailsScreenView({ route, navigation }) {
     setModalVisible(!modalVisible)
     setQuantity(1)
   }
+
+  
 
   const location = useSelector(state => state.locUser)
 
@@ -272,7 +276,7 @@ export default function DetailsScreenView({ route, navigation }) {
               }}
             >
               <Image
-                source={{ uri: storeImageParams }}
+                source={{ uri: storeImage }}
                 style={{ width: 40, height: 40, borderRadius: 25 }}
               />
 
@@ -295,7 +299,7 @@ export default function DetailsScreenView({ route, navigation }) {
 
               <View style={{ marginRight: 10 }}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Store')}
+                  onPress={() => navigation.goBack()}
                   style={{
                     backgroundColor: '#fff',
                     borderRadius: 15,

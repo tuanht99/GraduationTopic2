@@ -13,6 +13,7 @@ import {
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services'
 import Modal from 'react-native-modal'
+import formatCash from '../../components/formatCash'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
 
@@ -33,6 +34,7 @@ const ListFood = ({
   const [categoryId, setCategoryId] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
 
+  console.log('storeImage' , storeImage);
   useEffect(() => {
     const getFood = async () => {
       const food = []
@@ -185,7 +187,7 @@ const ListFood = ({
               <Text numberOfLines={1} style={Styles.textGif}>
                 {item.description}
               </Text>
-              <Text style={{ fontSize: 13 }}>{item.price}</Text>
+              <Text style={{ fontSize: 13 }}>{formatCash(item.price + '')} đ</Text>
 
               {item.status === 1 ? (
                 <Text style={Styles.orderStatusTrue}> Còn bán </Text>
