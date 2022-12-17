@@ -40,7 +40,10 @@ const FindShipper = ({ navigation, route }) => {
   const [progress, setProgress] = useState()
   const [shipperInfo, setShipperInfo] = useState()
   const [status, setStatus] = useState(0)
-
+  if(orderStatus !== undefined) {
+    console.log('orderStatus.storeAddress' , orderStatus);
+  }
+  
   useEffect(() => {
     if (orderStatus !== undefined) {
       if (orderStatus.shipperId !== '') {
@@ -167,12 +170,13 @@ const FindShipper = ({ navigation, route }) => {
 
       getInfoUser(doc.data().user_id).then(user => {
         getStoreinfo(doc.data().food_store_id).then(store => {
+          console.log('store' , store.data.address);
           setOrderStatus({
             ...doc.data(),
             status: doc.data().status,
             shipperId: doc.data().shipper_id,
             userAddress: user.address,
-            storeAddress: store.address,
+            storeAddress: store.data.address,
             menoOfOrder: doc.data().meno,
             quantityTotal: sum
           })
