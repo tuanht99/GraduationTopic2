@@ -3,7 +3,7 @@ import { Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } fro
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import MonAnImg from "../assets/images/monAn1.png";
 import { Colors } from "../styles";
-import { Card } from "../components/molecules/Card";
+import { Card } from "../Components/molecules/Card";
 import { ImagePicker } from 'expo-image-multiple-picker'
 import { getDownloadURL, ref as refStorage, uploadBytesResumable } from "firebase/storage";
 

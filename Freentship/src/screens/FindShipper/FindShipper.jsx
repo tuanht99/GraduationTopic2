@@ -17,7 +17,7 @@ import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
-import formatCash from '../../components/formatCash'
+import formatCash from '../../Components/formatCash'
 import call from 'react-native-phone-call'
 import {
   collection,

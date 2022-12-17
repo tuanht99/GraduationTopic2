@@ -26,7 +26,7 @@ import NotifyOrder from '../screens/Notify/NotifyOrder'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
 import Vourcher from '../screens/Coupon/Vourcher'
 import OrdersManagement from '../screens/Order/OrdersManagement'
-import OrderItem from '../components/Order/OrderItem'
+import OrderItem from '../Components/Order/OrderItem'
 import OrderStatus from '../screens/OrderStatus/index'
 import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
 

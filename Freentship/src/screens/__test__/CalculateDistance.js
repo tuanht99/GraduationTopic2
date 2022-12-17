@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 
 import { getDistance, getPreciseDistance } from 'geolib'
-import { AdDistance } from '../../components/atoms/AdDistance'
+import { AdDistance } from '../../Components/atoms/AdDistance'
 
 export const CalculateDistance = () => {
   const locationFrom = { lat: 10.8511574, lng: 106.7579434 }
