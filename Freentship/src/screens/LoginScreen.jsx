@@ -64,9 +64,11 @@ export function LoginScreen({ navigation }) {
           ></Image>
           {showMessage && (
             <View style={styles.message}>
-              <Text>Value : {value}</Text>
-              <Text>Formatted Value : {formattedValue}</Text>
-              <Text>Valid : {valid ? 'true' : 'false'}</Text>
+              {!valid ? (
+                <Text style={{ color: 'red' }}>Nhập sai định dạng!</Text>
+              ) : (
+                ''
+              )}
             </View>
           )}
           <PhoneInput
