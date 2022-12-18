@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import styles from './location-search.style'
 import { Location } from '../../molecules/Location'
 import { Colors, FontSize } from '../../../styles'
+import SelectList from "../../SelectList";
 
 export const LocationSearch = ({ title = 'Giao tới địa chỉ', address }) => {
   const icon1 = {
@@ -15,6 +16,7 @@ export const LocationSearch = ({ title = 'Giao tới địa chỉ', address }) =
     color: Colors.black,
     size: FontSize['2xl']
   }
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{title}</Text>
