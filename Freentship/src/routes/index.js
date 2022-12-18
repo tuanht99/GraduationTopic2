@@ -9,7 +9,6 @@ import InforView from '../screens/User/InforView'
 import InforSettingView from '../screens/User/InforSettingView'
 import ChangeProfileView from '../screens/User/ChangeProfileView'
 import OTPChangeView from '../screens/User/OTPChangeView'
-import { ConfirmOTPView } from '../screens/User/ConfirmOTPView'
 import { ConfirmOTP } from '../screens/ConfirmOTP'
 import InputPhoneNumScreen from '../screens/User/ChangePhoneNumber'
 import { HomeNavigator } from './HomeNavigator'
@@ -29,6 +28,7 @@ import OrdersManagement from '../screens/Order/OrdersManagement'
 import OrderItem from '../Components/Order/OrderItem'
 import OrderStatus from '../screens/OrderStatus/index'
 import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
+import {Button } from 'react-native'
 
 import ChatScreen from '../screens/ChatScreen'
 
@@ -39,6 +39,7 @@ import FavoriteStoreView from '../screens/FavoriteStoreView'
 const Stack = createNativeStackNavigator()
 
 function Router() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
@@ -98,7 +99,15 @@ function Router() {
         }} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        <Stack.Screen name="FindShipper" component={FindShipper} options = {{title  : 'Trạng thái đơn hàng'}} />
+        <Stack.Screen name="FindShipper" component={FindShipper} options = {{title  : 'Trạng thái đơn hàng' ,
+      //  headerRight: () => (
+      //   <Button
+      //     onPress={() => navigation.navigate('FavoriteStoreView')}
+      //     title="Home"
+      //     color="red"
+      //   />
+      // )
+      }} />
         <Stack.Screen
           name="HomeTab"
           component={HomeNavigator}
