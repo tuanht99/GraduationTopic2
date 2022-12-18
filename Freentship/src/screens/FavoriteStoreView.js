@@ -1,28 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Image, TouchableOpacity, FlatList } from 'react-native'
-import Longxaodua from '../assets/icon.png'
+import { Text, View, Image, TouchableOpacity, FlatList , Alert  } from 'react-native'
 import { DeleteLoveStore, getStoreinfo } from '../services'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../services/firebase'
 import { useSelector } from 'react-redux'
 
 import { Octicons } from '@expo/vector-icons'
-import { Ionicons } from '@expo/vector-icons'
+
 import { AntDesign } from '@expo/vector-icons'
 import AppStyle from '../themes/IndexTheme'
 
-const DATA = [
-  {
-    id: 1,
-    image: Longxaodua,
-    name: 'Lòng xòa dưa',
-    discription: 'Nhiều lòng ít dưa',
-    location: '3 km',
-    relationship: 'Đối tác lo ship',
-    price: '30.000',
-    status: 'Đang mở cửa'
-  }
-]
 
 export default function FavoriteStore({ navigation }) {
   const [favorites, setFavorites] = useState([])
@@ -49,6 +36,20 @@ export default function FavoriteStore({ navigation }) {
       unsub
     }
   }, [])
+
+  const confirmDelete = (id , name) =>
+    Alert.alert(
+      `Xóa cửa hàng ${name}`,
+      "Bạn có chắc chắn muốn xóa cửa hàng này chứ ?",
+      [
+        {
+          text: "Trở về",
+          onPress: () => console.log("Trở về"),
+          style: "cancel"
+        },
+        { text: "Xóa", onPress: () => deleteLoveStore(id) }
+      ]
+    );
 
   const deleteLoveStore = storeId => {
     console.log('user_id.id' , user_id.id , storeId )
@@ -105,17 +106,10 @@ export default function FavoriteStore({ navigation }) {
                 </Text>
               </View>
 
-              {item.status === 1 ? (
-                <Text style={AppStyle.InforUserTheme.orderStatusTrue}>
-                  Mở cửa
-                </Text>
-              ) : (
-                <Text style={AppStyle.InforUserTheme.orderStatusFalse}>
-                  Chưa mở cửa
-                </Text>
-              )}
+              
             </View>
-            <TouchableOpacity onPress={() => deleteLoveStore(item.id)}>
+            {/* <TouchableOpacity onPress={() => deleteLoveStore(item.id)}> */}
+            <TouchableOpacity onPress={() => confirmDelete(item.id , item.data.name)}>
               <AntDesign
                 name="delete"
                 size={24}

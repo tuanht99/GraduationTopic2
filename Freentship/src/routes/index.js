@@ -64,7 +64,7 @@ function Router() {
         />
         <Stack.Screen name="RatingView" component={RatingView}
         />
-        <Stack.Screen name="OrderStatus" component={OrderStatus}
+        <Stack.Screen name="OrderStatus" component={OrderStatus} options = {{title  : 'Trạng thái đơn hàng'}}
         />
         <Stack.Screen name="CommentsView" component={CommentsView}
         />
@@ -80,7 +80,7 @@ function Router() {
           }}/>
 
         
-        <Stack.Screen name="FavoriteStoreView" component={FavoriteStoreView} />
+        <Stack.Screen name="FavoriteStoreView" component={FavoriteStoreView} options = {{title  : 'Cửa hàng yêu thích'}}/>
 
         <Stack.Screen
           name="SearchScreen"
@@ -93,10 +93,12 @@ function Router() {
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
-        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} />
+        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} options = {{
+          title : 'Chi tiết sản phẩm'
+        }} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        <Stack.Screen name="FindShipper" component={FindShipper} />
+        <Stack.Screen name="FindShipper" component={FindShipper} options = {{title  : 'Trạng thái đơn hàng'}} />
         <Stack.Screen
           name="HomeTab"
           component={HomeNavigator}
@@ -105,7 +107,7 @@ function Router() {
             headerShown: false
           }}
         />
-        <Stack.Screen name="OrderView" component={OrderView} />
+        <Stack.Screen name="OrderView" component={OrderView} options = {{title : 'Đặt hàng'}}/>
         {/* đơn hàng của tôi */}
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
         <Stack.Screen name="InforSettingView" component={InforSettingView} />

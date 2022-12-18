@@ -15,7 +15,7 @@ import { Fontisto } from '@expo/vector-icons'
 import ListFood from '../../Components/ListFood/index'
 import { db } from '../../services'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
-import { UpdateFavoriteStore, DeleteLoveStore } from '../../services/index'
+import { UpdateFavoriteStore, DeleteLoveStore, ReadCommentsByStoreId } from '../../services'
 import { useSelector } from 'react-redux'
 import { Distance } from '../../Components/molecules/Distance'
 
@@ -34,13 +34,16 @@ function StoreScreen({ navigation, route }) {
   const [favorites, setFavorites] = useState()
 
   const user_id = useSelector(state => state.user)
-  // const location = useSelector(state => state.locUser)
+  const location = useSelector(state => state.locUser)
 
-//  if(stores !== undefined){
-//   console.log('locationaaaa' , location.latitude);
-//   console.log('stores.location' , stores.locations.latitude);
-//  }
-  
+  const [dataComments, setDataComments] = React.useState([])
+  const [rating, setRating] = React.useState(0)
+
+  if (stores !== undefined) {
+    console.log('locationaaaa', location)
+    console.log({ stores: stores.locations })
+  }
+
   const storeId = id
 
   useEffect(() => {
@@ -132,6 +135,27 @@ function StoreScreen({ navigation, route }) {
     return () => clearTimeout(timer)
   }, [currentDate, stores.opentime])
 
+  useEffect(() => {
+    ReadCommentsByStoreId(storeId)
+      .then(res => {
+        setDataComments(res)
+        setRating(
+          +(
+            (res
+              .map(item => (item.isEmotion ? 1 : 0))
+              .reduce((a, b) => a + b, 0) /
+              res.length) *
+            100
+          ).toFixed(2)
+        )
+      })
+      .catch(err => {
+        console.log('err', err)
+      })
+  }, [])
+
+  console.log({dataComments});
+
   const Loading = () => <ActivityIndicator size="large" color="#E94730" />
   const HeaderComponent = () => (
     <View>
@@ -193,28 +217,27 @@ function StoreScreen({ navigation, route }) {
           {stores.name}
         </Text>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: 15,
-            alignItems: 'center'
-          }}
-        >
-          {/* <Distance
-            locationFrom={stores.locations}
+        <View style={{ flexDirection: 'row' , marginLeft : 10 }}>
+          <Distance
+            locationFrom={stores}
             locationTo={location}
             advertisement={false}
-          /> */}
-          {stores.status === 1 && openTime ? (
-            <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
-              Đang mở cửa
-            </Text>
-          ) : (
-            <Text style={[Styles.orderStatusFalse, Styles.ml15]}>
-              Chưa mở cửa
-            </Text>
-          )}
+            style={{ flex: 0.3 }}
+          />
+
+          <View>
+            {stores.status === 1 && openTime ? (
+              <Text style={[Styles.orderStatusTrue, Styles.ml15]}>
+                Đang mở cửa
+              </Text>
+            ) : (
+              <Text style={[Styles.orderStatusFalse, Styles.ml15]}>
+                Chưa mở cửa
+              </Text>
+            )}
+          </View>
         </View>
+
         <View
           style={{
             flexDirection: 'row',
@@ -240,20 +263,22 @@ function StoreScreen({ navigation, route }) {
             }}
           >
             {' '}
-            4.1 <Text style={{ color: '#666666', fontSize: 15 }}>(15+)</Text>
+            {(rating / 100 * 5).toFixed(1)} <Text style={{ color: '#666666', fontSize: 15 }}>({dataComments.length}+)</Text>
           </Text>
-          <TouchableOpacity
+          {dataComments.length !== 0 ? (
+            <TouchableOpacity
             onPress={() =>
               navigation.navigate('CommentsView', {
                 storeId: storeId,
                 storeName: stores.name,
-                rating: 100,
-                data: []
+                rating: rating,
+                dataComments: dataComments
               })
             }
           >
             <Text style={{ color: '#0099FF', minWidth: 100 }}>Xem thêm</Text>
           </TouchableOpacity>
+          ) : null}
         </View>
 
         <View style={[Styles.mr10, Styles.horizonline]} />
@@ -281,7 +306,7 @@ function StoreScreen({ navigation, route }) {
             navigation={navigation}
             storeName={stores.name}
             storeAddress={stores.address}
-            storeImager={stores.image}
+            storeImage={stores.image}
             storeId={storeId}
             openTime={openTime}
             latitude={stores.latitude}

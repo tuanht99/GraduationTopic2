@@ -13,6 +13,7 @@ import {
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services'
 import Modal from 'react-native-modal'
+import formatCash from '../../Components/formatCash'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
 
@@ -33,6 +34,7 @@ const ListFood = ({
   const [categoryId, setCategoryId] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
 
+  console.log('storeImage' , storeImage);
   useEffect(() => {
     const getFood = async () => {
       const food = []
@@ -88,25 +90,27 @@ const ListFood = ({
 
   const CategoriesBar = () => (
     <View style={{ flexDirection: 'row' }}>
-      <TouchableOpacity
-        className="bg-white pr-4"
-
-        onPress={() => {
-          setCategoryId('')
-        }}
-      >
-        {categoryId === '' ? (
-          <Text style={styles.textT}>Tất cả</Text>
-        ) : (
-          <Text style={styles.textF}>Tất cả</Text>
-        )}
-      </TouchableOpacity>
-
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         data={categoriesData}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
+          <>
+          {index === 0 ? (
+            <TouchableOpacity
+            className="bg-white pr-4"
+
+            onPress={() => {
+              setCategoryId('')
+            }}
+          >
+            {categoryId === '' ? (
+              <Text style={styles.textT}>Tất cả</Text>
+            ) : (
+              <Text style={styles.textF}>Tất cả</Text>
+            )}
+          </TouchableOpacity>
+          ) : null}
           <TouchableOpacity
             key={item.id}
             onPress={() => {
@@ -119,6 +123,7 @@ const ListFood = ({
               <Text style={styles.textF}>{item.name}</Text>
             )}
           </TouchableOpacity>
+          </>
         )}
       />
     </View>
@@ -182,7 +187,7 @@ const ListFood = ({
               <Text numberOfLines={1} style={Styles.textGif}>
                 {item.description}
               </Text>
-              <Text style={{ fontSize: 13 }}>{item.price}</Text>
+              <Text style={{ fontSize: 13 }}>{formatCash(item.price + '')} đ</Text>
 
               {item.status === 1 ? (
                 <Text style={Styles.orderStatusTrue}> Còn bán </Text>
