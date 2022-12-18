@@ -55,7 +55,7 @@ function Router() {
           component={LoginScreen}
           options={{
             // hidden navbar
-            headerShown: false
+            headerShown: false,
           }}
         />
 
@@ -64,11 +64,11 @@ function Router() {
         />
         <Stack.Screen name="RatingView" component={RatingView}
         />
-        <Stack.Screen name="OrderStatus" component={OrderStatus} options = {{title  : 'Trạng thái đơn hàng'}}
+        <Stack.Screen name="OrderStatus" component={OrderStatus} options={{ title: 'Trạng thái đơn hàng' }}
         />
         <Stack.Screen name="CommentsView" component={CommentsView}
         />
-        <Stack.Screen name="OrderItem" component={OrderItem}/>
+        <Stack.Screen name="OrderItem" component={OrderItem} />
 
         <Stack.Screen name="OrdersManagement" component={OrdersManagement} />
         <Stack.Screen
@@ -77,10 +77,10 @@ function Router() {
           options={{
             // hidden navbar
             headerShown: false
-          }}/>
+          }} />
 
-        
-        <Stack.Screen name="FavoriteStoreView" component={FavoriteStoreView} options = {{title  : 'Cửa hàng yêu thích'}}/>
+
+        <Stack.Screen name="FavoriteStoreView" component={FavoriteStoreView} options={{ title: 'Cửa hàng yêu thích' }} />
 
         <Stack.Screen
           name="SearchScreen"
@@ -92,13 +92,13 @@ function Router() {
         />
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />
-        <Stack.Screen name="SignupScreen" component={SignupScreen} />
-        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} options = {{
-          title : 'Chi tiết sản phẩm'
+        <Stack.Screen name="SignupScreen" component={SignupScreen} options={{ title: 'Đăng ký tài khoản mới' }} />
+        <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} options={{
+          title: 'Chi tiết sản phẩm'
         }} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        <Stack.Screen name="FindShipper" component={FindShipper} options = {{title  : 'Trạng thái đơn hàng'}} />
+        <Stack.Screen name="FindShipper" component={FindShipper} options={{ title: 'Trạng thái đơn hàng' }} />
         <Stack.Screen
           name="HomeTab"
           component={HomeNavigator}
@@ -107,7 +107,7 @@ function Router() {
             headerShown: false
           }}
         />
-        <Stack.Screen name="OrderView" component={OrderView} options = {{title : 'Đặt hàng'}}/>
+        <Stack.Screen name="OrderView" component={OrderView} options={{ title: 'Đặt hàng' }} />
         {/* đơn hàng của tôi */}
         <Stack.Screen name="YourOrderView" component={YourOrderView} />
         <Stack.Screen name="InforSettingView" component={InforSettingView} />
@@ -116,7 +116,9 @@ function Router() {
         {/* OTP Thay đổi sdt */}
         <Stack.Screen name="OTPChangeView" component={OTPChangeView} />
         {/* xác nhận thay đổi số điện thoại */}
-        <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} />
+        <Stack.Screen name="ConfirmOTP" component={ConfirmOTP} options={{
+          title: 'Xác nhận OTP'
+        }} />
         {/* thay đổi số điện thoại */}
         <Stack.Screen name="ChangePhoneView" component={InputPhoneNumScreen} />
         {/*  thông báo đơn hàng */}

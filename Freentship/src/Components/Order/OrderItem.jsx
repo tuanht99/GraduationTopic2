@@ -36,7 +36,7 @@ export default function OrderItem({ value, navigation }) {
           Tổng tiền: {formatCash(value.data.totalPrice + '')} VNĐ
         </Text>
         <Text>
-          {value.status == 5 ? (
+          {value.data.status === 5 ? (
             <Text style={{ color: 'green' }}>Giao hàng thành công</Text>
           ) : (
             <Text style={{ color: 'red' }}>Đã huỷ</Text>

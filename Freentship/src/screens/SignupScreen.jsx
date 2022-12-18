@@ -64,7 +64,7 @@ export function SignupScreen({ navigation }) {
         keyboardType="phone-pad"
         activeOutlineColor="black"
         mode="outlined"
-        label="Phone"
+        label="SĐT"
         value={authUser ? authUser.phoneNumber : ''}
         style={{ marginTop: 10 }}
       />
@@ -132,7 +132,7 @@ export function SignupScreen({ navigation }) {
           }
         }}
       >
-        Sign up
+        Đăng ký
       </Button>
     </SafeAreaView>
   )

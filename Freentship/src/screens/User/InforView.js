@@ -266,15 +266,31 @@ export default function InforView({ navigation }) {
             </View>
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
-          {/* Logout */}
-          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}
+            onPress={() => { navigation.navigate('OrdersManagement') }}>
             <View>
-              <FontAwesome5 name="login" style={AppStyle.InforUserTheme.icon} />
+              <FontAwesome5 name="history" style={AppStyle.InforUserTheme.icon} />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Lịch sử đơn hàng</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Logout */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}
+            onPress={
+              () => {
+                AsyncStorage.removeItem('userID1')
+                navigation.navigate('LoginScreen')
+              }
+            }
+          >
+            <View>
+              <FontAwesome5 name="sign-out-alt" style={AppStyle.InforUserTheme.icon} />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
               <Text style={{ fontSize: 15 }}>Logout</Text>
             </View>
-            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
 
           <View
@@ -302,12 +318,6 @@ export default function InforView({ navigation }) {
               AppStyle.InforUserTheme.horizonline
             ]}
           />
-
-          <Pressable onPress={() => { navigation.navigate('OrdersManagement') }}>
-            <Text>
-              Lịch sử đơn hàng
-            </Text>
-          </Pressable>
         </View>
       </ScrollView>
 
