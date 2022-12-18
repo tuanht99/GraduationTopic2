@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 export const HomeScreen = ({ navigation }) => {
   const location = useSelector(state => state.locUser)
   
-  const LIMIT = 10
+  const LIMIT = 3
   const categories = [
     'Thử quán mới',
     'Đang khuyến mãi',
@@ -26,7 +26,7 @@ export const HomeScreen = ({ navigation }) => {
     [orderBy('created', 'desc'), limit(LIMIT)],
     [where('discount', '>', 0), orderBy('discount', 'desc'), limit(LIMIT)]
   ]
-  const firestore = [ReadDataFoodStores, ReadDataFoodStoresByFood]
+  const firestore = [ReadDataFoodStores, ReadDataFoodStores]
 
 
 
@@ -43,6 +43,7 @@ export const HomeScreen = ({ navigation }) => {
       setData(data)
     })()
   }, [])
+  console.log('data', data)
 
   const handleScroll = event => {
     const scrollY = event.nativeEvent.contentOffset.y
@@ -84,7 +85,8 @@ export const HomeScreen = ({ navigation }) => {
     <>
       {isScrolling && (
         <SearchHome
-          style={styles.searchHomeAbs}
+            location={location}
+            style={styles.searchHomeAbs}
           styleImg={styles.searchHomeImgAbs}
           flexDirection={true}
         />
@@ -97,7 +99,7 @@ export const HomeScreen = ({ navigation }) => {
         onScroll={handleScroll}
       >
         <TopBanner location={location} />
-        <SearchHome style={styles.searchHome} />
+        <SearchHome location={location} style={styles.searchHome} />
         <ChooseCategoriesFood location={location} navigation={navigation} />
         {data !== null
           ? data.map((item, index) => {
