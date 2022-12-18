@@ -30,7 +30,7 @@ export const SearchScreen = ({ route, navigation }) => {
       where('food_categories', 'array-contains', id),
       orderBy('name', 'asc'),
       startAt(keyWord),
-      endAt(keyWord + '\uf8ff'),
+      endAt(keyWord + '~'),
       limit(limitNumber)
     ]
   ]

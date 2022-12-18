@@ -67,8 +67,7 @@
     "react-redux": "^8.0.4",
     "redux": "^4.2.0",
     "redux-toolkit": "^1.1.2",
-    "src": "^1.0.0",
-    "styled-Components": "^5.3.5"
+    "src": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
