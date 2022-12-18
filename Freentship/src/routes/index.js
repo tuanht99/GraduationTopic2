@@ -29,6 +29,7 @@ import OrdersManagement from '../screens/Order/OrdersManagement'
 import OrderItem from '../Components/Order/OrderItem'
 import OrderStatus from '../screens/OrderStatus/index'
 import { OrderItemDetail } from '../screens/Order/OrderItemDetail'
+import {Button } from 'react-native'
 
 import ChatScreen from '../screens/ChatScreen'
 
@@ -40,6 +41,7 @@ import { MapScreen } from "../screens/MapScreen";
 const Stack = createNativeStackNavigator()
 
 function Router() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoginScreen">
@@ -56,7 +58,7 @@ function Router() {
           component={LoginScreen}
           options={{
             // hidden navbar
-            headerShown: false,
+            headerShown: false
           }}
         />
 
@@ -99,7 +101,15 @@ function Router() {
         }} />
         {/* giỏ hàng */}
         <Stack.Screen name="CartView" component={CardView} />
-        <Stack.Screen name="FindShipper" component={FindShipper} options={{ title: 'Trạng thái đơn hàng' }} />
+        <Stack.Screen name="FindShipper" component={FindShipper} options = {{title  : 'Trạng thái đơn hàng' ,
+      //  headerRight: () => (
+      //   <Button
+      //     onPress={() => navigation.navigate('FavoriteStoreView')}
+      //     title="Home"
+      //     color="red"
+      //   />
+      // )
+      }} />
         <Stack.Screen
           name="HomeTab"
           component={HomeNavigator}

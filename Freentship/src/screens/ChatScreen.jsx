@@ -14,7 +14,6 @@ import { db } from '../services/config'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { async } from '@firebase/util'
 import { KeyboardAvoidingView } from 'react-native'
 import { Platform } from 'react-native'
 

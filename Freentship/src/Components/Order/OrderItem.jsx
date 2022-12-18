@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, StatusBar, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React from 'react'
 import formatCash from '../formatCash'
 
 export default function OrderItem({ value, navigation }) {
