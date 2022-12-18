@@ -8,7 +8,9 @@ export default function OrderItem({ value, navigation }) {
       style={styles.item}
       onStartShouldSetResponder={() => {
         navigation.navigate('OrderItemDetail', {
-          orderId: value.id
+          orderId: value.id,
+          storeId: value.data.food_store_id,
+          nameStore: value.data.store_name
         })
       }}
     >

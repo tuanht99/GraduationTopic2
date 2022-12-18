@@ -15,7 +15,7 @@ import call from 'react-native-phone-call'
 import { doc, onSnapshot } from 'firebase/firestore'
 
 export const OrderItemDetail = ({ navigation, route }) => {
-  const { orderId } = route.params
+  const { orderId, storeId, nameStore } = route.params
 
   const [orderStatus, setOrderStatus] = useState()
 
@@ -244,6 +244,7 @@ export const OrderItemDetail = ({ navigation, route }) => {
 
       {orderStatus && orderStatus.status === 5 && (
         <TouchableOpacity
+            onPress={() => navigation.navigate('RatingView', { storeId, nameStore })}
           className="mt-8"
           style={{
             backgroundColor: '#E94730',
