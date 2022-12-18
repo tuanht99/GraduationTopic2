@@ -20,7 +20,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addNote } from '../../redux/cartItems'
 
 
-import formatCash from '../../components/formatCash'
+import formatCash from '../../Components/formatCash'
 
 import Modal from 'react-native-modal'
 

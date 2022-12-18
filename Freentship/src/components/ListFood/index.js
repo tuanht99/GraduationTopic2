@@ -13,7 +13,7 @@ import {
 import Styles from '../../screens/Store/StoreStyle'
 import { db } from '../../services'
 import Modal from 'react-native-modal'
-import formatCash from '../../components/formatCash'
+import formatCash from '../../Components/formatCash'
 
 import { collection, getDocs, where, query } from 'firebase/firestore'
 
