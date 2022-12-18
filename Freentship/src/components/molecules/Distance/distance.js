@@ -5,7 +5,7 @@ import { IconText } from '../IconText'
 import { Colors, FontSize } from '../../../styles'
 import { getDistance } from 'geolib'
 
-export const Distance = ({ advertisement, locationFrom, locationTo }) => {
+export const Distance = ({ advertisement, locationFrom, locationTo, style, setDistanceValue }) => {
   const icon = {
     name: 'location',
     size: FontSize.xl,
@@ -14,19 +14,20 @@ export const Distance = ({ advertisement, locationFrom, locationTo }) => {
   }
   const [distance, setDistance] = React.useState(0)
   React.useEffect(() => {
-    setDistance(
-      getDistance(
-        {
-          latitude: locationFrom.latitude,
-          longitude: locationFrom.longitude
-        },
-        { latitude: locationTo._lat, longitude: locationTo._long }
-      ) / 1000
-    )
+    const value = getDistance(
+      {
+        latitude: locationFrom.latitude,
+        longitude: locationFrom.longitude
+      },
+      { latitude: locationTo.latitude, longitude: locationTo.longitude }
+    ) / 1000
+    setDistance(value)
+    setDistanceValue ? setDistanceValue(value) : null
+      
   }, [locationFrom, locationTo])
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {advertisement && <Text style={styles.qc}>QC</Text>}
       <IconText
         styleText={styles.text}

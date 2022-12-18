@@ -19,6 +19,9 @@ import { Foundation } from '@expo/vector-icons'
 import { useSelector, useDispatch } from 'react-redux'
 import { addNote } from '../../redux/cartItems'
 
+
+import formatCash from '../../Components/formatCash'
+
 import Modal from 'react-native-modal'
 
 const DATA = {
@@ -85,7 +88,7 @@ export default function OrderView({ navigation }) {
           orderId: docRef.id,
           locationStore: {
             latitude: carts[0].latitude,
-            longitude: carts[0].longtitude
+            longitude: carts[0].longitude
           }
         })
       })
@@ -378,7 +381,7 @@ export default function OrderView({ navigation }) {
                     </View>
                     <View>
                       <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
-                        {item.price * item.Quantity} đ
+                        {formatCash((item.price * item.Quantity) + '' )}đ
                       </Text>
                     </View>
                   </View>
@@ -585,7 +588,7 @@ export default function OrderView({ navigation }) {
               </View>
               <View>
                 <Text style={{ paddingRight: 10, fontWeight: 'bold' }}>
-                  {Total} {' Đ'}
+                  {formatCash(Total + '')}đ
                 </Text>
               </View>
             </View>

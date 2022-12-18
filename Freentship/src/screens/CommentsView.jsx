@@ -9,10 +9,9 @@ import {
 } from 'react-native'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { Colors } from '../styles'
-import { Card } from '../components/molecules/Card'
+import { Card } from '../Components/molecules/Card'
 import {
   AddHeart,
-  ReadCommentsByStoreId,
   ReadHeartsByUserId,
   UpdateHeart
 } from '../services'
@@ -103,7 +102,7 @@ const Comment = ({ data }) => {
               paddingStart: 4,
               color: Colors.gray
             }}
-          >{`${dataTime.getDay()} tháng ${dataTime.getMonth()}${
+          >{`${dataTime.getDate()} tháng ${dataTime.getMonth()}${
             dataTime.getFullYear() === new Date().getFullYear()
               ? ', '
               : ` năm ${dataTime.getFullYear()}`
@@ -174,28 +173,8 @@ const Comment = ({ data }) => {
 }
 
 export const CommentsView = ({ navigation, route }) => {
-  const { storeId, storeName } = route.params
-  const [dataComments, setDataComments] = React.useState([])
-  const [rating, setRating] = React.useState(0)
-
-  React.useEffect(() => {
-    ReadCommentsByStoreId(storeId)
-      .then(res => {
-        setDataComments(res)
-        setRating(
-          +(
-            (res
-              .map(item => (item.isEmotion ? 1 : 0))
-              .reduce((a, b) => a + b, 0) /
-              res.length) *
-            100
-          ).toFixed(2)
-        )
-      })
-      .catch(err => {
-        console.log('err', err)
-      })
-  }, [])
+  const { storeId, storeName, dataComments, rating } = route.params
+  console.log({dataComments, rating});
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -223,12 +202,12 @@ export const CommentsView = ({ navigation, route }) => {
             {rating}% ({dataComments.length} đánh giá)
           </Text>
         </View>
-        <Button
-          title="Viết đánh giá"
-          onPress={() =>
-            navigation.navigate('RatingView', { storeId, nameStore: storeName })
-          }
-        />
+        {/*<Button*/}
+        {/*  title="Viết đánh giá"*/}
+        {/*  onPress={() =>*/}
+        {/*    navigation.navigate('RatingView', { storeId, nameStore: storeName })*/}
+        {/*  }*/}
+        {/*/>*/}
       </Card>
       {dataComments.map((item, index) => {
         return <Comment key={index} data={item} />
