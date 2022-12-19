@@ -1,64 +1,94 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import styles from './search-screen.style'
-import { ComeBack } from '../../components/Organisms/ComeBack'
-import { LocationSearch } from '../../components/Organisms/LocationSearch'
-import { CategoryFood } from '../../components/Organisms/CategoryFood'
+import { ComeBack } from '../../Components/Organisms/ComeBack'
+import { LocationSearch } from '../../Components/Organisms/LocationSearch'
+import { CategoryFood } from '../../Components/Organisms/CategoryFood'
 import { limit, orderBy, where, startAt, endAt } from 'firebase/firestore'
 import {
-  ReadCategories,
-  ReadDataFoods,
-  ReadDataFoodStores,
-  ReadDataFoodStoresByFood
-} from '../../services'
-import * as Location from 'expo-location'
-
-export const SearchScreen = ({ route, navigation }) => {
-  const { id, name, index, location } = route.params
-  const [data, setData] = React.useState([])
-  const [limitNumber, setLimitNumber] = React.useState(10)
-  const [keyWord, setKeyWord] = React.useState('')
-  const q = [
-    [orderBy('name', 'asc'), limit(limitNumber)],
-    [orderBy('created', 'desc'), limit(limitNumber)],
-    [
-      where('discount', '>', 0),
-      orderBy('discount', 'desc'),
-      limit(limitNumber)
-    ],
-    [
-      where('food_categories', 'array-contains', id),
-      orderBy('name', 'asc'),
-      startAt(keyWord),
-      endAt(keyWord + '\uf8ff'),
-      limit(limitNumber)
-    ]
-  ]
-  const firestore = [
     ReadCategories,
     ReadDataFoodStores,
     ReadDataFoodStoresByFood
-  ]
-  React.useEffect(() => {
-    ; (async () => {
-      const data = id
-        ? await firestore[1](q[3])
-        : await firestore[index](q[index])
-      setData([...data])
-    })()
-  }, [keyWord])
+} from '../../services'
+import { useNavigation } from "@react-navigation/native";
 
-  return (
-    <ScrollView style={styles.container}>
-      <ComeBack navigation={navigation} onChange={setKeyWord} />
-      <LocationSearch address={location.address} />
-      <CategoryFood
-        horizontal={false}
-        data={data}
-        title={name}
-        location={location}
-        navigation={navigation}
-      />
-    </ScrollView>
-  )
+export const SearchScreen = ({ route }) => {
+    const { id, name, index, location, advanced } = route.params
+    const navigation = useNavigation();
+    const [data, setData] = React.useState([])
+    const [limitNumber, setLimitNumber] = React.useState(3)
+    const [keyWord, setKeyWord] = React.useState('')
+    const [isCheckAll, setIsCheckAll] = React.useState(false)
+    const [categories, setCategories] = React.useState({
+        selection: "all",
+        status: 1,
+    });
+
+    const q = [
+        [orderBy('name', 'asc'), limit(limitNumber)],
+        [
+            orderBy('name', 'asc'),
+            startAt(keyWord),
+            endAt(keyWord + '~'),
+            limit(limitNumber)
+        ],
+        [
+            where('discount', '>', 0),
+            orderBy('discount', 'desc'),
+            limit(limitNumber)
+        ],
+        [
+            where('status', '==', categories.status),
+            where('food_categories', 'array-contains', categories.selection !== "all" ? categories.selection : id),
+            orderBy('name', 'asc'),
+            startAt(keyWord),
+            endAt(keyWord + '~'),
+            limit(limitNumber)
+        ],
+        [
+            where('status', '==', categories.status),
+            orderBy('name', 'asc'), limit(10), startAt(keyWord),
+            endAt(keyWord + '~'), limit(limitNumber + 7)]
+    ]
+    const firestore = [
+        ReadCategories,
+        ReadDataFoodStores,
+        ReadDataFoodStores,
+        ReadDataFoodStoresByFood
+    ]
+
+    React.useEffect(() => {
+        ;(async () => {
+            console.log('a')
+            if (advanced) {
+                if (categories.selection === "all" || isCheckAll) {
+                    setData(await firestore[1](q[4]))
+                    setIsCheckAll(false)
+                } else {
+                    setData(await firestore[1](q[3]))
+                }
+            } else {
+                const data = id
+                    ? await firestore[1](q[3])
+                    : await firestore[index](q[index])
+                setData([...data])
+            }
+        })()
+    }, [keyWord, categories, isCheckAll])
+
+    return (
+        <ScrollView style={styles.container}>
+            <ComeBack setIsCheckAll={setIsCheckAll} categories={categories} setCategories={setCategories}
+                      advanced={advanced}
+                      setLimitData={setLimitNumber} navigation={navigation} onChange={setKeyWord}/>
+            <LocationSearch address={location.address}/>
+            <CategoryFood
+                horizontal={false}
+                data={data}
+                title={name}
+                location={location}
+                navigation={navigation}
+            />
+        </ScrollView>
+    )
 }

@@ -2,7 +2,7 @@ import { View, Text, FlatList, Keyboard } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput } from 'react-native-paper'
-import ChatSample from '../components/ChatSample'
+import ChatSample from '../Components/ChatSample'
 import {
   arrayUnion,
   doc,
@@ -14,7 +14,6 @@ import { db } from '../services/config'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { async } from '@firebase/util'
 import { KeyboardAvoidingView } from 'react-native'
 import { Platform } from 'react-native'
 

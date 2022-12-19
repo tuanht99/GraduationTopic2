@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Password from '../components/Password';
+import Password from '../Components/Password';
 
 export default function InputPasswordView() {
   return (

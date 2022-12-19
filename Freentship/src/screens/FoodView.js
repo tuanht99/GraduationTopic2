@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialIcons, Feather, Ionicons } from "react-native-vector-icons";
-import Products from "../components/Products";
-import Category1 from "../components/Category1";
+import Products from "../Components/Products";
+import Category1 from "../Components/Category1";
 import { DataFood } from "../core/data";
 import FoodTheme from "../themes/FoodTheme";
 

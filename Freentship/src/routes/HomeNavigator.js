@@ -50,7 +50,7 @@ export const HomeNavigator = ({ navigation }) => {
     const q = query(
       collection(db, 'orders'),
       where('user_id', '==', `${user_id.id}`),
-      where('status', 'in', [3, 6, 4])
+      where('status', 'in', [3, 6, 4 , 1])
     )
 
     const unsubscribe = onSnapshot(q, querySnapshot => {

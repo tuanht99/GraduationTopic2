@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { collection, query, where, onSnapshot } from 'firebase/firestore'
 import { db } from '../../services'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import OrderItem from '../../components/Order/OrderItem'
+import OrderItem from '../../Components/Order/OrderItem'
 import { FlatList } from 'react-native'
 
 export default function OrdersManagement({ navigation }) {

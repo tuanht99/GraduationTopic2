@@ -12,12 +12,12 @@ import Styles from './StoreStyle'
 import { AntDesign } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Fontisto } from '@expo/vector-icons'
-import ListFood from '../../components/ListFood/index'
+import ListFood from '../../Components/ListFood/index'
 import { db } from '../../services'
 import { doc, onSnapshot, getDoc } from 'firebase/firestore'
 import { UpdateFavoriteStore, DeleteLoveStore, ReadCommentsByStoreId } from '../../services'
 import { useSelector } from 'react-redux'
-import { Distance } from '../../components/molecules/Distance'
+import { Distance } from '../../Components/molecules/Distance'
 
 function StoreScreen({ navigation, route }) {
   const { id } = route.params

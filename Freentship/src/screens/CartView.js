@@ -6,35 +6,11 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import Quantity from "../components/Quantity";
+import Quantity from "../Components/Quantity";
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
-const DATA = { 
-  id: 1,
-  name: "Nước ngọt c2",
-  namesp: "Gì cũng đc, miễn là cùng cửa hàng",
-  namesp2: "Khi thêm món khác cửa hàng thì làm mới giỏ hàng",
-  discription: "Thơm ngon mời bạn ăn nha, getgo, getgo,...",
-  location: "",
-  relationship: "Đối tác lo ship",
-  price: 20000,
-  status: "",
-  shopaddress: "52 Bế văn đàn, an bình, dĩ an, bình dương",
-  shopSl: "14 sản phẩm",
-  shopname: "Tea 1998",
-  shopimage: require("../assets/images/nuoc_c2.png"),
-  monAn1: require("../assets/images/nuoc_c2.png"),
-  avt: require("../assets/images/nuoc_c2.png"),
-  userName: "Phú",
-  txtyour: "bạn",
-  txtDatDon: "Đặt đơn 1",
-  txtsplq: "Sản phẩm cùng cửa hàng",
-  txtXemCuaHang: "Xem cửa hàng",
-  txtDis: "Thông tin sản phẩm",
-  txtThayDoi: "Thay đổi",
-  txtTong: "60.000",
-};
+
 
 
 
