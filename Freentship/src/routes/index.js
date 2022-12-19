@@ -34,6 +34,7 @@ import ChatScreen from '../screens/ChatScreen'
 
 import FindShipper from '../screens/FindShipper/FindShipper'
 import FavoriteStoreView from '../screens/FavoriteStoreView'
+import { MapScreen } from "../screens/MapScreen";
 
 
 const Stack = createNativeStackNavigator()

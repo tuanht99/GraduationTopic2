@@ -197,7 +197,7 @@ export const RatingView = ({ route }) => {
                     <Image
                         source={{ uri: uri }}
                         style={{
-                            width: 100, height: 100, margin: 5, borderRadius: 10
+                            width: 90, height: 90, margin: 5, borderRadius: 10
                         }}
                     ></Image>
                 </TouchableOpacity>
@@ -239,12 +239,14 @@ export const RatingView = ({ route }) => {
                         }}>
                             <BackgroundImage source={imageCamera}
                                              style={{
-                                                 width: 100,
-                                                 height: 100,
+                                                 width: 90,
+                                                 height: 90,
                                                  margin: 5,
                                                  borderRadius: 10,
                                                  backgroundColor: Colors.red
-                                             }}/>
+                                             }}>
+                                <Text style={{textAlign: 'right', fontSize: 24, fontWeight: 'bold', color: Colors.white}}>{`${images.length}/6`}</Text>
+                            </BackgroundImage>
                         </TouchableOpacity>
                     )}
                 </View>
