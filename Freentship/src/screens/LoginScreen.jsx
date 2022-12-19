@@ -4,14 +4,14 @@ import {
   StyleSheet,
   StatusBar,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native'
 import PhoneInput from 'react-native-phone-number-input'
 import React, { useEffect, useState, useRef } from 'react'
 import app, { auth } from '../services/config'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../services/config'
-
 import {
   getAuth,
   RecaptchaVerifier,
@@ -19,8 +19,8 @@ import {
   PhoneAuthProvider
 } from 'firebase/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useDispatch } from "react-redux";
-import { addUser } from "../redux/user";
+import { useDispatch } from 'react-redux'
+import { addUser } from '../redux/user'
 
 export function LoginScreen({ navigation }) {
   const [value, setValue] = useState('')
@@ -28,7 +28,7 @@ export function LoginScreen({ navigation }) {
   const [valid, setValid] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const phoneInput = useRef(null)
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('userID1')
@@ -37,7 +37,14 @@ export function LoginScreen({ navigation }) {
         const docSnap = await getDoc(docRef)
         console.log({ anime: docSnap.data() })
         if (docSnap.exists()) {
-          dispatch(addUser({ id: docSnap.id, name: docSnap.data().name, avatar: docSnap.data().avatar, type: "LOGIN" }))
+          dispatch(
+            addUser({
+              id: docSnap.id,
+              name: docSnap.data().name,
+              avatar: docSnap.data().avatar,
+              type: 'LOGIN'
+            })
+          )
           navigation.navigate('LocationScreen')
         }
       }
@@ -51,14 +58,21 @@ export function LoginScreen({ navigation }) {
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <SafeAreaView style={styles.wrapper}>
+          <Image
+            source={require('../assets/images/logos/logoUser.png')}
+            style={{ width: 100, height: 100, marginBottom: 10 }}
+          ></Image>
           {showMessage && (
             <View style={styles.message}>
-              <Text>Value : {value}</Text>
-              <Text>Formatted Value : {formattedValue}</Text>
-              <Text>Valid : {valid ? 'true' : 'false'}</Text>
+              {!valid ? (
+                <Text style={{ color: 'red' }}>Nhập sai định dạng!</Text>
+              ) : (
+                ''
+              )}
             </View>
           )}
           <PhoneInput
+            textInputStyle={{ fontSize: 14 }}
             ref={phoneInput}
             defaultValue={value}
             defaultCode="VN"
@@ -68,7 +82,7 @@ export function LoginScreen({ navigation }) {
             withDarkTheme
             withShadow
             autoFocus
-            placeholder="Nhập số điện thoại ở đây..."
+            placeholder="Nhập SĐT ở đây..."
             countryPickerProps={{}}
           />
           <TouchableOpacity
@@ -84,7 +98,7 @@ export function LoginScreen({ navigation }) {
               }
             }}
           >
-            <Text style={{ color: 'white' }}>Check</Text>
+            <Text style={{ color: 'white' }}>Đăng nhập</Text>
           </TouchableOpacity>
         </SafeAreaView>
       </View>

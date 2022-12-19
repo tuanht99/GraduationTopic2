@@ -11,13 +11,15 @@ import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { db } from '../../services/firebase'
 import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
+import xacnhan from '../../assets/gif/xacnhan.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
-import formatCash from '../../components/formatCash'
+import formatCash from '../../Components/formatCash'
 import call from 'react-native-phone-call'
 import {
   collection,
@@ -30,9 +32,11 @@ import {
 } from 'firebase/firestore'
 
 import { getPreciseDistance } from 'geolib'
+import { useSelector } from "react-redux";
 
 const FindShipper = ({ navigation, route }) => {
   const { orderId, locationStore } = route.params
+  const locations = useSelector(state => state.locUser)
 
   const [orderStatus, setOrderStatus] = useState()
   const [shippers, setShippers] = useState([])
@@ -40,10 +44,7 @@ const FindShipper = ({ navigation, route }) => {
   const [progress, setProgress] = useState()
   const [shipperInfo, setShipperInfo] = useState()
   const [status, setStatus] = useState(0)
-  if(orderStatus !== undefined) {
-    console.log('orderStatus.storeAddress' , orderStatus);
-  }
-  
+
   useEffect(() => {
     if (orderStatus !== undefined) {
       if (orderStatus.shipperId !== '') {
@@ -170,13 +171,15 @@ const FindShipper = ({ navigation, route }) => {
 
       getInfoUser(doc.data().user_id).then(user => {
         getStoreinfo(doc.data().food_store_id).then(store => {
-          console.log('store' , store.data.address);
+     
           setOrderStatus({
             ...doc.data(),
             status: doc.data().status,
             shipperId: doc.data().shipper_id,
             userAddress: user.address,
             storeAddress: store.data.address,
+            storeBankNumber: store.data.bank_account_number,
+            storeBankName: store.data.bank_name,
             menoOfOrder: doc.data().meno,
             quantityTotal: sum
           })
@@ -233,18 +236,23 @@ const FindShipper = ({ navigation, route }) => {
     [orderStatus, navigation]
   )
 
-  // React.useEffect(() => {
-  //   // Use `setOptions` to update the button that we previously specified
-  //   // Now the button includes an `onPress` handler to update the count
-  //   navigation.setOptions({
-  //     headerLeft: () => navigation.navigate('HomeTab')
-  //   })
-  // }, [navigation])
-
   const exitOrder = action => {
     navigation.dispatch(action)
     // navigation.navigate('HomeTab')
     cancelOrder()
+  }
+
+  const BankInfo = ({ bankNumber, bankName }) => {
+    return (
+      <View className = 'rounded-2xl flex justify-center items-center bg-[#FFFFCC] p-3'>
+        <Text className = 'text-base text-red-600 '>Bạn vui lòng thanh toán trước cho cửa hàng số tiền cọc qua tài khoản này trong vòng 5 phút</Text>
+        <Text className = 'text-base font-bold'>{bankName}</Text>
+        <View className = 'flex-row'>
+          <FontAwesome name="bank" size={24} color="black" />
+          <Text className = 'text-base'> Số tài khoản : {bankNumber}</Text>
+        </View>
+      </View>
+    )
   }
 
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
@@ -271,7 +279,7 @@ const FindShipper = ({ navigation, route }) => {
                 <Feather name="phone" size={20} color="black" />
                 <Text className="font-bold ml-1"> Gọi</Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+              <TouchableOpacity onPress={() => navigation.navigate('MapScreen', {shipper_id: shipper.id, locations, navigation})} className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
                 <FontAwesome5 name="search-location" size={20} color="black" />
                 <Text className="font-bold ml-1">Xem trên bản đồ</Text>
               </TouchableOpacity>
@@ -351,6 +359,11 @@ const FindShipper = ({ navigation, route }) => {
           Cảm ơn bạn đã cho Frent'ship cơ hội được phục vụ. Freen'tship sẽ giao
           hàng đến bạn sớm nhất và tài xế sẽ liên hệ trước khi giao.
         </Text>
+
+        <TouchableOpacity className="flex-row items-center my-3">
+          <Entypo name="chat" size={24} color="black" />
+          <Text className="ml-2 text-base">Nhắn với cửa hàng</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -358,6 +371,17 @@ const FindShipper = ({ navigation, route }) => {
   useEffect(() => {
     if (orderStatus !== undefined) {
       switch (status) {
+        
+        case 1:
+          setProgress({
+            title: 'cửa hàng đã xác nhận',
+            progress1: '100%',
+            progress2: '100%',
+            progress3: '0%',
+            gif: xacnhan
+          })
+          break
+
         case 2:
           setProgress({
             title: 'tìm tài xế cho bạn',
@@ -395,7 +419,7 @@ const FindShipper = ({ navigation, route }) => {
             title: 'tài xế đã lấy hàng thành công',
             progress1: '100%',
             progress2: '100%',
-            progress3: '0%',
+            progress3: '50%',
             gif: pigshipperunscreen
           })
           break
@@ -425,13 +449,19 @@ const FindShipper = ({ navigation, route }) => {
       shipperInfo !== undefined &&
       orderStatus.shipperId !== '' &&
       orderStatus.status >= 3 &&
-      orderStatus.status <= 6 ? (
-        <ShipperInfor
-          avatar={shipperInfo.avatar}
-          name={shipperInfo.name}
-          loaixe={shipperInfo.loaixe}
-          phone={shipperInfo.phone}
-        />
+      orderStatus.status <= 6  ? (
+        <View>
+          <ShipperInfor
+            avatar={shipperInfo.avatar}
+            name={shipperInfo.name}
+            loaixe={shipperInfo.loaixe}
+            phone={shipperInfo.phone}
+          />
+          <BankInfo
+            bankNumber={orderStatus.storeBankNumber}
+            bankName={orderStatus.storeBankName}
+          />
+        </View>
       ) : (
         ''
       )}

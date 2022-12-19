@@ -3,7 +3,7 @@ import { Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } fro
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import MonAnImg from "../assets/images/monAn1.png";
 import { Colors } from "../styles";
-import { Card } from "../components/molecules/Card";
+import { Card } from "../Components/molecules/Card";
 import { ImagePicker } from 'expo-image-multiple-picker'
 import { getDownloadURL, ref as refStorage, uploadBytesResumable } from "firebase/storage";
 
@@ -11,9 +11,11 @@ import imageCamera from "../assets/4001465.png";
 import { BackgroundImage } from "react-native-elements/dist/config";
 import { AddComment, storage } from "../services";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 
-export const RatingView = ({ navigation, route }) => {
+export const RatingView = ({ route }) => {
+    const navigation = useNavigation();
     const PATH_IMAGE = 'comments/';
     const avataStore = MonAnImg;
     const { storeId, nameStore } = route.params;
@@ -38,8 +40,6 @@ export const RatingView = ({ navigation, route }) => {
     }, [navigation])
 
     async function handleSendComment() {
-
-
         const path_image = await test(images);
 
         AddComment({ storeId, comment, isEmotion, path_image, user }).then(() => {
@@ -47,6 +47,8 @@ export const RatingView = ({ navigation, route }) => {
         }).catch(err => {
             console.log(err);
         })
+
+        navigation.goBack();
 
     }
 
@@ -195,7 +197,7 @@ export const RatingView = ({ navigation, route }) => {
                     <Image
                         source={{ uri: uri }}
                         style={{
-                            width: 100, height: 100, margin: 5, borderRadius: 10
+                            width: 90, height: 90, margin: 5, borderRadius: 10
                         }}
                     ></Image>
                 </TouchableOpacity>
@@ -237,12 +239,14 @@ export const RatingView = ({ navigation, route }) => {
                         }}>
                             <BackgroundImage source={imageCamera}
                                              style={{
-                                                 width: 100,
-                                                 height: 100,
+                                                 width: 90,
+                                                 height: 90,
                                                  margin: 5,
                                                  borderRadius: 10,
                                                  backgroundColor: Colors.red
-                                             }}/>
+                                             }}>
+                                <Text style={{textAlign: 'right', fontSize: 24, fontWeight: 'bold', color: Colors.white}}>{`${images.length}/6`}</Text>
+                            </BackgroundImage>
                         </TouchableOpacity>
                     )}
                 </View>

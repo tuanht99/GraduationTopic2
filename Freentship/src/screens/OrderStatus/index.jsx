@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 import { Entypo } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
@@ -9,13 +10,16 @@ import { db } from '../../services/firebase'
 import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
+import xacnhan from '../../assets/gif/xacnhan.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
-import formatCash from '../../components/formatCash'
+import formatCash from '../../Components/formatCash'
 import call from 'react-native-phone-call'
 import { doc, onSnapshot } from 'firebase/firestore'
+import { useSelector } from "react-redux";
 
 const OrderStatus = ({ navigation, route }) => {
   const { orderId } = route.params
+  const locations = useSelector(state => state.locUser)
 
   const [orderStatus, setOrderStatus] = useState()
 
@@ -52,7 +56,9 @@ const OrderStatus = ({ navigation, route }) => {
             status: doc.data().status,
             shipperId: doc.data().shipper_id,
             userAddress: user.address,
-            storeAddress: store.address,
+            storeAddress: store.data.address,
+            storeBankNumber: store.data.bank_account_number,
+            storeBankName: store.data.bank_name,
             menoOfOrder: doc.data().meno,
             quantityTotal: sum
           })
@@ -64,6 +70,22 @@ const OrderStatus = ({ navigation, route }) => {
       unsub
     }
   }, [])
+
+  const BankInfo = ({ bankNumber, bankName }) => {
+    return (
+      <View className="rounded-2xl flex justify-center items-center bg-[#FFFFCC] p-3">
+        <Text className="text-base text-red-600 ">
+          Bạn vui lòng thanh toán trước cho cửa hàng số tiền cọc qua tài khoản
+          này trong vòng 5 phút
+        </Text>
+        <Text className="text-base font-bold">{bankName}</Text>
+        <View className="flex-row">
+          <FontAwesome name="bank" size={24} color="black" />
+          <Text className="text-base"> Số tài khoản : {bankNumber}</Text>
+        </View>
+      </View>
+    )
+  }
 
   const ShipperInfor = ({ avatar, name, loaixe, phone }) => {
     return (
@@ -89,7 +111,7 @@ const OrderStatus = ({ navigation, route }) => {
                 <Feather name="phone" size={20} color="black" />
                 <Text className="font-bold ml-1"> Gọi</Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+              <TouchableOpacity onPress={() => navigation.navigate('MapScreen', {shipper_id: orderStatus.shipperId, locations, navigation})} className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
                 <FontAwesome5 name="search-location" size={20} color="black" />
                 <Text className="font-bold ml-1">Xem trên bản đồ</Text>
               </TouchableOpacity>
@@ -183,6 +205,16 @@ const OrderStatus = ({ navigation, route }) => {
   useEffect(() => {
     if (orderStatus !== undefined) {
       switch (status) {
+        case 1:
+          setProgress({
+            title: 'cửa hàng đã xác nhận',
+            progress1: '100%',
+            progress2: '100%',
+            progress3: '0%',
+            gif: xacnhan
+          })
+          break
+
         case 2:
           setProgress({
             title: 'tìm tài xế cho bạn',
@@ -219,7 +251,7 @@ const OrderStatus = ({ navigation, route }) => {
             title: 'tài xế đã lấy hàng thành công',
             progress1: '100%',
             progress2: '100%',
-            progress3: '0%',
+            progress3: '50%',
             gif: pigshipperunscreen
           })
           break
@@ -248,15 +280,20 @@ const OrderStatus = ({ navigation, route }) => {
       {orderStatus !== undefined &&
       shipperInfo !== undefined &&
       orderStatus.shipperId !== '' &&
-      orderStatus.status >= 3 &&
-      orderStatus.status <= 6 ? (
-        <ShipperInfor
-          avatar={shipperInfo.avatar}
-          name={shipperInfo.name}
-          loaixe={shipperInfo.loaixe}
-          phone={shipperInfo.phone}
-          chatID={orderId}
-        />
+      orderStatus.status >= 1 &&
+      orderStatus.status <= 6  ? (
+        <View>
+          <ShipperInfor
+            avatar={shipperInfo.avatar}
+            name={shipperInfo.name}
+            loaixe={shipperInfo.loaixe}
+            phone={shipperInfo.phone}
+          />
+          <BankInfo
+            bankNumber={orderStatus.storeBankNumber}
+            bankName={orderStatus.storeBankName}
+          />
+        </View>
       ) : (
         ''
       )}

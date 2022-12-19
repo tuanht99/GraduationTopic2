@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, StatusBar, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React from 'react'
 import formatCash from '../formatCash'
 
 export default function OrderItem({ value, navigation }) {
@@ -8,7 +8,9 @@ export default function OrderItem({ value, navigation }) {
       style={styles.item}
       onStartShouldSetResponder={() => {
         navigation.navigate('OrderItemDetail', {
-          orderId: value.id
+          orderId: value.id,
+          storeId: value.data.food_store_id,
+          nameStore: value.data.store_name
         })
       }}
     >
@@ -34,7 +36,7 @@ export default function OrderItem({ value, navigation }) {
           Tổng tiền: {formatCash(value.data.totalPrice + '')} VNĐ
         </Text>
         <Text>
-          {value.status == 5 ? (
+          {value.data.status === 5 ? (
             <Text style={{ color: 'green' }}>Giao hàng thành công</Text>
           ) : (
             <Text style={{ color: 'red' }}>Đã huỷ</Text>

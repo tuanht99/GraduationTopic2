@@ -10,12 +10,12 @@ import lookingspying from '../../assets/gif/looking-spying.gif'
 import pigshipperunscreen from '../../assets/gif/pig-shipper-unscreen.gif'
 import giaohangthanhcong from '../../assets/gif/giaohangthanhcong.gif'
 import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
-import formatCash from '../../components/formatCash'
+import formatCash from '../../Components/formatCash'
 import call from 'react-native-phone-call'
 import { doc, onSnapshot } from 'firebase/firestore'
 
 export const OrderItemDetail = ({ navigation, route }) => {
-  const { orderId } = route.params
+  const { orderId, storeId, nameStore } = route.params
 
   const [orderStatus, setOrderStatus] = useState()
 
@@ -244,6 +244,7 @@ export const OrderItemDetail = ({ navigation, route }) => {
 
       {orderStatus && orderStatus.status === 5 && (
         <TouchableOpacity
+            onPress={() => navigation.navigate('RatingView', { storeId, nameStore })}
           className="mt-8"
           style={{
             backgroundColor: '#E94730',

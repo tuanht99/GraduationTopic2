@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 
 } from 'react-native'
 
@@ -69,7 +70,7 @@ export default function InforView({ navigation }) {
   )
   return (
     <SafeAreaView>
-      <View>
+      <ScrollView>
         {/* } */}
         <View>
           <View style={AppStyle.InforUserTheme.fdRow}>
@@ -189,12 +190,12 @@ export default function InforView({ navigation }) {
               <FontAwesome5 name="smile" style={AppStyle.InforUserTheme.icon} />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
-              <Text style={{ fontSize: 15 }}>Cộng đồng lo ship</Text>
+              <Text style={{ fontSize: 15 }}>Cộng đồng Freen'tShip</Text>
             </View>
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
           {/* cửa hàng yêu thích */}
-          <TouchableOpacity onPress={()=> navigation.navigate('FavoriteStoreView')} style={AppStyle.InforUserTheme.supportLoShip}>
+          <TouchableOpacity onPress={() => navigation.navigate('FavoriteStoreView')} style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
               <FontAwesome5 name="heart" style={AppStyle.InforUserTheme.icon} />
             </View>
@@ -251,20 +252,47 @@ export default function InforView({ navigation }) {
               />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
-              <Text style={{ fontSize: 15 }}>Đóng góp tính năng loship</Text>
+              <Text style={{ fontSize: 15 }}>Đóng góp tính năng Freen'tShip</Text>
             </View>
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
-          {/* Liên hệ với Loship */}
+          {/* Liên hệ với Freen'tShip */}
           <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}>
             <View>
               <FontAwesome5 name="phone" style={AppStyle.InforUserTheme.icon} />
             </View>
             <View style={{ flexDirection: 'row', flex: 4 }}>
-              <Text style={{ fontSize: 15 }}>Liên hệ với loship</Text>
+              <Text style={{ fontSize: 15 }}>Liên hệ với Freen'tShip</Text>
             </View>
             <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
           </TouchableOpacity>
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}
+            onPress={() => { navigation.navigate('OrdersManagement') }}>
+            <View>
+              <FontAwesome5 name="history" style={AppStyle.InforUserTheme.icon} />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Lịch sử đơn hàng</Text>
+            </View>
+            <AntDesign name="right" style={AppStyle.InforUserTheme.rightIcon} />
+          </TouchableOpacity>
+          {/* Logout */}
+          <TouchableOpacity style={AppStyle.InforUserTheme.supportLoShip}
+            onPress={
+              () => {
+                AsyncStorage.removeItem('userID1')
+                navigation.navigate('LoginScreen')
+              }
+            }
+          >
+            <View>
+              <FontAwesome5 name="sign-out-alt" style={AppStyle.InforUserTheme.icon} />
+            </View>
+            <View style={{ flexDirection: 'row', flex: 4 }}>
+              <Text style={{ fontSize: 15 }}>Logout</Text>
+            </View>
+          </TouchableOpacity>
+
           <View
             style={[
               AppStyle.InforUserTheme.mr10,
@@ -290,14 +318,8 @@ export default function InforView({ navigation }) {
               AppStyle.InforUserTheme.horizonline
             ]}
           />
-
-          <Pressable onPress={() => { navigation.navigate('OrdersManagement') }}>
-            <Text>
-              Lịch sử đơn hàng
-            </Text>
-          </Pressable>
         </View>
-      </View>
+      </ScrollView>
 
     </SafeAreaView>
   )

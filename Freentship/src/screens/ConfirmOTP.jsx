@@ -96,7 +96,7 @@ export function ConfirmOTP({ route, navigation }) {
         onChangeText={setVerificationCode}
       />
       <Button
-        title="Confirm Verification Code"
+        title="Xác nhận"
         disabled={!verificationId}
         onPress={async () => {
           try {

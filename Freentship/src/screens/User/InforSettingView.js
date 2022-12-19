@@ -37,11 +37,9 @@ export default function InforSettingView({ navigation, route }) {
 
   function editImage() {
     updateDoc(doc(db, 'users', id), {
-      name: guestname,
+      
       avatar: image,
-      sex: sex,
-      email: gmail,
-      phone: phone
+      
     }).catch(error => {
       console.log(error)
     })
@@ -231,7 +229,7 @@ export default function InforSettingView({ navigation, route }) {
             <Text style={AppStyle.profileText}>Số điện thoại liên lạc</Text>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('OTPChangeView', {
+                navigation.navigate('ChangePhoneView', {
                   guestname,
                   avatar,
                   date,

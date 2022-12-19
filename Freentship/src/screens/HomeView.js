@@ -6,8 +6,8 @@ import {
   Image,
 } from "react-native";
 import { MaterialIcons, Ionicons } from "react-native-vector-icons";
-import TextImage from "../components/TextImage";
-import Products from "../components/Products";
+import TextImage from "../Components/TextImage";
+import Products from "../Components/Products";
 import { DataHome } from "../core/data";
 import HomeTheme from "../themes/HomeTheme";
 

@@ -14,7 +14,7 @@ const userSlice = createSlice({
             state.avatar = avatar
         },
         clear() {
-            return []
+            return  initialState = {}
         }
     }
 })

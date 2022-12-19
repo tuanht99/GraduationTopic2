@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Pressable, Keyboard } from "react-native";
-import OTPInput from "../components/OTPInput";
+import OTPInput from "../Components/OTPInput";
 import { ButtonContainer, ButtonText } from "../themes/OTPInputTheme";
 
 export default function OTPVerification({ navigation }) {
