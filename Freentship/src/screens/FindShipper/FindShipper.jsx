@@ -30,9 +30,11 @@ import {
 } from 'firebase/firestore'
 
 import { getPreciseDistance } from 'geolib'
+import { useSelector } from "react-redux";
 
 const FindShipper = ({ navigation, route }) => {
   const { orderId, locationStore } = route.params
+  const locations = useSelector(state => state.locUser)
 
   const [orderStatus, setOrderStatus] = useState()
   const [shippers, setShippers] = useState([])
@@ -271,7 +273,7 @@ const FindShipper = ({ navigation, route }) => {
                 <Feather name="phone" size={20} color="black" />
                 <Text className="font-bold ml-1"> Gọi</Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+              <TouchableOpacity onPress={() => navigation.navigate('MapScreen', {shipper_id: shipper.id, locations, navigation})} className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
                 <FontAwesome5 name="search-location" size={20} color="black" />
                 <Text className="font-bold ml-1">Xem trên bản đồ</Text>
               </TouchableOpacity>
