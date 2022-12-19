@@ -20,6 +20,7 @@ import { SearchScreen } from '../screens/SearchScreen'
 import StoreScreen from '../screens/Store/StoreScreen'
 import { RatingView } from '../screens/RatingView'
 import { CommentsView } from '../screens/CommentsView'
+import { MapScreen } from "../screens/MapScreen";
 // notify Order
 import NotifyOrder from '../screens/Notify/NotifyOrder'
 import XacMinhCCCD from '../screens/User/XacMinhCCCD'
@@ -94,6 +95,7 @@ function Router() {
         <Stack.Screen name="LocationScreen" component={LocationScreen} />
         <Stack.Screen name="SignupPending" component={SignupPending} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen name="MapScreen" component={MapScreen} />
         <Stack.Screen name="DetailsScreenView" component={DetailsScreenView} options = {{
           title : 'Chi tiết sản phẩm'
         }} />

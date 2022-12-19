@@ -15,8 +15,10 @@ import { getInfoUser, getStoreinfo, ShipperInFo } from '../../services'
 import formatCash from '../../Components/formatCash'
 import call from 'react-native-phone-call'
 import { doc, onSnapshot } from 'firebase/firestore'
+import { useSelector } from "react-redux";
 
 const OrderStatus = ({ navigation, route }) => {
+  const locations = useSelector(state => state.locUser)
   const { orderId } = route.params
 
   const [orderStatus, setOrderStatus] = useState()
@@ -109,7 +111,7 @@ const OrderStatus = ({ navigation, route }) => {
                 <Feather name="phone" size={20} color="black" />
                 <Text className="font-bold ml-1"> Gọi</Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
+              <TouchableOpacity onPress={() => navigation.navigate('MapScreen', {shipper_id: orderStatus.shipperId, locations, navigation})} className="flex-row bg-zinc-200 rounded-xl py-1 px-2">
                 <FontAwesome5 name="search-location" size={20} color="black" />
                 <Text className="font-bold ml-1">Xem trên bản đồ</Text>
               </TouchableOpacity>
